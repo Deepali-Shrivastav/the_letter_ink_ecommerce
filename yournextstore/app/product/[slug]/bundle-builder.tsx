@@ -1,6 +1,6 @@
 "use client";
 
-import type { APIProductGetByIdResult } from "commerce-kit";
+import type { APIProductGetByIdResult } from "@/lib/commerce-types";
 import { CheckIcon, MinusIcon, PlusIcon } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";

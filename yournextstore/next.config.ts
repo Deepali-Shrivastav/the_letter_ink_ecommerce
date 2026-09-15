@@ -41,6 +41,7 @@ const nextConfig: NextConfig = {
 			{ protocol: "https", hostname: "**.yns.store" },
 			{ protocol: "https", hostname: "yns.cx" },
 			{ protocol: "https", hostname: "**.yns.cx" },
+			{ protocol: "https", hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com" },
 		],
 	},
 	async headers() {

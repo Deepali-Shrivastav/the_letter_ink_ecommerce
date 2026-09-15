@@ -2,7 +2,7 @@ import type {
 	APICollectionGetByIdResult,
 	APIProductGetByIdResult,
 	APIProductsBrowseResult,
-} from "commerce-kit";
+} from "@/lib/commerce-types";
 import { ArrowRight } from "lucide-react";
 import { cacheLife } from "next/cache";
 import Link from "next/link";

@@ -2,7 +2,7 @@ import type {
 	APICollectionGetByIdResult,
 	APIProductGetByIdResult,
 	APIProductsBrowseResult,
-} from "commerce-kit";
+} from "@/lib/commerce-types";
 import Link from "next/link";
 import { formatMoney } from "@/lib/money";
 import { priceRange } from "@/lib/pricing";

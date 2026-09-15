@@ -1,6 +1,6 @@
 "use client";
 
-import type { APIProductFiltersResult } from "commerce-kit";
+import type { APIProductFiltersResult } from "@/lib/commerce-types";
 import { SlidersHorizontalIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type ReactNode, startTransition, useOptimistic, useState } from "react";

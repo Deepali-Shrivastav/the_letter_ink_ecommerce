@@ -1,4 +1,4 @@
-import type { APIOrderGetByIdResult } from "commerce-kit";
+import type { APIOrderGetByIdResult } from "@/lib/commerce-types";
 import { CheckCircle } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";

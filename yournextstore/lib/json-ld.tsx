@@ -2,7 +2,7 @@ import type {
 	APICollectionGetByIdResult,
 	APIProductGetByIdResult,
 	APIProductReviewsBrowseResult,
-} from "commerce-kit";
+} from "@/lib/commerce-types";
 import { getCanonicalUrl, meGetCached } from "@/lib/commerce";
 import { priceRange } from "@/lib/pricing";
 import { getStoreConfig } from "@/lib/store-config";

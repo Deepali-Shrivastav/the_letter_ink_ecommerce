@@ -5,7 +5,7 @@ import { Color, FontFamily, FontSize, LineHeight, TextStyle } from "@tiptap/exte
 import { Youtube } from "@tiptap/extension-youtube";
 import { StarterKit } from "@tiptap/starter-kit";
 import { renderToReactElement } from "@tiptap/static-renderer";
-import type { JSONContent } from "commerce-kit";
+import type { JSONContent } from "@/lib/commerce-types";
 import type { ReactNode } from "react";
 import { BlogProductEmbed } from "@/components/blog-product-embed";
 

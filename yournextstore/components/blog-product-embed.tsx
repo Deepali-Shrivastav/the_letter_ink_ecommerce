@@ -1,4 +1,4 @@
-import type { APIProductGetByIdResult } from "commerce-kit";
+import type { APIProductGetByIdResult } from "@/lib/commerce-types";
 import { cacheLife } from "next/cache";
 import { ProductCard } from "@/components/product-card";
 import { commerce } from "@/lib/commerce";

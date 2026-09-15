@@ -1,4 +1,4 @@
-import type { APIProductReviewsBrowseResult } from "commerce-kit";
+import type { APIProductReviewsBrowseResult } from "@/lib/commerce-types";
 import { Star } from "lucide-react";
 import { ReviewForm } from "@/app/product/[slug]/review-form";
 

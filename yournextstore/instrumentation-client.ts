@@ -1,7 +1,7 @@
 // Sandbox inspectors (dev-only, self-gated on NODE_ENV). Next.js inlines
 // NEXT_PUBLIC_* at build time, so production builds DCE this branch.
 if (process.env.NEXT_PUBLIC_VERCEL_ENV !== "production") {
-	void import("commerce-kit/sandbox-inspectors");
+  // Removed commerce-kit/sandbox-inspectors
 }
 // ─── Platform storefront kit (do not modify) ────────────────────────────────
 // Analytics/tracking runtime generated per store by the platform and served

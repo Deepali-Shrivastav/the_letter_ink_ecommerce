@@ -6,6 +6,7 @@
 // Meta Pixel / Google Ads script. Do not move it below other scripts.
 // ────────────────────────────────────────────────────────────────────────────
 import { cookies } from "next/headers";
+import Script from "next/script";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { meGetCached } from "@/lib/commerce";
 
@@ -13,7 +14,9 @@ import { meGetCached } from "@/lib/commerce";
 const CONSENT_COOKIE = "yns-cookie-consent";
 
 const ConsentScript = ({ state }: { state: "denied" | "granted" }) => (
-	<script
+	<Script
+		id="cookie-consent"
+		strategy="afterInteractive"
 		dangerouslySetInnerHTML={{
 			__html: `window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'default_consent',ad_storage:'${state}',ad_user_data:'${state}',ad_personalization:'${state}',analytics_storage:'${state}'});`,
 		}}

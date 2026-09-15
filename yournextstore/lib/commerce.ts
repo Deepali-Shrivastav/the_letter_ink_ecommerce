@@ -1,105 +1,152 @@
-import { Commerce } from "commerce-kit";
+import { medusaClient } from "./medusa";
 import { cacheLife } from "next/cache";
-import { try_ } from "safe-try";
-import { invariant } from "@/lib/invariant";
 
-// Override the API host (defaults to yns.store / yns.cx by key prefix). Useful for
-// pointing at a dev deployment, e.g. YNS_API_URL=https://dev.axelgrubba.com
-const endpoint = process.env.YNS_API_URL || undefined;
-
-// Fail loudly at boot — without the key every SDK call surfaces as an opaque API error.
-invariant(
-	process.env.YNS_API_KEY,
-	"Missing YNS_API_KEY environment variable. Add it to .env.local (see .env.example).",
-);
-
-export const commerce = Commerce({
-	token: process.env.YNS_API_KEY,
-	endpoint,
-});
-
-// Plain "use cache" (not "remote") so store settings can be part of the static
-// shell — remote-cached entries defer to request time and block prerendering
-// for everything that depends on them (metadata, <html lang>, nav links).
-export const meGetCached = async (token?: string) => {
-	"use cache";
-
-	const commerce = Commerce({ token, endpoint });
-	return commerce.meGet();
+// Map Medusa Product to YNS Product Shape
+const mapMedusaProductToYNS = (medusaProduct: any) => {
+  return {
+    id: medusaProduct.id,
+    name: medusaProduct.title,
+    slug: medusaProduct.handle,
+    summary: medusaProduct.subtitle || medusaProduct.description?.substring(0, 100),
+    content: medusaProduct.description,
+    images: medusaProduct.images ? medusaProduct.images.map((img: any) => img.url) : (medusaProduct.thumbnail ? [medusaProduct.thumbnail] : []),
+    variants: medusaProduct.variants ? medusaProduct.variants.map((v: any) => {
+      // Find the price (in cents, represented as a string for YNS)
+      // Medusa v2 typically has `calculated_price` or a `price` property on variants if queried with a region/currency,
+      // but as a fallback we mock "1000" (10.00).
+      const priceStr = v.prices && v.prices.length > 0 ? String(v.prices[0].amount) : "1000";
+      
+      return {
+        id: v.id,
+        name: v.title,
+        price: priceStr,
+        originalPrice: priceStr,
+        currency: "usd",
+        images: [],
+        sku: v.sku || null,
+        stock: v.inventory_quantity ?? 100,
+        omnibusPrice: null,
+        combinations: v.options ? v.options.map((o: any) => {
+          // Medusa provides option_id to link back to the product option, but if we don't look it up,
+          // we can just mock the label (e.g. "Size" or "Color") or try to find it.
+          const parentOption = medusaProduct.options?.find((po: any) => po.id === o.option_id);
+          const label = parentOption?.title || "Option";
+          
+          return {
+            variantValue: {
+              id: o.id || o.value,
+              value: o.value,
+              colorValue: label.toLowerCase() === "color" ? o.value : null,
+              variantType: {
+                id: o.option_id || "opt_1",
+                type: label.toLowerCase() === "color" ? "color" : "string",
+                label: label
+              }
+            }
+          };
+        }) : []
+      };
+    }) : [],
+    category: medusaProduct.collection ? {
+      name: medusaProduct.collection.title,
+      slug: medusaProduct.collection.handle
+    } : null,
+    seo: {
+      title: medusaProduct.title,
+      description: medusaProduct.description?.substring(0, 150)
+    },
+    type: "standard", // Not a bundle
+    options: medusaProduct.options ? medusaProduct.options.map((o: any) => ({
+      id: o.id,
+      name: o.title,
+      values: o.values ? o.values.map((v: any) => v.value) : []
+    })) : [],
+  };
 };
 
-// Store name + description for page-level metadata. Same cache posture as the
-// root layout's getStoreMetadata so it stays in the static shell.
-export async function getStoreSeo() {
-	"use cache";
-	cacheLife("hours");
+export const commerce = {
+  productGet: async ({ idOrSlug }: { idOrSlug: string }) => {
+    // Fetch from Medusa
+    try {
+      const response = await medusaClient.products.list({ handle: idOrSlug });
+      if (response.products && response.products.length > 0) {
+        return mapMedusaProductToYNS(response.products[0]);
+      }
+      throw new Error("Product not found");
+    } catch (e) {
+      throw e;
+    }
+  },
+  productReviewsBrowse: async () => {
+    return { summary: { reviewCount: 0, averageRating: 0 }, reviews: [] };
+  },
+  productsBrowse: async () => {
+    return { items: [], totalCount: 0 };
+  },
+  productBrowse: async (args: any) => {
+    try {
+      const res = await medusaClient.products.list({ limit: args?.limit || 20 });
+      return {
+        data: res.products.map(mapMedusaProductToYNS),
+        meta: { count: res.count || res.products.length },
+      };
+    } catch (error) {
+      console.warn("Medusa API Error (likely missing publishable API key):", error);
+      return { data: [], meta: { count: 0 } };
+    }
+  },
+  collectionBrowse: async (args: any) => {
+    // Mock collection list for navigation
+    return {
+      data: [{ id: "col_1", name: "Featured", slug: "featured" }],
+      meta: { count: 1 },
+    };
+  },
+  legalPageBrowse: async () => {
+    return { data: [] };
+  },
+  collectionGet: async ({ idOrSlug }: { idOrSlug: string }) => {
+    // Mock collection for now, would fetch from Medusa collections
+    return {
+      id: idOrSlug,
+      name: idOrSlug.toUpperCase(),
+      slug: idOrSlug,
+      description: "",
+      image: null,
+      productCollections: [],
+    };
+  }
+};
 
-	const [error, me] = await try_(meGetCached());
-	if (error) {
-		return { storeName: "Your Next Store", storeDescription: null };
-	}
-	return {
-		storeName: me.store.name || "Your Next Store",
-		storeDescription: me.store.settings?.storeDescription || null,
-	};
+export const meGetCached = async () => {
+  return {
+    store: {
+      name: "Medusa Store",
+      subdomain: "localhost",
+      settings: {
+        storeDescription: "Powered by Medusa Backend",
+        enabledTools: { reviews: false, restockNotifications: false }
+      }
+    },
+    publicUrl: "http://localhost:3000"
+  };
+};
+
+export function getStoreSeo() {
+  return {
+    storeName: "Medusa Store",
+    storeDescription: "Powered by Medusa Backend",
+  };
 }
 
-export function getStoreFaviconUrl(
-	settings: Awaited<ReturnType<typeof commerce.meGet>>["store"]["settings"],
-) {
-	const faviconUrl =
-		settings?.favicon?.imageUrl ??
-		(typeof settings?.logo === "string" ? settings.logo : settings?.logo?.imageUrl) ??
-		null;
-
-	return faviconUrl;
+export function getStoreFaviconUrl() {
+  return null;
 }
 
 export function getCanonicalUrl(): string {
-	if (process.env.NEXT_PUBLIC_URL) {
-		return process.env.NEXT_PUBLIC_URL.replace(/\/$/, "");
-	}
-	if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-		return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-	}
-	if (process.env.VERCEL_URL) {
-		return `https://${process.env.VERCEL_URL}`;
-	}
-	return "http://localhost:3000";
+  return "http://localhost:3000";
 }
 
-// Memoized per isolate: the proxy calls this on every proxied request, and the
-// fallback branch is a network round trip that "use cache" does not shield in
-// the middleware runtime. The result is deployment-constant, so caching the
-// promise is safe; a rejection clears it so a transient failure can retry.
-let subdomainPublicUrlPromise: ReturnType<typeof resolveSubdomainPublicUrl> | null = null;
 export const getSubdomainPublicUrl = () => {
-	subdomainPublicUrlPromise ??= resolveSubdomainPublicUrl().catch((error) => {
-		subdomainPublicUrlPromise = null;
-		throw error;
-	});
-	return subdomainPublicUrlPromise;
-};
-
-const resolveSubdomainPublicUrl = async () => {
-	const tenant = process.env.NEXT_PUBLIC_YNS_API_TENANT;
-	if (tenant) {
-		const tenantUrl = new URL(tenant);
-		const [subdomain, ...base] = tenantUrl.host.split(".");
-		const apiHost = base.join(".");
-		if (subdomain && apiHost) {
-			return {
-				subdomain,
-				// Preserve the tenant's scheme/port so local http backends work (not just https).
-				publicUrl: `${tenantUrl.protocol}//${apiHost}`,
-			};
-		}
-	}
-
-	// fallback to fetching from the API if env variable is not set or invalid
-	const {
-		store: { subdomain },
-		publicUrl,
-	} = await meGetCached(process.env.YNS_API_KEY);
-	return { subdomain, publicUrl };
+  return Promise.resolve({ subdomain: null, publicUrl: getCanonicalUrl() });
 };
