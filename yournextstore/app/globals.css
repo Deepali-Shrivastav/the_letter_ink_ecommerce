@@ -219,6 +219,12 @@
 	}
 }
 
+@layer utilities {
+	.text-secondary {
+		color: var(--color-on-surface-variant) !important;
+	}
+}
+
 .prose {
 	--tw-prose-body: var(--muted-foreground);
 	--tw-prose-headings: var(--foreground);

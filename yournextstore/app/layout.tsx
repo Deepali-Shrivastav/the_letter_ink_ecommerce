@@ -190,7 +190,9 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 								
 								{/* Center: Navbar */}
 								<div className="hidden xl:flex flex-1 justify-center">
-									<Navbar links={links} />
+									<Suspense>
+										<Navbar links={links} />
+									</Suspense>
 								</div>
 
 								{/* Right: Actions */}
