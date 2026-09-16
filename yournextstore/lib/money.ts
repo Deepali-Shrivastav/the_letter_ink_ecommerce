@@ -35,6 +35,7 @@ export const minorUnitsToMajor = ({ amount, currency }: MoneyInt) =>
 
 // https://docs.stripe.com/currencies#zero-decimal
 const edgeCaseCurrencies = {
+	// Zero-decimal currencies (Stripe convention)
 	BIF: 0,
 	CLP: 0,
 	DJF: 0,
@@ -51,6 +52,9 @@ const edgeCaseCurrencies = {
 	XAF: 0,
 	XOF: 0,
 	XPF: 0,
+	// INR: prices are entered as whole rupees in the Medusa admin,
+	// so we treat it as zero-decimal to skip the ÷100 conversion.
+	INR: 0,
 
 	BHD: 3,
 	JOD: 3,

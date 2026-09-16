@@ -16,7 +16,7 @@ export async function StoreChatSection() {
 	const settings = me?.store.settings;
 	const chat = settings?.enabledTools?.storeChat ? settings.storeChat : null;
 	if (!me || !chat) {
-		return <ReferralBadge />;
+		return null;
 	}
 
 	return (
