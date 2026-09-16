@@ -7,8 +7,8 @@ const FEATURED_POSTS = 20;
 export async function GET() {
 	const baseUrl = getCanonicalUrl();
 	const me = await meGetCached();
-	const storeName = me.store.name || "Your Next Store";
-	const storeDescription = me.store.settings?.storeDescription || "An e-commerce store.";
+	const storeName = me.store.name || "The Letter Ink";
+	const storeDescription = me.store.settings?.storeDescription || "The Letter Ink — Artisanal calligraphy studio & bespoke stationery";
 	const blogEnabled = me.store.settings?.enabledTools?.blog ?? false;
 	const contactFormEnabled = me.store.settings?.enabledTools?.contactForm ?? false;
 

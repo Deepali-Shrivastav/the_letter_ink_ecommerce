@@ -3,8 +3,8 @@ import { getStoreFaviconUrl, meGetCached } from "@/lib/commerce";
 
 export async function GET() {
 	const me = await meGetCached();
-	const storeName = me.store.name || "Your Next Store";
-	const faviconUrl = getStoreFaviconUrl(me.store.settings) ?? "/logo.svg";
+	const storeName = me.store.name || "The Letter Ink";
+	const faviconUrl = getStoreFaviconUrl(me.store.settings) ?? "/Logo.jpeg";
 
 	const manifest = {
 		name: storeName,
