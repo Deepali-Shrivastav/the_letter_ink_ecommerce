@@ -1,6 +1,7 @@
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { commerce, meGetCached } from "@/lib/commerce";
+import { FooterLegalModalButtons, FooterBottomBarModalButtons } from "@/components/footer-modal-links";
 
 async function FooterBlogLink() {
 	"use cache";
@@ -8,7 +9,13 @@ async function FooterBlogLink() {
 
 	const me = await meGetCached().catch(() => null);
 	if (!me?.store.settings?.enabledTools?.blog) {
-		return null;
+		return (
+			<li>
+				<Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+					Atelier Blog
+				</Link>
+			</li>
+		);
 	}
 
 	return (
@@ -26,7 +33,13 @@ async function FooterContactLink() {
 
 	const me = await meGetCached().catch(() => null);
 	if (!me?.store.settings?.enabledTools?.contactForm) {
-		return null;
+		return (
+			<li>
+				<Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+					Contact Us
+				</Link>
+			</li>
+		);
 	}
 
 	return (
@@ -42,16 +55,42 @@ async function FooterCollections() {
 	"use cache";
 	cacheLife("hours");
 
-	const collections = await commerce.collectionBrowse({ limit: 5 });
+	const collections = await commerce.collectionBrowse({ limit: 5 }).catch(() => ({ data: [] }));
 
-	if (collections.data.length === 0) {
-		return null;
+	if (!collections?.data || collections.data.length === 0) {
+		return (
+			<div>
+				<h3 className="text-sm font-semibold text-foreground">Atelier Navigation</h3>
+				<ul className="mt-4 space-y-2.5">
+					<li>
+						<Link href="/shop" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+							The Shop
+						</Link>
+					</li>
+					<li>
+						<Link href="/gifting" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+							Bespoke Suites
+						</Link>
+					</li>
+					<li>
+						<Link href="/#workshops-section" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+							Workshops
+						</Link>
+					</li>
+					<li>
+						<Link href="/#shop-gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+							Gallery
+						</Link>
+					</li>
+				</ul>
+			</div>
+		);
 	}
 
 	return (
 		<div>
 			<h3 className="text-sm font-semibold text-foreground">Collections</h3>
-			<ul className="mt-4 space-y-3">
+			<ul className="mt-4 space-y-2.5">
 				{collections.data.map((collection) => (
 					<li key={collection.id}>
 						<Link
@@ -67,37 +106,6 @@ async function FooterCollections() {
 	);
 }
 
-async function FooterLegalPages() {
-	"use cache";
-	cacheLife("hours");
-
-	const pages = await commerce.legalPageBrowse();
-
-	if (pages.data.length === 0) {
-		return null;
-	}
-
-	return (
-		<div>
-			<h3 className="text-sm font-semibold text-foreground">Legal</h3>
-			<ul className="mt-4 space-y-3">
-				{pages.data.map((page) => (
-					<li key={page.id}>
-						<Link
-							href={`/legal${page.href}`}
-							className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-						>
-							{page.label}
-						</Link>
-					</li>
-				))}
-			</ul>
-		</div>
-	);
-}
-
-// `new Date()` is an unstable value: now that the footer is part of the prerendered
-// shell, reading it during the prerender is an error. Caching pins it to the entry.
 async function getCopyrightYear() {
 	"use cache";
 	cacheLife("days");
@@ -111,24 +119,25 @@ export async function Footer() {
 	return (
 		<footer className="border-t border-border bg-background">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="py-12 sm:py-16 flex flex-col sm:flex-row gap-8 sm:gap-16">
+				<div className="py-12 sm:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
 					{/* Brand */}
 					<div className="sm:max-w-xs">
-						<Link href="/" className="text-xl font-bold text-foreground">
-							Your Next Store
+						<Link href="/" className="flex items-center gap-3 text-xl font-bold text-foreground">
+							<img src="/Logo.jpeg" alt="The Letter Ink Logo" className="h-10 w-10 rounded-sm object-cover" />
+							<span>The Letter Ink</span>
 						</Link>
 						<p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-							Curated essentials for modern living. Quality products, thoughtfully designed.
+							An artisanal calligraphy studio, bespoke wedding stationery atelier, and custom lettering workshop.
 						</p>
 					</div>
 
-					{/* Collections */}
+					{/* Collections / Navigation */}
 					<FooterCollections />
 
 					{/* Support */}
 					<div>
 						<h3 className="text-sm font-semibold text-foreground">Support</h3>
-						<ul className="mt-4 space-y-3">
+						<ul className="mt-4 space-y-2.5">
 							<li>
 								<Link
 									href="/about"
@@ -150,13 +159,14 @@ export async function Footer() {
 						</ul>
 					</div>
 
-					{/* Legal */}
-					<FooterLegalPages />
+					{/* Legal & Policies Modal Triggers */}
+					<FooterLegalModalButtons />
 				</div>
 
 				{/* Bottom bar */}
-				<div className="py-6 border-t border-border">
-					<p className="text-sm text-muted-foreground">&copy; {year} Your Next Store. All rights reserved.</p>
+				<div className="py-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+					<p className="text-sm text-muted-foreground">&copy; {year} The Letter Ink. All rights reserved.</p>
+					<FooterBottomBarModalButtons />
 				</div>
 			</div>
 		</footer>

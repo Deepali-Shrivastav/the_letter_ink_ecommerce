@@ -52,16 +52,16 @@ async function getStoreMetadata(): Promise<Metadata> {
 	"use cache";
 	cacheLife("hours");
 	const me = await meGetCached();
-	const storeName = me.store.name || "Your Next Store";
-	const storeDescription = me.store.settings?.storeDescription || "Your next e-commerce store";
-	const faviconUrl = getStoreFaviconUrl(me.store.settings) ?? "/logo.svg";
+	const storeName = me.store.name || "The Letter Ink";
+	const storeDescription = me.store.settings?.storeDescription || "The Letter Ink — Artisanal calligraphy studio & bespoke stationery";
+	const faviconUrl = getStoreFaviconUrl(me.store.settings) ?? "/Logo.jpeg";
 	// The platform favicon is whatever was uploaded (here a 500x500 PNG). Route it through
 	// the image optimizer so browsers fetch a few KB from this origin, not the blob host.
 	const iconUrl = (size: number) =>
 		getImageProps({ src: faviconUrl, width: size, height: size, alt: "" }).props.src;
 	const storeLogo =
 		typeof me.store.settings?.logo === "string" ? me.store.settings.logo : me.store.settings?.logo?.imageUrl;
-	const ogImage = me.store.settings?.ogimage || storeLogo || "/logo.svg";
+	const ogImage = me.store.settings?.ogimage || storeLogo || "/Logo.jpeg";
 
 	return {
 		title: {
@@ -183,8 +183,8 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 							<div className="relative flex items-center justify-between h-20">
 								{/* Left: Logo */}
 								<div className="flex items-center shrink-0 w-[200px]">
-									<Link href="/" className="flex items-center justify-center p-2 bg-[#ffe4e1] rounded-sm">
-										<img alt="The Letter Ink Studio Logo" className="h-10 w-10 object-contain mix-blend-multiply" src="/Logo.svg" />
+									<Link href="/" className="flex items-center justify-center p-1 bg-[#ffe4e1] rounded-sm overflow-hidden">
+										<img alt="The Letter Ink Logo" className="h-10 w-auto object-contain rounded-xs" src="/Logo.jpeg" />
 									</Link>
 								</div>
 								
