@@ -82,6 +82,14 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 										{product.badge}
 									</span>
 								)}
+
+								{/* Customise & Order hover overlay */}
+								<div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+									<span className="w-full bg-surface-container-lowest text-primary hover:bg-tertiary-fixed font-label-md text-label-md uppercase tracking-wider py-3 shadow-md transition-colors flex items-center justify-center gap-2 rounded-lg">
+										<span className="material-symbols-outlined text-[18px]">brush</span>
+										<span>Customise &amp; Order</span>
+									</span>
+								</div>
 							</div>
 
 							<div className="p-5 flex flex-col flex-grow justify-between">
