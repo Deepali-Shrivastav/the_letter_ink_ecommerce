@@ -153,10 +153,10 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 					<fieldset key={group.label} className="border-0 p-0 m-0">
 						{group.type === "color" ? (
 							<>
-								<div className="mb-3 flex items-center justify-between">
-									<legend className="text-sm font-medium">{group.label}</legend>
+								<div className="mb-2 flex items-center justify-between">
+									<legend className="font-label-sm text-label-sm uppercase tracking-wider text-primary">{group.label}</legend>
 									{selectedOption && (
-										<span className="text-sm text-muted-foreground">{selectedOption.value}</span>
+										<span className="font-body-sm text-body-sm text-secondary">{selectedOption.value}</span>
 									)}
 								</div>
 								<div className="flex gap-3">
@@ -192,8 +192,8 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 							</>
 						) : (
 							<>
-								<div className="mb-3 flex items-center justify-between">
-									<legend className="text-sm font-medium">{group.label}</legend>
+								<div className="mb-2 flex items-center justify-between">
+									<legend className="font-label-sm text-label-sm uppercase tracking-wider text-primary">{group.label}</legend>
 								</div>
 								<div className="flex flex-wrap gap-3">
 									{group.options.map((option) => {
@@ -205,13 +205,13 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 												type="button"
 												onClick={() => handleOptionSelect(group.label, option.id)}
 												className={cn(
-													"flex flex-col items-center rounded-lg border-2 px-6 py-3 transition-all duration-200",
+													"px-3 py-2.5 font-label-md text-label-md tracking-wider uppercase text-left flex flex-col gap-0.5 transition-all text-primary",
 													isSelected
-														? "border-foreground bg-foreground text-background"
-														: "border-border bg-background hover:border-muted-foreground",
+														? "bg-primary text-on-primary"
+														: "bg-surface-container-low hover:bg-tertiary-fixed/60",
 												)}
 											>
-												<span className="text-sm font-medium">{option.value}</span>
+												<span className="font-medium">{option.value}</span>
 											</button>
 										);
 									})}

@@ -35,7 +35,6 @@ export function GalleryGrid() {
 						words, archival inks, and heirloom framing.
 					</p>
 				</div>
-
 				{/*
 				 * ── Suspense boundary ──
 				 * GalleryGridSkeleton is shown while GalleryGridInner awaits

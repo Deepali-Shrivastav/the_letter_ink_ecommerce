@@ -141,12 +141,14 @@ async function getNavLinks(): Promise<NavLink[]> {
 	const blogEnabled = me?.store.settings?.enabledTools?.blog ?? false;
 	return [
 		{ href: "/", label: "Home" },
-		{ href: "/products", label: "Products" },
-		...collections.data.map((collection) => ({
-			href: `/collection/${collection.slug}`,
-			label: collection.name,
-		})),
+		{ href: "/shop", label: "Shop" },
+		{ href: "/gifting", label: "Gifting" },
+		{ href: "/#shop-gallery", label: "Gallery" },
+		{ href: "/#workshops-section", label: "Workshops" },
+		{ href: "/#services-atelier", label: "Services" },
 		...(blogEnabled ? [{ href: "/blog", label: "Blog" }] : []),
+		{ href: "/#about-us", label: "About Us" },
+		{ href: "/#contact", label: "Contact Us" },
 	];
 }
 
@@ -171,35 +173,51 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 		<StoreConfigProvider value={storeConfig}>
 			<CartProvider>
 				<div className="flex min-h-screen flex-col">
-					<header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-						<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-							<div className="relative flex items-center justify-between h-16">
-								<div className="flex items-center gap-2">
-									<Link href="/" className="text-xl font-bold">
-										Your Next Store
+					<div className="w-full bg-[#fcece3] text-on-tertiary-fixed px-margin-mobile lg:px-margin py-2 text-center border-b border-border-vellum relative z-[60]">
+						<p className="font-label-sm text-label-sm uppercase tracking-widest text-[10px] md:text-xs">
+							BESPOKE COMMISSIONS & SEASONAL WORKSHOPS • WORLDWIDE ATELIER SHIPPING
+						</p>
+					</div>
+					<header className="sticky top-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
+						<div className="w-full px-margin-mobile lg:px-8">
+							<div className="relative flex items-center justify-between h-20">
+								{/* Left: Logo */}
+								<div className="flex items-center shrink-0 w-[200px]">
+									<Link href="/" className="flex items-center justify-center p-2 bg-[#ffe4e1] rounded-sm">
+										<img alt="The Letter Ink Studio Logo" className="h-10 w-10 object-contain mix-blend-multiply" src="/Logo.svg" />
 									</Link>
+								</div>
+								
+								{/* Center: Navbar */}
+								<div className="hidden xl:flex flex-1 justify-center">
 									<Navbar links={links} />
 								</div>
-								<div className="flex items-center gap-2">
-									<Suspense>
-										<SearchInput />
-									</Suspense>
-									<ThemeToggle />
-									{/* Plain <a>: /account is a proxied zone — soft navigation 500s (see AGENTS.md).
-									    Static on purpose: reading the session here would pull the header out of the
-									    prerendered shell. Guests get the sign-in flow, shoppers land on the dashboard. */}
+
+								{/* Right: Actions */}
+								<div className="flex items-center justify-end gap-5 w-[200px]">
+									<button aria-label="Search" className="text-on-surface hover:text-primary transition-colors">
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+									</button>
+									<Link href="/#gallery" aria-label="Wishlist" className="text-on-surface hover:text-primary transition-colors">
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+									</Link>
+									<CartButton />
 									<a
 										href="/account"
-										className="p-2 hover:bg-secondary transition-colors"
+										className="bg-black text-white p-1.5 rounded-full hover:bg-black/80 transition-colors"
 										aria-label="Account"
 									>
-										<UserRound className="w-5 h-5" />
+										<UserRound className="w-4 h-4" strokeWidth={2} />
 									</a>
-									<CartButton />
 								</div>
 							</div>
 						</div>
 					</header>
+					<div className="w-full bg-[#fcece3] text-on-tertiary-fixed px-margin-mobile lg:px-margin py-2 text-center border-t border-b border-border-vellum">
+						<p className="font-label-sm text-label-sm uppercase tracking-widest text-[10px] md:text-xs">
+							USE CODE 'INKMAGIC' FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING & WAX SEALING
+						</p>
+					</div>
 					<main className="flex-1">{children}</main>
 					<Footer />
 				</div>

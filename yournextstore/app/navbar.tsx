@@ -2,9 +2,11 @@
 
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { MobileSearchInput } from "@/components/search/mobile-search-input";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 export type NavLink = {
 	href: string;
@@ -13,6 +15,7 @@ export type NavLink = {
 
 export function Navbar({ links }: { links: NavLink[] }) {
 	const [open, setOpen] = useState(false);
+	const pathname = usePathname();
 
 	return (
 		<>
@@ -45,16 +48,22 @@ export function Navbar({ links }: { links: NavLink[] }) {
 					</nav>
 				</SheetContent>
 			</Sheet>
-			<nav className="hidden lg:absolute lg:left-1/2 lg:top-1/2 lg:flex lg:-translate-x-1/2 lg:-translate-y-1/2 items-center gap-6">
-				{links.map((link) => (
-					<Link
-						key={link.href}
-						href={link.href}
-						className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
-					>
-						{link.label}
-					</Link>
-				))}
+			<nav className="hidden lg:flex items-center gap-space-sm">
+				{links.map((link) => {
+					const isActive = pathname === link.href;
+					return (
+						<Link
+							key={link.href}
+							href={link.href}
+							className={cn(
+								"font-label-md text-label-md uppercase hover:text-primary transition-colors pb-1 whitespace-nowrap",
+								isActive ? "text-primary border-b border-primary" : "text-on-surface-variant"
+							)}
+						>
+							{link.label}
+						</Link>
+					);
+				})}
 			</nav>
 		</>
 	);

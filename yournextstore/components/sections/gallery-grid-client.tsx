@@ -138,7 +138,7 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 			{/* View All Button */}
 			<div className="mt-12 text-center">
 				<Link
-					href="/products"
+					href="/shop"
 					className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-widest hover:bg-tertiary-fixed hover:text-primary transition-colors"
 				>
 					<span>View Full Atelier Catalogue</span>

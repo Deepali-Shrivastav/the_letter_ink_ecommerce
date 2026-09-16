@@ -15,12 +15,6 @@ export const metadata: Metadata = {
 export default function Home() {
 	return (
 		<>
-			{/* Top Announce Subtle Accent Bar */}
-			<div className="w-full bg-tertiary-fixed py-2 px-margin-mobile md:px-margin text-center">
-				<p className="font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-fixed">
-					USE CODE 'INKMAGIC' FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING & WAX SEALING
-				</p>
-			</div>
 			<HeroShowcase />
 			<StudioPillars />
 			<CuratedOccasions />

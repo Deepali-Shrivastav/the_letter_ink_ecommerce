@@ -164,117 +164,161 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 	const productJsonLd = await buildProductJsonLd(product, reviews);
 
 	return (
-		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+		<main className="w-full bg-background min-h-screen">
 			<JsonLdScript data={productJsonLd} />
 			<JsonLdScript data={buildProductBreadcrumbJsonLd(product)} />
 			{product.variants[0] && <TrackProductView variant={product.variants[0]} name={product.name} />}
-			<Breadcrumb className="mb-6">
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link href="/">Home</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link href="/products">Products</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
+			
+			{/* Breadcrumb & Top Bar */}
+			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter pt-6 pb-4">
+				<nav className="flex items-center gap-2 font-body-sm text-body-sm text-secondary tracking-wider uppercase">
+					<Link href="/" className="hover:text-primary transition-colors">Home</Link>
+					<span className="text-secondary/40 text-xs">/</span>
+					<Link href="/shop" className="hover:text-primary transition-colors">Shop</Link>
 					{product.category && (
 						<>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbLink asChild>
-									<Link href={`/category/${product.category.slug}`}>{product.category.name}</Link>
-								</BreadcrumbLink>
-							</BreadcrumbItem>
+							<span className="text-secondary/40 text-xs">/</span>
+							<Link href={`/category/${product.category.slug}`} className="hover:text-primary transition-colors">{product.category.name}</Link>
 						</>
 					)}
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbPage>{product.name}</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
-			<div className="lg:grid lg:grid-cols-2 lg:gap-16">
-				{/* Left: Image Gallery (sticky on desktop) */}
-				<Suspense fallback={<GallerySkeleton />}>
-					<MediaGallery images={allImages} productName={product.name} variants={product.variants} />
-				</Suspense>
+					<span className="text-secondary/40 text-xs">/</span>
+					<span className="text-primary font-medium">{product.name}</span>
+				</nav>
+			</section>
 
-				{/* Right: Product Details */}
-				<div className="mt-8 lg:mt-0 space-y-8">
-					{/* Title & reviews summary */}
-					<div className="space-y-3">
-						<h1 className="text-4xl font-medium tracking-tight text-foreground lg:text-5xl text-balance">
-							{product.name}
-						</h1>
-						{reviewSummary && reviewSummary.reviewCount > 0 && (
-							<a
-								href="#reviews"
-								className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-80"
-							>
-								<StarRow rating={reviewSummary.averageRating} />
-								<span className="font-medium">{reviewSummary.averageRating.toFixed(1)}</span>
-								<span className="text-muted-foreground underline-offset-4 hover:underline">
-									({reviewSummary.reviewCount} {reviewSummary.reviewCount === 1 ? "review" : "reviews"})
-								</span>
-							</a>
-						)}
-					</div>
-
-					{/* Configurable bundle → group builder; otherwise the standard variant add-to-cart.
-					    Renders only for bundle products, so it stays dormant for regular stores. */}
-					{product.type === "bundle" && product.bundle?.groups?.length ? (
-						<BundleBuilder
-							bundleId={product.id}
-							bundle={product.bundle}
-							pricing={{
-								mode: product.bundlePriceMode,
-								fixedPriceAmount: product.bundleFixedPriceAmount,
-								fixedPriceAmountGross: product.bundleFixedPriceAmountGross,
-								amountOffAmount: product.bundleAmountOffAmount,
-								amountOffAmountGross: product.bundleAmountOffAmountGross,
-							}}
-						/>
-					) : (
-						<Suspense fallback={<PurchasePanelSkeleton />}>
-							<AddToCartButton
-								variants={product.variants}
-								product={{
-									id: product.id,
-									name: product.name,
-									slug: product.slug,
-									images: product.images,
-								}}
-								summary={product.summary}
-								volumePricingTiers={product.volumePricingTiers}
-								restockNotificationsEnabled={restockNotificationsEnabled}
-							/>
+			{/* Product Showcase (2-Column Editorial Masterpiece) */}
+			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter pb-space-lg">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-gutter items-start">
+					{/* Left Column: Expansive Imagery Gallery */}
+					<div className="lg:col-span-7 flex flex-col gap-4">
+						<Suspense fallback={<GallerySkeleton />}>
+							<MediaGallery images={allImages} productName={product.name} variants={product.variants} />
 						</Suspense>
-					)}
-				</div>
-			</div>
-
-			{/* Full description (below the fold, full width) */}
-			{product.content && (
-				<section className="mt-16 border-t border-border pt-12">
-					<h2 className="mb-6 text-2xl font-medium tracking-tight">Product details</h2>
-					<div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground">
-						<TiptapRenderer content={product.content} />
 					</div>
-				</section>
-			)}
+
+					{/* Right Column: Atelier Customizer & Purchase Actions */}
+					<div className="lg:col-span-5 flex flex-col gap-6">
+						{/* Header Info */}
+						<div className="flex flex-col gap-2 pb-5 bg-gradient-to-b from-transparent to-surface-container-low/40 p-1">
+							<div className="flex items-center justify-between gap-4">
+								<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">The Atelier Heirlooms Series</span>
+								{reviewSummary && reviewSummary.reviewCount > 0 && (
+									<a href="#reviews" className="flex items-center gap-1.5 transition-opacity hover:opacity-80">
+										<div className="flex text-primary">
+											<StarRow rating={reviewSummary.averageRating} />
+										</div>
+										<span className="font-label-sm text-label-sm text-on-surface font-semibold">{reviewSummary.averageRating.toFixed(1)}</span>
+										<span className="font-body-sm text-body-sm text-secondary">({reviewSummary.reviewCount} Patrons)</span>
+									</a>
+								)}
+							</div>
+							<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
+								{product.name}
+							</h1>
+							<p className="font-body-md text-body-md text-secondary leading-relaxed">
+								{product.summary || "Bespoke Classical Calligraphy in Antiqued Brass & Double Glass Float Frame"}
+							</p>
+						</div>
+
+						{/* Editorial Description Callout */}
+						{product.content && (
+							<div className="p-4 bg-paper-tint text-on-surface">
+								<div className="font-body-md text-body-md italic text-on-surface-variant leading-relaxed">
+									<TiptapRenderer content={product.content} />
+								</div>
+							</div>
+						)}
+
+						{product.type === "bundle" && product.bundle?.groups?.length ? (
+							<BundleBuilder
+								bundleId={product.id}
+								bundle={product.bundle}
+								pricing={{
+									mode: product.bundlePriceMode,
+									fixedPriceAmount: product.bundleFixedPriceAmount,
+									fixedPriceAmountGross: product.bundleFixedPriceAmountGross,
+									amountOffAmount: product.bundleAmountOffAmount,
+									amountOffAmountGross: product.bundleAmountOffAmountGross,
+								}}
+							/>
+						) : (
+							<Suspense fallback={<PurchasePanelSkeleton />}>
+								<AddToCartButton
+									variants={product.variants}
+									product={{
+										id: product.id,
+										name: product.name,
+										slug: product.slug,
+										images: product.images,
+									}}
+									summary={product.summary}
+									volumePricingTiers={product.volumePricingTiers}
+									restockNotificationsEnabled={restockNotificationsEnabled}
+								/>
+							</Suspense>
+						)}
+						
+						{/* Trust & Fulfillment Triad */}
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-3">
+							<div className="flex flex-col gap-1 p-3 bg-paper-tint">
+								<span className="material-symbols-outlined text-primary text-[20px]">brush</span>
+								<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">100% Dip-Pen Hand Scripted</span>
+								<span className="font-body-sm text-[12px] text-secondary">Zero digital prints; genuine archival hand calligraphy.</span>
+							</div>
+							<div className="flex flex-col gap-1 p-3 bg-paper-tint">
+								<span className="material-symbols-outlined text-primary text-[20px]">mark_chat_read</span>
+								<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">Pre-Dispatch Proof</span>
+								<span className="font-body-sm text-[12px] text-secondary">High-res approval via WhatsApp before glass sealing.</span>
+							</div>
+							<div className="flex flex-col gap-1 p-3 bg-paper-tint">
+								<span className="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
+								<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">5-7 Days • Insured</span>
+								<span className="font-body-sm text-[12px] text-secondary">Cushioned wooden crate courier delivery nationwide.</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 
 			{/* Reviews Section */}
-			{reviews && <ProductReviews reviews={reviews} slug={slug} />}
-
-			{/* Features Section (full width below) */}
-			<ProductFeatures />
+			{reviews && (
+				<div id="reviews" className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter py-space-lg border-t border-border-vellum">
+					<ProductReviews reviews={reviews} slug={slug} />
+				</div>
+			)}
 
 			{/* Related Products */}
-			<RelatedProducts productId={product.id} categorySlug={product.category?.slug} />
-		</div>
+			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter py-space-lg">
+				<div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+					<div>
+						<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">Complete the Ensemble</span>
+						<h2 className="font-headline-lg text-headline-lg text-primary mt-1">Related Atelier Heirlooms</h2>
+					</div>
+					<Link className="font-label-md text-label-md uppercase tracking-wider text-primary hover:text-secondary flex items-center gap-1.5 transition-colors" href="/shop">
+						<span>Explore All Frames</span>
+						<span className="material-symbols-outlined text-[16px]">north_east</span>
+					</Link>
+				</div>
+				<RelatedProducts productId={product.id} categorySlug={product.category?.slug} />
+			</section>
+
+			{/* Bespoke Commission Inquiry Banner */}
+			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter pb-space-lg">
+				<div className="w-full bg-paper-tint p-8 md:p-12 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+					<div className="flex flex-col gap-2 max-w-xl text-center md:text-left">
+						<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">Architectural & Large Format Commissions</span>
+						<h3 className="font-headline-lg text-headline-lg text-primary">Seeking a Custom Dimension or Poetry Inscription?</h3>
+						<p className="font-body-md text-body-md text-secondary leading-relaxed">
+							Our senior scribe accepts private custom commissions for poetry, family crests, Sanskrit shlokas, and oversized architectural brass installations up to 36 inches.
+						</p>
+					</div>
+					<div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
+						<button className="h-[49px] px-8 bg-primary hover:bg-tertiary-fixed text-on-primary hover:text-on-tertiary-fixed font-label-lg text-label-lg uppercase tracking-widest transition-all duration-300 shadow-sm" type="button">
+							Book Atelier Consultation
+						</button>
+					</div>
+				</div>
+			</section>
+		</main>
 	);
 };

@@ -195,25 +195,26 @@ export function AddToCartButton({
 	};
 
 	return (
-		<div className="space-y-8">
-			{summary && <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{summary}</p>}
-
+		<div className="flex flex-col gap-6">
 			{/* Price & sale */}
-			<div className="space-y-2">
-				<div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-					<span className="text-3xl font-semibold tracking-tight">{priceInfo.display}</span>
+			<div className="flex flex-col gap-2 pb-5 border-b border-border-vellum">
+				<div className="flex items-baseline gap-4 mt-2">
+					<span className="font-headline-md text-headline-md text-primary font-normal tracking-tight">{priceInfo.display}</span>
 					{priceInfo.compareAt && (
-						<span className="text-lg text-muted-foreground line-through">{priceInfo.compareAt}</span>
+						<span className="font-body-sm text-body-sm text-secondary line-through">{priceInfo.compareAt}</span>
 					)}
 					{priceInfo.discountPercent ? (
-						<span className="rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-semibold text-destructive">
+						<span className="font-label-sm text-label-sm uppercase tracking-wider px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed">
 							Save {priceInfo.discountPercent}%
 						</span>
 					) : null}
 				</div>
+				<p className="font-body-sm text-body-sm text-secondary/80 mt-1">
+					Taxes included.
+				</p>
 
 				{omnibusPrice && (
-					<p className="text-xs text-muted-foreground">Lowest price in the last 30 days: {omnibusPrice}</p>
+					<p className="font-body-sm text-body-sm text-muted-foreground mt-2">Lowest price in the last 30 days: {omnibusPrice}</p>
 				)}
 
 				{/* SKU & stock availability */}
@@ -243,30 +244,37 @@ export function AddToCartButton({
 
 			{variants.length > 1 && <VariantSelector variants={variants} />}
 
-			<QuantitySelector
-				quantity={effectiveQuantity}
-				onQuantityChange={setQuantity}
-				max={Math.max(1, Math.min(99, maxQuantity))}
-				disabled={isOutOfStock}
-			/>
-
 			<VolumePricingDisplay tiers={resolvedTiers} quantity={effectiveQuantity} volumePrice={volumePrice} />
 
-			{isOutOfStock && restockNotificationsEnabled && selectedVariant ? (
-				<RestockNotify productVariantId={selectedVariant.id} productName={product.name} />
-			) : (
-				<form onSubmit={handleSubmit}>
-					<button
-						type="submit"
-						disabled={!selectedVariant || isOutOfStock}
-						className="w-full h-14 bg-foreground text-background py-4 px-8 rounded-full text-base font-medium tracking-wide hover:bg-foreground/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-					>
-						{buttonText}
-					</button>
-				</form>
-			)}
-
-			<TrustBadges />
+			<div className="flex flex-col gap-3 pt-4">
+				{isOutOfStock && restockNotificationsEnabled && selectedVariant ? (
+					<RestockNotify productVariantId={selectedVariant.id} productName={product.name} />
+				) : (
+					<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+						<div className="flex items-stretch gap-3">
+							<QuantitySelector
+								quantity={effectiveQuantity}
+								onQuantityChange={setQuantity}
+								max={Math.max(1, Math.min(99, maxQuantity))}
+								disabled={isOutOfStock}
+							/>
+							<button
+								type="submit"
+								disabled={!selectedVariant || isOutOfStock}
+								className="flex-1 h-[49px] bg-tertiary-fixed hover:bg-surface-container-lowest text-on-tertiary-fixed hover:text-primary transition-all duration-300 font-label-lg text-label-lg uppercase tracking-widest flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+							>
+								<span className="">{buttonText}</span>
+								<span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+							</button>
+						</div>
+					</form>
+				)}
+				{/* Inquire Secondary Button */}
+				<button className="w-full h-[45px] bg-transparent hover:bg-paper-tint text-primary font-label-md text-label-md uppercase tracking-widest flex items-center justify-center gap-2 transition-colors" type="button">
+					<span className="material-symbols-outlined text-[18px]">chat</span>
+					<span className="">Inquire With Atelier Calligrapher</span>
+				</button>
+			</div>
 		</div>
 	);
 }

@@ -19,31 +19,31 @@ export function QuantitySelector({
 	disabled = false,
 }: QuantitySelectorProps) {
 	return (
-		<div>
-			<span className="mb-3 block text-sm font-medium">Quantity</span>
-			<div className="inline-flex items-center rounded-lg border border-border">
-				<Button
-					variant="ghost"
-					size="icon"
-					className="h-10 w-10 rounded-r-none"
-					onClick={() => onQuantityChange(Math.max(min, quantity - 1))}
-					disabled={disabled || quantity <= min}
-					aria-label="Decrease quantity"
-				>
-					<Minus className="h-4 w-4" />
-				</Button>
-				<span className="flex h-10 w-14 items-center justify-center text-sm font-medium">{quantity}</span>
-				<Button
-					variant="ghost"
-					size="icon"
-					className="h-10 w-10 rounded-l-none"
-					onClick={() => onQuantityChange(Math.min(max, quantity + 1))}
-					disabled={disabled || quantity >= max}
-					aria-label="Increase quantity"
-				>
-					<Plus className="h-4 w-4" />
-				</Button>
-			</div>
+		<div className="flex items-center bg-surface-container-low px-2">
+			<button
+				type="button"
+				className="w-8 h-10 flex items-center justify-center text-primary hover:text-secondary disabled:opacity-50"
+				onClick={() => onQuantityChange(Math.max(min, quantity - 1))}
+				disabled={disabled || quantity <= min}
+				aria-label="Decrease quantity"
+			>
+				<span className="material-symbols-outlined text-[18px]">remove</span>
+			</button>
+			<input
+				type="text"
+				readOnly
+				value={quantity}
+				className="w-8 text-center bg-transparent font-label-md text-label-md text-primary focus:outline-none"
+			/>
+			<button
+				type="button"
+				className="w-8 h-10 flex items-center justify-center text-primary hover:text-secondary disabled:opacity-50"
+				onClick={() => onQuantityChange(Math.min(max, quantity + 1))}
+				disabled={disabled || quantity >= max}
+				aria-label="Increase quantity"
+			>
+				<span className="material-symbols-outlined text-[18px]">add</span>
+			</button>
 		</div>
 	);
 }
