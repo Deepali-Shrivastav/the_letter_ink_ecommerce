@@ -30,8 +30,140 @@
 	--color-accent-foreground: var(--accent-foreground);
 	--color-destructive: var(--destructive);
 	--color-border: var(--border);
-	--color-input: var(--input);
 	--color-ring: var(--ring);
+
+	/* Letter Ink Custom Colors */
+	--color-tertiary-fixed-dim: #ddc1b5;
+	--color-border-vellum: #EAE6E1;
+	--color-surface-container-lowest: #ffffff;
+	--color-surface-container-high: #e8e8e8;
+	--color-surface-tint: #5e5e5e;
+	--color-on-surface: #1a1c1c;
+	--color-surface-container-highest: #e2e2e2;
+	--color-on-primary: #ffffff;
+	--color-on-secondary-container: #5f636c;
+	--color-error-container: #ffdad6;
+	--color-surface-bright: #f9f9f9;
+	--color-surface-variant: #e2e2e2;
+	--color-inverse-on-surface: #f0f1f1;
+	--color-tertiary-fixed: #fadcd0;
+	--color-on-tertiary-fixed-variant: #56423a;
+	--color-inverse-surface: #2f3131;
+	--color-outline-variant: #cfc4c5;
+	--color-surface: #f9f9f9;
+	--color-outline: #7e7576;
+	--color-on-error: #ffffff;
+	--color-secondary-fixed: #dfe2ed;
+	--color-inverse-primary: #c6c6c6;
+	--color-primary-fixed: #e2e2e2;
+	--color-on-primary-fixed: #1b1b1b;
+	--color-on-primary-container: #848484;
+	--color-on-secondary-fixed: #181c23;
+	--color-on-background: #1a1c1c;
+	--color-on-tertiary-fixed: #271811;
+	--color-tertiary-container: #271811;
+	--color-primary-container: #1b1b1b;
+	--color-secondary-container: #dcdfea;
+	--color-surface-container-low: #f3f3f4;
+	--color-on-surface-variant: #4c4546;
+	--color-surface-container: #eeeeee;
+	--color-paper-tint: #FAF8F6;
+	--color-surface-dim: #dadada;
+	--color-on-tertiary-container: #977f75;
+	--color-on-primary-fixed-variant: #474747;
+	--color-on-tertiary: #ffffff;
+	--color-tertiary: #000000;
+	--color-secondary-fixed-dim: #c3c6d1;
+	--color-primary-fixed-dim: #c6c6c6;
+	--color-error-crimson: #B00020;
+	--color-on-secondary-fixed-variant: #434750;
+	--color-on-secondary: #ffffff;
+
+	/* Letter Ink Spacing */
+	--spacing-space-lg: 3.75rem;
+	--spacing-space-xs: 0.625rem;
+	--spacing-margin-mobile: 1.25rem;
+	--spacing-margin: 4rem;
+	--spacing-gutter: 2rem;
+	--spacing-gutter-mobile: 1rem;
+	--spacing-space-xl: 6.25rem;
+	--spacing-space-sm: 1.25rem;
+	--spacing-space-md: 2.5rem;
+
+	/* Letter Ink Fonts */
+	--font-label-md: var(--font-raleway);
+	--font-headline-lg-mobile: var(--font-eb-garamond);
+	--font-body-lg: var(--font-raleway);
+	--font-headline-md: var(--font-raleway);
+	--font-display-hero: var(--font-eb-garamond);
+	--font-body-md: var(--font-raleway);
+	--font-label-lg: var(--font-raleway);
+	--font-headline-sm: var(--font-raleway);
+	--font-headline-lg: var(--font-eb-garamond);
+	--font-display-hero-mobile: var(--font-eb-garamond);
+	--font-body-sm: var(--font-raleway);
+	--font-label-sm: var(--font-raleway);
+
+	/* Letter Ink Font Sizes */
+	--text-label-md: 13px;
+	--text-label-md--line-height: 18px;
+	--text-label-md--letter-spacing: 0.12em;
+	--text-label-md--font-weight: 500;
+
+	--text-headline-lg-mobile: 28px;
+	--text-headline-lg-mobile--line-height: 36px;
+	--text-headline-lg-mobile--letter-spacing: 0.02em;
+	--text-headline-lg-mobile--font-weight: 400;
+
+	--text-body-lg: 17px;
+	--text-body-lg--line-height: 28px;
+	--text-body-lg--letter-spacing: 0.02em;
+	--text-body-lg--font-weight: 400;
+
+	--text-headline-md: 24px;
+	--text-headline-md--line-height: 32px;
+	--text-headline-md--letter-spacing: 0.05em;
+	--text-headline-md--font-weight: 300;
+
+	--text-display-hero: 54px;
+	--text-display-hero--line-height: 64px;
+	--text-display-hero--letter-spacing: 0.12em;
+	--text-display-hero--font-weight: 400;
+
+	--text-body-md: 15px;
+	--text-body-md--line-height: 26px;
+	--text-body-md--letter-spacing: 0.01em;
+	--text-body-md--font-weight: 300;
+
+	--text-label-lg: 15px;
+	--text-label-lg--line-height: 20px;
+	--text-label-lg--letter-spacing: 0.15em;
+	--text-label-lg--font-weight: 600;
+
+	--text-headline-sm: 19px;
+	--text-headline-sm--line-height: 26px;
+	--text-headline-sm--letter-spacing: 0.04em;
+	--text-headline-sm--font-weight: 400;
+
+	--text-headline-lg: 36px;
+	--text-headline-lg--line-height: 48px;
+	--text-headline-lg--letter-spacing: 0.04em;
+	--text-headline-lg--font-weight: 400;
+
+	--text-display-hero-mobile: 38px;
+	--text-display-hero-mobile--line-height: 46px;
+	--text-display-hero-mobile--letter-spacing: 0.08em;
+	--text-display-hero-mobile--font-weight: 400;
+
+	--text-body-sm: 13px;
+	--text-body-sm--line-height: 20px;
+	--text-body-sm--letter-spacing: 0.01em;
+	--text-body-sm--font-weight: 300;
+
+	--text-label-sm: 11px;
+	--text-label-sm--line-height: 16px;
+	--text-label-sm--letter-spacing: 0.18em;
+	--text-label-sm--font-weight: 600;
 }
 
 :root {

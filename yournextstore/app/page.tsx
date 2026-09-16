@@ -1,24 +1,12 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { ProductGridSkeleton } from "@/components/product-grid-skeleton";
-import { About } from "@/components/sections/about";
-import { Hero } from "@/components/sections/hero";
-import { Newsletter } from "@/components/sections/newsletter";
-import { ProductGrid } from "@/components/sections/product-grid";
-
-function FeaturedProductsSkeleton() {
-	return (
-		<section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-			<div className="flex items-end justify-between mb-12">
-				<div>
-					<div className="h-8 w-48 bg-secondary rounded animate-pulse" />
-					<div className="mt-2 h-5 w-64 bg-secondary rounded animate-pulse" />
-				</div>
-			</div>
-			<ProductGridSkeleton className="lg:grid-cols-3" />
-		</section>
-	);
-}
+import { HeroShowcase } from "@/components/sections/hero-showcase";
+import { StudioPillars } from "@/components/sections/studio-pillars";
+import { CuratedOccasions } from "@/components/sections/curated-occasions";
+import { GalleryGrid } from "@/components/sections/gallery-grid";
+import { ServicesEditorial } from "@/components/sections/services-editorial";
+import { WorkshopBanner } from "@/components/sections/workshop-banner";
+import { ClientReviews } from "@/components/sections/client-reviews";
+import { ContactBanner } from "@/components/sections/contact-banner";
 
 export const metadata: Metadata = {
 	alternates: { canonical: "/" },
@@ -27,12 +15,20 @@ export const metadata: Metadata = {
 export default function Home() {
 	return (
 		<>
-			<Hero />
-			<Suspense fallback={<FeaturedProductsSkeleton />}>
-				<ProductGrid title="Featured Products" limit={6} />
-			</Suspense>
-			<About />
-			<Newsletter />
+			{/* Top Announce Subtle Accent Bar */}
+			<div className="w-full bg-tertiary-fixed py-2 px-margin-mobile md:px-margin text-center">
+				<p className="font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-fixed">
+					USE CODE 'INKMAGIC' FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING & WAX SEALING
+				</p>
+			</div>
+			<HeroShowcase />
+			<StudioPillars />
+			<CuratedOccasions />
+			<GalleryGrid />
+			<ServicesEditorial />
+			<WorkshopBanner />
+			<ClientReviews />
+			<ContactBanner />
 		</>
 	);
 }

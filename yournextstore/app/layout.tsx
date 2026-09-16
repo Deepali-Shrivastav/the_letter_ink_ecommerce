@@ -3,7 +3,7 @@ import "@/app/globals.css";
 import { UserRound } from "lucide-react";
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Raleway, EB_Garamond } from "next/font/google";
 import { getImageProps } from "next/image";
 import Link from "next/link";
 import { ThemeProvider } from "next-themes";
@@ -36,6 +36,16 @@ const geistMono = Geist_Mono({
 	subsets: ["latin"],
 	// Paints only inside chat and code spans, so it loads on use instead of blocking every first paint.
 	preload: false,
+});
+
+const raleway = Raleway({
+	variable: "--font-raleway",
+	subsets: ["latin"],
+});
+
+const ebGaramond = EB_Garamond({
+	variable: "--font-eb-garamond",
+	subsets: ["latin"],
 });
 
 async function getStoreMetadata(): Promise<Metadata> {
@@ -235,7 +245,10 @@ export default async function RootLayout({
 	return (
 		// suppressHydrationWarning: next-themes sets the theme class on <html> before hydration.
 		<html lang={lang} suppressHydrationWarning>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+			<head>
+				<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+			</head>
+			<body className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${ebGaramond.variable} antialiased`}>
 				{/* DO NOT REMOVE / REORDER: required for GDPR + GTM Consent Mode v2. Must stay at top of <body>. */}
 				<Suspense>
 					<CookieConsent />

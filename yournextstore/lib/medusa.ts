@@ -15,8 +15,8 @@ export async function getStoreSeo() {
   cacheLife("hours");
 
   return {
-    storeName: "Your Next Store",
-    storeDescription: "Powered by Medusa",
+    storeName: "The Letter Ink",
+    storeDescription: "The Letter Ink",
   };
 }
 
