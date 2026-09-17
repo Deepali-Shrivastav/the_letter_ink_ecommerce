@@ -162,14 +162,15 @@ const GALLERY_ITEMS: GalleryItem[] = [
 	},
 ];
 
-export function GalleryPageClient() {
+export function GalleryPageClient({ initialItems }: { initialItems?: GalleryItem[] }) {
+	const items = initialItems && initialItems.length > 0 ? initialItems : GALLERY_ITEMS;
 	const [activeFilter, setActiveFilter] = useState<string>("all");
 	const [selectedSpecimen, setSelectedSpecimen] = useState<GalleryItem | null>(null);
 
 	const filteredItems =
 		activeFilter === "all"
-			? GALLERY_ITEMS
-			: GALLERY_ITEMS.filter((item) => item.category === activeFilter);
+			? items
+			: items.filter((item) => item.category === activeFilter);
 
 	return (
 		<div className="flex flex-col w-full bg-background min-h-screen text-on-surface">

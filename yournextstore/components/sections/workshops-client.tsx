@@ -18,13 +18,37 @@ import {
 	CheckCircle,
 } from "lucide-react";
 
-export function WorkshopsClient() {
+export type WorkshopItem = {
+	id: string;
+	title: string;
+	description: string;
+	format: "studio" | "virtual";
+	badgeText: string;
+	spotsText?: string | null;
+	date: string;
+	time: string;
+	venue: string;
+	level: string;
+	kitInfo?: string;
+	price: string;
+	variantId?: string;
+	image?: string | null;
+	slug?: string;
+};
+
+export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: WorkshopItem[] }) {
+	const workshops = initialWorkshops;
 	const [activeFilter, setActiveFilter] = useState<"all" | "studio" | "virtual">("all");
 	const [openFaq, setOpenFaq] = useState<number | null>(0);
 
 	const toggleFaq = (index: number) => {
 		setOpenFaq(openFaq === index ? null : index);
 	};
+
+	const filteredWorkshops =
+		activeFilter === "all"
+			? workshops
+			: workshops.filter((w) => w.format === activeFilter);
 
 	return (
 		<div className="flex flex-col w-full bg-background min-h-screen text-on-surface">
@@ -149,198 +173,117 @@ export function WorkshopsClient() {
 
 					{/* Schedule Cards */}
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-						{/* Masterclass 1 */}
-						{(activeFilter === "all" || activeFilter === "studio") && (
-							<div className="bg-surface-container-lowest shadow-md border border-border-vellum flex flex-col justify-between p-8 relative transition-transform hover:-translate-y-1 duration-300 rounded-sm">
-								<div className="absolute top-0 left-0 right-0 h-1.5 bg-[#fadcd0]"></div>
-								<div>
-									<div className="flex items-center justify-between mb-4">
-										<span className="bg-[#fadcd0] text-[#271811] text-xs uppercase tracking-widest px-3 py-1 rounded-full font-semibold">
-											In-Studio Intensive
-										</span>
-										<span className="text-xs text-red-600 uppercase font-semibold flex items-center gap-1.5">
-											<span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> 3 Spots Left
-										</span>
-									</div>
-									<h3 className="font-headline-md text-2xl text-primary font-serif mb-3">
-										Modern Calligraphy & Pointed Pen Artistry
-									</h3>
-									<p className="text-sm text-on-surface-variant font-light mb-6 leading-relaxed">
-										A comprehensive weekend foundational journey through posture, pressure-contrast mechanics, lowercase and capital script alphabets, and fluid flourishes.
-									</p>
-									<div className="space-y-3 mb-6 bg-paper-tint p-4 rounded-sm border border-border-vellum text-sm">
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Calendar className="w-4 h-4 text-secondary shrink-0" />
-											<span>Nov 15–16, 2025 (Sat & Sun)</span>
-										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Clock className="w-4 h-4 text-secondary shrink-0" />
-											<span>10:00 AM – 4:00 PM IST (Full Days)</span>
-										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<MapPin className="w-4 h-4 text-secondary shrink-0" />
-											<span>Bhusawal Atelier Quarters, Maharashtra</span>
-										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Users className="w-4 h-4 text-secondary shrink-0" />
-											<span>Beginner to Intermediate (Max 10 Students)</span>
-										</div>
-									</div>
-									<div className="mb-6">
-										<p className="text-xs uppercase tracking-wider text-secondary mb-1 font-semibold">
-											Kit Included
-										</p>
-										<p className="text-xs text-on-surface-variant leading-relaxed">
-											Dual oblique penholder, Nikko G nibs, Iron gall & gold pigment inks, Rhodia guidelines pad, and bespoke brass wax seal kit to take home.
-										</p>
-									</div>
-								</div>
-								<div>
-									<div className="flex items-baseline justify-between pt-4 border-t border-border-vellum mb-4">
-										<span className="text-xs uppercase tracking-widest text-secondary font-semibold">Atelier Fee</span>
-										<span className="text-2xl text-primary font-serif font-medium">₹6,500</span>
-									</div>
-									<div className="flex flex-col sm:flex-row gap-2">
-										<button className="flex-1 bg-[#fadcd0] hover:bg-primary hover:text-on-primary text-[#271811] text-xs uppercase tracking-wider py-3.5 px-4 font-semibold text-center transition-colors rounded-sm">
-											Enroll Now
-										</button>
-										<button
-											className="bg-surface-container hover:bg-surface-variant text-primary p-3 flex items-center justify-center transition-colors rounded-sm"
-											title="Download Syllabus PDF"
-										>
-											<Download className="w-5 h-5" />
-										</button>
-									</div>
-								</div>
+						{filteredWorkshops.length === 0 ? (
+							<div className="col-span-full py-16 text-center bg-surface-container-lowest border border-border-vellum p-8 rounded-sm">
+								<GraduationCap className="w-10 h-10 mx-auto text-secondary mb-3 opacity-60" />
+								<h3 className="font-headline-sm text-xl text-primary font-serif mb-2">
+									No Upcoming Workshops Scheduled
+								</h3>
+								<p className="text-sm text-on-surface-variant font-light max-w-md mx-auto mb-6 leading-relaxed">
+									Create a product in your Medusa Backend with metadata (<code className="bg-paper-tint px-2 py-0.5 rounded border border-border-vellum text-xs">is_workshop: true</code>) to publish workshops live.
+								</p>
+								<Link
+									href="/contact"
+									className="inline-block bg-[#fadcd0] text-[#271811] hover:bg-primary hover:text-on-primary text-xs uppercase tracking-wider px-6 py-3 font-semibold transition-colors rounded-sm"
+								>
+									Request Private Studio Session
+								</Link>
 							</div>
-						)}
+						) : (
+							filteredWorkshops.map((ws) => (
+								<div
+									key={ws.id}
+									className="bg-surface-container-lowest shadow-md border border-border-vellum flex flex-col justify-between p-8 relative transition-transform hover:-translate-y-1 duration-300 rounded-sm"
+								>
+									<div
+										className={`absolute top-0 left-0 right-0 h-1.5 ${
+											ws.format === "studio" ? "bg-[#fadcd0]" : "bg-primary"
+										}`}
+									/>
+									<div>
+										<div className="flex items-center justify-between mb-4">
+											<span
+												className={`text-xs uppercase tracking-widest px-3 py-1 rounded-full font-semibold ${
+													ws.format === "studio"
+														? "bg-[#fadcd0] text-[#271811]"
+														: "bg-surface-container-high text-on-surface"
+												}`}
+											>
+												{ws.badgeText}
+											</span>
+											{ws.spotsText && (
+												<span className="text-xs text-red-600 uppercase font-semibold flex items-center gap-1.5">
+													<span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+													{ws.spotsText}
+												</span>
+											)}
+										</div>
+										<h3 className="font-headline-md text-2xl text-primary font-serif mb-3">
+											{ws.title}
+										</h3>
+										<p className="text-sm text-on-surface-variant font-light mb-6 leading-relaxed">
+											{ws.description}
+										</p>
 
-						{/* Masterclass 2 */}
-						{(activeFilter === "all" || activeFilter === "virtual") && (
-							<div className="bg-surface-container-lowest shadow-md border border-border-vellum flex flex-col justify-between p-8 relative transition-transform hover:-translate-y-1 duration-300 rounded-sm">
-								<div className="absolute top-0 left-0 right-0 h-1.5 bg-primary"></div>
-								<div>
-									<div className="flex items-center justify-between mb-4">
-										<span className="bg-surface-container-high text-on-surface text-xs uppercase tracking-widest px-3 py-1 rounded-full font-semibold">
-											Virtual Live Interactive
-										</span>
-										<span className="text-xs text-secondary uppercase font-semibold">Worldwide Zoom</span>
-									</div>
-									<h3 className="font-headline-md text-2xl text-primary font-serif mb-3">
-										Bespoke Wedding Envelope Addressing & Flourishing
-									</h3>
-									<p className="text-sm text-on-surface-variant font-light mb-6 leading-relaxed">
-										Specialized masterclass on luxury suite envelope geometry, centering templates, metallic calligraphy on dark stock, and organic asymmetric flourished ascenders.
-									</p>
-									<div className="space-y-3 mb-6 bg-paper-tint p-4 rounded-sm border border-border-vellum text-sm">
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Calendar className="w-4 h-4 text-secondary shrink-0" />
-											<span>Dec 6, 2025 (Saturday)</span>
+										{/* Details Box */}
+										<div className="space-y-3 mb-6 bg-paper-tint p-4 rounded-sm border border-border-vellum text-sm">
+											<div className="flex items-center gap-2.5 text-on-surface">
+												<Calendar className="w-4 h-4 text-secondary shrink-0" />
+												<span>{ws.date}</span>
+											</div>
+											<div className="flex items-center gap-2.5 text-on-surface">
+												<Clock className="w-4 h-4 text-secondary shrink-0" />
+												<span>{ws.time}</span>
+											</div>
+											<div className="flex items-center gap-2.5 text-on-surface">
+												<Globe className="w-4 h-4 text-secondary shrink-0" />
+												<span>{ws.venue}</span>
+											</div>
+											<div className="flex items-center gap-2.5 text-on-surface">
+												<Sliders className="w-4 h-4 text-secondary shrink-0" />
+												<span>{ws.level}</span>
+											</div>
 										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Clock className="w-4 h-4 text-secondary shrink-0" />
-											<span>2:00 PM – 6:00 PM IST (Dual 4K Cams)</span>
-										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Globe className="w-4 h-4 text-secondary shrink-0" />
-											<span>Interactive Virtual Room (Live Feedback)</span>
-										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Sliders className="w-4 h-4 text-secondary shrink-0" />
-											<span>Intermediate Level (Basic nib control recommended)</span>
-										</div>
-									</div>
-									<div className="mb-6">
-										<p className="text-xs uppercase tracking-wider text-secondary mb-1 font-semibold">
-											Shipped Studio Box
-										</p>
-										<p className="text-xs text-on-surface-variant leading-relaxed">
-											Complete curated physical kit mailed to your doorstep 10 days before the session (Includes international dispatch option).
-										</p>
-									</div>
-								</div>
-								<div>
-									<div className="flex items-baseline justify-between pt-4 border-t border-border-vellum mb-4">
-										<span className="text-xs uppercase tracking-widest text-secondary font-semibold">Virtual Seat</span>
-										<span className="text-2xl text-primary font-serif font-medium">₹4,200</span>
-									</div>
-									<div className="flex flex-col sm:flex-row gap-2">
-										<button className="flex-1 bg-[#fadcd0] hover:bg-primary hover:text-on-primary text-[#271811] text-xs uppercase tracking-wider py-3.5 px-4 font-semibold text-center transition-colors rounded-sm">
-											Reserve Seat
-										</button>
-										<button
-											className="bg-surface-container hover:bg-surface-variant text-primary p-3 flex items-center justify-center transition-colors rounded-sm"
-											title="Download Syllabus PDF"
-										>
-											<Download className="w-5 h-5" />
-										</button>
-									</div>
-								</div>
-							</div>
-						)}
 
-						{/* Masterclass 3 */}
-						{(activeFilter === "all" || activeFilter === "studio") && (
-							<div className="bg-surface-container-lowest shadow-md border border-border-vellum flex flex-col justify-between p-8 relative transition-transform hover:-translate-y-1 duration-300 rounded-sm">
-								<div className="absolute top-0 left-0 right-0 h-1.5 bg-outline"></div>
-								<div>
-									<div className="flex items-center justify-between mb-4">
-										<span className="bg-[#fadcd0] text-[#271811] text-xs uppercase tracking-widest px-3 py-1 rounded-full font-semibold">
-											In-Studio Masterclass
-										</span>
-										<span className="text-xs text-primary uppercase font-semibold">Cohort Jan 2026</span>
+										{ws.kitInfo && (
+											<div className="mb-6">
+												<p className="text-xs uppercase tracking-wider text-secondary mb-1 font-semibold">
+													Kit Included
+												</p>
+												<p className="text-xs text-on-surface-variant leading-relaxed">
+													{ws.kitInfo}
+												</p>
+											</div>
+										)}
 									</div>
-									<h3 className="font-headline-md text-2xl text-primary font-serif mb-3">
-										Artisanal Glass & Surface Hand Engraving
-									</h3>
-									<p className="text-sm text-on-surface-variant font-light mb-6 leading-relaxed">
-										Learn the refined craft of live on-site luxury customization. Carving delicate letterforms into curved glass flacons, wine decanters, and fine metal compacts.
-									</p>
-									<div className="space-y-3 mb-6 bg-paper-tint p-4 rounded-sm border border-border-vellum text-sm">
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Calendar className="w-4 h-4 text-secondary shrink-0" />
-											<span>Jan 10, 2026 (Saturday)</span>
+
+									<div>
+										<div className="flex items-baseline justify-between pt-4 border-t border-border-vellum mb-4">
+											<span className="text-xs uppercase tracking-widest text-secondary font-semibold">
+												Fee / Seat
+											</span>
+											<span className="text-2xl text-primary font-serif font-medium">
+												{ws.price}
+											</span>
 										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Clock className="w-4 h-4 text-secondary shrink-0" />
-											<span>10:00 AM – 5:30 PM IST (Full Day)</span>
+										<div className="flex flex-col sm:flex-row gap-2">
+											<Link
+												href={ws.slug ? `/product/${ws.slug}` : "/contact"}
+												className="flex-1 bg-[#fadcd0] hover:bg-primary hover:text-on-primary text-[#271811] text-xs uppercase tracking-wider py-3.5 px-4 font-semibold text-center transition-colors rounded-sm"
+											>
+												Enroll / Reserve
+											</Link>
+											<button
+												type="button"
+												className="bg-surface-container hover:bg-surface-variant text-primary p-3 flex items-center justify-center transition-colors rounded-sm"
+												title="Download Syllabus PDF"
+											>
+												<Download className="w-5 h-5" />
+											</button>
 										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<MapPin className="w-4 h-4 text-secondary shrink-0" />
-											<span>Bhusawal Atelier Quarters, Maharashtra</span>
-										</div>
-										<div className="flex items-center gap-2.5 text-on-surface">
-											<Wrench className="w-4 h-4 text-secondary shrink-0" />
-											<span>Open to All (Safety gear and rotary burs supplied)</span>
-										</div>
-									</div>
-									<div className="mb-6">
-										<p className="text-xs uppercase tracking-wider text-secondary mb-1 font-semibold">
-											Equipment Focus
-										</p>
-										<p className="text-xs text-on-surface-variant leading-relaxed">
-											Rotary micro-drill burs, glass stabilization, ergonomic grip control, protective eyewear, and 24k metallic rub 'n buff finishing.
-										</p>
 									</div>
 								</div>
-								<div>
-									<div className="flex items-baseline justify-between pt-4 border-t border-border-vellum mb-4">
-										<span className="text-xs uppercase tracking-widest text-secondary font-semibold">Atelier Fee</span>
-										<span className="text-2xl text-primary font-serif font-medium">₹8,000</span>
-									</div>
-									<div className="flex flex-col sm:flex-row gap-2">
-										<button className="flex-1 bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary text-xs uppercase tracking-wider py-3.5 px-4 font-semibold text-center transition-colors rounded-sm">
-											Join Waitlist
-										</button>
-										<button
-											className="bg-surface-container hover:bg-surface-variant text-primary p-3 flex items-center justify-center transition-colors rounded-sm"
-											title="Download Syllabus PDF"
-										>
-											<Download className="w-5 h-5" />
-										</button>
-									</div>
-								</div>
-							</div>
+							))
 						)}
 					</div>
 				</div>
