@@ -1,0 +1,888 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Raleway:ital,wght@0,300..700;1,300..700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-tint": "#5e5e5e",
+          "on-secondary-fixed-variant": "#434750",
+          "surface": "#f9f9f9",
+          "primary-container": "#1b1b1b",
+          "border-vellum": "#EAE6E1",
+          "outline-variant": "#cfc4c5",
+          "secondary": "#5a5e68",
+          "outline": "#7e7576",
+          "on-error": "#ffffff",
+          "tertiary-fixed": "#fadcd0",
+          "on-primary-fixed": "#1b1b1b",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#474747",
+          "on-primary-container": "#848484",
+          "surface-variant": "#e2e2e2",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#c3c6d1",
+          "background": "#f9f9f9",
+          "primary-fixed-dim": "#c6c6c6",
+          "surface-container-lowest": "#ffffff",
+          "paper-tint": "#FAF8F6",
+          "surface-container": "#eeeeee",
+          "on-background": "#1a1c1c",
+          "on-tertiary-fixed": "#271811",
+          "surface-dim": "#dadada",
+          "tertiary-fixed-dim": "#ddc1b5",
+          "error-crimson": "#B00020",
+          "primary": "#000000",
+          "surface-container-low": "#f3f3f4",
+          "on-secondary-container": "#5f636c",
+          "on-error-container": "#93000a",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#977f75",
+          "inverse-on-surface": "#f0f1f1",
+          "tertiary-container": "#271811",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#dfe2ed",
+          "on-surface-variant": "#4c4546",
+          "inverse-surface": "#2f3131",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed": "#181c23",
+          "primary-fixed": "#e2e2e2",
+          "tertiary": "#000000",
+          "surface-bright": "#f9f9f9",
+          "surface-container-high": "#e8e8e8",
+          "on-tertiary": "#ffffff",
+          "secondary-container": "#dcdfea",
+          "on-surface": "#1a1c1c",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#56423a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter-mobile": "1rem",
+          "space-lg": "3.75rem",
+          "margin-mobile": "1.25rem",
+          "margin": "4rem",
+          "space-md": "2.5rem",
+          "gutter": "2rem",
+          "space-sm": "1.25rem",
+          "space-xs": "0.625rem",
+          "space-xl": "6.25rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Raleway"
+          ],
+          "label-sm": [
+            "Raleway"
+          ],
+          "label-lg": [
+            "Raleway"
+          ],
+          "body-sm": [
+            "Raleway"
+          ],
+          "label-md": [
+            "Raleway"
+          ],
+          "headline-lg-mobile": [
+            "EB Garamond"
+          ],
+          "display-hero-mobile": [
+            "EB Garamond"
+          ],
+          "body-md": [
+            "Raleway"
+          ],
+          "headline-lg": [
+            "EB Garamond"
+          ],
+          "display-hero": [
+            "EB Garamond"
+          ],
+          "body-lg": [
+            "Raleway"
+          ],
+          "headline-md": [
+            "Raleway"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "19px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.18em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-lg": [
+            "15px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.15em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "label-md": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-lg-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero-mobile": [
+            "38px",
+            {
+              "lineHeight": "46px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero": [
+            "54px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "17px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "0.05em",
+              "fontWeight": "300"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50"><div class="w-full bg-tertiary-fixed text-on-tertiary-fixed px-margin-mobile lg:px-margin py-space-xs text-center border-b border-border-vellum"><p class="font-label-sm text-label-sm uppercase tracking-widest">BESPOKE COMMISSIONS &amp; SEASONAL WORKSHOPS — WORLDWIDE ATELIER SHIPPING | USE CODE "INKMAGIC" FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING &amp; WAX SEALING</p></div><div class="w-full bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-border-vellum"><div class="h-20 max-w-[1440px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-xs shrink-0"><img alt="The Letter Ink Studio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vyb2Ejr-NUNuNKgFBKn7F4uOww6ot9ACKwF3lOcEr2EA50I1s_u4wBj3D-YNHbVygfjbRytAjUQUEIgt_MAyJ_Ki9cpMeQaXW9zc21UyGPyosuygT-KBD2DM0-HWYYEBXSz0C5El1Zdm6BIhr1u21tQa9ospD15UXoc9T0aK0xUZ89pVX9h_8AbYbOLoi-HW6qOPShkh2uKGeVQBdCfxKnYFfblm1OTFar9iC8ztEh28XwTEeXMjJ1Qg"><span class="font-headline-sm text-headline-sm uppercase text-primary tracking-widest hidden sm:inline-block">The Letter Ink</span></div><nav class="hidden xl:flex items-center gap-space-sm" data-active-classes="text-primary font-semibold border-b border-primary"><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="home" href="#">Home</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="shop" href="#">Shop</a><a aria-current="page" class="uppercase transition-colors pb-1 text-primary font-semibold border-b border-primary" data-path="gifting" href="#">Gifting</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gallery" href="#">Gallery</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="workshops" href="#">Workshops</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="services" href="#">Services</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="about-us" href="#">About Us</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="contact-us" href="#">Contact Us</a></nav><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Search Archive" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span></button><button aria-label="Cart" class="relative p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary text-on-primary font-label-sm text-[9px] flex items-center justify-center font-bold">2</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-[116px] bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Editorial Hero Section with Soft Blush Wash Backdrop -->
+<section class="relative w-full bg-paper-tint overflow-hidden">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-lg lg:py-space-xl">
+<div class="flex flex-col lg:flex-row items-center gap-space-lg">
+<!-- Left Column: Typography & Intentional Cadence -->
+<div class="w-full lg:w-7/12 flex flex-col items-start z-10">
+<nav aria-label="Breadcrumb" class="mb-space-sm">
+<ol class="flex items-center space-x-2">
+<li>
+<a class="font-label-sm text-label-sm uppercase text-secondary hover:text-primary transition-colors" href="#">Home</a>
+</li>
+<li class="text-secondary font-label-sm">/</li>
+<li aria-current="page" class="font-label-sm text-label-sm uppercase text-primary font-semibold">Gifting</li>
+</ol>
+</nav>
+<span class="inline-block bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1 font-label-sm text-label-sm uppercase tracking-widest rounded-full mb-space-sm">
+            Curated Gifting Atelier
+          </span>
+<h1 class="font-display-hero text-display-hero text-primary mb-space-sm tracking-wide">
+            Artisanal Gifts for Every Milestone
+          </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-space-md">
+            Meaningful, hand-inscribed treasures crafted with timeless scripts, botanical wax seals, and heirloom framing designed to hold love across generations.
+          </p>
+<div class="flex flex-wrap items-center gap-space-xs">
+<a class="bg-tertiary-fixed hover:bg-surface-container-lowest text-primary px-7 py-3.5 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2" href="#gift-guide">
+              Explore Gift Guide
+              <span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+<a class="bg-surface-container-lowest hover:bg-tertiary-fixed text-primary px-7 py-3.5 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2" href="#corporate-consult">
+              Corporate &amp; Bulk Gifting
+              <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Subtle Atelier Stat Strip -->
+<div class="grid grid-cols-3 gap-6 pt-space-lg mt-space-lg w-full max-w-lg">
+<div>
+<span class="font-display-hero-mobile text-display-hero-mobile text-primary block">100%</span>
+<span class="font-label-sm text-label-sm uppercase text-secondary">Pure Cotton Paper</span>
+</div>
+<div>
+<span class="font-display-hero-mobile text-display-hero-mobile text-primary block">48 hr</span>
+<span class="font-label-sm text-label-sm uppercase text-secondary">Atelier Drafting</span>
+</div>
+<div>
+<span class="font-display-hero-mobile text-display-hero-mobile text-primary block">24k</span>
+<span class="font-label-sm text-label-sm uppercase text-secondary">Gold Foil Finishes</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Tactile Visual Composition -->
+<div class="w-full lg:w-5/12 relative">
+<div class="relative w-full aspect-[4/5] bg-surface-container-lowest overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Editorial close-up of a handmade deckle edge cotton paper letter inscribed in fine Spencerian black ink calligraphy, sealed with a rose gold floral wax seal and paired with silk ribbon and dried wild eucalyptus sprigs on a soft linen atelier table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM">
+<div class="absolute bottom-4 left-4 right-4 bg-surface-container-lowest/95 backdrop-blur-sm p-4 text-left">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Signature Atelier Presentation</p>
+<p class="font-headline-sm text-headline-sm text-primary">Deckle Parchment &amp; Custom Sealant</p>
+</div>
+</div>
+<!-- Decorative Blush Plate -->
+<div class="hidden sm:block absolute -bottom-6 -right-6 w-44 h-44 bg-tertiary-fixed -z-10"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Gifting by Occasion: 4 Rich Visual Cards -->
+<section class="w-full py-space-xl bg-background" id="gift-guide">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-1">Curation By Celebration</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Gifting By Sacred Occasion</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-2 md:mt-0">
+          Every celebration carries its own rhythm. Discover thoughtful pairings tailored for milestones of devotion, lineage, achievement, and gratitude.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Occasion 1 -->
+<div class="group bg-surface-container-lowest flex flex-col h-full shadow-sm transition-transform duration-300">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A curated wedding gifting suite featuring two hand-bound leather vow booklets with deckled handmade paper, gold tipped dip pen, brass wax seal press, and personalized engraved crystal champagne coupes on raw silk cloth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmN0585oPlkvTnE6ZZgZ3E_mcmJxmoAl4Lm7gf4ch59NhAbsYEh5Grsnhj6aUmVxlNW92T23VKUhUqmnhndVDNgPL9G2IPS3XM5sWpJFOcMr-MxYD_GQ_3sKsjUxQL3mepkwfcm1RoKq-EGCVy2oIzYj265Ni9nf_gsCE78ntmqE8xgy4GSCThwSpkW94yQFORm7nnU5w4LrzR6YOrgSMz74y7rByMSAMf17NUbaODpkVfaXYr2yo">
+<span class="absolute top-4 left-4 bg-surface-container-lowest px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary">
+              Milestone 01
+            </span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Weddings &amp; Anniversaries</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+                Bespoke vows booklets, framed wedding first-dance lyrics, bridal keepsake boxes, and engraved champagne pairs inscribed with fluid ink.
+              </p>
+</div>
+<a class="inline-flex items-center gap-2 font-label-md text-label-md uppercase text-primary underline underline-offset-4 hover:text-secondary" href="#concierge">
+              Commission Keepsake
+              <span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</div>
+<!-- Occasion 2 -->
+<div class="group bg-surface-container-lowest flex flex-col h-full shadow-sm transition-transform duration-300">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Delicate newborn heirloom calligraphy art, featuring a gilded illuminated family tree written in sepia ink on aged parchment paper with pressed baby's breath flowers and soft pastel botanical accents in a wooden frame." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVmHSSq2HUEvhuN1t7qu3_BOvTBu13rfwlxeWJTIAYU-lb-5-uPnoRJV2A8GWtlKLYOFeiiEl69pqVJIpF_6ZN5Bg9x21kyD4t_NqMNafA2ic06ClzHWvozQ2JLU7FDQ9GsnfG2XDQeWnRNYMcuJFttRJ-NjtAGi9S0s4axaVKHHXidQqz4XplMWsgl2ZRtLv8pjqV5pkUKWX2DysInsIBP7cCBwr73cdRepmpiv5EJYXQ3bLR_Ng">
+<span class="absolute top-4 left-4 bg-surface-container-lowest px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary">
+              Milestone 02
+            </span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">New Born &amp; Family Lineage</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+                Heritage family tree scripts, framed birth announcements accented with 24k gold leaf calligraphy, and archival nursery blessings.
+              </p>
+</div>
+<a class="inline-flex items-center gap-2 font-label-md text-label-md uppercase text-primary underline underline-offset-4 hover:text-secondary" href="#concierge">
+              Inscribe Lineage
+              <span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</div>
+<!-- Occasion 3 -->
+<div class="group bg-surface-container-lowest flex flex-col h-full shadow-sm transition-transform duration-300">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Luxury executive gift package on a dark walnut studio desk, featuring personalized hand-calligraphed black envelopes with metallic ink, solid polished brass monogram paperweight, and full-grain leather correspondence folder." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRXdxOcOZPhzCFrSVx-PRPSJbsERWjmdC7x4dLe4yS6NJnIcmcsRKg_9Hk7gx9OMz2yG0NkUpymyDRsvlA1Z355GpqR2d_ZqLfizIhNvwNrCt4Cd2_Vm28Vsd5Fd8GqODZ5STK4ZqDg5zV_D4F5X22lxXGCidHLAce35hMycTbleZ8mXfWUM9QioYep8qD1GIKS0syuj_utCLjz92ATxIuK9G0oLWpvVOYq_weUh_EzirnP91MFig">
+<span class="absolute top-4 left-4 bg-surface-container-lowest px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary">
+              Milestone 03
+            </span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Corporate &amp; Executive</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+                Hand-lettered executive thank-you suites, solid brass monogrammed paperweights, and prestige desk sets built for elevated partnerships.
+              </p>
+</div>
+<a class="inline-flex items-center gap-2 font-label-md text-label-md uppercase text-primary underline underline-offset-4 hover:text-secondary" href="#corporate-consult">
+              Corporate Suites
+              <span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</div>
+<!-- Occasion 4 -->
+<div class="group bg-surface-container-lowest flex flex-col h-full shadow-sm transition-transform duration-300">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A vintage parchment scroll unrolled on a marble plinth, showcasing intricate flourished Copperplate calligraphy poetry with natural feathered edges, preserved beneath a museum quality minimalist oak frame." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNR2yWbhXW6aCOS3zOxKqXrsoEgNgLARF7yF69HLyOXNHv8HWud2l9TTnXqSLw0lqCSJS0Pk1k8THkPjvK0TZTAeOUi2TI7dZYyOuAgu12MdygOEWuAvjSDBvF8bgvLK8pt0hT4qqD2tCkWGUHV5AtpZTOg0B5TYyt1VyZhwPtJjI6iNROECvn80nAmCARCjUkHP9ZnfWM-8uAz4hGouISqi5t5_Xhm6vYY7FDYPhXsz6VMhjepC0">
+<span class="absolute top-4 left-4 bg-surface-container-lowest px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary">
+              Milestone 04
+            </span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Birthdays &amp; Graduations</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+                Inscribed vintage parchment scrolls, customized poetic verses in floating glass, and commemorative milestone scrolls with personalized sigils.
+              </p>
+</div>
+<a class="inline-flex items-center gap-2 font-label-md text-label-md uppercase text-primary underline underline-offset-4 hover:text-secondary" href="#concierge">
+              Design Scroll
+              <span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Gifting Concierge: 3-Step Bespoke Customizer -->
+<section class="w-full py-space-xl bg-paper-tint" id="concierge">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="text-center max-w-2xl mx-auto mb-space-lg">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-1">The Bespoke Process</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Interactive Gifting Concierge</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Compose your custom commission in three tactile stages. Our atelier scribes balance historical dip-pen discipline with modern sentiment.
+        </p>
+</div>
+<!-- 3 Steps Interactive Card Component -->
+<div class="bg-surface-container-lowest shadow-sm p-6 sm:p-10 lg:p-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Step Panels: Left 8 Cols -->
+<div class="lg:col-span-8 flex flex-col justify-between">
+<div>
+<!-- Step Navigation Indicator -->
+<div class="flex items-center gap-4 mb-space-md">
+<div class="cursor-pointer flex items-center gap-2 text-primary font-label-md text-label-md uppercase" id="tab-step-1" onclick="selectStep(1)">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center text-[11px] font-bold">1</span>
+<span>Medium</span>
+</div>
+<div class="h-px w-8 bg-surface-container-highest"></div>
+<div class="cursor-pointer flex items-center gap-2 text-secondary font-label-md text-label-md uppercase" id="tab-step-2" onclick="selectStep(2)">
+<span class="w-6 h-6 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center text-[11px] font-bold">2</span>
+<span>Inscribe Words</span>
+</div>
+<div class="h-px w-8 bg-surface-container-highest"></div>
+<div class="cursor-pointer flex items-center gap-2 text-secondary font-label-md text-label-md uppercase" id="tab-step-3" onclick="selectStep(3)">
+<span class="w-6 h-6 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center text-[11px] font-bold">3</span>
+<span>Finishing</span>
+</div>
+</div>
+<!-- Step 1 Content: Medium Selection -->
+<div class="block space-y-space-sm" id="step-content-1">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Step 1: Choose Your Keepsake Medium</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Select the archival physical vessel that will showcase your words.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<label class="cursor-pointer bg-surface-container-low p-4 flex flex-col justify-between hover:bg-tertiary-fixed/30 transition-colors" onclick="updateSummaryMedium('Handmade Deckle Cotton (300 GSM)')">
+<div class="flex items-start justify-between">
+<span class="font-label-md text-label-md uppercase text-primary">Handmade Deckle Cotton</span>
+<input checked="" class="accent-primary w-4 h-4" name="medium" type="radio">
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-2">Organic frayed edges, 100% rag paper crafted via artisanal deckle vat.</span>
+</label>
+<label class="cursor-pointer bg-surface-container-low p-4 flex flex-col justify-between hover:bg-tertiary-fixed/30 transition-colors" onclick="updateSummaryMedium('Victorian Brass-Framed Glass')">
+<div class="flex items-start justify-between">
+<span class="font-label-md text-label-md uppercase text-primary">Victorian Glass Box</span>
+<input class="accent-primary w-4 h-4" name="medium" type="radio">
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-2">Floating double glass pane bordered in hand-soldered antiqued brass.</span>
+</label>
+<label class="cursor-pointer bg-surface-container-low p-4 flex flex-col justify-between hover:bg-tertiary-fixed/30 transition-colors" onclick="updateSummaryMedium('Hand-Engraved Crystal Flutes (Pair)')">
+<div class="flex items-start justify-between">
+<span class="font-label-md text-label-md uppercase text-primary">Crystal Flutes (Pair)</span>
+<input class="accent-primary w-4 h-4" name="medium" type="radio">
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-2">Precision micro-drill drill engraving filled with fine leaf dust.</span>
+</label>
+<label class="cursor-pointer bg-surface-container-low p-4 flex flex-col justify-between hover:bg-tertiary-fixed/30 transition-colors" onclick="updateSummaryMedium('Solid Oak Floating Shadowframe')">
+<div class="flex items-start justify-between">
+<span class="font-label-md text-label-md uppercase text-primary">Natural Oak Frame</span>
+<input class="accent-primary w-4 h-4" name="medium" type="radio">
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-2">Sustainable raw oak casing with UV-filtering preservation glass.</span>
+</label>
+</div>
+</div>
+<!-- Step 2 Content: Script & Inscription -->
+<div class="hidden space-y-space-sm" id="step-content-2">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Step 2: Script Style &amp; Custom Sentiment</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Provide up to 150 words of personal text along with your script preference.</p>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<button class="script-btn bg-surface-container-low hover:bg-tertiary-fixed/40 p-3 text-center transition-colors border-0" onclick="setScript('Copperplate Classical', this)" type="button">
+<span class="font-label-sm text-label-sm uppercase block font-semibold">Copperplate</span>
+<span class="font-body-sm text-[12px] text-secondary">Formal, rhythmic shaded loops</span>
+</button>
+<button class="script-btn bg-surface-container-low hover:bg-tertiary-fixed/40 p-3 text-center transition-colors border-0" onclick="setScript('Spencerian Heirloom', this)" type="button">
+<span class="font-label-sm text-label-sm uppercase block font-semibold">Spencerian</span>
+<span class="font-body-sm text-[12px] text-secondary">Delicate, sweeping flourishes</span>
+</button>
+<button class="script-btn bg-surface-container-low hover:bg-tertiary-fixed/40 p-3 text-center transition-colors border-0" onclick="setScript('Modern Editorial', this)" type="button">
+<span class="font-label-sm text-label-sm uppercase block font-semibold">Modern Sans-Serif</span>
+<span class="font-body-sm text-[12px] text-secondary">Minimalist contemporary brush</span>
+</button>
+</div>
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Your Personal Passage / Message</label>
+<textarea class="w-full bg-surface-container-lowest p-3 text-on-surface font-body-sm text-body-sm border border-secondary focus:outline-none focus:border-primary" id="user-text-input" oninput="handleTextInput(this)" placeholder="Inscribe wedding vows, milestone quotes, heartfelt appreciation, or dates (Up to 150 words)..." rows="4"></textarea>
+<div class="flex justify-between items-center mt-1">
+<span class="font-body-sm text-[12px] text-secondary">Our master penman will layout and balance the composition.</span>
+<span class="font-label-sm text-label-sm text-secondary" id="word-count">0 / 150 words</span>
+</div>
+</div>
+</div>
+<!-- Step 3 Content: Finishing Touches -->
+<div class="hidden space-y-space-sm" id="step-content-3">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Step 3: Artisanal Seals &amp; Tactile Presentation</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Elevate your commission with hand-pressed wax seals, botanicals, and wrapping.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-2">Wax Seal Color</label>
+<div class="flex items-center gap-3">
+<button class="w-8 h-8 rounded-full bg-[#E8C5B8] ring-2 ring-offset-2 ring-primary" onclick="setSeal('Blush Rose', this)" title="Blush Rose" type="button"></button>
+<button class="w-8 h-8 rounded-full bg-[#1b1b1b]" onclick="setSeal('Midnight Black', this)" title="Midnight Black" type="button"></button>
+<button class="w-8 h-8 rounded-full bg-[#D4AF37]" onclick="setSeal('Antique Champagne Gold', this)" title="Antique Champagne Gold" type="button"></button>
+<button class="w-8 h-8 rounded-full bg-[#F5F2EB]" onclick="setSeal('Parchment Ivory', this)" title="Parchment Ivory" type="button"></button>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-2">Botanical Embellishment</label>
+<select class="w-full bg-surface-container-low p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary" id="botanical-select" onchange="updateSummaryBotanical(this.value)">
+<option value="Dried Wild Eucalyptus">Dried Wild Eucalyptus</option>
+<option value="Pressed White Baby's Breath">Pressed White Baby's Breath</option>
+<option value="Fragrant Lavender Sprig">Fragrant Lavender Sprig</option>
+<option value="Minimalist — No Foliage">Minimalist (Pure Seal Only)</option>
+</select>
+</div>
+<div class="sm:col-span-2">
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-2">Atelier Packaging Style</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<label class="bg-surface-container-low p-3 flex items-center justify-between cursor-pointer">
+<span class="font-body-sm text-body-sm text-primary">Hand-Torn Raw Silk Ribbon Wrap</span>
+<input checked="" class="accent-primary" name="packaging" onchange="updateSummaryRibbon('Raw Silk Ribbon Tie')" type="radio">
+</label>
+<label class="bg-surface-container-low p-3 flex items-center justify-between cursor-pointer">
+<span class="font-body-sm text-body-sm text-primary">Deep Charcoal Velvet Pouch</span>
+<input class="accent-primary" name="packaging" onchange="updateSummaryRibbon('Velvet Sleeve')" type="radio">
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step Progress Buttons -->
+<div class="flex items-center justify-between pt-space-md border-t border-border-vellum mt-space-md">
+<button class="font-label-md text-label-md uppercase text-secondary opacity-50 cursor-not-allowed inline-flex items-center gap-1" disabled="" id="btn-prev" onclick="prevStep()" type="button">
+<span class="material-symbols-outlined text-[16px]">west</span>
+                Previous
+              </button>
+<button class="bg-tertiary-fixed hover:bg-surface-container-lowest text-primary px-6 py-2.5 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-1" id="btn-next" onclick="nextStep()" type="button">
+<span>Proceed</span>
+<span class="material-symbols-outlined text-[16px]">east</span>
+</button>
+</div>
+</div>
+<!-- Dynamic Atelier Specification Summary: Right 4 Cols -->
+<div class="lg:col-span-4 bg-paper-tint p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Commission Draft</span>
+<span class="w-2 h-2 rounded-full bg-emerald-700 animate-pulse"></span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-4">Summary of Selection</h4>
+<dl class="space-y-3 font-body-sm text-body-sm">
+<div class="flex justify-between border-b border-border-vellum pb-2">
+<dt class="text-secondary">Medium:</dt>
+<dd class="text-primary font-medium text-right" id="summary-medium">Handmade Deckle Cotton</dd>
+</div>
+<div class="flex justify-between border-b border-border-vellum pb-2">
+<dt class="text-secondary">Script:</dt>
+<dd class="text-primary font-medium text-right" id="summary-script">Copperplate Classical</dd>
+</div>
+<div class="flex justify-between border-b border-border-vellum pb-2">
+<dt class="text-secondary">Wax Seal:</dt>
+<dd class="text-primary font-medium text-right" id="summary-seal">Blush Rose</dd>
+</div>
+<div class="flex justify-between border-b border-border-vellum pb-2">
+<dt class="text-secondary">Botanical:</dt>
+<dd class="text-primary font-medium text-right" id="summary-botanical">Dried Wild Eucalyptus</dd>
+</div>
+<div class="flex justify-between border-b border-border-vellum pb-2">
+<dt class="text-secondary">Packaging:</dt>
+<dd class="text-primary font-medium text-right" id="summary-ribbon">Raw Silk Ribbon Tie</dd>
+</div>
+</dl>
+<div class="mt-6 bg-surface-container-lowest p-4">
+<p class="font-label-sm text-label-sm uppercase text-secondary mb-1">Estimated Lead Time</p>
+<p class="font-body-sm text-body-sm text-primary font-medium">3–5 Atelier Studio Days</p>
+<p class="font-body-sm text-[11px] text-secondary mt-1">Proof sent via WhatsApp/Email prior to inking.</p>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-border-vellum">
+<div class="flex items-baseline justify-between mb-4">
+<span class="font-label-sm text-label-sm uppercase text-secondary">Starting Estimate</span>
+<span class="font-headline-md text-headline-md text-primary">₹3,850</span>
+</div>
+<button class="w-full bg-primary hover:bg-tertiary-fixed hover:text-primary text-on-primary py-3 font-label-lg text-label-lg uppercase tracking-wider transition-colors" type="button">
+                Book This Commission
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Best-Selling Gifting Sets (Grid of Curated Bundles) -->
+<section class="w-full py-space-xl bg-background">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-1">Prepared Atelier Suites</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Best-Selling Gifting Sets</h2>
+</div>
+<a class="font-label-md text-label-md uppercase text-primary hover:text-secondary underline underline-offset-4 mt-2 md:mt-0 inline-flex items-center gap-1" href="#">
+          View Complete Catalog
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Bundle 1 -->
+<div class="bg-surface-container-lowest flex flex-col justify-between shadow-sm group">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Romantic heirloom gift box featuring an antiqued sliding pine wood box holding an inscribed calligraphy love letter scroll, custom copper wax seal stamp, and a small glass vial filled with dried rose petals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ">
+<span class="absolute top-4 left-4 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase px-3 py-1">
+              Atelier Favorite
+            </span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-baseline justify-between mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">The Romantic Heirloom Box</h3>
+<span class="font-headline-sm text-headline-sm text-primary font-medium">₹4,850</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+                Deckle-edged archival love scroll + custom monogram wax seal + dried wild florals encased in an engraved wooden slide box.
+              </p>
+</div>
+<div class="pt-space-xs border-t border-border-vellum flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-secondary">Free Gift Wrap Included</span>
+<button class="bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary px-4 py-2 font-label-md text-label-md uppercase transition-colors" type="button">
+                Order Bundle
+              </button>
+</div>
+</div>
+</div>
+<!-- Bundle 2 -->
+<div class="bg-surface-container-lowest flex flex-col justify-between shadow-sm group">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A pair of matching leather vow booklets in rich cognac and cream hues with gold calligraphy names on the front cover, hand-stitched bindings, and dip pen nibs resting beside wax seals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbPwrH7ohCeXQTtAq-sj-6R6uSkr52oj1nFDzx6qHLjw1_AMB9-0_80GWIhI9OE_z4SHuDsjoShKFXLbyM9cMAqaJCg0h2JADi1OtbdEjK0eJ575-HQUJyzoMwZ0epStHBqOFN3VB6TudYujHdQb-b3GPqCCdwNlYtBS0q3QG6CUps39Za8_BVJoJJtWj1EPNJE8uMWOow8sc1Ss2TzrqVNCXNAVzXcSKiXE0RylVoyYqj4J5ztts">
+<span class="absolute top-4 left-4 bg-surface-container-lowest text-primary font-label-sm text-label-sm uppercase px-3 py-1">
+              Wedding Keepsake
+            </span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-baseline justify-between mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">The Timeless Vow Set</h3>
+<span class="font-headline-sm text-headline-sm text-primary font-medium">₹3,950</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+                Set of two hand-bound leather vow books with dip-pen calligraphy, archival acid-free deckle sheets, and botanical wax ribbons.
+              </p>
+</div>
+<div class="pt-space-xs border-t border-border-vellum flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-secondary">Choice of 4 Leathers</span>
+<button class="bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary px-4 py-2 font-label-md text-label-md uppercase transition-colors" type="button">
+                Order Bundle
+              </button>
+</div>
+</div>
+</div>
+<!-- Bundle 3 -->
+<div class="bg-surface-container-lowest flex flex-col justify-between shadow-sm group">
+<div class="relative aspect-square overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="The Executive Calligraphy Desk Suite containing a carved stone paperweight, hand-turned brass dip pen, Italian iron gall ink bottle, and a leather notebook inscribed with a gold monogram." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZabnPI_5wzJDPgcHI4JJQ5yK5Hf0Y0NQTVLakCSVZr9CMT37qgbRAtnXMe0x0ZzE49YCsglc5cKMwzCBhijQ17I85aqakqfqJIPqghYu7PQaAnOKfvF3pfd45XHF0lvaWMcOZX-EqvXvtHnKYUPfbjeu6h7_-YYXbM3rAir9cd0vgmuP7bsJApp0Jc1a1SpS8BiiayJ4_tdf0ftvypqh5q93PzjmVnU2lPOfJ8cX7QFv3p_htW2I">
+<span class="absolute top-4 left-4 bg-surface-container-lowest text-primary font-label-sm text-label-sm uppercase px-3 py-1">
+              Executive Suite
+            </span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-baseline justify-between mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Executive Calligraphy Desk Suite</h3>
+<span class="font-headline-sm text-headline-sm text-primary font-medium">₹5,200</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+                Custom engraved stone paperweight, brass seal die with your initial, and a softbound leather refillable journal with personalized name plate.
+              </p>
+</div>
+<div class="pt-space-xs border-t border-border-vellum flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-secondary">Corporate Invoicing Ready</span>
+<button class="bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary px-4 py-2 font-label-md text-label-md uppercase transition-colors" type="button">
+                Order Bundle
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Corporate & Bulk Orders Consultation Banner -->
+<section class="w-full py-space-xl bg-paper-tint" id="corporate-consult">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="bg-surface-container-lowest p-8 sm:p-12 lg:p-16 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-space-lg">
+<div class="w-full lg:w-7/12">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-2">Corporate &amp; Large Gatherings</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-space-xs">Prestige Brand Gifting &amp; Bulk Suites</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mb-space-md">
+            Elevate luxury brand activations, gala dinner place cards, VIP client holiday hampers, and partner appreciation with authentic dip-pen craftsmanship. We handle volume orders from 25 to 2,500+ customized pieces with seamless project coordination.
+          </p>
+<div class="flex flex-wrap gap-4">
+<a class="bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary px-6 py-3 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+              Download 2025 Gifting Lookbook
+            </a>
+<button class="bg-surface-container-low hover:bg-surface-container-highest text-primary px-6 py-3 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2" onclick="openConsultModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+              Book Gifting Concierge
+            </button>
+</div>
+</div>
+<div class="w-full lg:w-5/12 bg-paper-tint p-6">
+<h3 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-4">Direct Atelier Inquiries</h3>
+<form class="space-y-3" onsubmit="event.preventDefault(); alert('Thank you. An atelier gifting director will reach out within 24 hours.');">
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Company / Host Name</label>
+<input class="w-full bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary focus:outline-none focus:border-primary" placeholder="Acme Luxury or Couple Names" required="" type="text">
+</div>
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Work Email or WhatsApp</label>
+<input class="w-full bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary focus:outline-none focus:border-primary" placeholder="client@luxurybrand.com" required="" type="email">
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Estimated Units</label>
+<select class="w-full bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary">
+<option>10 – 50 pieces</option>
+<option>50 – 200 pieces</option>
+<option>200 – 1000+ pieces</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Target Date</label>
+<input class="w-full bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary focus:outline-none focus:border-primary" type="date">
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 font-label-md text-label-md uppercase tracking-wider hover:bg-tertiary-fixed hover:text-primary transition-colors mt-2" type="submit">
+              Submit Corporate Brief
+            </button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Client Testimonial Quotes from Gift Recipients -->
+<section class="w-full py-space-xl bg-background">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="text-center max-w-xl mx-auto mb-space-lg">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-1">Recipient Words</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Echoes of Delight</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Quote 1 -->
+<div class="bg-paper-tint p-8 flex flex-col justify-between shadow-sm relative">
+<span class="material-symbols-outlined text-[36px] text-tertiary-fixed-dim select-none">format_quote</span>
+<blockquote class="font-headline-sm text-headline-sm text-primary my-4 italic">
+            “My husband presented our wedding vows inscribed on cotton deckle paper for our first anniversary. Unrolling that scroll brought every tear back. The wax seal is pure poetry.”
+          </blockquote>
+<div class="border-t border-border-vellum pt-4">
+<p class="font-label-md text-label-md uppercase text-primary">Ananya &amp; Rohan Mehta</p>
+<p class="font-body-sm text-body-sm text-secondary">1st Anniversary Heirloom Box, Mumbai</p>
+</div>
+</div>
+<!-- Quote 2 -->
+<div class="bg-paper-tint p-8 flex flex-col justify-between shadow-sm relative">
+<span class="material-symbols-outlined text-[36px] text-tertiary-fixed-dim select-none">format_quote</span>
+<blockquote class="font-headline-sm text-headline-sm text-primary my-4 italic">
+            “We ordered 120 personalized lettered gift boxes for our executive retreat in Udaipur. The attendees were mesmerized by having their personal monograms hand-pressed into stone.”
+          </blockquote>
+<div class="border-t border-border-vellum pt-4">
+<p class="font-label-md text-label-md uppercase text-primary">Vikram Singhania</p>
+<p class="font-body-sm text-body-sm text-secondary">Director of Brand Experience, Singhania Capital</p>
+</div>
+</div>
+<!-- Quote 3 -->
+<div class="bg-paper-tint p-8 flex flex-col justify-between shadow-sm relative">
+<span class="material-symbols-outlined text-[36px] text-tertiary-fixed-dim select-none">format_quote</span>
+<blockquote class="font-headline-sm text-headline-sm text-primary my-4 italic">
+            “The Spencerian family tree frame was the centerpiece of my mother’s 70th birthday. The golden ink flourishes and delicate preservation glass made it a genuine museum piece.”
+          </blockquote>
+<div class="border-t border-border-vellum pt-4">
+<p class="font-label-md text-label-md uppercase text-primary">Devika Chawla</p>
+<p class="font-body-sm text-body-sm text-secondary">Family Lineage Commission, Delhi</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Customizer Script Logic -->
+<script>
+    let currentStep = 1;
+
+    function selectStep(step) {
+      currentStep = step;
+      updateStepUI();
+    }
+
+    function nextStep() {
+      if (currentStep < 3) {
+        currentStep++;
+        updateStepUI();
+      } else {
+        alert('Thank you! Your custom gift parameters have been staged. An artisan will confirm availability.');
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStepUI();
+      }
+    }
+
+    function updateStepUI() {
+      // Hide all tabs & step contents
+      [1, 2, 3].forEach(step => {
+        const tab = document.getElementById('tab-step-' + step);
+        const content = document.getElementById('step-content-' + step);
+        if (tab && content) {
+          if (step === currentStep) {
+            content.classList.remove('hidden');
+            content.classList.add('block');
+            tab.className = 'cursor-pointer flex items-center gap-2 text-primary font-label-md text-label-md uppercase';
+            const badge = tab.querySelector('span:first-child');
+            if (badge) {
+              badge.className = 'w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center text-[11px] font-bold';
+            }
+          } else {
+            content.classList.add('hidden');
+            content.classList.remove('block');
+            tab.className = 'cursor-pointer flex items-center gap-2 text-secondary font-label-md text-label-md uppercase';
+            const badge = tab.querySelector('span:first-child');
+            if (badge) {
+              badge.className = 'w-6 h-6 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center text-[11px] font-bold';
+            }
+          }
+        }
+      });
+
+      // Update Prev / Next Buttons
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+
+      if (btnPrev && btnNext) {
+        if (currentStep === 1) {
+          btnPrev.disabled = true;
+          btnPrev.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+          btnPrev.disabled = false;
+          btnPrev.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        if (currentStep === 3) {
+          btnNext.querySelector('span:first-child').innerText = 'Complete Request';
+        } else {
+          btnNext.querySelector('span:first-child').innerText = 'Proceed';
+        }
+      }
+    }
+
+    function updateSummaryMedium(name) {
+      document.getElementById('summary-medium').innerText = name;
+    }
+
+    function setScript(scriptName, element) {
+      document.querySelectorAll('.script-btn').forEach(btn => {
+        btn.classList.remove('bg-tertiary-fixed', 'text-primary');
+        btn.classList.add('bg-surface-container-low');
+      });
+      element.classList.add('bg-tertiary-fixed');
+      element.classList.remove('bg-surface-container-low');
+      document.getElementById('summary-script').innerText = scriptName;
+    }
+
+    function handleTextInput(element) {
+      const words = element.value.trim().split(/\s+/).filter(Boolean);
+      document.getElementById('word-count').innerText = words.length + ' / 150 words';
+    }
+
+    function setSeal(sealColor, element) {
+      element.parentElement.querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('ring-2', 'ring-offset-2', 'ring-primary');
+      });
+      element.classList.add('ring-2', 'ring-offset-2', 'ring-primary');
+      document.getElementById('summary-seal').innerText = sealColor;
+    }
+
+    function updateSummaryBotanical(val) {
+      document.getElementById('summary-botanical').innerText = val;
+    }
+
+    function updateSummaryRibbon(val) {
+      document.getElementById('summary-ribbon').innerText = val;
+    }
+
+    function openConsultModal() {
+      const el = document.getElementById('corporate-consult');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+</div></main><footer class="w-full bg-paper-tint border-t border-border-vellum mt-space-xl"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter"><div class="lg:col-span-4"><span class="font-headline-md text-headline-md uppercase text-primary tracking-widest block mb-space-sm">The Letter Ink</span><p class="font-body-md text-body-md text-on-surface-variant pr-space-md mb-space-md">An artisanal calligraphy studio and bespoke stationery atelier dedicated to heirloom lettering, pure fluid ink, and tactile cotton papers crafted with quiet intentionality.</p><div class="border-t border-border-vellum pt-space-sm"><p class="font-label-sm text-label-sm uppercase text-secondary mb-1">Atelier Quarters</p><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Ratan niwas, ground floor, plot no 33/A behind biyani chembers, bhusawal Maharashtra 425201</p></div></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Navigation</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Home Atelier</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Curated Shop</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Artisanal Gifting</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Works Gallery</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Lettering Workshops</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Custom Commissions</a></li></ul></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Studio &amp; Hours</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Tuesday — Saturday</span><span class="font-body-sm text-body-sm text-on-surface-variant">10:00 AM – 6:30 PM IST</span></li><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Sunday &amp; Monday</span><span class="font-body-sm text-body-sm text-on-surface-variant">Reserved for Studio Craft</span></li><li><span class="font-label-sm text-label-sm uppercase text-secondary block">Consultations</span><span class="font-body-sm text-body-sm text-on-surface-variant">By Private Appointment</span></li></ul></div><div class="lg:col-span-4"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Atelier Gazette</h4><p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">Subscribe for intimate studio dispatches, seasonal release previews, and invitations to upcoming workshop cohorts.</p><form class="flex flex-col sm:flex-row gap-space-xs" onsubmit="event.preventDefault();"><input class="bg-surface-container-lowest border border-secondary text-on-surface px-4 py-3 font-body-sm text-body-sm rounded-none focus:outline-none focus:border-primary w-full" placeholder="Your email address" type="email"><button class="bg-tertiary-fixed hover:bg-surface-container-lowest hover:border hover:border-primary text-primary font-label-lg text-label-lg uppercase px-6 py-3 transition-colors shrink-0" type="submit">Join the Circle</button></form></div></div></div><div class="border-t border-border-vellum bg-surface-container-low"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-sm flex flex-col md:flex-row items-center justify-between gap-space-xs"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">© 2025 The Letter Ink Atelier. All rights reserved.</p><div class="flex items-center gap-space-md"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Terms</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Privacy Policy</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Shipping &amp; Care</a></div></div></div></footer></body></html>

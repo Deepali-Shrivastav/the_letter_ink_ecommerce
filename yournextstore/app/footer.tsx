@@ -73,12 +73,12 @@ async function FooterCollections() {
 						</Link>
 					</li>
 					<li>
-						<Link href="/#workshops-section" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+						<Link href="/workshops" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
 							Workshops
 						</Link>
 					</li>
 					<li>
-						<Link href="/#shop-gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+						<Link href="/gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
 							Gallery
 						</Link>
 					</li>

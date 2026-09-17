@@ -11,24 +11,25 @@ const mapMedusaProductToYNS = (medusaProduct: any) => {
     content: medusaProduct.description,
     images: medusaProduct.images ? medusaProduct.images.map((img: any) => img.url) : (medusaProduct.thumbnail ? [medusaProduct.thumbnail] : []),
     variants: medusaProduct.variants ? medusaProduct.variants.map((v: any) => {
-      // Find the price (in cents, represented as a string for YNS)
-      // Medusa v2 typically has `calculated_price` or a `price` property on variants if queried with a region/currency,
-      // but as a fallback we mock "1000" (10.00).
-      const priceStr = v.prices && v.prices.length > 0 ? String(v.prices[0].amount) : "1000";
+      // Find the price (favoring INR if present, or first available price in v.prices)
+      const priceObj = (v.prices && v.prices.length > 0)
+        ? (v.prices.find((p: any) => p.currency_code?.toLowerCase() === "inr") || v.prices[0])
+        : null;
+
+      const priceStr = priceObj ? String(priceObj.amount) : "1500";
+      const currencyStr = (priceObj?.currency_code || "inr").toUpperCase();
       
       return {
         id: v.id,
         name: v.title,
         price: priceStr,
         originalPrice: priceStr,
-        currency: "usd",
+        currency: currencyStr,
         images: [],
         sku: v.sku || null,
         stock: v.inventory_quantity ?? 100,
         omnibusPrice: null,
         combinations: v.options ? v.options.map((o: any) => {
-          // Medusa provides option_id to link back to the product option, but if we don't look it up,
-          // we can just mock the label (e.g. "Size" or "Color") or try to find it.
           const parentOption = medusaProduct.options?.find((po: any) => po.id === o.option_id);
           const label = parentOption?.title || "Option";
           
@@ -91,12 +92,14 @@ const mapMedusaCartToYNS = (medusaCart: any) => {
   };
 };
 
-
 export const commerce = {
   productGet: async ({ idOrSlug }: { idOrSlug: string }) => {
-    // Fetch from Medusa
     try {
-      const response = await medusaClient.products.list({ handle: idOrSlug });
+      const response = await medusaClient.products.list({
+        handle: idOrSlug,
+        fields: "*variants.prices,*variants.options,*images,*categories,*collection"
+      } as any);
+
       if (response.products && response.products.length > 0) {
         return mapMedusaProductToYNS(response.products[0]);
       }
@@ -113,7 +116,10 @@ export const commerce = {
   },
   productBrowse: async (args: any) => {
     try {
-      const params: any = { limit: args?.limit || 20 };
+      const params: any = {
+        limit: args?.limit || 20,
+        fields: "*variants.prices,*variants.options,*images,*categories,*collection"
+      };
       if (args?.collectionId) params.collection_id = [args.collectionId];
       if (args?.categoryId) params.category_id = [args.categoryId];
       
@@ -191,7 +197,6 @@ export const commerce = {
   },
   collectionGet: async ({ idOrSlug }: { idOrSlug: string }) => {
     try {
-      // Medusa's retrieve takes an ID, but we usually have a handle. We can list by handle.
       const res = await medusaClient.collections.list({ handle: [idOrSlug] });
       const col = res.collections?.[0];
       if (!col) throw new Error("Collection not found");
@@ -202,7 +207,7 @@ export const commerce = {
         slug: col.handle,
         description: col.metadata?.description || "",
         image: col.metadata?.image || null,
-        productCollections: [] // Legacy field, usually unneeded
+        productCollections: []
       };
     } catch (error) {
       console.error("Medusa API Error (collectionGet):", error);
@@ -232,10 +237,13 @@ export const commerce = {
 export const meGetCached = async () => {
   return {
     store: {
-      name: "Medusa Store",
+      name: "The Letter Ink",
+      currency: "INR",
+      locale: "en-IN",
+      taxBehavior: "inclusive",
       subdomain: "localhost",
       settings: {
-        storeDescription: "Powered by Medusa Backend",
+        storeDescription: "The Letter Ink — Artisanal calligraphy studio & bespoke stationery",
         enabledTools: { reviews: false, restockNotifications: false }
       }
     },
@@ -245,8 +253,8 @@ export const meGetCached = async () => {
 
 export function getStoreSeo() {
   return {
-    storeName: "Medusa Store",
-    storeDescription: "Powered by Medusa Backend",
+    storeName: "The Letter Ink",
+    storeDescription: "The Letter Ink — Artisanal calligraphy studio & bespoke stationery",
   };
 }
 

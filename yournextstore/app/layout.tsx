@@ -143,12 +143,11 @@ async function getNavLinks(): Promise<NavLink[]> {
 		{ href: "/", label: "Home" },
 		{ href: "/shop", label: "Shop" },
 		{ href: "/gifting", label: "Gifting" },
-		{ href: "/#shop-gallery", label: "Gallery" },
-		{ href: "/#workshops-section", label: "Workshops" },
-		{ href: "/#services-atelier", label: "Services" },
-		...(blogEnabled ? [{ href: "/blog", label: "Blog" }] : []),
-		{ href: "/#about-us", label: "About Us" },
-		{ href: "/#contact", label: "Contact Us" },
+		{ href: "/gallery", label: "Gallery" },
+		{ href: "/workshops", label: "Workshops" },
+		{ href: "/blog", label: "Blogs" },
+		{ href: "/about", label: "About Us" },
+		{ href: "/contact", label: "Contact Us" },
 	];
 }
 

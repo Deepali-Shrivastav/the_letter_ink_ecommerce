@@ -1,0 +1,774 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Raleway:ital,wght@0,300..700;1,300..700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-tint": "#5e5e5e",
+          "on-secondary-fixed-variant": "#434750",
+          "surface": "#f9f9f9",
+          "primary-container": "#1b1b1b",
+          "border-vellum": "#EAE6E1",
+          "outline-variant": "#cfc4c5",
+          "secondary": "#5a5e68",
+          "outline": "#7e7576",
+          "on-error": "#ffffff",
+          "tertiary-fixed": "#fadcd0",
+          "on-primary-fixed": "#1b1b1b",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#474747",
+          "on-primary-container": "#848484",
+          "surface-variant": "#e2e2e2",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#c3c6d1",
+          "background": "#f9f9f9",
+          "primary-fixed-dim": "#c6c6c6",
+          "surface-container-lowest": "#ffffff",
+          "paper-tint": "#FAF8F6",
+          "surface-container": "#eeeeee",
+          "on-background": "#1a1c1c",
+          "on-tertiary-fixed": "#271811",
+          "surface-dim": "#dadada",
+          "tertiary-fixed-dim": "#ddc1b5",
+          "error-crimson": "#B00020",
+          "primary": "#000000",
+          "surface-container-low": "#f3f3f4",
+          "on-secondary-container": "#5f636c",
+          "on-error-container": "#93000a",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#977f75",
+          "inverse-on-surface": "#f0f1f1",
+          "tertiary-container": "#271811",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#dfe2ed",
+          "on-surface-variant": "#4c4546",
+          "inverse-surface": "#2f3131",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed": "#181c23",
+          "primary-fixed": "#e2e2e2",
+          "tertiary": "#000000",
+          "surface-bright": "#f9f9f9",
+          "surface-container-high": "#e8e8e8",
+          "on-tertiary": "#ffffff",
+          "secondary-container": "#dcdfea",
+          "on-surface": "#1a1c1c",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#56423a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter-mobile": "1rem",
+          "space-lg": "3.75rem",
+          "margin-mobile": "1.25rem",
+          "margin": "4rem",
+          "space-md": "2.5rem",
+          "gutter": "2rem",
+          "space-sm": "1.25rem",
+          "space-xs": "0.625rem",
+          "space-xl": "6.25rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Raleway"
+          ],
+          "label-sm": [
+            "Raleway"
+          ],
+          "label-lg": [
+            "Raleway"
+          ],
+          "body-sm": [
+            "Raleway"
+          ],
+          "label-md": [
+            "Raleway"
+          ],
+          "headline-lg-mobile": [
+            "EB Garamond"
+          ],
+          "display-hero-mobile": [
+            "EB Garamond"
+          ],
+          "body-md": [
+            "Raleway"
+          ],
+          "headline-lg": [
+            "EB Garamond"
+          ],
+          "display-hero": [
+            "EB Garamond"
+          ],
+          "body-lg": [
+            "Raleway"
+          ],
+          "headline-md": [
+            "Raleway"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "19px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.18em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-lg": [
+            "15px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.15em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "label-md": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-lg-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero-mobile": [
+            "38px",
+            {
+              "lineHeight": "46px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero": [
+            "54px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "17px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "0.05em",
+              "fontWeight": "300"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50"><div class="w-full bg-tertiary-fixed text-on-tertiary-fixed px-margin-mobile lg:px-margin py-space-xs text-center border-b border-border-vellum"><p class="font-label-sm text-label-sm uppercase tracking-widest">BESPOKE COMMISSIONS &amp; SEASONAL WORKSHOPS — WORLDWIDE ATELIER SHIPPING | USE CODE "INKMAGIC" FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING &amp; WAX SEALING</p></div><div class="w-full bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-border-vellum"><div class="h-20 max-w-[1440px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-xs shrink-0"><img alt="The Letter Ink Studio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vyb2Ejr-NUNuNKgFBKn7F4uOww6ot9ACKwF3lOcEr2EA50I1s_u4wBj3D-YNHbVygfjbRytAjUQUEIgt_MAyJ_Ki9cpMeQaXW9zc21UyGPyosuygT-KBD2DM0-HWYYEBXSz0C5El1Zdm6BIhr1u21tQa9ospD15UXoc9T0aK0xUZ89pVX9h_8AbYbOLoi-HW6qOPShkh2uKGeVQBdCfxKnYFfblm1OTFar9iC8ztEh28XwTEeXMjJ1Qg"><span class="font-headline-sm text-headline-sm uppercase text-primary tracking-widest hidden sm:inline-block">The Letter Ink</span></div><nav class="hidden xl:flex items-center gap-space-sm" data-active-classes="text-primary font-semibold border-b border-primary"><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="home" href="#">Home</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="shop" href="#">Shop</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gifting" href="#">Gifting</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gallery" href="#">Gallery</a><a aria-current="page" class="uppercase transition-colors pb-1 text-primary font-semibold border-b border-primary" data-path="workshops" href="#">Workshops</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="services" href="#">Services</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="about-us" href="#">About Us</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="contact-us" href="#">Contact Us</a></nav><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Search Archive" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span></button><button aria-label="Cart" class="relative p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary text-on-primary font-label-sm text-[9px] flex items-center justify-center font-bold">2</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-[116px] bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Editorial Header & Intro -->
+<section class="w-full bg-paper-tint py-space-xl">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<!-- Breadcrumb & Badge Navigation -->
+<div class="flex flex-wrap items-center justify-between gap-space-xs mb-space-md">
+<nav class="flex items-center gap-2">
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Home</a>
+<span class="font-label-sm text-label-sm text-outline-variant">/</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-semibold">Workshops</span>
+</nav>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase tracking-widest px-4 py-1.5 rounded-full">
+          LEARN THE CRAFT
+        </span>
+</div>
+<!-- Main Heading Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-end">
+<div class="lg:col-span-8">
+<h1 class="font-display-hero text-display-hero text-primary tracking-tight mb-space-sm max-w-4xl">
+            Artisanal Calligraphy Masterclasses &amp; Studio Workshops
+          </h1>
+</div>
+<div class="lg:col-span-4">
+<p class="font-body-lg text-body-lg text-on-surface-variant font-light leading-relaxed mb-2">
+            Step inside our world of slow lettering. From pointed pen fundamentals to advanced flourishing, wax seal crafting, and glass engraving. Hosted in Maharashtra and live virtually worldwide.
+          </p>
+</div>
+</div>
+<!-- Atmospheric Studio Strip Banner -->
+<div class="mt-space-lg grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="relative overflow-hidden bg-surface-container-lowest shadow-sm h-64">
+<img class="w-full h-full object-cover" data-alt="Top view of an artisanal wooden desk with a hand holding an oblique calligraphy pen, writing copperplate script on warm cream cotton deckle paper with rich black ink in soft studio daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8I4oorBFzBN5p6t_lRFz5AM4rnwFsoK4zIa4LbYfTFefUAQyOrKdwCZIspFwmL2_vFn5G9SCG6iP29yt76e5JTEmoeXIn5H1jyB23rBAtGRIhtGIZ9gcDIwElkhdWv6ZT5Wp6-20KcW8h6Do9lIPYCXbGZ-KH9zRteyXSQ6Id76Vnk_2I6ndyVuPTp2ddElW5RyD73Cwdg7r01po1uu7lm2u-bt3Gvd69tEAvru3RgnC__l750H4">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent flex items-end p-space-sm">
+<span class="font-label-sm text-label-sm uppercase text-on-primary tracking-widest">Tactile Pointed Pen</span>
+</div>
+</div>
+<div class="relative overflow-hidden bg-surface-container-lowest shadow-sm h-64">
+<img class="w-full h-full object-cover" data-alt="Close-up of molten terracotta pink wax being poured onto an ivory envelope flap and stamped with an engraved solid brass monogram seal amidst dried botanicals and studio tools." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPOSgaSRa7qbnbYqkFEtSwe6-NEZ16jDEmXsJTR6d8MNOS80K-0tZ77rZQ93WAXaHXez8Ag2s93SOBHbYZon1x-YQslirYlBhu6wxRSQrInkcvVAb02nXgyojOZBYz7bxhBoZflcOvhDc5ogQLnOIjGJDX8t1i_RU31I8hnRoY-LhTb_ptWrOCkA36ZIs2bSGrjsT46DCn7uwC8mvG1x3l--H7tadTIXpU8oHcz8qn_R_7ei4rlrY">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent flex items-end p-space-sm">
+<span class="font-label-sm text-label-sm uppercase text-on-primary tracking-widest">Wax Seal Crafting</span>
+</div>
+</div>
+<div class="relative overflow-hidden bg-surface-container-lowest shadow-sm h-64">
+<img class="w-full h-full object-cover" data-alt="Delicate macro shot of a diamond rotary bur hand-engraving elegant flowing calligraphy onto a clear glass luxury perfume flacon with micro gold dust highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANI0qw1XJ7UEoKPkX6DQlzSd9ybLs0e_6AttJOBBN4bk_MfrOZYjvB0KlkTIWnSWKdA4_gLS7zym24d1JyjPgCYEIVjAluih3CEXciULQboaHET6CI5xZvobfkroCwYHrUab4l4nuNHNtjdCica16RSf0rjhMLziHilD5Df_hTbGmCzktbbUiNSaPjxnTErlPxwjFdsby7CS-BG6b49oB2PuNX_l7GeNqFzvEh-l8NmMENoY7zbk8">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent flex items-end p-space-sm">
+<span class="font-label-sm text-label-sm uppercase text-on-primary tracking-widest">Precision Glass Engraving</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Filter / Cohort Schedule Section -->
+<section class="w-full bg-background py-space-xl">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-2">CURATED SYLLABI</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Upcoming Cohorts &amp; Masterclasses</h2>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-wider px-4 py-2 rounded-full transition-colors">All Formats</button>
+<button class="bg-tertiary-fixed text-on-tertiary-fixed hover:bg-surface-container-high font-label-sm text-label-sm uppercase tracking-wider px-4 py-2 rounded-full transition-colors">In-Studio (Bhusawal)</button>
+<button class="bg-tertiary-fixed text-on-tertiary-fixed hover:bg-surface-container-high font-label-sm text-label-sm uppercase tracking-wider px-4 py-2 rounded-full transition-colors">Virtual Interactive</button>
+</div>
+</div>
+<!-- Schedule Cards (Bento-styled cards) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Masterclass 1 -->
+<div class="bg-surface-container-lowest shadow-md flex flex-col justify-between p-space-md relative transition-transform hover:-translate-y-1 duration-300">
+<div class="absolute top-0 left-0 right-0 h-1 bg-tertiary-fixed"></div>
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase tracking-widest px-3 py-1 rounded-full">In-Studio Intensive</span>
+<span class="font-label-sm text-label-sm text-error uppercase font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse inline-block"></span> 3 Spots Left
+              </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-space-xs">
+              Modern Calligraphy &amp; Pointed Pen Artistry
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              A comprehensive weekend foundational journey through posture, pressure-contrast mechanics, lowercase and capital script alphabets, and fluid flourishes.
+            </p>
+<div class="space-y-space-xs mb-space-md bg-paper-tint p-space-sm">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">calendar_today</span>
+<span class="font-label-md text-label-md">Nov 15–16, 2025 (Sat &amp; Sun)</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">schedule</span>
+<span class="font-body-sm text-body-sm">10:00 AM – 4:00 PM IST (Full Days)</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">location_on</span>
+<span class="font-body-sm text-body-sm">Bhusawal Atelier Quarters, Maharashtra</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">group</span>
+<span class="font-body-sm text-body-sm">Beginner to Intermediate (Max 10 Students)</span>
+</div>
+</div>
+<div class="mb-space-md">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">Kit Included</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dual oblique penholder, Nikko G nibs, Iron gall &amp; gold pigment inks, Rhodia guidelines pad, and bespoke brass wax seal kit to take home.</p>
+</div>
+</div>
+<div>
+<div class="flex items-baseline justify-between pt-space-sm mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Atelier Fee</span>
+<span class="font-headline-md text-headline-md text-primary font-medium">₹6,500</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-2">
+<button class="flex-1 bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary font-label-lg text-label-lg uppercase tracking-wider py-3 px-4 text-center transition-colors">
+                Enroll Now
+              </button>
+<button class="bg-surface-container hover:bg-surface-variant text-primary font-label-sm text-label-sm uppercase px-3 py-3 flex items-center justify-center transition-colors" title="Download Syllabus PDF">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Masterclass 2 -->
+<div class="bg-surface-container-lowest shadow-md flex flex-col justify-between p-space-md relative transition-transform hover:-translate-y-1 duration-300">
+<div class="absolute top-0 left-0 right-0 h-1 bg-primary"></div>
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm uppercase tracking-widest px-3 py-1 rounded-full">Virtual Live Interactive</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Worldwide Zoom</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-space-xs">
+              Bespoke Wedding Envelope Addressing &amp; Flourishing
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Specialized masterclass on luxury suite envelope geometry, centering templates, metallic calligraphy on dark stock, and organic asymmetric flourished ascenders.
+            </p>
+<div class="space-y-space-xs mb-space-md bg-paper-tint p-space-sm">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">calendar_today</span>
+<span class="font-label-md text-label-md">Dec 6, 2025 (Saturday)</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">schedule</span>
+<span class="font-body-sm text-body-sm">2:00 PM – 6:00 PM IST (Dual 4K Overhead Cams)</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">public</span>
+<span class="font-body-sm text-body-sm">Interactive Virtual Room (Direct Live Feedback)</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">tune</span>
+<span class="font-body-sm text-body-sm">Intermediate Level (Basic nib control recommended)</span>
+</div>
+</div>
+<div class="mb-space-md">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">Shipped Studio Box</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Complete curated physical kit mailed to your doorstep 10 days before the session (Includes international dispatch option).</p>
+</div>
+</div>
+<div>
+<div class="flex items-baseline justify-between pt-space-sm mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Virtual Seat</span>
+<span class="font-headline-md text-headline-md text-primary font-medium">₹4,200</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-2">
+<button class="flex-1 bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary font-label-lg text-label-lg uppercase tracking-wider py-3 px-4 text-center transition-colors">
+                Reserve Seat
+              </button>
+<button class="bg-surface-container hover:bg-surface-variant text-primary font-label-sm text-label-sm uppercase px-3 py-3 flex items-center justify-center transition-colors" title="Download Syllabus PDF">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Masterclass 3 -->
+<div class="bg-surface-container-lowest shadow-md flex flex-col justify-between p-space-md relative transition-transform hover:-translate-y-1 duration-300">
+<div class="absolute top-0 left-0 right-0 h-1 bg-outline"></div>
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase tracking-widest px-3 py-1 rounded-full">In-Studio Masterclass</span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Cohort Jan 2026</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-space-xs">
+              Artisanal Glass &amp; Surface Hand Engraving
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Learn the refined craft of live on-site luxury customization. Carving delicate letterforms into curved glass flacons, wine decanters, and fine metal compacts.
+            </p>
+<div class="space-y-space-xs mb-space-md bg-paper-tint p-space-sm">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">calendar_today</span>
+<span class="font-label-md text-label-md">Jan 10, 2026 (Saturday)</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">schedule</span>
+<span class="font-body-sm text-body-sm">10:00 AM – 5:30 PM IST (Full Day)</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">location_on</span>
+<span class="font-body-sm text-body-sm">Bhusawal Atelier Quarters, Maharashtra</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-secondary">handyman</span>
+<span class="font-body-sm text-body-sm">Open to All (Safety gear and rotary burs supplied)</span>
+</div>
+</div>
+<div class="mb-space-md">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">Equipment Focus</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Rotary micro-drill burs, glass stabilization, ergonomic grip control, protective eyewear, and 24k metallic rub 'n buff finishing.</p>
+</div>
+</div>
+<div>
+<div class="flex items-baseline justify-between pt-space-sm mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Atelier Fee</span>
+<span class="font-headline-md text-headline-md text-primary font-medium">₹8,000</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-2">
+<button class="flex-1 bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary font-label-lg text-label-lg uppercase tracking-wider py-3 px-4 text-center transition-colors">
+                Join Waitlist
+              </button>
+<button class="bg-surface-container hover:bg-surface-variant text-primary font-label-sm text-label-sm uppercase px-3 py-3 flex items-center justify-center transition-colors" title="Download Syllabus PDF">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Starter Kit Visual Breakdown -->
+<section class="w-full bg-paper-tint py-space-xl">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="max-w-3xl mb-space-lg">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-2">TANGIBLE TOOLS OF THE ATELIER</span>
+<h2 class="font-display-hero text-headline-lg lg:text-display-hero text-primary mb-space-xs">
+          What is Inside Your Studio Starter Kit
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+          Every participant receives our bespoke, handcrafted heirloom gift box. Handpicked tools calibrated to foster tactile delight and effortless nib glide.
+        </p>
+</div>
+<!-- Kit Interactive Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Item 1 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div>
+<div class="aspect-square w-full overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal dual-purpose oblique calligraphy penholder carved from aged walnut wood with a polished brass flange resting on cream linen cloth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKUqTD7-Uz0pUDBonbNr63bhSt9MWJmMdyM7YLJLWTyJPOVqx-TlIrJkVNydAOgRcii_4xzhTMKKFhy8tp87yNGFn9E605a1wObZ0oZSNE9hxKLmmlN4BjUQKzpR8Z3TOox7xCfxOuGLEIcVC5mfTkbpDveNSIiiqH-LDpAAzWEmH0FAsUycGOt65aoiGXwXosAAHvVo5FwLAxUZWQ74cFDRBeShyLwTJTgK16H6olFHoWGcrN4jA">
+</div>
+<span class="font-label-sm text-label-sm uppercase text-secondary tracking-widest block mb-1">01 / Penholder</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-2">Handcrafted Oblique Holder</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Turned hardwood holder with an adjustable brass flange engineered for the optimal 55-degree script angle, alleviating hand fatigue.
+            </p>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 rounded">Heirloom Grade</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div>
+<div class="aspect-square w-full overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Three precision pointed steel calligraphy nibs including Nikko G and Hunt 101 displayed neatly in an antique glass petri dish with studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCffPXlC_Xv2zXSZup49acfu4_GfIoa9h_fejGiThlrwHpGBZiR913xDb9FT3_PQyw97Xz3L9QWKmNJzseJITQX788yxyUPgWbsn96HDUJACCv0pw9fpzakNmi9-6nKIcgroGGCyszqDqe5HkYFxkyiuo0Mtxa6P-6kXjdYNGbwtZvgKQQnTFCWqRF1UQMcbUP9i-Qs-6vKBES9P5w_dSPWHNuJo6gyUbWWBQpTTOnF5Fv2vL52mAE">
+</div>
+<span class="font-label-sm text-label-sm uppercase text-secondary tracking-widest block mb-1">02 / Nibs</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-2">3 Selected Steel Pointed Nibs</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Includes beginner-friendly Nikko G for consistent hairlines, alongside high-flex Leonardt Principal and Hunt 101 for expressive swelling.
+            </p>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 rounded">Hand-Treated</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div>
+<div class="aspect-square w-full overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Miniature glass dinky dip inkpot filled with deep walnut iron-gall fluid ink, closed with a natural cork stopper." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkYumUCHHkCwbWxXzkmy4Peg_5vTwrARgVg9JxyWWaBCtUtI2P2FLeDKCX5fNkhGHh1s2UvG2YJ5VL7j9nu5Rb3bjb-gAHmRM8H_GUOCPpZuaGAzmI0OxNbhu8ygNt97mOfHydcXf5vpV3XDyiG66pmBeGzRKdunmdWIIOYPsfU5RU5h9q3pZvN5kIQK8SB07UGLVL_iEikU7u0tBdwfW9ATlnMU7Yi9tKiLBokOKkjMK-CChcMJ8">
+</div>
+<span class="font-label-sm text-label-sm uppercase text-secondary tracking-widest block mb-1">03 / Fluid Pigment</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-2">Custom Atelier Walnut &amp; Gold Inkpots</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Specially formulated non-bleed studio ink with gentle iron gall consistency, plus a vial of shimmering mica pearl calligraphy gold ink.
+            </p>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 rounded">Archival Grade</span>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div>
+<div class="aspect-square w-full overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Smooth heavy French 100gsm Rhodia grid guideline practice pad resting open beside sample calligraphy exercises." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUItd8336yJuzEt7CPIrL7u7y79PBhZwS9epWTrKBbfLzS-NZO3qV1nenj-gyhZXJKIlRbnDmbyXeFk5qLViZhLIJpFYNsqf1k7wV8y8AoeWcoSaYsxePiYsww-fUl-MUG0IoyQKKxLYVCs8snjqOZLBOFUzpWlV04TXjL-_YBsJ-ry8su7H5vzTmZW9SEks571P7VdR8lRGOt12DL8OF7guxFA5KE0mugFdHQ6ou5p4ljeZqTfgg">
+</div>
+<span class="font-label-sm text-label-sm uppercase text-secondary tracking-widest block mb-1">04 / Paper Stock</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-2">100gsm Rhodia Guideline Pad</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Ultra-smooth French satin paper engineered to prevent ink feathering and nib snagging, pre-ruled with slanted 55° baseline guides.
+            </p>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 rounded">No-Bleed Surface</span>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div>
+<div class="aspect-square w-full overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Engraved solid brass seal stamp with turned rosewood handle beside sticks of flexible metallic wax in copper, blush, and ivory." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCKiJttLURVgb2TsqApuCWY1BQxNARNFc_beK291Av1LF3Qz8x9GDyxV1unnQM22ZgSgMGQjTjW7QxF7SnhTH1MQtEtSW6KrtDOVxaTWVOpGVw3OG16_JNnEx4BFVb2g2omOASWyHVA9tKocgMNDWEfoKyX4DufIXkseapu4f03aI2aQ9T1rIumB7Gc8TBJ6d_RIJG52hFKowNsDPAb6lUeXVPjanUt3Q-OUfL-XV-gBe57HxGUkM">
+</div>
+<span class="font-label-sm text-label-sm uppercase text-secondary tracking-widest block mb-1">05 / Sealing Suite</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-2">Brass Wax Stamp &amp; Sealing Sticks</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Atelier botanical monogram brass seal, brass melting spoon, tealight stove, and flexible mailable sealing waxes that do not shatter in transit.
+            </p>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 rounded">Complete Kit</span>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div>
+<div class="aspect-square w-full overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Editorial copperplate exemplar book bound in soft handmade paper, open to intricate flourishing diagram pages." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjD8_rzfGkTs6nNoxT84YJv1kD3dowpBQR6C6IugqBf-e7ACLxsWwFthtu2liPA0z3NtoQ5jKB5mGe0Net5ErvRXmw2UVwlwEaQGr39prd90wpDr9US5NKkPVYfXHtJX7lXaFbIqmQTCXFZiJMJbDIvplYilw8aQ9UbRqO14sUbNPuKYpq6V6H5PIJw1ynDczU8e9rLUKUar98XLLsfkEobtCYPyTuBpSTeBljImDZHuxPal07Dj4">
+</div>
+<span class="font-label-sm text-label-sm uppercase text-secondary tracking-widest block mb-1">06 / Atelier Reference</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-2">Practice Exemplar &amp; Alphabet Guide</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              A 48-page spiral workbook with stroke-by-stroke diagrams, ductus guides, spacing rules, flourishing anatomy, and troubleshooting tips.
+            </p>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 rounded">Full Reference</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Private & Corporate Workshops Section -->
+<section class="w-full bg-primary text-on-primary py-space-xl">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<div class="lg:col-span-6">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-primary-container block mb-space-xs">BESPOKE GATHERINGS</span>
+<h2 class="font-display-hero text-headline-lg lg:text-display-hero text-on-primary tracking-tight mb-space-sm">
+            Private Atelier Sessions &amp; Corporate Brand Activations
+          </h2>
+<p class="font-body-lg text-body-lg text-outline-variant font-light mb-space-md leading-relaxed">
+            Cultivate mindful focus and artistic bonding. We design custom in-person and digital workshops tailored for corporate team retreats, bridal showers, PR launches, and luxury hospitality events.
+          </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm mb-space-md">
+<div class="bg-primary-container p-space-sm">
+<span class="material-symbols-outlined text-tertiary-fixed text-[28px] mb-2">diamond</span>
+<h4 class="font-headline-sm text-headline-sm text-on-primary mb-1">Luxury VIP Activations</h4>
+<p class="font-body-sm text-body-sm text-outline-variant">Live on-site fragrance bottle personalization and monogramming masterclasses for high-end clientele.</p>
+</div>
+<div class="bg-primary-container p-space-sm">
+<span class="material-symbols-outlined text-tertiary-fixed text-[28px] mb-2">celebration</span>
+<h4 class="font-headline-sm text-headline-sm text-on-primary mb-1">Bridal &amp; Intimate Circles</h4>
+<p class="font-body-sm text-body-sm text-outline-variant">Unwind over tea and botanical wax sealing for bridal party suites or private milestone birthdays.</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="bg-tertiary-fixed hover:bg-surface text-primary font-label-lg text-label-lg uppercase px-8 py-4 transition-colors">
+              Inquire for Private Workshop
+            </button>
+<span class="font-body-sm text-body-sm text-on-primary-container">Tailored packages for 6 to 50+ guests</span>
+</div>
+</div>
+<div class="lg:col-span-6 relative">
+<div class="aspect-[4/3] w-full overflow-hidden bg-primary-container">
+<img class="w-full h-full object-cover" data-alt="An intimate circle of six students seated at a long oak atelier table surrounded by calligraphy inks and warm ambient candles during a private masterclass." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXrPWCEqUjsvLDcnk_2VJg8UBF6lXFRc4p3ryTBVJEPxRE7NkuiSMLv8KFLmMQnk26ROnol8JOuvKNN6F60Oy_lM7qj0i8SCFCKaHUfMHWyTy5gI8j5SSXzzWKfLqYovqu8GSmfMYjeRHmnGsl6hnOVWiBXK4iEf2j9BIhOxmVViA_bd7nSr-kbn4pkeidJwnu8JO92UPrxbyUCBbj6W9gbp9FYsgPaJE-bWjpXyb1rZESlyLuuZ0">
+</div>
+<!-- Decorative Stamp Accent -->
+<div class="absolute -bottom-6 -right-6 bg-tertiary-fixed text-primary p-space-sm shadow-xl hidden md:block max-w-xs">
+<p class="font-label-sm text-label-sm uppercase tracking-wider font-bold mb-1">Bespoke Curation</p>
+<p class="font-body-sm text-body-sm text-on-tertiary-fixed">Custom branded kits, personalized guest name cards &amp; curated nib boxes included.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Student Reviews & Handcrafted Results -->
+<section class="w-full bg-background py-space-xl">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="text-center max-w-3xl mx-auto mb-space-lg">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-2">THE JOURNEY FROM BLOT TO FLOURISH</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Student Words &amp; Handcrafted Results</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+          Real stories from creators who traded rapid keyboard tapping for mindful, rhythmic pen strokes.
+        </p>
+</div>
+<!-- Testimonial Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Review 1 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1 text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-space-md leading-relaxed">
+              “I was terrified because my daily handwriting is a chaotic doctor's scribble. Within three hours, the breakdown of muscle memory and nib angle completely shifted my perspective. Addressing my sister's wedding suites was a dream come true.”
+            </p>
+</div>
+<div class="flex items-center gap-3 pt-space-sm">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center font-label-md text-primary font-bold">
+              AK
+            </div>
+<div>
+<p class="font-label-md text-label-md text-primary">Ananya Kapoor</p>
+<p class="font-body-sm text-body-sm text-secondary">Mumbai Cohort • Modern Calligraphy</p>
+</div>
+</div>
+</div>
+<!-- Review 2 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1 text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-space-md leading-relaxed">
+              “The physical starter kit delivered to London was packed with such immense care and quiet beauty. The dual overhead Zoom feed felt like having a personal tutor leaning right over my shoulder correcting my tines.”
+            </p>
+</div>
+<div class="flex items-center gap-3 pt-space-sm">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center font-label-md text-primary font-bold">
+              MR
+            </div>
+<div>
+<p class="font-label-md text-label-md text-primary">Maya Rathod</p>
+<p class="font-body-sm text-body-sm text-secondary">London (Virtual Cohort) • Envelope Suite</p>
+</div>
+</div>
+</div>
+<!-- Review 3 -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1 text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-space-md leading-relaxed">
+              “The glass engraving intensive opened a totally new commercial revenue stream for my luxury wedding styling studio. The focus on micro-bur control and safety gave me instant confidence on real perfume flacons.”
+            </p>
+</div>
+<div class="flex items-center gap-3 pt-space-sm">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center font-label-md text-primary font-bold">
+              RD
+            </div>
+<div>
+<p class="font-label-md text-label-md text-primary">Rohit Deshmukh</p>
+<p class="font-body-sm text-body-sm text-secondary">Pune Atelier • Glass Engraving</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Accordion Section -->
+<section class="w-full bg-paper-tint py-space-xl">
+<div class="max-w-[960px] mx-auto px-margin-mobile lg:px-margin">
+<div class="text-center mb-space-lg">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-2">QUESTIONS &amp; CLARIFICATIONS</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Frequently Asked Inquiries</h2>
+</div>
+<!-- Accordion Container -->
+<div class="space-y-space-xs" id="faqAccordion">
+<!-- Item 1 -->
+<div class="bg-surface-container-lowest shadow-sm overflow-hidden">
+<button class="w-full text-left p-space-sm flex items-center justify-between text-primary font-headline-sm text-headline-sm hover:text-secondary transition-colors" onclick="toggleFaq(this)">
+<span>Do I need good handwriting to learn calligraphy?</span>
+<span class="material-symbols-outlined text-[20px] transition-transform duration-300 transform">expand_more</span>
+</button>
+<div class="faq-content hidden px-space-sm pb-space-sm text-on-surface-variant font-body-md text-body-md leading-relaxed">
+            Not at all! Handwriting is a rapid, muscle-memory habit designed for speed. Calligraphy, by contrast, is the conscious art of drawing individual letterforms with disciplined, rhythmic pressure contrast. Some of our finest students started with messy everyday scripts.
+          </div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-lowest shadow-sm overflow-hidden">
+<button class="w-full text-left p-space-sm flex items-center justify-between text-primary font-headline-sm text-headline-sm hover:text-secondary transition-colors" onclick="toggleFaq(this)">
+<span>Are materials provided or do I need to purchase them beforehand?</span>
+<span class="material-symbols-outlined text-[20px] transition-transform duration-300 transform">expand_more</span>
+</button>
+<div class="faq-content hidden px-space-sm pb-space-sm text-on-surface-variant font-body-md text-body-md leading-relaxed">
+            For both in-studio and virtual masterclasses, your tuition includes the full Studio Starter Kit. For virtual students, the physical kit is carefully dispatched to your address well ahead of the workshop date. You only need a clean desk and a small cup of clean water.
+          </div>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface-container-lowest shadow-sm overflow-hidden">
+<button class="w-full text-left p-space-sm flex items-center justify-between text-primary font-headline-sm text-headline-sm hover:text-secondary transition-colors" onclick="toggleFaq(this)">
+<span>Can I attend virtually from outside India?</span>
+<span class="material-symbols-outlined text-[20px] transition-transform duration-300 transform">expand_more</span>
+</button>
+<div class="faq-content hidden px-space-sm pb-space-sm text-on-surface-variant font-body-md text-body-md leading-relaxed">
+            Yes, our virtual cohorts welcome international attendees. We provide international DHL courier tracking for physical kits (a slight supplementary courier fee may apply depending on your region). Replay recordings with high-definition multi-angle footage remain accessible for 60 days following the live stream.
+          </div>
+</div>
+<!-- Item 4 -->
+<div class="bg-surface-container-lowest shadow-sm overflow-hidden">
+<button class="w-full text-left p-space-sm flex items-center justify-between text-primary font-headline-sm text-headline-sm hover:text-secondary transition-colors" onclick="toggleFaq(this)">
+<span>What are your cancellation and transfer policies?</span>
+<span class="material-symbols-outlined text-[20px] transition-transform duration-300 transform">expand_more</span>
+</button>
+<div class="faq-content hidden px-space-sm pb-space-sm text-on-surface-variant font-body-md text-body-md leading-relaxed">
+            Because seats are strictly limited to maintain intimate direct critique and physical kits are prepared upon enrollment, ticket reservations are non-refundable. However, you may transfer your seat to another student or reschedule to an upcoming cohort with at least 14 business days prior written notice.
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Interactive Atelier Consultation Banner -->
+<section class="w-full bg-surface-container-high py-space-lg">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin text-center">
+<div class="max-w-2xl mx-auto">
+<span class="material-symbols-outlined text-primary text-[32px] mb-2">edit_note</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Unsure Which Cohort Fits Your Creative Path?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-sm">
+          Reach out directly to our Bhusawal studio team for tailored guidance on skill alignment, left-handed nib adjustments, or bespoke private bookings.
+        </p>
+<div class="flex justify-center items-center gap-space-sm">
+<a class="bg-primary text-on-primary hover:bg-secondary font-label-lg text-label-lg uppercase px-8 py-3.5 transition-colors" href="#">
+            Speak with an Instructor
+          </a>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Accordion Script -->
+<script>
+    function toggleFaq(button) {
+      const content = button.nextElementSibling;
+      const icon = button.querySelector('.material-symbols-outlined');
+      const isHidden = content.classList.contains('hidden');
+
+      // Close other accordion items
+      document.querySelectorAll('.faq-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('#faqAccordion .material-symbols-outlined').forEach(i => i.classList.remove('rotate-180'));
+
+      if (isHidden) {
+        content.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      } else {
+        content.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    }
+  </script>
+</div></main><footer class="w-full bg-paper-tint border-t border-border-vellum mt-space-xl"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter"><div class="lg:col-span-4"><span class="font-headline-md text-headline-md uppercase text-primary tracking-widest block mb-space-sm">The Letter Ink</span><p class="font-body-md text-body-md text-on-surface-variant pr-space-md mb-space-md">An artisanal calligraphy studio and bespoke stationery atelier dedicated to heirloom lettering, pure fluid ink, and tactile cotton papers crafted with quiet intentionality.</p><div class="border-t border-border-vellum pt-space-sm"><p class="font-label-sm text-label-sm uppercase text-secondary mb-1">Atelier Quarters</p><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Ratan niwas, ground floor, plot no 33/A behind biyani chembers, bhusawal Maharashtra 425201</p></div></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Navigation</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Home Atelier</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Curated Shop</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Artisanal Gifting</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Works Gallery</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Lettering Workshops</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Custom Commissions</a></li></ul></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Studio &amp; Hours</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Tuesday — Saturday</span><span class="font-body-sm text-body-sm text-on-surface-variant">10:00 AM – 6:30 PM IST</span></li><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Sunday &amp; Monday</span><span class="font-body-sm text-body-sm text-on-surface-variant">Reserved for Studio Craft</span></li><li><span class="font-label-sm text-label-sm uppercase text-secondary block">Consultations</span><span class="font-body-sm text-body-sm text-on-surface-variant">By Private Appointment</span></li></ul></div><div class="lg:col-span-4"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Atelier Gazette</h4><p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">Subscribe for intimate studio dispatches, seasonal release previews, and invitations to upcoming workshop cohorts.</p><form class="flex flex-col sm:flex-row gap-space-xs" onsubmit="event.preventDefault();"><input class="bg-surface-container-lowest border border-secondary text-on-surface px-4 py-3 font-body-sm text-body-sm rounded-none focus:outline-none focus:border-primary w-full" placeholder="Your email address" type="email"><button class="bg-tertiary-fixed hover:bg-surface-container-lowest hover:border hover:border-primary text-primary font-label-lg text-label-lg uppercase px-6 py-3 transition-colors shrink-0" type="submit">Join the Circle</button></form></div></div></div><div class="border-t border-border-vellum bg-surface-container-low"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-sm flex flex-col md:flex-row items-center justify-between gap-space-xs"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">© 2025 The Letter Ink Atelier. All rights reserved.</p><div class="flex items-center gap-space-md"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Terms</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Privacy Policy</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Shipping &amp; Care</a></div></div></div></footer></body></html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Raleway:ital,wght@0,300..700;1,300..700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-tint": "#5e5e5e",
+          "on-secondary-fixed-variant": "#434750",
+          "surface": "#f9f9f9",
+          "primary-container": "#1b1b1b",
+          "border-vellum": "#EAE6E1",
+          "outline-variant": "#cfc4c5",
+          "secondary": "#5a5e68",
+          "outline": "#7e7576",
+          "on-error": "#ffffff",
+          "tertiary-fixed": "#fadcd0",
+          "on-primary-fixed": "#1b1b1b",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#474747",
+          "on-primary-container": "#848484",
+          "surface-variant": "#e2e2e2",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#c3c6d1",
+          "background": "#f9f9f9",
+          "primary-fixed-dim": "#c6c6c6",
+          "surface-container-lowest": "#ffffff",
+          "paper-tint": "#FAF8F6",
+          "surface-container": "#eeeeee",
+          "on-background": "#1a1c1c",
+          "on-tertiary-fixed": "#271811",
+          "surface-dim": "#dadada",
+          "tertiary-fixed-dim": "#ddc1b5",
+          "error-crimson": "#B00020",
+          "primary": "#000000",
+          "surface-container-low": "#f3f3f4",
+          "on-secondary-container": "#5f636c",
+          "on-error-container": "#93000a",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#977f75",
+          "inverse-on-surface": "#f0f1f1",
+          "tertiary-container": "#271811",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#dfe2ed",
+          "on-surface-variant": "#4c4546",
+          "inverse-surface": "#2f3131",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed": "#181c23",
+          "primary-fixed": "#e2e2e2",
+          "tertiary": "#000000",
+          "surface-bright": "#f9f9f9",
+          "surface-container-high": "#e8e8e8",
+          "on-tertiary": "#ffffff",
+          "secondary-container": "#dcdfea",
+          "on-surface": "#1a1c1c",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#56423a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter-mobile": "1rem",
+          "space-lg": "3.75rem",
+          "margin-mobile": "1.25rem",
+          "margin": "4rem",
+          "space-md": "2.5rem",
+          "gutter": "2rem",
+          "space-sm": "1.25rem",
+          "space-xs": "0.625rem",
+          "space-xl": "6.25rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Raleway"
+          ],
+          "label-sm": [
+            "Raleway"
+          ],
+          "label-lg": [
+            "Raleway"
+          ],
+          "body-sm": [
+            "Raleway"
+          ],
+          "label-md": [
+            "Raleway"
+          ],
+          "headline-lg-mobile": [
+            "EB Garamond"
+          ],
+          "display-hero-mobile": [
+            "EB Garamond"
+          ],
+          "body-md": [
+            "Raleway"
+          ],
+          "headline-lg": [
+            "EB Garamond"
+          ],
+          "display-hero": [
+            "EB Garamond"
+          ],
+          "body-lg": [
+            "Raleway"
+          ],
+          "headline-md": [
+            "Raleway"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "19px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.18em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-lg": [
+            "15px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.15em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "label-md": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-lg-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero-mobile": [
+            "38px",
+            {
+              "lineHeight": "46px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero": [
+            "54px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "17px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "0.05em",
+              "fontWeight": "300"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50"><div class="w-full bg-tertiary-fixed text-on-tertiary-fixed px-margin-mobile lg:px-margin py-space-xs text-center border-b border-border-vellum"><p class="font-label-sm text-label-sm uppercase tracking-widest">BESPOKE COMMISSIONS &amp; SEASONAL WORKSHOPS — WORLDWIDE ATELIER SHIPPING | USE CODE "INKMAGIC" FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING &amp; WAX SEALING</p></div><div class="w-full bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-border-vellum"><div class="h-20 max-w-[1440px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-xs shrink-0"><img alt="The Letter Ink Studio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vyb2Ejr-NUNuNKgFBKn7F4uOww6ot9ACKwF3lOcEr2EA50I1s_u4wBj3D-YNHbVygfjbRytAjUQUEIgt_MAyJ_Ki9cpMeQaXW9zc21UyGPyosuygT-KBD2DM0-HWYYEBXSz0C5El1Zdm6BIhr1u21tQa9ospD15UXoc9T0aK0xUZ89pVX9h_8AbYbOLoi-HW6qOPShkh2uKGeVQBdCfxKnYFfblm1OTFar9iC8ztEh28XwTEeXMjJ1Qg"/><span class="font-headline-sm text-headline-sm uppercase text-primary tracking-widest hidden sm:inline-block">The Letter Ink</span></div><nav class="hidden xl:flex items-center gap-space-sm" data-active-classes="text-primary font-semibold border-b border-primary"><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="home" href="#">Home</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="shop" href="#">Shop</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gifting" href="#">Gifting</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gallery" href="#">Gallery</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="workshops" href="#">Workshops</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="about-us" href="#">About Us</a><a aria-current="page" class="uppercase transition-colors pb-1 text-primary font-semibold border-b border-primary" data-path="contact-us" href="#">Contact Us</a></nav><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Search Archive" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span></button><button aria-label="Cart" class="relative p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary text-on-primary font-label-sm text-[9px] flex items-center justify-center font-bold">2</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-[116px] bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow Element -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 right-1/4 w-96 h-96 bg-tertiary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-96 -left-20 w-80 h-80 bg-paper-tint rounded-full blur-2xl pointer-events-none -z-10"></div>
+<!-- Editorial Header & Breadcrumb Banner -->
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin pt-8 pb-12">
+<!-- Breadcrumb and Concierge Badge -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<nav aria-label="Breadcrumbs" class="flex items-center gap-2">
+<a class="font-label-sm text-label-sm uppercase tracking-wider text-secondary hover:text-primary transition-colors" data-path="home" href="#">Home</a>
+<span class="text-secondary text-xs">/</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold">Contact Us</span>
+</nav>
+<span class="inline-flex items-center gap-2 px-3 py-1.5 bg-tertiary-fixed text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          Commissions &amp; Concierge
+        </span>
+</div>
+<!-- Main Headline Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+<div class="lg:col-span-8">
+<p class="font-label-sm text-label-sm uppercase text-secondary tracking-[0.25em] mb-3">Bespeak The Written Word</p>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight leading-tight">
+            Initiate an Atelier Inscription or Consultation
+          </h1>
+</div>
+<div class="lg:col-span-4 pb-1">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Whether you seek a bespoke wedding vow suite, archival name frame, on-site glass engraving, or private workshop enrollment, our studio is honored to assist you.
+          </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Two-Column Atelier Hub -->
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin pb-20">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<!-- Left Column: Sanctuary & Touchpoints (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-8">
+<!-- Sanctuary Address Card -->
+<div class="bg-paper-tint p-8 shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary-fixed/20 rounded-full blur-xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between mb-6">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Physical Sanctuary</span>
+<span class="material-symbols-outlined text-primary text-xl">draw</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-3">The Letter Ink Atelier</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-6">
+              Ratan niwas, ground floor, plot no 33/A behind biyani chembers, bhusawal Maharashtra 425201
+            </p>
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Appointments Welcomed Daily</span>
+</div>
+</div>
+<!-- Direct WhatsApp Action -->
+<div class="mt-8 pt-6 border-t border-border-vellum">
+<a class="w-full h-[49px] bg-tertiary-fixed hover:bg-surface-container-lowest text-primary hover:border hover:border-primary px-6 flex items-center justify-center gap-3 transition-all" href="https://wa.me/919823011942?text=Hello%20The%20Letter%20Ink,%20I%20would%20like%20to%20inquire%20about%20a%20bespoke%20commission." rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-xl">chat</span>
+<span class="font-label-lg text-label-lg uppercase">Direct WhatsApp Concierge</span>
+</a>
+</div>
+</div>
+<!-- Direct Touchpoints & Working Cadence -->
+<div class="bg-surface-container-lowest p-8 shadow-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-6">Dispatch &amp; Studio Desks</span>
+<div class="space-y-6">
+<!-- Email -->
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-paper-tint flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-lg">mail</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-0.5">Written Inquiries</p>
+<a class="font-body-md text-body-md text-primary font-medium hover:underline" href="mailto:concierge@theletterink.com">concierge@theletterink.com</a>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Typical response within 12 atelier hours</p>
+</div>
+</div>
+<!-- Phone -->
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-paper-tint flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-lg">call</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-0.5">Direct Telephony</p>
+<a class="font-body-md text-body-md text-primary font-medium hover:underline" href="tel:+919823011942">+91 98230 11942</a>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Direct line to Founder &amp; Calligrapher</p>
+</div>
+</div>
+<!-- Atelier Rhythm -->
+<div class="flex items-start gap-4 pt-2">
+<div class="w-10 h-10 rounded-full bg-paper-tint flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-lg">hourglass_empty</span>
+</div>
+<div class="w-full">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">Studio Operating Rhythm</p>
+<div class="flex justify-between py-1 text-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Monday – Saturday</span>
+<span class="font-body-sm text-body-sm text-primary font-medium">10:00 AM – 6:30 PM IST</span>
+</div>
+<div class="flex justify-between py-1 text-sm border-t border-border-vellum/50">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sunday</span>
+<span class="font-body-sm text-body-sm text-secondary italic">Penning &amp; Ink Curing</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Social Channels -->
+<div class="mt-8 pt-6 border-t border-border-vellum flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">Channels</span>
+<div class="flex items-center gap-3">
+<a aria-label="Instagram" class="w-9 h-9 rounded-full bg-paper-tint hover:bg-tertiary-fixed text-primary flex items-center justify-center transition-colors" href="https://www.instagram.com/the_letter_ink/?igshid=YmMyMTA2M2Y%3D" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base">photo_camera</span>
+</a>
+<a aria-label="Facebook" class="w-9 h-9 rounded-full bg-paper-tint hover:bg-tertiary-fixed text-primary flex items-center justify-center transition-colors" href="https://www.facebook.com/profile.php?id=100083526653822" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base">public</span>
+</a>
+<a aria-label="Pinterest" class="w-9 h-9 rounded-full bg-paper-tint hover:bg-tertiary-fixed text-primary flex items-center justify-center transition-colors" href="#">
+<span class="material-symbols-outlined text-base">palette</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Craft Promise Callout -->
+<div class="p-6 bg-tertiary-fixed/30 text-on-tertiary-fixed">
+<p class="font-headline-sm text-headline-sm italic mb-2">“Give us your words and we frame them into reality.”</p>
+<p class="font-body-sm text-body-sm text-secondary uppercase tracking-widest">Handcrafted with raw botanical inks &amp; deckle papers</p>
+</div>
+</div>
+<!-- Right Column: Interactive Atelier Inquiry Form (7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest p-8 lg:p-10 shadow-sm flex flex-col justify-between">
+<div>
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-8 pb-4 border-b border-border-vellum">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block">Inquiry Protocol</span>
+<h2 class="font-headline-md text-headline-md text-primary mt-1">Bespoke Commission Dossier</h2>
+</div>
+<span class="material-symbols-outlined text-secondary text-2xl">stylus_note</span>
+</div>
+<!-- Commission Category Pills -->
+<div class="mb-8">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block mb-3">1. Select Discipline of Interest</label>
+<div class="flex flex-wrap gap-2" id="categoryPillGroup">
+<button class="category-pill px-4 py-2 rounded-full font-label-sm text-label-sm uppercase tracking-wider transition-colors bg-primary text-on-primary" data-value="wedding" type="button">
+                Wedding Suites &amp; Vows
+              </button>
+<button class="category-pill px-4 py-2 rounded-full font-label-sm text-label-sm uppercase tracking-wider transition-colors bg-tertiary-fixed text-primary hover:bg-primary hover:text-on-primary" data-value="frames" type="button">
+                Custom Name Frames
+              </button>
+<button class="category-pill px-4 py-2 rounded-full font-label-sm text-label-sm uppercase tracking-wider transition-colors bg-tertiary-fixed text-primary hover:bg-primary hover:text-on-primary" data-value="engraving" type="button">
+                Glass &amp; Perfume Engraving
+              </button>
+<button class="category-pill px-4 py-2 rounded-full font-label-sm text-label-sm uppercase tracking-wider transition-colors bg-tertiary-fixed text-primary hover:bg-primary hover:text-on-primary" data-value="workshops" type="button">
+                Workshops &amp; Masterclasses
+              </button>
+<button class="category-pill px-4 py-2 rounded-full font-label-sm text-label-sm uppercase tracking-wider transition-colors bg-tertiary-fixed text-primary hover:bg-primary hover:text-on-primary" data-value="corporate" type="button">
+                Corporate Gifting
+              </button>
+</div>
+</div>
+<!-- Interactive Form -->
+<form class="space-y-6" id="atelierInquiryForm" onsubmit="event.preventDefault(); handleFormSubmit();">
+<!-- Row 1: Name & Email -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-2" for="fullName">Patron Name *</label>
+<input class="w-full bg-paper-tint border border-outline-variant px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="fullName" placeholder="e.g. Radhika Deshmukh" required="" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-2" for="emailAddr">Email Address *</label>
+<input class="w-full bg-paper-tint border border-outline-variant px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="emailAddr" placeholder="radhika@domain.com" required="" type="email"/>
+</div>
+</div>
+<!-- Row 2: WhatsApp & Milestone Date -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-2" for="whatsappNumber">WhatsApp Contact *</label>
+<div class="flex">
+<span class="inline-flex items-center px-3 bg-surface-container border-y border-l border-outline-variant text-secondary font-body-sm text-body-sm">+91</span>
+<input class="w-full bg-paper-tint border border-outline-variant px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="whatsappNumber" placeholder="98230 11942" required="" type="tel"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-2" for="milestoneDate">Event / Inscription Deadline</label>
+<input class="w-full bg-paper-tint border border-outline-variant px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="milestoneDate" type="date"/>
+</div>
+</div>
+<!-- Row 3: Script Style Selection -->
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-2">2. Preferred Script Aesthetic</label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="scriptStyle" type="radio" value="copperplate"/>
+<div class="p-3 text-center border border-outline-variant peer-checked:border-primary peer-checked:bg-paper-tint transition-colors">
+<span class="font-headline-sm text-headline-sm block italic mb-0.5">Copperplate</span>
+<span class="font-label-sm text-[10px] text-secondary tracking-widest uppercase">Classic Flourish</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="scriptStyle" type="radio" value="spencerian"/>
+<div class="p-3 text-center border border-outline-variant peer-checked:border-primary peer-checked:bg-paper-tint transition-colors">
+<span class="font-headline-sm text-headline-sm block italic mb-0.5">Spencerian</span>
+<span class="font-label-sm text-[10px] text-secondary tracking-widest uppercase">Delicate Hairlines</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="scriptStyle" type="radio" value="modern_roman"/>
+<div class="p-3 text-center border border-outline-variant peer-checked:border-primary peer-checked:bg-paper-tint transition-colors">
+<span class="font-headline-sm text-headline-sm block mb-0.5">Modern Roman</span>
+<span class="font-label-sm text-[10px] text-secondary tracking-widest uppercase">Minimal Serif</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="scriptStyle" type="radio" value="undecided"/>
+<div class="p-3 text-center border border-outline-variant peer-checked:border-primary peer-checked:bg-paper-tint transition-colors">
+<span class="font-headline-sm text-headline-sm block mb-0.5">Studio Choice</span>
+<span class="font-label-sm text-[10px] text-secondary tracking-widest uppercase">Artist Guidance</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Row 4: Inscription Medium Selection -->
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-2" for="mediumSelect">3. Inscription Medium / Presentation</label>
+<select class="w-full bg-paper-tint border border-outline-variant px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="mediumSelect">
+<option value="deckle">Deckle-Edge Cotton Rag Paper (Imported 300gsm)</option>
+<option value="glass_frame">Double Glass Floating Heirloom Frame (Brass or Teakwood)</option>
+<option value="engraving">Hand-Engraved Perfume / Luxury Spirits Bottle</option>
+<option value="invitations">Full Wedding Suite (Envelopes, Details &amp; Monogram Wax Seals)</option>
+<option value="custom">Other Bespoke Artefact (Leather, Agate, Wooden Plank)</option>
+</select>
+</div>
+<!-- Row 5: Notes & Inscription Text -->
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-2" for="visionNotes">4. Words, Shlokas, Poetry Excerpt or Vision Notes</label>
+<textarea class="w-full bg-paper-tint border border-outline-variant p-4 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="visionNotes" placeholder="Share your sacred vows, names, quote, or specific aesthetic guidance..." rows="4"></textarea>
+</div>
+<!-- WhatsApp Proof Checkbox -->
+<div class="flex items-start gap-3 pt-2">
+<input checked="" class="mt-1 w-4 h-4 accent-primary cursor-pointer" id="whatsappProof" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer" for="whatsappProof">
+                I would like to receive high-res proof approval via WhatsApp prior to final sealing and wax stamp dispatch.
+              </label>
+</div>
+<!-- Form Submit & Feedback Message Container -->
+<div class="pt-4">
+<button class="w-full h-[49px] bg-tertiary-fixed hover:bg-surface-container-lowest text-primary hover:border hover:border-primary px-8 flex items-center justify-center gap-3 transition-all" id="submitBriefBtn" type="submit">
+<span class="font-label-lg text-label-lg uppercase">Send Atelier Commission Brief</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+<p class="hidden mt-3 text-center font-body-sm text-body-sm text-primary bg-tertiary-fixed/40 py-2.5 px-4" id="submissionNotification">
+                Thank you. Your dossier has reached our master calligrapher. We shall reply via WhatsApp / Email shortly.
+              </p>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Studio Craft Architecture & Visual Map Section -->
+<div class="w-full bg-paper-tint py-16">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+<!-- Location Visual / Map Canvas -->
+<div class="lg:col-span-8 flex flex-col">
+<div class="mb-4 flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block">Cartography</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Bhusawal Atelier Sanctuary</h3>
+</div>
+<a class="inline-flex items-center gap-1.5 font-label-sm text-label-sm uppercase text-primary hover:underline" href="https://maps.google.com/?q=Ratan+niwas+bhusawal+Maharashtra+425201" rel="noopener noreferrer" target="_blank">
+<span>Open in Google Maps</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+<!-- Stylized Architectural Map Container -->
+<div class="w-full h-80 lg:h-[340px] bg-cover bg-center shadow-sm relative flex items-end p-6" data-alt="Monochrome architectural aerial map of Bhusawal Maharashtra with subtle warm ink lines and location marker for calligraphy studio" data-location="Bhusawal, Maharashtra 425201, India" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhfD2AvarGjDCnqKWn13S4AT1tfXTMyJNScdyEPnWws-A6bCcCjwVaU_gS4knE1Y92kvcRXpNzzzkDXF_O7-NElhW_Q7WOVWW2gG6uz439b5uVfy7NtQxcm7ImglgID4w137mI3nHrG7VpY45ruE0P03xudxMdkvVKkRBghQBbjSsAWn5AHSME1iNrtqvro4TufodAUnFYEG5FiOjf61f87DbWB_9ZrCpbyk-x7FOYrFAYB3TQlHY')">
+<div class="bg-surface/95 backdrop-blur-sm p-4 max-w-sm shadow-md">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Studio Coordinates</p>
+<p class="font-body-sm text-body-sm text-primary font-medium mt-1">Plot 33/A, Behind Biyani Chambers</p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Central Railway Hub Access • Private On-Site Parking Available</p>
+</div>
+</div>
+</div>
+<!-- Visiting Notes & Atelier Etiquette -->
+<div class="lg:col-span-4 bg-surface-container-lowest p-8 shadow-sm flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-4">Visiting Notes</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-4">Quiet Intentionality</h4>
+<div class="space-y-4 font-body-sm text-body-sm text-on-surface-variant">
+<p>
+                Our Bhusawal quarters house our archival papers, drying racks, and custom wax blend vats. We encourage patrons to schedule appointments at least 24 hours in advance to ensure our master scribe is present between custom commissions.
+              </p>
+<p>
+                For perfume engraving, patrons may bring their bespoke flacons or ship them securely packed directly to our studio address.
+              </p>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-border-vellum">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">local_shipping</span>
+<div>
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-primary">Worldwide Shadowbox Crating</p>
+<p class="font-body-sm text-[12px] text-secondary">Insured courier dispatch to Mumbai, Delhi, London, NYC &amp; beyond.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Frequently Asked Inquiries (Concise Editorial Accordion) -->
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-20">
+<div class="max-w-3xl mx-auto">
+<div class="text-center mb-12">
+<span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary block mb-2">Clarity &amp; Timelines</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Frequently Addressed Questions</h2>
+</div>
+<!-- FAQ List -->
+<div class="space-y-4" id="faqAccordion">
+<!-- Item 1 -->
+<div class="faq-item bg-surface-container-lowest shadow-sm">
+<button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 focus:outline-none" type="button">
+<span class="font-headline-sm text-headline-sm text-primary">What is the standard turnaround time for custom calligraphy?</span>
+<span class="material-symbols-outlined text-secondary transition-transform duration-200 faq-icon">expand_more</span>
+</button>
+<div class="faq-content hidden px-6 pb-6 pt-1 text-on-surface-variant font-body-md text-body-md border-t border-border-vellum">
+            Typically, custom name frames and single-piece vows require 7 to 10 studio crafting days. This allows ample time for preliminary pencil alignment, ink dipping, drying, and custom framed assembly. For full wedding invitation suites or bulk placecards, we recommend reaching out 4–6 weeks ahead. Insured express courier takes an additional 2–4 business days across India.
+          </div>
+</div>
+<!-- Item 2 -->
+<div class="faq-item bg-surface-container-lowest shadow-sm">
+<button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 focus:outline-none" type="button">
+<span class="font-headline-sm text-headline-sm text-primary">Can I provide my own vows, poems, or religious shlokas?</span>
+<span class="material-symbols-outlined text-secondary transition-transform duration-200 faq-icon">expand_more</span>
+</button>
+<div class="faq-content hidden px-6 pb-6 pt-1 text-on-surface-variant font-body-md text-body-md border-t border-border-vellum">
+            Absolutely. We frequently render personal handwritten vows, timeless Urdu couplets, Sanskrit shlokas, and Shakespearean sonnets. You can paste the text directly into the commission brief, and we will send a layout proof showing formatting, line breaks, and flourishing options before applying nib to paper.
+          </div>
+</div>
+<!-- Item 3 -->
+<div class="faq-item bg-surface-container-lowest shadow-sm">
+<button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 focus:outline-none" type="button">
+<span class="font-headline-sm text-headline-sm text-primary">Do you accept rush orders for upcoming ceremonies?</span>
+<span class="material-symbols-outlined text-secondary transition-transform duration-200 faq-icon">expand_more</span>
+</button>
+<div class="faq-content hidden px-6 pb-6 pt-1 text-on-surface-variant font-body-md text-body-md border-t border-border-vellum">
+            Yes, based on our atelier calendar availability, we can accommodate rush commissions (completed within 72 hours). Please mention your exact deadline in the form or contact us immediately via WhatsApp concierge (+91 98230 11942) so we can reserve emergency penning slots.
+          </div>
+</div>
+<!-- Item 4 -->
+<div class="faq-item bg-surface-container-lowest shadow-sm">
+<button class="faq-toggle w-full p-6 text-left flex items-center justify-between gap-4 focus:outline-none" type="button">
+<span class="font-headline-sm text-headline-sm text-primary">Do you ship internationally outside India?</span>
+<span class="material-symbols-outlined text-secondary transition-transform duration-200 faq-icon">expand_more</span>
+</button>
+<div class="faq-content hidden px-6 pb-6 pt-1 text-on-surface-variant font-body-md text-body-md border-t border-border-vellum">
+            Yes, we regularly ship worldwide. Double-glass floating frames and bespoke stationery pieces are packed securely in custom shatterproof protective foam crates with tamper-evident wax seals, shipped via DHL Express or FedEx International with tracked priority transit.
+          </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Logic for Pills & FAQs -->
+<script>
+    // Category pill interactions
+    const pills = document.querySelectorAll('.category-pill');
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => {
+          p.classList.remove('bg-primary', 'text-on-primary');
+          p.classList.add('bg-tertiary-fixed', 'text-primary');
+        });
+        pill.classList.remove('bg-tertiary-fixed', 'text-primary');
+        pill.classList.add('bg-primary', 'text-on-primary');
+      });
+    });
+
+    // Accordion functionality
+    const toggles = document.querySelectorAll('.faq-toggle');
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const content = toggle.nextElementSibling;
+        const icon = toggle.querySelector('.faq-icon');
+        const isHidden = content.classList.contains('hidden');
+
+        // Close all first for clean mono-accordion behavior
+        document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon').forEach(i => i.style.transform = 'rotate(0deg)');
+
+        if (isHidden) {
+          content.classList.remove('hidden');
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+
+    // Form submission feedback simulation
+    function handleFormSubmit() {
+      const note = document.getElementById('submissionNotification');
+      const btn = document.getElementById('submitBriefBtn');
+      if (note && btn) {
+        btn.classList.add('opacity-50', 'pointer-events-none');
+        btn.innerHTML = '<span class="font-label-lg text-label-lg uppercase">Transmitting Dossier...</span>';
+        setTimeout(() => {
+          btn.innerHTML = '<span class="font-label-lg text-label-lg uppercase">Brief Received in Studio</span>';
+          note.classList.remove('hidden');
+        }, 800);
+      }
+    }
+  </script>
+</div></main><footer class="w-full bg-paper-tint border-t border-border-vellum mt-space-xl"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter"><div class="lg:col-span-4"><span class="font-headline-md text-headline-md uppercase text-primary tracking-widest block mb-space-sm">The Letter Ink</span><p class="font-body-md text-body-md text-on-surface-variant pr-space-md mb-space-md">An artisanal calligraphy studio and bespoke stationery atelier dedicated to heirloom lettering, pure fluid ink, and tactile cotton papers crafted with quiet intentionality.</p><div class="border-t border-border-vellum pt-space-sm"><p class="font-label-sm text-label-sm uppercase text-secondary mb-1">Atelier Quarters</p><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Ratan niwas, ground floor, plot no 33/A behind biyani chembers, bhusawal Maharashtra 425201</p></div></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Navigation</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="home" href="#">Home Atelier</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Curated Shop</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="gifting" href="#">Artisanal Gifting</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="gallery" href="#">Works Gallery</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="workshops" href="#">Lettering Workshops</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="about-us" href="#">About Us</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="contact-us" href="#">Contact Us</a></li></ul></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Studio &amp; Hours</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Tuesday — Saturday</span><span class="font-body-sm text-body-sm text-on-surface-variant">10:00 AM – 6:30 PM IST</span></li><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Sunday &amp; Monday</span><span class="font-body-sm text-body-sm text-on-surface-variant">Reserved for Studio Craft</span></li><li><span class="font-label-sm text-label-sm uppercase text-secondary block">Consultations</span><span class="font-body-sm text-body-sm text-on-surface-variant">By Private Appointment</span></li></ul></div><div class="lg:col-span-4"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Atelier Gazette</h4><p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">Subscribe for intimate studio dispatches, seasonal release previews, and invitations to upcoming workshop cohorts.</p><form class="flex flex-col sm:flex-row gap-space-xs" onsubmit="event.preventDefault();"><input class="bg-surface-container-lowest border border-secondary text-on-surface px-4 py-3 font-body-sm text-body-sm rounded-none focus:outline-none focus:border-primary w-full" placeholder="Your email address" type="email"/><button class="bg-tertiary-fixed hover:bg-surface-container-lowest hover:border hover:border-primary text-primary font-label-lg text-label-lg uppercase px-6 py-3 transition-colors shrink-0" type="submit">Join the Circle</button></form></div></div></div><div class="border-t border-border-vellum bg-surface-container-low"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-sm flex flex-col md:flex-row items-center justify-between gap-space-xs"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">© 2025 The Letter Ink Atelier. All rights reserved.</p><div class="flex items-center gap-space-md"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Terms</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Privacy Policy</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Shipping &amp; Care</a></div></div></div></footer></body></html>

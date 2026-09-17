@@ -1,0 +1,703 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Raleway:ital,wght@0,300..700;1,300..700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-tint": "#5e5e5e",
+          "on-secondary-fixed-variant": "#434750",
+          "surface": "#f9f9f9",
+          "primary-container": "#1b1b1b",
+          "border-vellum": "#EAE6E1",
+          "outline-variant": "#cfc4c5",
+          "secondary": "#5a5e68",
+          "outline": "#7e7576",
+          "on-error": "#ffffff",
+          "tertiary-fixed": "#fadcd0",
+          "on-primary-fixed": "#1b1b1b",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#474747",
+          "on-primary-container": "#848484",
+          "surface-variant": "#e2e2e2",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#c3c6d1",
+          "background": "#f9f9f9",
+          "primary-fixed-dim": "#c6c6c6",
+          "surface-container-lowest": "#ffffff",
+          "paper-tint": "#FAF8F6",
+          "surface-container": "#eeeeee",
+          "on-background": "#1a1c1c",
+          "on-tertiary-fixed": "#271811",
+          "surface-dim": "#dadada",
+          "tertiary-fixed-dim": "#ddc1b5",
+          "error-crimson": "#B00020",
+          "primary": "#000000",
+          "surface-container-low": "#f3f3f4",
+          "on-secondary-container": "#5f636c",
+          "on-error-container": "#93000a",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#977f75",
+          "inverse-on-surface": "#f0f1f1",
+          "tertiary-container": "#271811",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#dfe2ed",
+          "on-surface-variant": "#4c4546",
+          "inverse-surface": "#2f3131",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed": "#181c23",
+          "primary-fixed": "#e2e2e2",
+          "tertiary": "#000000",
+          "surface-bright": "#f9f9f9",
+          "surface-container-high": "#e8e8e8",
+          "on-tertiary": "#ffffff",
+          "secondary-container": "#dcdfea",
+          "on-surface": "#1a1c1c",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#56423a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter-mobile": "1rem",
+          "space-lg": "3.75rem",
+          "margin-mobile": "1.25rem",
+          "margin": "4rem",
+          "space-md": "2.5rem",
+          "gutter": "2rem",
+          "space-sm": "1.25rem",
+          "space-xs": "0.625rem",
+          "space-xl": "6.25rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Raleway"
+          ],
+          "label-sm": [
+            "Raleway"
+          ],
+          "label-lg": [
+            "Raleway"
+          ],
+          "body-sm": [
+            "Raleway"
+          ],
+          "label-md": [
+            "Raleway"
+          ],
+          "headline-lg-mobile": [
+            "EB Garamond"
+          ],
+          "display-hero-mobile": [
+            "EB Garamond"
+          ],
+          "body-md": [
+            "Raleway"
+          ],
+          "headline-lg": [
+            "EB Garamond"
+          ],
+          "display-hero": [
+            "EB Garamond"
+          ],
+          "body-lg": [
+            "Raleway"
+          ],
+          "headline-md": [
+            "Raleway"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "19px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.18em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-lg": [
+            "15px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.15em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "label-md": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-lg-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero-mobile": [
+            "38px",
+            {
+              "lineHeight": "46px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero": [
+            "54px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "17px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "0.05em",
+              "fontWeight": "300"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50"><div class="w-full bg-tertiary-fixed text-on-tertiary-fixed px-margin-mobile lg:px-margin py-space-xs text-center border-b border-border-vellum"><p class="font-label-sm text-label-sm uppercase tracking-widest">BESPOKE COMMISSIONS &amp; SEASONAL WORKSHOPS — WORLDWIDE ATELIER SHIPPING | USE CODE "INKMAGIC" FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING &amp; WAX SEALING</p></div><div class="w-full bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-border-vellum"><div class="h-20 max-w-[1440px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-xs shrink-0"><img alt="The Letter Ink Studio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vyb2Ejr-NUNuNKgFBKn7F4uOww6ot9ACKwF3lOcEr2EA50I1s_u4wBj3D-YNHbVygfjbRytAjUQUEIgt_MAyJ_Ki9cpMeQaXW9zc21UyGPyosuygT-KBD2DM0-HWYYEBXSz0C5El1Zdm6BIhr1u21tQa9ospD15UXoc9T0aK0xUZ89pVX9h_8AbYbOLoi-HW6qOPShkh2uKGeVQBdCfxKnYFfblm1OTFar9iC8ztEh28XwTEeXMjJ1Qg"><span class="font-headline-sm text-headline-sm uppercase text-primary tracking-widest hidden sm:inline-block">The Letter Ink</span></div><nav class="hidden xl:flex items-center gap-space-sm" data-active-classes="text-primary font-semibold border-b border-primary"><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="home" href="#">Home</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="shop" href="#">Shop</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gifting" href="#">Gifting</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gallery" href="#">Gallery</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="workshops" href="#">Workshops</a><a aria-current="page" class="uppercase transition-colors pb-1 text-primary font-semibold border-b border-primary" data-path="journal" href="#">Journal</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="about-us" href="#">About Us</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="contact-us" href="#">Contact Us</a></nav><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Search Archive" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span></button><button aria-label="Cart" class="relative p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary text-on-primary font-label-sm text-[9px] flex items-center justify-center font-bold">2</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-[116px] bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow Accent -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 right-1/4 w-96 h-96 bg-tertiary-fixed/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-80 -left-20 w-80 h-80 bg-secondary-container/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Atelier Journal Header & Breadcrumb -->
+<header class="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin pt-space-md lg:pt-space-lg pb-space-md">
+<!-- Breadcrumb Navigation -->
+<nav aria-label="Breadcrumb" class="mb-space-sm">
+<ol class="flex items-center gap-space-xs font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">
+<li class="">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">home</span>
+<span class="">Home</span>
+</a>
+</li>
+<li class="text-outline-variant">/</li>
+<li class="text-primary font-semibold tracking-widest">Journal &amp; Musings</li>
+</ol>
+</nav>
+<!-- Editorial Intro Layout (Split Architecture) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-end">
+<div class="lg:col-span-8">
+<div class="inline-flex items-center gap-2 bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 mb-space-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">The Atelier Dispatches • Essays &amp; Craft</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg lg:font-display-hero lg:text-display-hero text-primary tracking-wide uppercase leading-tight mb-0">
+            Ink Musings, Studio Chronicles &amp; The Scribe's Journal
+          </h1>
+</div>
+<div class="lg:col-span-4 lg:pl-space-sm flex flex-col justify-end">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-xs">
+            Explorations into the slow art of pointed pen penmanship, archival ink formulations, wedding stationery etiquette, and glimpses inside our Maharashtra atelier.
+          </p>
+<div class="flex items-center gap-4 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">edit_note</span> 18 Dispatches</span>
+<span class="text-outline-variant">•</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> Quarterly Edition</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Category Filter Bar (No-border pure tonal surface) -->
+<section class="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin mb-space-lg">
+<div class="bg-surface-container-low p-2 shadow-sm flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-2 flex-wrap" id="category-filter-group" role="tablist">
+<button aria-selected="true" class="filter-tab px-4 py-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest transition-colors duration-200" data-filter="all" role="tab" type="button">
+            All Dispatches (18)
+          </button>
+<button aria-selected="false" class="filter-tab px-4 py-2 bg-tertiary-fixed text-primary hover:bg-surface-container-lowest font-label-sm text-label-sm uppercase tracking-widest transition-colors duration-200" data-filter="craft" role="tab" type="button">
+            The Scribe's Craft (6)
+          </button>
+<button aria-selected="false" class="filter-tab px-4 py-2 bg-tertiary-fixed text-primary hover:bg-surface-container-lowest font-label-sm text-label-sm uppercase tracking-widest transition-colors duration-200" data-filter="vows" role="tab" type="button">
+            Wedding Stationery &amp; Vows (5)
+          </button>
+<button aria-selected="false" class="filter-tab px-4 py-2 bg-tertiary-fixed text-primary hover:bg-surface-container-lowest font-label-sm text-label-sm uppercase tracking-widest transition-colors duration-200" data-filter="wax" role="tab" type="button">
+            Botanical Wax &amp; Seals (3)
+          </button>
+<button aria-selected="false" class="filter-tab px-4 py-2 bg-tertiary-fixed text-primary hover:bg-surface-container-lowest font-label-sm text-label-sm uppercase tracking-widest transition-colors duration-200" data-filter="studio" role="tab" type="button">
+            Studio Behind-the-Scenes (4)
+          </button>
+</div>
+<div class="hidden sm:flex items-center gap-2 pr-3 text-secondary font-label-sm text-label-sm uppercase">
+<span class="material-symbols-outlined text-[18px]">auto_stories</span>
+<span class="">Archival Readings</span>
+</div>
+</div>
+</section>
+<!-- Featured Editorial Hero Article (Asymmetrical 7 / 5 Layout) -->
+<section class="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin mb-space-xl">
+<article class="bg-surface-container-lowest shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 group transition-all duration-300">
+<!-- Visual Media Frame (7 Columns) -->
+<div class="lg:col-span-7 relative min-h-[420px] lg:min-h-[580px] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close up archival calligraphy desk in natural soft window light with vintage glass inkwell of deep sumi ink, 24 karat Japanese gold gouache splatters, hand torn deckle edge cotton paper with Spencerian flourished script, brass nib pen, and dried natural foliage in an artisanal atelier" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnRrRlPLGIlpU799UA0OLbLf9EyFy3teUrHFpsJ0Kga3zMVLHpSyPHvJaA2M1Bng68Befw1AVJYajLG-gnbV-gqCtjzzX0-l6NCgBO3aPh3ojic6InPeLd-noEWZmt1eF-dQ4hiAtD_q8Q4NEBGA7Pz6ifJ6QMyEAJeDNOZETZevZ57XaB9789PNwyVQMEot_Ww-xDdtuQBl9HoRQZ5N32NTI_f1IDzG9yzTGne6s83INwxTkhqTU">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/20 to-transparent lg:hidden"></div>
+<div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest">
+            Curator's Pick
+          </div>
+<!-- Tactile Stamp Badge -->
+<div class="absolute bottom-4 left-4 lg:bottom-6 lg:left-6 bg-paper-tint/95 backdrop-blur-md p-3 shadow-md hidden sm:flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[24px]">verified</span>
+<div>
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-primary">Archival Formula No. 04</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Deckle Rag • 300 GSM</p>
+</div>
+</div>
+</div>
+<!-- Editorial Content Column (5 Columns) -->
+<div class="lg:col-span-5 p-space-sm sm:p-space-md lg:p-space-lg flex flex-col justify-between bg-surface-container-lowest">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest mb-space-xs">
+<span class="text-error-crimson font-semibold">FEATURED ESSAY</span>
+<span class="">•</span>
+<span class="">ARCHIVAL PENMANSHIP</span>
+</div>
+<h2 class="font-headline-md sm:font-headline-lg sm:text-headline-lg text-primary tracking-wide uppercase leading-tight mb-space-sm group-hover:text-secondary transition-colors">
+              The Alchemy of Genuine Gold Gouache &amp; Ancient Sumi Ink on Deckle-Edge Cotton Rag
+            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-md">
+              Why modern archival calligraphy rejects chemical synthetics in favor of stone-ground pine soot, 24-karat Japanese gold leaf, and 300 GSM hand-torn cotton fibers that outlast centuries without fading or feathering.
+            </p>
+<!-- Specification List (Printmaking Haiku) -->
+<div class="bg-paper-tint p-4 shadow-sm mb-space-md space-y-2">
+<div class="flex justify-between items-center text-label-sm font-label-sm uppercase">
+<span class="text-secondary">Pigment Base</span>
+<span class="text-primary font-semibold">Stone-milled Pine Soot • 24K Leaf</span>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm uppercase">
+<span class="text-secondary">Substrate</span>
+<span class="text-primary font-semibold">100% Unbleached Cotton Rag</span>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm uppercase">
+<span class="text-secondary">Lightfastness</span>
+<span class="text-primary font-semibold">Museum Grade (200+ Years)</span>
+</div>
+</div>
+</div>
+<div class="pt-space-xs">
+<div class="flex items-center justify-between flex-wrap gap-4 mb-space-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary font-bold font-label-md text-label-md">
+                  PI
+                </div>
+<div>
+<p class="font-label-md text-label-md text-primary uppercase font-semibold">Penwoman &amp; Founder</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">November 12, 2024 • 8 min read</p>
+</div>
+</div>
+<!-- Audio Essay Micro-Indicator -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase rounded-full">
+<span class="material-symbols-outlined text-[16px] text-primary">headphones</span>
+<span class="">Listen 6m</span>
+</div>
+</div>
+<a class="inline-flex items-center justify-between w-full sm:w-auto gap-4 bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary font-label-lg text-label-lg uppercase tracking-wider px-6 py-4 shadow-sm transition-all duration-300" href="#">
+<span class="">Read Full Atelier Essay</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+</section>
+<!-- Reading Progress Indicator & Journal Metric Banner -->
+<section class="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin mb-space-xl">
+
+</section>
+<!-- Curated Articles Grid (3 Columns Balanced Exhibition Architecture) -->
+<section class="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin mb-space-xl">
+<div class="flex items-center justify-between mb-space-md flex-wrap gap-4">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-secondary tracking-widest block mb-1">Archival Portfolio</span>
+<h2 class="font-headline-lg text-headline-lg text-primary uppercase tracking-wide">Recent Chronicles</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Sort By:</span>
+<button class="font-label-sm text-label-sm uppercase font-semibold text-primary underline underline-offset-4 decoration-primary" type="button">
+            Newest First
+          </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter" id="journal-articles-grid">
+<!-- Article Card 1 -->
+<article class="bg-surface-container-lowest shadow-md flex flex-col justify-between group transition-all duration-300 hover:shadow-xl article-card" data-category="vows">
+<div>
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Artisanal hand written wedding vows in dark walnut calligraphy ink framed inside an elegant double glass brass float frame resting on soft ivory linen fabric with dried ivory floral petals and wax seals" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx8Am73NQ6kk9vZFdxxHp5ueC-dDWXJEXsAJhDB3Oz_Z7wl1rQUfP-fhZll4_fa-pAiqut3QOGFfo-IVMbu-FxyNS8Aw0EhXg4SUC4a_RfGA-NtWjhzUgVvHji9yjTVPnEHtgXOvUBLFnYWFU4d_fmP4m9B1iHuPSawIGW1vHdkyx4kYsCkuGHNSD9vgcPKBcUkJg8dAE9GAhXoMauJ4252jw-A1MoatwTflU3oCmTwiT0koJxmOY">
+<span class="absolute top-3 left-3 bg-tertiary-fixed text-primary px-2.5 py-1 font-label-sm text-label-sm uppercase tracking-widest shadow-sm">
+                Wedding &amp; Ceremony
+              </span>
+</div>
+<div class="p-space-sm sm:p-space-md">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm uppercase tracking-widest mb-2">
+<span class="">Vow Etiquette</span>
+<span class="">6 min read</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase leading-snug mb-space-xs group-hover:text-secondary transition-colors">
+                The Etiquette of Handwritten Wedding Vows: Framing Words for Generations
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed line-clamp-3">
+                A gentle guide for couples seeking to immortalize spoken promises in floating double-glass frames with custom botanical wax seals that preserve delicate sentiment.
+              </p>
+</div>
+</div>
+<div class="px-space-sm sm:px-space-md pb-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span class="">October 28, 2024</span>
+<a class="font-semibold text-primary group-hover:text-secondary flex items-center gap-1 transition-colors" href="#">
+<span class="">Read Essay</span>
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</article>
+<!-- Article Card 2 -->
+<article class="bg-surface-container-lowest shadow-md flex flex-col justify-between group transition-all duration-300 hover:shadow-xl article-card" data-category="craft">
+<div>
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Microscopic high resolution macro photography comparing thin delicate hairline strokes of Spencerian script versus heavy rhythmic swells of English Copperplate calligraphy on antique cream paper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCABL3ymezsTrN5s8lwnwG1IVMt43ReCJcjWLMXP1n5GBl5fd96MvPxUdXHfqw2CXRsE8KU6lNd7nFMplryJJ0mlNPnkoKY12-cMeo86f8quJ4T1865Vjl5-g-OYlZQ8FRnQ9CNxFd4A0j8olf8GIhwxmjeuVaQaJXaidQfWfOnTNGFVycLY5jwyHHmNrWQGLhWC39m1O96KSqoyuiM4Jvye-Lw-nEbboWMZFB5gjeSZiWnlHqtEI0">
+<span class="absolute top-3 left-3 bg-tertiary-fixed text-primary px-2.5 py-1 font-label-sm text-label-sm uppercase tracking-widest shadow-sm">
+                The Scribe's Craft
+              </span>
+</div>
+<div class="p-space-sm sm:p-space-md">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm uppercase tracking-widest mb-2">
+<span class="">Calligraphy History</span>
+<span class="">10 min read</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase leading-snug mb-space-xs group-hover:text-secondary transition-colors">
+                Spencerian vs. Copperplate: Choosing Your Heirloom Script Aesthetic
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed line-clamp-3">
+                Deciphering the delicate featherlight hairlines of American Spencerian versus the rhythmic shaded swells of traditional English Copperplate for bespoke suites.
+              </p>
+</div>
+</div>
+<div class="px-space-sm sm:px-space-md pb-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span class="">October 14, 2024</span>
+<a class="font-semibold text-primary group-hover:text-secondary flex items-center gap-1 transition-colors" href="#">
+<span class="">Read Essay</span>
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</article>
+<!-- Article Card 3 -->
+<article class="bg-surface-container-lowest shadow-md flex flex-col justify-between group transition-all duration-300 hover:shadow-xl article-card" data-category="wax">
+<div>
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Molten terracotta and blush colored botanical sealing wax poured gracefully from a vintage brass melting spoon with pressed dried hydrangea petals and an ornate carved monogram brass stamp" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpuAyt_0gMkotwKU99FN3qj5DylNYOL1oOyb6h9UaBnluyoBgj1J0u6Xdv0D2dHXYLlrBS_j__jDmTs5Ek7s6JQQ_f93MKHoRNrece-dxJTqVHX24ogZNreOeCGMfXi1DsWGorfFA6SsM2pHaCWrEv8pPqFGYuVEjptMfQmN1VyU4tj7YXiHuRsj2GLY3xDXCrv9WECHxHfTew_86rj-pZ9vsHNHxltTBIPP8hKB4rrPVhSxgf8jo">
+<span class="absolute top-3 left-3 bg-tertiary-fixed text-primary px-2.5 py-1 font-label-sm text-label-sm uppercase tracking-widest shadow-sm">
+                Botanical Wax &amp; Seals
+              </span>
+</div>
+<div class="p-space-sm sm:p-space-md">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm uppercase tracking-widest mb-2">
+<span class="">Atelier Technique</span>
+<span class="">5 min read</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase leading-snug mb-space-xs group-hover:text-secondary transition-colors">
+                The Secret to Pouring Flawless 180°C Botanical Wax Seals Without Cracking
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed line-clamp-3">
+                Natural shellac versus synthetic resins, optimal brass chilling methods, and embedding delicate dried hydrangea petals without scorching the fibers.
+              </p>
+</div>
+</div>
+<div class="px-space-sm sm:px-space-md pb-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span class="">September 30, 2024</span>
+<a class="font-semibold text-primary group-hover:text-secondary flex items-center gap-1 transition-colors" href="#">
+<span class="">Read Essay</span>
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</article>
+<!-- Article Card 4 -->
+<article class="bg-surface-container-lowest shadow-md flex flex-col justify-between group transition-all duration-300 hover:shadow-xl article-card" data-category="studio">
+<div>
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Quiet tranquil morning scene inside the Maharashtra calligraphy atelier in Bhusawal with sunlight illuminating stacks of handmade deckle paper, antique wooden nib holders, and stone inkwells" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkg6AqUpbX0D7iFrk6BkbVKJZLiSpZ3WPaLUzeiLEcpVCWJCVUi2AdDld1Um0ZC1jrMNyvxlDFGwTqVzxerthSLLi8iE56Tb0JqgiDFzq7NKYUaqbLlIuz5kN5Mtda045CFfbewpc3MCA-QtG6d9_8vML0PPf3e23ZLug1PIr2cpadGSUs1edWuDUR_a3givqW7bEWkLNj_Khm9Te05sCiRkHAlw1wZyqLKjCrENyFqQ_3DjxgznM">
+<span class="absolute top-3 left-3 bg-tertiary-fixed text-primary px-2.5 py-1 font-label-sm text-label-sm uppercase tracking-widest shadow-sm">
+                Studio Behind-the-Scenes
+              </span>
+</div>
+<div class="p-space-sm sm:p-space-md">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm uppercase tracking-widest mb-2">
+<span class="">Sanctum Journal</span>
+<span class="">7 min read</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase leading-snug mb-space-xs group-hover:text-secondary transition-colors">
+                A Morning in Bhusawal: Inside Our Slow Penmanship Sanctum
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed line-clamp-3">
+                From waking the vintage Hunt 101 nibs to hand-mixing walnut crystals, a visual glimpse into our Maharashtra studio routine and slow-paced craft rituals.
+              </p>
+</div>
+</div>
+<div class="px-space-sm sm:px-space-md pb-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span class="">September 18, 2024</span>
+<a class="font-semibold text-primary group-hover:text-secondary flex items-center gap-1 transition-colors" href="#">
+<span class="">Read Essay</span>
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</article>
+<!-- Article Card 5 -->
+<article class="bg-surface-container-lowest shadow-md flex flex-col justify-between group transition-all duration-300 hover:shadow-xl article-card" data-category="craft">
+<div>
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Framed gold illumination artwork on black heavy handmade cotton paper reflecting ambient daylight under museum grade non reflective float glass with clean wooden framing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbfqtbUPKcW7fjZbFKMQ4_G9v7n8n5zQJNimie5vvt9oP5UJOYRiCdVMbWMve6UThIfZWSlrsk3dcKxM2IhOiE4s_A7B2duwcJ2G_WiaHgfw6mNEmT40Xn_n7R36BzCP_gqA9QVKiRtfRwFSuBXnVkZIlWNU7RDIW8M7gMEFA3Kbkgs_pXakv5jId87NCTqjhb8pPU9MkeJ7F_XPF5gEGXVDkczBgY5pEBvjY1hdic9VnA2IUcvq8">
+<span class="absolute top-3 left-3 bg-tertiary-fixed text-primary px-2.5 py-1 font-label-sm text-label-sm uppercase tracking-widest shadow-sm">
+                The Scribe's Craft
+              </span>
+</div>
+<div class="p-space-sm sm:p-space-md">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm uppercase tracking-widest mb-2">
+<span class="">Conservation</span>
+<span class="">4 min read</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase leading-snug mb-space-xs group-hover:text-secondary transition-colors">
+                Care &amp; Preservation: Ensuring Your Framed Gold Inscriptions Never Tarnish
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed line-clamp-3">
+                Museum-grade UV float glass, humidity guidelines, and keeping hand-lettered gold leaf keepsakes pristine across decades in tropical and humid homes.
+              </p>
+</div>
+</div>
+<div class="px-space-sm sm:px-space-md pb-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span class="">August 29, 2024</span>
+<a class="font-semibold text-primary group-hover:text-secondary flex items-center gap-1 transition-colors" href="#">
+<span class="">Read Essay</span>
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</article>
+<!-- Article Card 6 -->
+<article class="bg-surface-container-lowest shadow-md flex flex-col justify-between group transition-all duration-300 hover:shadow-xl article-card" data-category="vows">
+<div>
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Elegant luxury handmade envelopes in sage green and muted blush addressed in flourishing white calligraphy ink with curated vintage postal stamps from the mid century" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnf3KApbK0HpG-HT8gmhhoiOoLs9i7jn4gwiDmXIAG0F3jpZCbiB2H24sS2W1-2yMck5apRCABdSKP5tm6Q5vzdEsUGZuviqaW3gDapm6vPCNlLSuW1-D4qnIppGcBvEoBjbf8e1C-7mUPo9LoZ4wsZe5oPz_6OfMQ6bmP6Q7U4GIB2ER44eOA20kW4mh7JpJXvYHUe_QPsqNqZ7Oq1HzC7vTOdBwEot5wX3edBSWEY5fOYMKpNoE">
+<span class="absolute top-3 left-3 bg-tertiary-fixed text-primary px-2.5 py-1 font-label-sm text-label-sm uppercase tracking-widest shadow-sm">
+                Wedding &amp; Ceremony
+              </span>
+</div>
+<div class="p-space-sm sm:p-space-md">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm uppercase tracking-widest mb-2">
+<span class="">Invitation Suites</span>
+<span class="">9 min read</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase leading-snug mb-space-xs group-hover:text-secondary transition-colors">
+                Custom Envelope Addressing: Timelines, Postal Guidelines &amp; Calligraphy Etiquette
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed line-clamp-3">
+                When to commission your suite, postal machine sorting transit protocols, and curating bespoke vintage postage stamps for heirloom wedding delivery.
+              </p>
+</div>
+</div>
+<div class="px-space-sm sm:px-space-md pb-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase">
+<span class="">August 15, 2024</span>
+<a class="font-semibold text-primary group-hover:text-secondary flex items-center gap-1 transition-colors" href="#">
+<span class="">Read Essay</span>
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</a>
+</div>
+</article>
+</div>
+<!-- Editorial Minimalist Pagination -->
+<nav aria-label="Journal pagination" class="mt-space-lg flex items-center justify-center gap-3">
+<a aria-label="Previous Page" class="w-10 h-10 flex items-center justify-center bg-surface-container-low hover:bg-tertiary-fixed text-primary transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</a>
+<a aria-current="page" class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary font-label-md text-label-md font-semibold" href="#">
+          1
+        </a>
+<a class="w-10 h-10 flex items-center justify-center bg-surface-container-low hover:bg-tertiary-fixed text-primary transition-colors font-label-md text-label-md" href="#">
+          2
+        </a>
+<a class="w-10 h-10 flex items-center justify-center bg-surface-container-low hover:bg-tertiary-fixed text-primary transition-colors font-label-md text-label-md" href="#">
+          3
+        </a>
+<a aria-label="Next Page" class="w-10 h-10 flex items-center justify-center bg-surface-container-low hover:bg-tertiary-fixed text-primary transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+</nav>
+</section>
+<!-- Studio Gazette Invitation Banner (Tonal Blush Editorial Block) -->
+<section class="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin mb-space-xl">
+<div class="bg-tertiary-fixed p-space-md sm:p-space-lg lg:p-space-xl shadow-lg relative overflow-hidden">
+<!-- Subtle SVG Quill Ornament in Background -->
+<div class="absolute right-4 -bottom-10 opacity-10 pointer-events-none">
+<svg fill="currentColor" height="280" viewBox="0 0 24 24" width="280">
+<path d="M21 3c-1.5 0-3.5 1-5 2.5l-9.5 9.5c-.3.3-.5.7-.5 1.1v2.9c0 .6.4 1 1 1h2.9c.4 0 .8-.2 1.1-.5l9.5-9.5c1.5-1.5 2.5-3.5 2.5-5 0-.6-.4-1-1-1-.5 0-1 .4-1 1 0 .8-.5 1.8-1.3 2.7l-9.2 9.3h-1.5v-1.5l9.3-9.2c.9-.9 1.9-1.3 2.7-1.3.6 0 1-.4 1-1 0-.6-.4-1-1-1zm-15 15l-3 3h4l2-2-3-1z"></path>
+</svg>
+</div>
+<div class="max-w-3xl relative z-10">
+<div class="inline-flex items-center gap-2 mb-space-xs text-primary font-label-sm text-label-sm uppercase tracking-widest">
+<span class="material-symbols-outlined text-[16px]">mark_email_unread</span>
+<span class="">The Quarterly Letter</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg lg:font-display-hero lg:text-display-hero text-primary uppercase tracking-wide leading-tight mb-space-xs">
+            Join the Scribe's Circle — The Atelier Gazette
+          </h2>
+<p class="font-body-lg text-body-lg text-on-tertiary-fixed-variant mb-space-md leading-relaxed">
+            Receive unhurried quarterly letters on calligraphy history, early masterclass enrollments, raw paper foraging notes, and exclusive stationery releases. We never send rush correspondence.
+          </p>
+<form class="flex flex-col sm:flex-row gap-3 max-w-xl" onsubmit="event.preventDefault(); this.querySelector('button').innerHTML='Enrolled • Welcome'; this.querySelector('button').classList.add('bg-primary', 'text-on-primary');">
+<label class="sr-only" for="atelier-email-input">Your email address</label>
+<input class="w-full bg-surface-container-lowest text-on-surface px-5 py-4 font-body-md text-body-md rounded-none shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" id="atelier-email-input" placeholder="Enter your personal email address..." required="" type="email">
+<button class="bg-primary hover:bg-surface-container-lowest hover:text-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider px-8 py-4 shadow-sm transition-all duration-300 shrink-0" type="submit">
+              Subscribe to Dispatches
+            </button>
+</form>
+<p class="mt-space-xs font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-fixed-variant">
+            Privacy Assured • Seasonal Letters Only • Unsubscribe At Leisure
+          </p>
+</div>
+</div>
+</section>
+<!-- Popular Atelier Topics & Reading Tags (Editorial Horizontal Pill Matrix) -->
+<section class="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin mb-space-xl">
+<div class="bg-surface-container-lowest p-space-md shadow-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-space-sm">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-secondary tracking-widest block">Index • Lexicon</span>
+<h3 class="font-headline-sm text-headline-sm uppercase text-primary tracking-wide">Popular Topics &amp; Reading Tags</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Click any tag to browse corresponding atelier archives</p>
+</div>
+<div class="flex flex-wrap gap-2.5" id="topic-tags-container">
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #PointedPen
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #WaxSealCraft
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #BespokeVows
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #FloatFrames
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #BhusawalAtelier
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #GoldLeaf
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #WeddingCalligraphy
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #HandwritingArt
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #WalnutInk
+          </a>
+<a class="px-4 py-2 bg-paper-tint hover:bg-primary hover:text-on-primary text-primary font-label-sm text-label-sm uppercase tracking-widest rounded-full transition-all duration-200 shadow-sm" href="#">
+            #DeckleEdgePaper
+          </a>
+</div>
+</div>
+</section>
+<!-- Studio Quotation Pullout (Monograph Breathing Moment) -->
+<section class="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin mb-space-xl">
+<div class="text-center max-w-2xl mx-auto py-space-md">
+<span class="material-symbols-outlined text-primary text-[32px] mb-2 opacity-60">format_quote</span>
+<blockquote class="font-headline-md text-headline-md text-primary uppercase tracking-wide leading-relaxed mb-space-xs">
+          “Ink is blood of thought; penmanship is the breathing rhythm that grounds spoken emotion into physical eternity.”
+        </blockquote>
+<cite class="font-label-sm text-label-sm uppercase tracking-widest text-secondary not-italic">
+          — The Letter Ink Atelier Studio Doctrine • Bhusawal
+        </cite>
+</div>
+</section>
+</div>
+<!-- Interactive Filter Logic -->
+<script>
+    (function() {
+      const tabs = document.querySelectorAll('#category-filter-group .filter-tab');
+      const cards = document.querySelectorAll('.article-card');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const filter = this.getAttribute('data-filter');
+
+          // Reset styling across tabs
+          tabs.forEach(t => {
+            t.classList.remove('bg-primary', 'text-on-primary');
+            t.classList.add('bg-tertiary-fixed', 'text-primary');
+            t.setAttribute('aria-selected', 'false');
+          });
+
+          // Set active on clicked
+          this.classList.remove('bg-tertiary-fixed', 'text-primary');
+          this.classList.add('bg-primary', 'text-on-primary');
+          this.setAttribute('aria-selected', 'true');
+
+          // Filter card items
+          cards.forEach(card => {
+            const cardCat = card.getAttribute('data-category');
+            if (filter === 'all' || cardCat === filter) {
+              card.style.display = 'flex';
+              card.classList.add('animate-fadeIn');
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</div></main><footer class="w-full bg-paper-tint border-t border-border-vellum mt-space-xl"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter"><div class="lg:col-span-4"><span class="font-headline-md text-headline-md uppercase text-primary tracking-widest block mb-space-sm">The Letter Ink</span><p class="font-body-md text-body-md text-on-surface-variant pr-space-md mb-space-md">An artisanal calligraphy studio and bespoke stationery atelier dedicated to heirloom lettering, pure fluid ink, and tactile cotton papers crafted with quiet intentionality.</p><div class="border-t border-border-vellum pt-space-sm"><p class="font-label-sm text-label-sm uppercase text-secondary mb-1">Atelier Quarters</p><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Ratan niwas, ground floor, plot no 33/A behind biyani chembers, bhusawal Maharashtra 425201</p></div></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Navigation</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="home" href="#">Home Atelier</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Curated Shop</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="gifting" href="#">Artisanal Gifting</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="gallery" href="#">Works Gallery</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="workshops" href="#">Lettering Workshops</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="journal" href="#">Atelier Journal</a></li><li class=""><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="contact-us" href="#">Custom Inquiries</a></li></ul></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Studio &amp; Hours</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Tuesday — Saturday</span><span class="font-body-sm text-body-sm text-on-surface-variant">10:00 AM – 6:30 PM IST</span></li><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Sunday &amp; Monday</span><span class="font-body-sm text-body-sm text-on-surface-variant">Reserved for Studio Craft</span></li><li class=""><span class="font-label-sm text-label-sm uppercase text-secondary block">Consultations</span><span class="font-body-sm text-body-sm text-on-surface-variant">By Private Appointment</span></li></ul></div><div class="lg:col-span-4"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Atelier Gazette</h4><p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">Subscribe for intimate studio dispatches, seasonal release previews, and invitations to upcoming workshop cohorts.</p><form class="flex flex-col sm:flex-row gap-space-xs" onsubmit="event.preventDefault();"><input class="bg-surface-container-lowest border border-secondary text-on-surface px-4 py-3 font-body-sm text-body-sm rounded-none focus:outline-none focus:border-primary w-full" placeholder="Your email address" type="email"><button class="bg-tertiary-fixed hover:bg-surface-container-lowest hover:border hover:border-primary text-primary font-label-lg text-label-lg uppercase px-6 py-3 transition-colors shrink-0" type="submit">Join the Circle</button></form></div></div></div><div class="border-t border-border-vellum bg-surface-container-low"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-sm flex flex-col md:flex-row items-center justify-between gap-space-xs"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">© 2025 The Letter Ink Atelier. All rights reserved.</p><div class="flex items-center gap-space-md"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Terms</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Privacy Policy</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Shipping &amp; Care</a></div></div></div></footer>
+
+</body></html>

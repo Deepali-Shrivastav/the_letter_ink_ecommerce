@@ -1,0 +1,778 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Raleway:ital,wght@0,300..700;1,300..700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-tint": "#5e5e5e",
+          "on-secondary-fixed-variant": "#434750",
+          "surface": "#f9f9f9",
+          "primary-container": "#1b1b1b",
+          "border-vellum": "#EAE6E1",
+          "outline-variant": "#cfc4c5",
+          "secondary": "#5a5e68",
+          "outline": "#7e7576",
+          "on-error": "#ffffff",
+          "tertiary-fixed": "#fadcd0",
+          "on-primary-fixed": "#1b1b1b",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#474747",
+          "on-primary-container": "#848484",
+          "surface-variant": "#e2e2e2",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#c3c6d1",
+          "background": "#f9f9f9",
+          "primary-fixed-dim": "#c6c6c6",
+          "surface-container-lowest": "#ffffff",
+          "paper-tint": "#FAF8F6",
+          "surface-container": "#eeeeee",
+          "on-background": "#1a1c1c",
+          "on-tertiary-fixed": "#271811",
+          "surface-dim": "#dadada",
+          "tertiary-fixed-dim": "#ddc1b5",
+          "error-crimson": "#B00020",
+          "primary": "#000000",
+          "surface-container-low": "#f3f3f4",
+          "on-secondary-container": "#5f636c",
+          "on-error-container": "#93000a",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#977f75",
+          "inverse-on-surface": "#f0f1f1",
+          "tertiary-container": "#271811",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#dfe2ed",
+          "on-surface-variant": "#4c4546",
+          "inverse-surface": "#2f3131",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed": "#181c23",
+          "primary-fixed": "#e2e2e2",
+          "tertiary": "#000000",
+          "surface-bright": "#f9f9f9",
+          "surface-container-high": "#e8e8e8",
+          "on-tertiary": "#ffffff",
+          "secondary-container": "#dcdfea",
+          "on-surface": "#1a1c1c",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#56423a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter-mobile": "1rem",
+          "space-lg": "3.75rem",
+          "margin-mobile": "1.25rem",
+          "margin": "4rem",
+          "space-md": "2.5rem",
+          "gutter": "2rem",
+          "space-sm": "1.25rem",
+          "space-xs": "0.625rem",
+          "space-xl": "6.25rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Raleway"
+          ],
+          "label-sm": [
+            "Raleway"
+          ],
+          "label-lg": [
+            "Raleway"
+          ],
+          "body-sm": [
+            "Raleway"
+          ],
+          "label-md": [
+            "Raleway"
+          ],
+          "headline-lg-mobile": [
+            "EB Garamond"
+          ],
+          "display-hero-mobile": [
+            "EB Garamond"
+          ],
+          "body-md": [
+            "Raleway"
+          ],
+          "headline-lg": [
+            "EB Garamond"
+          ],
+          "display-hero": [
+            "EB Garamond"
+          ],
+          "body-lg": [
+            "Raleway"
+          ],
+          "headline-md": [
+            "Raleway"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "19px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.18em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-lg": [
+            "15px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.15em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "label-md": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-lg-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero-mobile": [
+            "38px",
+            {
+              "lineHeight": "46px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero": [
+            "54px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "17px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "0.05em",
+              "fontWeight": "300"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50"><div class="w-full bg-tertiary-fixed text-on-tertiary-fixed px-margin-mobile lg:px-margin py-space-xs text-center border-b border-border-vellum"><p class="font-label-sm text-label-sm uppercase tracking-widest">BESPOKE COMMISSIONS &amp; SEASONAL WORKSHOPS — WORLDWIDE ATELIER SHIPPING | USE CODE "INKMAGIC" FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING &amp; WAX SEALING</p></div><div class="w-full bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-border-vellum"><div class="h-20 max-w-[1440px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-xs shrink-0"><img alt="The Letter Ink Studio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vyb2Ejr-NUNuNKgFBKn7F4uOww6ot9ACKwF3lOcEr2EA50I1s_u4wBj3D-YNHbVygfjbRytAjUQUEIgt_MAyJ_Ki9cpMeQaXW9zc21UyGPyosuygT-KBD2DM0-HWYYEBXSz0C5El1Zdm6BIhr1u21tQa9ospD15UXoc9T0aK0xUZ89pVX9h_8AbYbOLoi-HW6qOPShkh2uKGeVQBdCfxKnYFfblm1OTFar9iC8ztEh28XwTEeXMjJ1Qg"><span class="font-headline-sm text-headline-sm uppercase text-primary tracking-widest hidden sm:inline-block">The Letter Ink</span></div><nav class="hidden xl:flex items-center gap-space-sm" data-active-classes="text-primary font-semibold border-b border-primary"><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="home" href="#">Home</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="shop" href="#">Shop</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gifting" href="#">Gifting</a><a aria-current="page" class="uppercase transition-colors pb-1 text-primary font-semibold border-b border-primary" data-path="gallery" href="#">Gallery</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="workshops" href="#">Workshops</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="services" href="#">Services</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="about-us" href="#">About Us</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="contact-us" href="#">Contact Us</a></nav><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Search Archive" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span></button><button aria-label="Cart" class="relative p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary text-on-primary font-label-sm text-[9px] flex items-center justify-center font-bold">2</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-[116px] bg-background min-h-screen"><div class="flex flex-col w-full">
+<section class="relative w-full overflow-hidden pb-space-lg">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="flex flex-col pt-space-md">
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs mb-space-sm">
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-secondary hover:text-primary transition-colors" data-path="home" href="#">Home</a>
+<span class="font-label-sm text-label-sm text-outline-variant">/</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-semibold">Gallery</span>
+</nav>
+<div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-space-md">
+<div class="max-w-3xl">
+<span class="inline-block font-label-sm text-label-sm uppercase tracking-[0.25em] text-on-tertiary-container bg-tertiary-fixed px-3 py-1 rounded-full mb-space-xs">
+              Our Atelier Portfolio
+            </span>
+<h1 class="font-display-hero text-display-hero text-primary tracking-wide leading-none mt-space-xs mb-space-sm">
+              A Visual Chronicle of Hand-Rendered Artistry
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl font-light">
+              An expansive showcase of past bespoke commissions, luxury wedding suites, glass engravings, and studio experiments crafted with unhurried devotion.
+            </p>
+</div>
+<div class="hidden lg:flex flex-col items-end text-right">
+<span class="font-headline-sm text-headline-sm text-primary">Est. 2019</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Archive Index / 12 Works Displayed</span>
+</div>
+</div>
+</div>
+<!-- Filter Controls Bar -->
+<div class="mt-space-lg flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-lowest p-space-xs shadow-sm rounded">
+<div class="flex flex-wrap items-center gap-2" id="gallery-filters" role="tablist">
+<button class="filter-btn active px-5 py-2 font-label-sm text-label-sm uppercase tracking-wider rounded-full transition-all bg-primary text-on-primary" data-filter="all" type="button">
+            All Works
+          </button>
+<button class="filter-btn px-5 py-2 font-label-sm text-label-sm uppercase tracking-wider rounded-full transition-all bg-surface-container-low text-on-surface hover:bg-tertiary-fixed" data-filter="wedding" type="button">
+            Wedding Suites
+          </button>
+<button class="filter-btn px-5 py-2 font-label-sm text-label-sm uppercase tracking-wider rounded-full transition-all bg-surface-container-low text-on-surface hover:bg-tertiary-fixed" data-filter="frames" type="button">
+            Custom Name Frames
+          </button>
+<button class="filter-btn px-5 py-2 font-label-sm text-label-sm uppercase tracking-wider rounded-full transition-all bg-surface-container-low text-on-surface hover:bg-tertiary-fixed" data-filter="engraving" type="button">
+            On-Site Glass Engraving
+          </button>
+<button class="filter-btn px-5 py-2 font-label-sm text-label-sm uppercase tracking-wider rounded-full transition-all bg-surface-container-low text-on-surface hover:bg-tertiary-fixed" data-filter="scrolls" type="button">
+            Letters &amp; Poetry Scrolls
+          </button>
+<button class="filter-btn px-5 py-2 font-label-sm text-label-sm uppercase tracking-wider rounded-full transition-all bg-surface-container-low text-on-surface hover:bg-tertiary-fixed" data-filter="editorial" type="button">
+            Editorial &amp; Branding
+          </button>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm uppercase tracking-widest px-3">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+<span id="item-count">10 Archived Pieces</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Masonry / Asymmetric Gallery Showcase -->
+<section class="w-full pb-space-xl">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter" id="gallery-grid">
+<!-- Item 1: The Alistair Wedding Suite (Span 7 cols) -->
+<article class="gallery-card lg:col-span-7 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="wedding">
+<div class="relative w-full aspect-[16/10] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High-angle editorial photograph of bespoke wedding invitation stationery featuring raw deckle-edge handmade cotton paper in soft cream tones. A sculpted pale blush wax seal secures an unpolished silk ribbon alongside custom gold foil calligraphy letterpress monograms and dark walnut fluid ink handwritten cursive script." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDVPb2IKCn_GWDC7fWE6hyAYbI1p8b-5zKFpf6dLhjs-qXzJqsN6YLmutZJCWni9FQv50l4HtxWp8q3bD_Z8KvWfImVkbs5swgHHBDJTuZOIxk626j-RTVOP9WDMfn7dP2VGUEfhfRYbQiILkIRZWr0KPHymNtLJBu6LV9p2LHF_bby1qLtw1Hj1_397U2SzDaJFXAryyc6bnOJxJkpTph22-v0bdhK_ig0zKbvyDDph-ab7LnHBM">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-space-xs">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="Wedding Suites" data-desc="Romantic deckle-edge paper, blush wax seal, gold foil monogram, calligraphy envelope addressing. Hand-formulated walnut ink on 320gsm handmade cotton rag with antique botanical illustrations." data-specs="Cotton Rag 320gsm · Finetec Gold Mica · Custom Brass Die Seal · Hand-torn Deckle" data-title="The Alistair Wedding Suite" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">Wedding Suites</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Ref. No. AT-041</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">2024 Commission</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-xs">The Alistair Wedding Suite</h2>
+<p class="font-body-md text-body-md text-on-surface-variant font-light">
+                Romantic deckle-edge paper, subtle blush wax seal, gold foil monogram, and bespoke pointed pen calligraphy envelope addressing crafted for an intimate Cotswolds estate gathering.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between bg-surface-container-low px-4 py-2 rounded">
+<span class="font-label-sm text-label-sm text-secondary">Medium: Brause 66EF &amp; Custom Ink</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold flex items-center gap-1 hover:text-on-tertiary-container" data-cat="Wedding Suites" data-desc="Romantic deckle-edge paper, blush wax seal, gold foil monogram, calligraphy envelope addressing. Hand-formulated walnut ink on 320gsm handmade cotton rag with antique botanical illustrations." data-specs="Cotton Rag 320gsm · Finetec Gold Mica · Custom Brass Die Seal · Hand-torn Deckle" data-title="The Alistair Wedding Suite" type="button">
+                Examine Specimen <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 2: Heritage Brass Float Frame (Span 5 cols) -->
+<article class="gallery-card lg:col-span-5 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="frames">
+<div class="relative w-full aspect-square overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Artisanal glass floating frame with antique unlacquered solid brass hardware showcasing custom hand-painted 24k gold gouache script on rough deckle edge Khadi cotton paper. Preserved alpine botanical ferns and dried elderflowers surround the illuminated initial capital letters." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfJJ3rWuC6FdYiWyOxuADMRWc0veVylrSHFa2CZleXk1Aw6i9u8TveXTH3VTnnFgFJwtfnvHBGBCkM0W7iDT-O4dh0I8iTuEv2hcQLgsJwwc6nKAd0fxjJttqUaKJVhV-g7NWdG6qMBk64pCXtWEs50-7BbgYDhnpTHEgY5fiW11c4r_SLHCuFPUo0bEdePpxSMYD5FohQj9sxJyqOfSuaSO-nXnlyO-a1NOSJiL1O6P2vITVURKE">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="Custom Name Frames" data-desc="24k gold gouache calligraphy on handmade cotton rag paper accompanied by pressed heirloom botanicals, preserved between double-paned archival glass." data-specs="Solid Unlacquered Brass · 24k Shell Gold Gouache · Pressed Botanical Specimens · Archival Float Mount" data-title="Heritage Brass Float Frame" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">Custom Name Frames</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Ref. No. AT-042</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Private Keepsake</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-xs">Heritage Brass Float Frame</h2>
+<p class="font-body-md text-body-md text-on-surface-variant font-light">
+                24k gold gouache calligraphy on handmade cotton rag paper with pressed botanicals delicately suspended between dual museum-grade glass panes.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between bg-surface-container-low px-4 py-2 rounded">
+<span class="font-label-sm text-label-sm text-secondary">Dimensions: 11" × 14" Double Glass</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold flex items-center gap-1 hover:text-on-tertiary-container" data-cat="Custom Name Frames" data-desc="24k gold gouache calligraphy on handmade cotton rag paper accompanied by pressed heirloom botanicals, preserved between double-paned archival glass." data-specs="Solid Unlacquered Brass · 24k Shell Gold Gouache · Pressed Botanical Specimens · Archival Float Mount" data-title="Heritage Brass Float Frame" type="button">
+                Examine Specimen <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 3: Luxury Perfume Bottle Engraving (Span 4 cols) -->
+<article class="gallery-card lg:col-span-4 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="engraving">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High-end luxury fragrance crystal bottle standing gracefully on raw linen. Precision hand-drilled micro-bur calligraphy engraving curves across the heavy glass surface, filled with brilliant metallic gold leaf powder pigment caught in dramatic natural side studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUNVCILwwKLCKNyUbAhO7EQFfjpKPveMkcX2GkpZfngbzG0RTLdV3Sj3o6nxB3Ixz8VXofB8NNYGqYNVnPT_XoybUoxLwihwpTTTrqXPhAiwazbE2_td6d-_-Agqk_ZqgHQpkm7AHyu8c4ccm9Fs15hc9S_NfJWoCUO0XnKBbwMx0_DDzCBnY-w8l-B2TBOhTTeIzvOgitef_HqWBcOSGxmBkRCj1WUGHpmN5kQjcZc3YmcCrBSQY">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="On-Site Glass Engraving" data-desc="Hand-drilled diamond micro-bur engraving on crystal fragrance flacons, buffed and meticulously infilled with archival gold mica gilding." data-specs="Diamond Micro-Bur Dental Drill · Heavy Crystal Flacon · Metallic Mica Infill · Water-Resistant Seal" data-title="Luxury Perfume Bottle Engraving" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">On-Site Engraving</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-space-xs">Ref. No. AT-043</span>
+<h2 class="font-headline-sm text-headline-sm text-primary mb-space-xs">Luxury Perfume Bottle Engraving</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-light">
+                Hand-drilled bur engraving on crystal fragrance flacons with metallic gold leaf gilding, produced for a private bridal gift unboxing.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Craft: Diamond Micro-Rotary</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold hover:underline" data-cat="On-Site Glass Engraving" data-desc="Hand-drilled diamond micro-bur engraving on crystal fragrance flacons, buffed and meticulously infilled with archival gold mica gilding." data-specs="Diamond Micro-Bur Dental Drill · Heavy Crystal Flacon · Metallic Mica Infill · Water-Resistant Seal" data-title="Luxury Perfume Bottle Engraving" type="button">View Details</button>
+</div>
+</div>
+</article>
+<!-- Item 4: The Victorian Botanical Scroll (Span 4 cols) -->
+<article class="gallery-card lg:col-span-4 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="scrolls">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="An expansive, unrolled archival vellum roll displayed on a dark walnut studio desk. Over 300 words of flourishing Spencerian calligraphy handwritten in deep iron gall ink with illustrated wild fern margins and bound by a vegetable-dyed champagne silk ribbon and heavy bronze wax medallion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUZMijfhwc7j3yh8mNFTl7D-Tv2ywKZj7jiYSbO7atMUGHBnd4jh9V4ciynsV3SU-gh2_wTEwsg9SJhOBEW3D9gbua0u1T382C_Qf1gvjjeW29N1kDMWzG4pbA-ktT1iRIVWk6Jec1wcFcooFZ3aDr1ETSAohL0rYaJYXZvjHZZwP3Jpam7u1F6ZMNOYJJcpL0GBXsTulP4ECvQtPhnuAzPZD8_1rL_KDF8dYNE8Tp3fHC5GzQEDc">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="Letters &amp; Poetry Scrolls" data-desc="300-word milestone anniversary prose penned with Spencerian flourishing, bound with hand-dyed dusty olive silk and stamped with a heated bronze insignia seal." data-specs="Handmade Cotton Vellum · Oak Gall Ink · Botanical Gouache Illumination · Hand-Dyed Habotai Silk" data-title="The Victorian Botanical Scroll" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">Poetry Scrolls</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-space-xs">Ref. No. AT-044</span>
+<h2 class="font-headline-sm text-headline-sm text-primary mb-space-xs">The Victorian Botanical Scroll</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-light">
+                300-word anniversary prose tied with hand-dyed silk ribbon, miniature botanical flourishes, and a heavy bronze wax seal.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Length: 28" Continuous Scroll</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold hover:underline" data-cat="Letters &amp; Poetry Scrolls" data-desc="300-word milestone anniversary prose penned with Spencerian flourishing, bound with hand-dyed dusty olive silk and stamped with a heated bronze insignia seal." data-specs="Handmade Cotton Vellum · Oak Gall Ink · Botanical Gouache Illumination · Hand-Dyed Habotai Silk" data-title="The Victorian Botanical Scroll" type="button">View Details</button>
+</div>
+</div>
+</article>
+<!-- Item 5: Custom Agate Placecards (Span 4 cols) -->
+<article class="gallery-card lg:col-span-4 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="wedding">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Cluster of polished natural Brazilian agate crystal slices in dusty mauve and quartz tones resting on a raw linen runner. Modern pointed pen script names written in pristine waterproof white gouache with natural raw quartz geode rim edges catching soft sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlM3OASYorp4kHImiJOls7Fo0X6ibFANgLirYNGUZYuFUcVjeYSf9BHH2T1OrdYiRy3inyqmPcGkuHdvT4qaFN8KI8usDOUolMQeKMJUsZj91_fJFloMAi7gmoECbjAU9mU6grikSN6z70B8yCo-bDgWWEPK-ombM4NBDza40CmG87_NnN5R3Aas3Y22sngxx8zIuq3my9Oy1jKUpXTh4X04hmrogUhuzVjhyLqamHMvwNtsqlMPI">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="Wedding Suites" data-desc="Polished Brazilian agate slices hand-lettered with waterproof white acrylic gouache for an overseas destination wedding banquet in Tuscany." data-specs="Natural Sliced Agate · Waterproof White Acrylic Ink · Gillott 303 Nib · Hand-gilded 18k Rim Option" data-title="Custom Agate Placecards" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">Wedding Suites</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-space-xs">Ref. No. AT-045</span>
+<h2 class="font-headline-sm text-headline-sm text-primary mb-space-xs">Custom Agate Placecards</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-light">
+                Polished Brazilian agate slices hand-lettered with waterproof white ink for destination wedding reception tablescapes.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Cohort: 120 Units Individualized</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold hover:underline" data-cat="Wedding Suites" data-desc="Polished Brazilian agate slices hand-lettered with waterproof white acrylic gouache for an overseas destination wedding banquet in Tuscany." data-specs="Natural Sliced Agate · Waterproof White Acrylic Ink · Gillott 303 Nib · Hand-gilded 18k Rim Option" data-title="Custom Agate Placecards" type="button">View Details</button>
+</div>
+</div>
+</article>
+<!-- Item 6: Vintage Leather Journal Inscription (Span 6 cols) -->
+<article class="gallery-card lg:col-span-6 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="frames">
+<div class="relative w-full aspect-[16/11] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close-up shot of an open full-grain caramel brown Tuscan leather journal. Inside flyleaf features deep blind debossed lettering paired with hand-painted gold calligraphy flourishes and bespoke heraldic floral monogram in deep carbon black Sumi ink." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp0wAYjeELNnrEpu0clEeKUQPie3lhW_Em_e-5hYa6-3-ZcgT3kxVxF6gXuXl31B0Eapvsi82Neow8xWe-n3bcR87UiLok3-ei5M1B9E5aC-wmCDI5tM2hnZYLemSJgj8TdAwpZcyeZCF1UvR0t0HFr13bJwfeE3sUSbpY884AIFJIo-Fk4WxyG4KONob3A3bg10YjqrKQRzflqUnU8NeNKZSn56CqMj0tVy_ShmhvD_GupVJk4vA">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="Custom Name Frames" data-desc="Deep debossed heirloom calligraphy and hand-painted metallic flourishes inside hand-stitched Tuscan vegetable-tanned leather bindings." data-specs="Tuscan Full-Grain Cowhide · Japanese Sumi Ink · Warm Hand Foil Deboss · Mill-made Parchment Core" data-title="Vintage Leather Journal Inscription" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">Custom Commission</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Ref. No. AT-046</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Bespoke Keepsake</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-xs">Vintage Leather Journal Inscription</h2>
+<p class="font-body-md text-body-md text-on-surface-variant font-light">
+                Deep debossed calligraphy and hand-painted flourishes executed directly onto vegetable-tanned Italian leather endpapers.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between bg-surface-container-low px-4 py-2 rounded">
+<span class="font-label-sm text-label-sm text-secondary">Binding: Hand-stitched Coptic</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold flex items-center gap-1 hover:text-on-tertiary-container" data-cat="Custom Name Frames" data-desc="Deep debossed heirloom calligraphy and hand-painted metallic flourishes inside hand-stitched Tuscan vegetable-tanned leather bindings." data-specs="Tuscan Full-Grain Cowhide · Japanese Sumi Ink · Warm Hand Foil Deboss · Mill-made Parchment Core" data-title="Vintage Leather Journal Inscription" type="button">
+                Examine Specimen <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 7: Grand Champagne Flutes (Span 6 cols) -->
+<article class="gallery-card lg:col-span-6 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="engraving">
+<div class="relative w-full aspect-[16/11] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Pair of tall hand-blown crystal champagne flutes placed on dark slate stone. Intricate micro-calligraphy couple initials with climbing botanical vine tendrils delicately hand-engraved into the curved crystal, catching prismatic refracted light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4rmcxlnRJDljmzrnSIbwVSdlwFpaWZZoC8-WgNh70h481steyQw3WTKzPNaqOlkciC8pa-fQvmvMHspjEa_lxsjemAPTjK1nJKMFCfO45JUtDCQ-dk-ycK1CHVX9S3kfXtBaAOzVv-YnV_to0S1L6D0Nw_YMkTtr6lTgozK49TI4lljNR5Rk2EbFtH9xpUARuCIRSpZJyhZvc9EntDzdiy54YLfztRT6zzEkpe_SpaB9itoSwkP0">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="On-Site Glass Engraving" data-desc="Customized couple initials engraved with delicate botanical vines directly into mouth-blown European crystal stemware." data-specs="Lead-free European Crystal · Micro-engraving bur · Custom Interlocking Monogram · Hand Buffed" data-title="Grand Champagne Flutes" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">On-Site Engraving</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Ref. No. AT-047</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Heirloom Stemware</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-space-xs">Grand Champagne Flutes</h2>
+<p class="font-body-md text-body-md text-on-surface-variant font-light">
+                Customized couple initials engraved with delicate botanical vines winding seamlessly around lead-free European mouth-blown stemware.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between bg-surface-container-low px-4 py-2 rounded">
+<span class="font-label-sm text-label-sm text-secondary">Pair Set · Dishwasher Safe</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold flex items-center gap-1 hover:text-on-tertiary-container" data-cat="On-Site Glass Engraving" data-desc="Customized couple initials engraved with delicate botanical vines directly into mouth-blown European crystal stemware." data-specs="Lead-free European Crystal · Micro-engraving bur · Custom Interlocking Monogram · Hand Buffed" data-title="Grand Champagne Flutes" type="button">
+                Examine Specimen <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Item 8: Royal Blue Wax Sealed Invitations (Span 4 cols) -->
+<article class="gallery-card lg:col-span-4 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="wedding">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Dramatic top-down flatlay of heavy midnight blue cotton envelopes resting on cream paper. Each envelope is addressed with flowing Copperplate calligraphy using rich metallic pale gold ink and sealed with an antique gold stamped wax emblem." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChCjtfBKR-XjjTE8BnM19YGwfAl2PjJWXIbLmYmRSNg1S7F07nSSFphMiAPMIMf1eBLv8hnKxyIZGoNDAzgfaOuv3zULJtldqh7GnnhUBFNozAJ5iCJ-VLY8kL_-L7YpUAdor_yPxYw1xxvLVtbfaik_fu22Uc1STPuqznxk4If616kgACloT2orknwhbP0aCHSsytEXWLLIbUxcyTMLQv7vgWv15wyhLfOdceiA8QdFm9ujGF8F4">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="Wedding Suites" data-desc="Midnight blue heavyweight envelopes with pointed pen calligraphy in metallic gold ink and crest-embossed wax seal closure." data-specs="Colorplan Imperial Blue 270gsm · Finetec Arabic Gold · Custom Crest Intaglio Stamp · Brause 361 Nib" data-title="Royal Blue Wax Sealed Invitations" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">Wedding Suites</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-space-xs">Ref. No. AT-048</span>
+<h2 class="font-headline-sm text-headline-sm text-primary mb-space-xs">Royal Blue Wax Sealed Invitations</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-light">
+                Midnight blue envelopes with pointed pen calligraphy in metallic gold ink, paired with a custom bespoke crest wax seal.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Quantity: 180 Recipient Envelopes</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold hover:underline" data-cat="Wedding Suites" data-desc="Midnight blue heavyweight envelopes with pointed pen calligraphy in metallic gold ink and crest-embossed wax seal closure." data-specs="Colorplan Imperial Blue 270gsm · Finetec Arabic Gold · Custom Crest Intaglio Stamp · Brause 361 Nib" data-title="Royal Blue Wax Sealed Invitations" type="button">View Details</button>
+</div>
+</div>
+</article>
+<!-- Item 9: Bespoke Vow Keepsake Booklets (Span 4 cols) -->
+<article class="gallery-card lg:col-span-4 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="scrolls">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Two tactile heirloom vow booklets hand-bound with traditional Japanese 4-hole stab stitching with neutral linen thread. Raw feathered deckle edges on heavyweight Khadi cotton paper with delicate handwritten couple names in walnut ink and miniature botanical branches." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3JUvYiWy3gABCEkTXqzuyiVHts7JYJQOtyKL40unqNMu-34uD9dKcSpTQLLznYTaTKBvgvpeh-iMCL5qRg-QTIp3AXMPoyD2HZo4fqnS2n7kmoLfk70uP-Qnih6RlgG60j_PUOJoRJL-ggf_NRtqtG9GndgjWUfSSoUhbk2b0KGrd7wwwtaCGxhPOaoqZeM2dWTeIOJxM8f4ZWO9azHJW6do5HSG_X60dasy5bimah1rO4lz6dVQ">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="Letters &amp; Poetry Scrolls" data-desc="Hand-bound Japanese stab-stitch vow booklets with deckle edges and wax seal closures designed to be handed down for generations." data-specs="Khadi 210gsm Rag Cotton · Natural Flax Thread · Organic Beeswax Seal · Hand-lettered Prompts" data-title="Bespoke Vow Keepsake Booklets" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">Keepsakes</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-space-xs">Ref. No. AT-049</span>
+<h2 class="font-headline-sm text-headline-sm text-primary mb-space-xs">Bespoke Vow Keepsake Booklets</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-light">
+                Hand-bound Japanese stab-stitch booklets with deckle edges, archival interior pages, and matching monogram wax closures.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Pair (His &amp; Hers) · 16 Inner Pages</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold hover:underline" data-cat="Letters &amp; Poetry Scrolls" data-desc="Hand-bound Japanese stab-stitch vow booklets with deckle edges and wax seal closures designed to be handed down for generations." data-specs="Khadi 210gsm Rag Cotton · Natural Flax Thread · Organic Beeswax Seal · Hand-lettered Prompts" data-title="Bespoke Vow Keepsake Booklets" type="button">View Details</button>
+</div>
+</div>
+</article>
+<!-- Item 10: Live Event Calligraphy for Luxury Brand (Span 4 cols) -->
+<article class="gallery-card lg:col-span-4 flex flex-col bg-surface-container-lowest shadow-sm rounded group overflow-hidden transition-all duration-300 hover:shadow-md" data-category="editorial">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Atmospheric photography of a live in-store calligraphy activation at a Parisian luxury department store. A calligrapher using an oblique penholder and metallic gold pigment to personalize handcrafted calfskin leather luggage tags and rigid gift boxes surrounded by fresh floral arrangements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9uXpNlNcFHkdgX8dgo0eojmI-yMKr2sxwdh2nBOiw_9FNQ5QTol3pNBGY--4BCY82MXO7QPH7Zox29vci8a7MPq_KF_yut5AvaTMc5M-JdDbpx8daTypUbqHcUK4fK9W-zCtuRf31NsFmJScsfvAJDZE_xdv5zmyQRP-tRX9zsIOP8cFKvYF70MV9wIJl5L-6vxU2QXZdEe-D-BYO7m3as6Iot6ehTokdJmokeFh9PO-21KtGIzU">
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<button aria-label="Inspect piece" class="open-modal-trigger w-12 h-12 rounded-full bg-surface-container-lowest text-primary shadow flex items-center justify-center hover:bg-tertiary-fixed transition-colors" data-cat="Editorial &amp; Branding" data-desc="On-site brand activation lettering on leather goods, rigid packaging, and fragrance gifting boxes for holiday flagship retail." data-specs="Direct Leather Foil Pen · Acrylic Waterproof Inks · 180+ Personalized Pieces/Day · On-site Activation" data-title="Live Event Calligraphy for Luxury Brand" type="button">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+<span class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider text-primary rounded-full">Editorial &amp; Branding</span>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest block mb-space-xs">Ref. No. AT-050</span>
+<h2 class="font-headline-sm text-headline-sm text-primary mb-space-xs">Live Event Brand Activation</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-light">
+                Live on-site personalization on fine Italian leather accessories and rigid unboxing packaging for high-jewelry clientele.
+              </p>
+</div>
+<div class="pt-space-sm mt-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Client: Maison de Beauté</span>
+<button class="open-modal-trigger font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold hover:underline" data-cat="Editorial &amp; Branding" data-desc="On-site brand activation lettering on leather goods, rigid packaging, and fragrance gifting boxes for holiday flagship retail." data-specs="Direct Leather Foil Pen · Acrylic Waterproof Inks · 180+ Personalized Pieces/Day · On-site Activation" data-title="Live Event Calligraphy for Luxury Brand" type="button">View Details</button>
+</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- Studio Behind-The-Scenes & Materials Spotlight -->
+<section class="w-full bg-paper-tint py-space-xl">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<!-- Narrative Column -->
+<div class="lg:col-span-5">
+<span class="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary block mb-space-xs">
+            The Philosophy of Matter
+          </span>
+<h2 class="font-headline-lg text-headline-lg text-primary tracking-wide mb-space-sm leading-tight">
+            Archival Materials We Cherish
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant font-light mb-space-md">
+            Before our nib touches the surface, every commission begins with quiet tactile decisions: the tooth of pure cotton rag, the viscosity of pine soot ink, and the melting scent of organic resin seals.
+          </p>
+<div class="space-y-space-sm">
+<div class="bg-surface-container-lowest p-space-sm rounded shadow-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="material-symbols-outlined text-primary text-[20px]">history_edu</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-primary">Khadi &amp; Cotton Rag Papers</h3>
+</div>
+<p class="font-body-sm text-body-sm text-secondary font-light">
+                Handmade sheet by sheet using reclaimed cotton rags from textile mills. Tub-sized with gelatine to produce an unhurried, velvety pen pull and organic feathered deckle edges.
+              </p>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded shadow-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="material-symbols-outlined text-primary text-[20px]">water_drop</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-primary">Sumi &amp; Iron Gall Fluid Inks</h3>
+</div>
+<p class="font-body-sm text-body-sm text-secondary font-light">
+                Authentic ink ground by hand from natural pine soot inksticks paired with acidic oak gall formulas that physically bond into the fibers, deepening in hue over decades.
+              </p>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded shadow-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="material-symbols-outlined text-primary text-[20px]">edit</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-primary">Vintage Brause &amp; Gillott Nibs</h3>
+</div>
+<p class="font-body-sm text-body-sm text-secondary font-light">
+                Ultra-flexible historical steel and brass nibs sourced from vintage deadstock, delivering microscopic hairlines and bold, expressive swell contrast.
+              </p>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded shadow-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-primary">Natural Shellac &amp; Beeswax Seals</h3>
+</div>
+<p class="font-body-sm text-body-sm text-secondary font-light">
+                Compounded with purified rosin, beeswax, and mineral oxides. Supple enough to survive intercontinental post without cracking or chipping.
+              </p>
+</div>
+</div>
+</div>
+<!-- Visual Collages Column -->
+<div class="lg:col-span-7 grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-space-sm">
+<div class="bg-surface-container rounded overflow-hidden shadow-sm aspect-[4/5]">
+<img class="w-full h-full object-cover" data-alt="Macro close-up shot of a calligrapher's desk with scattered vintage dip nibs, a turned wooden oblique penholder, glass pipettes with amber fluid, and brass calipers on soft linen texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlfC_ExFVU8Etq-e6IQJ7o7RddeqqOyePUgpYWLOkSW0vWO8eKNV4giH821y4YqqxwDqRexDhct47bF7tE-S7HRzjs0I2ZhN8er5PWd3HunG3N0NHYZBhzcPiPoEXR4Qw8rpDUfJSFE47-2m2T0I1hCEcgGTHYXwSj5Y5s3TK3dARhYgrj45wD9LuEVfvdCSPCkV1n55MIHJHjWQOzZnAtJ-m26J1pwqb1sy3VppSJNMW1m9PlYMQ">
+</div>
+<div class="bg-surface-container-low p-space-md rounded text-center flex flex-col justify-center items-center">
+<span class="font-display-hero text-headline-lg text-primary font-normal">100%</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mt-1">Archival Cotton Fiber</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm pt-space-md">
+<div class="bg-surface-container-lowest p-space-md rounded shadow-sm text-center flex flex-col justify-center items-center">
+<span class="font-display-hero text-headline-lg text-primary font-normal">0%</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mt-1">Synthetic Printing Elements</span>
+</div>
+<div class="bg-surface-container rounded overflow-hidden shadow-sm aspect-[4/5]">
+<img class="w-full h-full object-cover" data-alt="Overhead photo of hand-poured melted sealing wax pools in terracotta, ochre, and blushing rose shades with brass stamp dies resting alongside bundles of pure silk dyed ribbons." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjHoe2KbQ81kI95HIs-4LVDG5iW4XxsT8ULUAV_zCiC7GkyqQZGNjMEXEZB4xp1Tb-wtT_8I-vTyciH9MC7khKjae0h-zc3zeZ_RV5gIiM6IXsFX7IT2dup8UsZ5qO0sXRGKsiP8IrU7Gv965srhr5MyCe7Z7QZG1SWfj8gwlrLtV9HiJw_3D0aZvDjM5J27UaMvTv6_Y4xehjJ8jhYuCCD5Src1dCBFQez5XzsWMinBuN9T1cNWo">
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Commission Inquiry Refined Banner -->
+<section class="w-full py-space-xl bg-surface-container-lowest">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="relative bg-tertiary-fixed rounded p-space-lg lg:p-space-xl overflow-hidden shadow-sm">
+<div class="absolute -right-16 -bottom-16 w-80 h-80 rounded-full bg-primary/5 pointer-events-none"></div>
+<div class="relative z-10 max-w-2xl mx-auto text-center flex flex-col items-center">
+<span class="font-label-sm text-label-sm uppercase tracking-[0.25em] text-on-tertiary-container mb-space-xs block">
+            Studio Reservations &amp; Private Commissions
+          </span>
+<h2 class="font-display-hero text-headline-lg lg:text-display-hero text-primary tracking-normal mb-space-sm leading-tight">
+            Inspired by our archive? Let us craft your story.
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant font-light mb-space-md max-w-xl">
+            Whether preparing a high-society wedding suite, commissioning an illuminated vow scroll, or reserving on-site luxury engraving for your brand, we welcome private studio inquiries.
+          </p>
+<div class="flex flex-col sm:flex-row items-center gap-space-sm">
+<a class="h-[49px] px-8 bg-primary hover:bg-surface-container-lowest hover:text-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider flex items-center justify-center transition-all duration-300" data-path="contact-us" href="#">
+              Commission a Bespoke Piece
+            </a>
+<a class="h-[49px] px-8 bg-surface-container-lowest/80 hover:bg-surface-container-lowest text-primary font-label-lg text-label-lg uppercase tracking-wider flex items-center justify-center transition-all duration-300" data-path="services" href="#">
+              Explore Our Services
+            </a>
+</div>
+<div class="mt-space-md flex flex-wrap items-center justify-center gap-space-md text-secondary font-label-sm text-label-sm uppercase tracking-widest">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> 3–6 Weeks Lead Time</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">public</span> Worldwide Insured Dispatch</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">brush</span> 100% Hand-Lettered</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Specimen Detail Inspection Modal -->
+<div aria-labelledby="modal-title" aria-modal="true" class="fixed inset-0 z-50 bg-primary/60 backdrop-blur-sm hidden items-center justify-center p-margin-mobile lg:p-margin" id="specimen-modal" role="dialog">
+<div class="relative bg-surface-container-lowest w-full max-w-2xl rounded shadow-2xl overflow-hidden flex flex-col">
+<div class="p-space-md bg-paper-tint flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block" id="modal-category">Archive Specimen</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-1" id="modal-title">Specimen Title</h3>
+</div>
+<button aria-label="Close dialog" class="w-10 h-10 rounded-full bg-surface-container-lowest text-primary hover:bg-tertiary-fixed flex items-center justify-center transition-colors" id="close-modal-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-md space-y-space-md">
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">Commission Narrative</h4>
+<p class="font-body-md text-body-md text-on-surface-variant font-light" id="modal-desc">
+            Commission details description text will populate here dynamically.
+          </p>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded">
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-primary mb-2">Technical Atelier Specifications</h4>
+<p class="font-body-sm text-body-sm text-secondary font-mono" id="modal-specs">
+            Specs details will display here.
+          </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Permanent Archive Entry</span>
+<a class="h-[44px] px-6 bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary font-label-md text-label-md uppercase tracking-wider flex items-center justify-center transition-colors" data-path="contact-us" href="#">
+            Inquire For Similar Piece
+          </a>
+</div>
+</div>
+</div>
+</div>
+<script>
+    (function() {
+      // Interactive Filter Tabs
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const galleryCards = document.querySelectorAll('.gallery-card');
+      const countDisplay = document.getElementById('item-count');
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterButtons.forEach(b => {
+            b.classList.remove('active', 'bg-primary', 'text-on-primary');
+            b.classList.add('bg-surface-container-low', 'text-on-surface');
+          });
+          btn.classList.remove('bg-surface-container-low', 'text-on-surface');
+          btn.classList.add('active', 'bg-primary', 'text-on-primary');
+
+          const filter = btn.getAttribute('data-filter');
+          let visibleCount = 0;
+
+          galleryCards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            if (filter === 'all' || category === filter) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          if (countDisplay) {
+            countDisplay.textContent = visibleCount + ' Archived ' + (visibleCount === 1 ? 'Piece' : 'Pieces');
+          }
+        });
+      });
+
+      // Modal Dialog Micro-interactions
+      const modal = document.getElementById('specimen-modal');
+      const modalTriggers = document.querySelectorAll('.open-modal-trigger');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const modalTitle = document.getElementById('modal-title');
+      const modalCategory = document.getElementById('modal-category');
+      const modalDesc = document.getElementById('modal-desc');
+      const modalSpecs = document.getElementById('modal-specs');
+
+      const closeModal = () => {
+        if (modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      };
+
+      modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          const title = trigger.getAttribute('data-title') || 'Specimen';
+          const cat = trigger.getAttribute('data-cat') || 'Bespoke Work';
+          const desc = trigger.getAttribute('data-desc') || '';
+          const specs = trigger.getAttribute('data-specs') || '';
+
+          if (modalTitle) modalTitle.textContent = title;
+          if (modalCategory) modalCategory.textContent = cat;
+          if (modalDesc) modalDesc.textContent = desc;
+          if (modalSpecs) modalSpecs.textContent = specs;
+
+          if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+          }
+        });
+      });
+
+      if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeModal);
+      }
+
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            closeModal();
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+    })();
+  </script>
+</div></main><footer class="w-full bg-paper-tint border-t border-border-vellum mt-space-xl"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter"><div class="lg:col-span-4"><span class="font-headline-md text-headline-md uppercase text-primary tracking-widest block mb-space-sm">The Letter Ink</span><p class="font-body-md text-body-md text-on-surface-variant pr-space-md mb-space-md">An artisanal calligraphy studio and bespoke stationery atelier dedicated to heirloom lettering, pure fluid ink, and tactile cotton papers crafted with quiet intentionality.</p><div class="border-t border-border-vellum pt-space-sm"><p class="font-label-sm text-label-sm uppercase text-secondary mb-1">Atelier Quarters</p><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Ratan niwas, ground floor, plot no 33/A behind biyani chembers, bhusawal Maharashtra 425201</p></div></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Navigation</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Home Atelier</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Curated Shop</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Artisanal Gifting</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Works Gallery</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Lettering Workshops</a></li><li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Custom Commissions</a></li></ul></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Studio &amp; Hours</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Tuesday — Saturday</span><span class="font-body-sm text-body-sm text-on-surface-variant">10:00 AM – 6:30 PM IST</span></li><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Sunday &amp; Monday</span><span class="font-body-sm text-body-sm text-on-surface-variant">Reserved for Studio Craft</span></li><li><span class="font-label-sm text-label-sm uppercase text-secondary block">Consultations</span><span class="font-body-sm text-body-sm text-on-surface-variant">By Private Appointment</span></li></ul></div><div class="lg:col-span-4"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Atelier Gazette</h4><p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">Subscribe for intimate studio dispatches, seasonal release previews, and invitations to upcoming workshop cohorts.</p><form class="flex flex-col sm:flex-row gap-space-xs" onsubmit="event.preventDefault();"><input class="bg-surface-container-lowest border border-secondary text-on-surface px-4 py-3 font-body-sm text-body-sm rounded-none focus:outline-none focus:border-primary w-full" placeholder="Your email address" type="email"><button class="bg-tertiary-fixed hover:bg-surface-container-lowest hover:border hover:border-primary text-primary font-label-lg text-label-lg uppercase px-6 py-3 transition-colors shrink-0" type="submit">Join the Circle</button></form></div></div></div><div class="border-t border-border-vellum bg-surface-container-low"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-sm flex flex-col md:flex-row items-center justify-between gap-space-xs"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">© 2025 The Letter Ink Atelier. All rights reserved.</p><div class="flex items-center gap-space-md"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Terms</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Privacy Policy</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Shipping &amp; Care</a></div></div></div></footer></body></html>
