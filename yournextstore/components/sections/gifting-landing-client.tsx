@@ -1,8 +1,35 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useRef } from "react";
 
-export function GiftingLandingClient() {
+export function GiftingLandingClient({ hampers = [], occasions = [] }: { hampers?: any[], occasions?: any[] }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const itemNode = scrollRef.current.children[0] as HTMLElement;
+      if (!itemNode) return;
+      const style = window.getComputedStyle(scrollRef.current);
+      const gap = parseFloat(style.gap) || 0;
+      const itemWidth = itemNode.clientWidth;
+      const idx = Math.round(scrollRef.current.scrollLeft / (itemWidth + gap));
+      setCurrentIndex(Math.min(Math.max(idx, 0), hampers.length - 1));
+    }
+  };
+
+  const scrollByAmount = (direction: 1 | -1) => {
+    if (scrollRef.current) {
+      const itemNode = scrollRef.current.children[0] as HTMLElement;
+      if (!itemNode) return;
+      const style = window.getComputedStyle(scrollRef.current);
+      const gap = parseFloat(style.gap) || 0;
+      const itemWidth = itemNode.clientWidth;
+      scrollRef.current.scrollBy({ left: direction * (itemWidth + gap), behavior: "smooth" });
+    }
+  };
+
   return (
     <>
 <div className="flex flex-col w-full">
@@ -84,12 +111,14 @@ Hand-assembled willow baskets, botanical wooden chests, and luxury trunks filled
 </p>
 </div>
 <div className="flex items-center gap-4 shrink-0">
-<span className="font-label-md text-label-md uppercase tracking-wider text-secondary" id="hamper-counter">01 / 04</span>
+<span className="font-label-md text-label-md uppercase tracking-wider text-secondary" id="hamper-counter">
+  {String(currentIndex + 1).padStart(2, '0')} / {String(Math.max(1, hampers.length)).padStart(2, '0')}
+</span>
 <div className="flex items-center gap-2">
-<button aria-label="Previous Hamper" className="w-10 h-10 rounded-full border border-secondary flex items-center justify-center text-primary hover:bg-tertiary-fixed hover:border-primary transition-colors cursor-pointer"  type="button">
+<button onClick={() => scrollByAmount(-1)} aria-label="Previous Hamper" className="w-10 h-10 rounded-full border border-secondary flex items-center justify-center text-primary hover:bg-tertiary-fixed hover:border-primary transition-colors cursor-pointer"  type="button">
 <span className="material-symbols-outlined text-[20px]">west</span>
 </button>
-<button aria-label="Next Hamper" className="w-10 h-10 rounded-full border border-secondary flex items-center justify-center text-primary hover:bg-tertiary-fixed hover:border-primary transition-colors cursor-pointer"  type="button">
+<button onClick={() => scrollByAmount(1)} aria-label="Next Hamper" className="w-10 h-10 rounded-full border border-secondary flex items-center justify-center text-primary hover:bg-tertiary-fixed hover:border-primary transition-colors cursor-pointer"  type="button">
 <span className="material-symbols-outlined text-[20px]">east</span>
 </button>
 </div>
@@ -97,152 +126,48 @@ Hand-assembled willow baskets, botanical wooden chests, and luxury trunks filled
 </div>
 
 {/*  Hamper Slider Cards Track  */}
-<div className="flex gap-gutter overflow-x-auto pb-4 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none]" id="hamper-track">
-{/*  Card 1  */}
-<div className="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
-<div className="relative aspect-[4/5] overflow-hidden bg-surface-container">
-<img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="The Sovereign Atelier Keepsake Trunk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM" />
-<span className="absolute top-4 left-4 bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
-BESTSELLER • SIGNATURE CURATION
-</span>
-</div>
-<div className="p-space-sm flex flex-col flex-grow justify-between">
-<div>
-<div className="flex items-baseline justify-between gap-2 mb-2">
-<h3 className="font-headline-sm text-headline-sm text-primary">The Sovereign Atelier Keepsake Trunk</h3>
-<div className="text-right shrink-0">
-<span className="font-headline-sm text-headline-sm text-primary font-medium block">₹3,800</span>
-<span className="font-body-sm text-[12px] text-secondary line-through block">₹4,600</span>
-</div>
-</div>
-<p className="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
-Hand-woven blush wire hamper featuring custom dip-pen calligraphy, personalized wax seal, pure 24k gold leaf illumination, and bespoke botanical accents.
-</p>
-<div className="flex flex-wrap gap-1.5 mb-space-sm">
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Custom Vow Scrolls</span>
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Brass Seal Stamp</span>
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">French Lavender</span>
-</div>
-</div>
-<div className="pt-space-xs border-t border-border-vellum">
-<button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
-VIEW HAMPER DETAILS
-<span className="material-symbols-outlined text-[16px]">north_east</span>
-</button>
-</div>
-</div>
-</div>
-
-{/*  Card 2  */}
-<div className="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
-<div className="relative aspect-[4/5] overflow-hidden bg-surface-container">
-<img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="The Bridal Epistolary Hamper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmN0585oPlkvTnE6ZZgZ3E_mcmJxmoAl4Lm7gf4ch59NhAbsYEh5Grsnhj6aUmVxlNW92T23VKUhUqmnhndVDNgPL9G2IPS3XM5sWpJFOcMr-MxYD_GQ_3sKsjUxQL3mepkwfcm1RoKq-EGCVy2oIzYj265Ni9nf_gsCE78ntmqE8xgy4GSCThwSpkW94yQFORm7nnU5w4LrzR6YOrgSMz74y7rByMSAMf17NUbaODpkVfaXYr2yo" />
-<span className="absolute top-4 left-4 bg-surface-container-lowest text-primary px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
-BRIDAL &amp; TROUSSEAU
-</span>
-</div>
-<div className="p-space-sm flex flex-col flex-grow justify-between">
-<div>
-<div className="flex items-baseline justify-between gap-2 mb-2">
-<h3 className="font-headline-sm text-headline-sm text-primary">The Bridal Epistolary Hamper</h3>
-<span className="font-headline-sm text-headline-sm text-primary font-medium shrink-0">₹4,200</span>
-</div>
-<p className="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
-Delicate tulle-wrapped tiered gift hamper with hand-bound deckle vow books, his &amp; hers engraved champagne flutes, and hand-poured botanical sealing wax.
-</p>
-<div className="flex flex-wrap gap-1.5 mb-space-sm">
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Pair of Flutes</span>
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Silk Ribbon Suite</span>
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Gold Mica Ink</span>
-</div>
-</div>
-<div className="pt-space-xs border-t border-border-vellum">
-<button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
-VIEW HAMPER DETAILS
-<span className="material-symbols-outlined text-[16px]">north_east</span>
-</button>
-</div>
-</div>
-</div>
-
-{/*  Card 3  */}
-<div className="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
-<div className="relative aspect-[4/5] overflow-hidden bg-surface-container">
-<img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Almond &amp; Gilded Scribe Chest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ" />
-<span className="absolute top-4 left-4 bg-surface-container-lowest text-primary px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
-FESTIVE EDITION
-</span>
-</div>
-<div className="p-space-sm flex flex-col flex-grow justify-between">
-<div>
-<div className="flex items-baseline justify-between gap-2 mb-2">
-<h3 className="font-headline-sm text-headline-sm text-primary">Almond &amp; Gilded Scribe Chest</h3>
-<span className="font-headline-sm text-headline-sm text-primary font-medium shrink-0">₹2,400</span>
-</div>
-<p className="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
-Hexagonal presentation trunk with artisanal confectionery tin, turned dip-pen, brass melting ladle, imported flex nibs, and gold illuminated greeting.
-</p>
-<div className="flex flex-wrap gap-1.5 mb-space-sm">
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Artisanal Confectionery</span>
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Dip Pen &amp; Nibs</span>
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Sealing Beads</span>
-</div>
-</div>
-<div className="pt-space-xs border-t border-border-vellum">
-<button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
-VIEW HAMPER DETAILS
-<span className="material-symbols-outlined text-[16px]">north_east</span>
-</button>
-</div>
-</div>
-</div>
-
-{/*  Card 4  */}
-<div className="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
-<div className="relative aspect-[4/5] overflow-hidden bg-surface-container">
-<img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="The Grand Scribe Desk Valet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRXdxOcOZPhzCFrSVx-PRPSJbsERWjmdC7x4dLe4yS6NJnIcmcsRKg_9Hk7gx9OMz2yG0NkUpymyDRsvlA1Z355GpqR2d_ZqLfizIhNvwNrCt4Cd2_Vm28Vsd5Fd8GqODZ5STK4ZqDg5zV_D4F5X22lxXGCidHLAce35hMycTbleZ8mXfWUM9QioYep8qD1GIKS0syuj_utCLjz92ATxIuK9G0oLWpvVOYq_weUh_EzirnP91MFig" />
-<span className="absolute top-4 left-4 bg-surface-container-lowest text-primary px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
-EXECUTIVE PRESTIGE
-</span>
-</div>
-<div className="p-space-sm flex flex-col flex-grow justify-between">
-<div>
-<div className="flex items-baseline justify-between gap-2 mb-2">
-<h3 className="font-headline-sm text-headline-sm text-primary">The Grand Scribe Desk Valet</h3>
-<span className="font-headline-sm text-headline-sm text-primary font-medium shrink-0">₹5,200</span>
-</div>
-<p className="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
-Italian leather desk blotter, custom carved marble paperweight, monogrammed wax seal kit, and archival correspondence note cards in keepsake oak box.
-</p>
-<div className="flex flex-wrap gap-1.5 mb-space-sm">
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Oak Presentation Box</span>
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Engraved Stamp</span>
-<span className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Archival Cards</span>
-</div>
-</div>
-<div className="pt-space-xs border-t border-border-vellum">
-<button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
-VIEW HAMPER DETAILS
-<span className="material-symbols-outlined text-[16px]">north_east</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-
-{/*  Bottom Controls & Callout Bar  */}
-<div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-space-md pt-space-sm border-t border-border-vellum">
-<div className="flex items-center gap-2">
-<span className="w-8 h-1 bg-primary"></span>
-<span className="w-4 h-1 bg-surface-container-highest"></span>
-<span className="w-4 h-1 bg-surface-container-highest"></span>
-<span className="w-4 h-1 bg-surface-container-highest"></span>
-<span className="font-label-sm text-label-sm text-secondary ml-2">Swipe or use arrows to view all trunks</span>
-</div>
-<a className="bg-surface-container-lowest hover:bg-tertiary-fixed text-primary px-6 py-3 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2 border border-border-vellum" href="#concierge">
-BUILD BESPOKE HAMPER
-<span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-</a>
+<div ref={scrollRef} onScroll={handleScroll} className="flex gap-gutter overflow-x-auto pb-4 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none]" id="hamper-track">
+          {hampers.map((hamper, idx) => (
+            <div key={hamper.id} className="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
+              <div className="relative aspect-[4/5] overflow-hidden bg-surface-container">
+                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={hamper.title} src={hamper.thumbnail || 'https://via.placeholder.com/400x500?text=Hamper'} />
+                {hamper.metadata?.badge && (
+                  <span className="absolute top-4 left-4 bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
+                    {hamper.metadata.badge}
+                  </span>
+                )}
+              </div>
+              <div className="p-space-sm flex flex-col flex-grow justify-between">
+                <div>
+                  <div className="flex items-baseline justify-between gap-2 mb-2">
+                    <h3 className="font-headline-sm text-headline-sm text-primary">{hamper.title}</h3>
+                    <div className="text-right shrink-0">
+                      <span className="font-headline-sm text-headline-sm text-primary font-medium block">
+                        ₹{hamper.variants?.[0]?.prices?.[0]?.amount || '0'}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant mb-space-sm line-clamp-3">
+                    {hamper.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mb-space-sm">
+                    {hamper.tags?.slice(0,3).map((tag: any) => (
+                      <span key={tag.id} className="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">{tag.value}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="pt-space-xs border-t border-border-vellum">
+                  <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
+                    VIEW HAMPER DETAILS
+                    <span className="material-symbols-outlined text-[16px]">north_east</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+          {hampers.length === 0 && (
+            <div className="p-8 text-center text-ui-fg-subtle w-full">No hampers available yet.</div>
+          )}
 </div>
 </div>
 </section>{/*  Curated By Occasion Grid Section  */}
@@ -256,300 +181,53 @@ BUILD BESPOKE HAMPER
     </div>
 
     <div className="flex flex-col gap-space-xl">
-      {/*  Row 1: Wedding  */}
-      <div className="flex flex-col">
-        <div className="flex items-baseline justify-between mb-space-sm border-b border-border-vellum pb-2">
-          <div className="flex items-center gap-3">
-            <h3 className="font-headline-lg text-headline-lg text-primary tracking-wide">Wedding</h3>
-            <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest hidden sm:inline-block">(Weddings &amp; Vows Suite)</span>
-          </div>
-          <a className="font-label-sm text-label-sm uppercase text-primary hover:text-secondary inline-flex items-center gap-1 tracking-wider transition-colors" href="#">
-            View All Wedding Curations
-            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-          </a>
-        </div>
-
-        {/*  4 Grid Cards  */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-          {/*  Wedding Card 1  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Bespoke Wedding Vow Suite" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbPwrH7ohCeXQTtAq-sj-6R6uSkr52oj1nFDzx6qHLjw1_AMB9-0_80GWIhI9OE_z4SHuDsjoShKFXLbyM9cMAqaJCg0h2JADi1OtbdEjK0eJ575-HQUJyzoMwZ0epStHBqOFN3VB6TudYujHdQb-b3GPqCCdwNlYtBS0q3QG6CUps39Za8_BVJoJJtWj1EPNJE8uMWOow8sc1Ss2TzrqVNCXNAVzXcSKiXE0RylVoyYqj4J5ztts" />
-                <span className="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5">Atelier Classic</span>
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Bespoke Wedding Vow Suite</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Hand-lettered vow scrolls on deckle-edge cotton rag paper with gold wax crest.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹3,950</span>
-              </div>
+      
+      {occasions.map((occ, idx) => (
+        <div key={occ.category.id} className="flex flex-col mt-space-xl first:mt-0">
+          <div className="flex items-baseline justify-between mb-space-sm border-b border-border-vellum pb-2">
+            <div className="flex items-center gap-3">
+              <h3 className="font-headline-lg text-headline-lg text-primary tracking-wide">{occ.category.name}</h3>
             </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
+            <a className="font-label-sm text-label-sm uppercase text-primary hover:text-secondary inline-flex items-center gap-1 tracking-wider transition-colors" href="#">
+              View All {occ.category.name} Curations
+              <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
           </div>
 
-          {/*  Wedding Card 2  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Luxury Wedding Flutes Suite" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmN0585oPlkvTnE6ZZgZ3E_mcmJxmoAl4Lm7gf4ch59NhAbsYEh5Grsnhj6aUmVxlNW92T23VKUhUqmnhndVDNgPL9G2IPS3XM5sWpJFOcMr-MxYD_GQ_3sKsjUxQL3mepkwfcm1RoKq-EGCVy2oIzYj265Ni9nf_gsCE78ntmqE8xgy4GSCThwSpkW94yQFORm7nnU5w4LrzR6YOrgSMz74y7rByMSAMf17NUbaODpkVfaXYr2yo" />
-                <span className="absolute top-3 left-3 bg-surface-container-lowest text-primary font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5 border border-border-vellum">Bridal Favorite</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+            {occ.products?.map((product) => (
+              <div key={product.id} className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+                <div>
+                  <div className="relative aspect-square overflow-hidden bg-surface-container">
+                    <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={product.title} src={product.thumbnail || 'https://via.placeholder.com/300?text=Gift'} />
+                    {product.metadata?.badge && (
+                      <span className="absolute top-3 left-3 bg-surface-container-lowest text-primary font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5 border border-border-vellum">
+                        {product.metadata.badge}
+                      </span>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-headline-sm text-[18px] text-primary mb-1">{product.title}</h4>
+                    <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">{product.description}</p>
+                    <span className="font-headline-sm text-[18px] text-primary font-medium block">
+                      ₹{product.variants?.[0]?.prices?.[0]?.amount || '0'}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-4 pt-0">
+                  <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                    Order Online
+                    <span className="material-symbols-outlined text-[14px]">north_east</span>
+                  </button>
+                </div>
               </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Luxury Wedding Flutes</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Hand-engraved his &amp; hers crystal stemware paired with botanical silk wraps.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹2,800</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Customize
-                <span className="material-symbols-outlined text-[14px]">tune</span>
-              </button>
-            </div>
-          </div>
-
-          {/*  Wedding Card 3  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Monogram Glass Keepsake Box" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM" />
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Monogram Glass Keepsake Box</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Brass-edged vintage vitrine with gold calligraphy monogram and velvet lining.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹3,450</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
-          </div>
-
-          {/*  Wedding Card 4  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="His &amp; Hers Keepsake Trunk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ" />
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">His &amp; Hers Keepsake Trunk</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Trousseau wooden chest with personalized seals, leather journals, and gold ink.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹4,600</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
+            ))}
+            {(!occ.products || occ.products.length === 0) && (
+              <div className="col-span-full p-8 text-center text-ui-fg-subtle">No gifts added to {occ.category.name} yet.</div>
+            )}
           </div>
         </div>
-      </div>
-
-      {/*  Row 2: Anniversary  */}
-      <div className="flex flex-col">
-        <div className="flex items-baseline justify-between mb-space-sm border-b border-border-vellum pb-2">
-          <div className="flex items-center gap-3">
-            <h3 className="font-headline-lg text-headline-lg text-primary tracking-wide">Anniversary</h3>
-            <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest hidden sm:inline-block">(Anniversaries &amp; Romance Suite)</span>
-          </div>
-          <a className="font-label-sm text-label-sm uppercase text-primary hover:text-secondary inline-flex items-center gap-1 tracking-wider transition-colors" href="#">
-            View All Anniversary Curations
-            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-          </a>
-        </div>
-
-        {/*  4 Grid Cards  */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-          {/*  Anniversary Card 1  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Personalized Handwritten Scroll" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM" />
-                <span className="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5">Bestseller</span>
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Personalized Handwritten Scroll</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Spencerian script poetry or love letter on hand-distressed 150 GSM cotton rag.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹2,950</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
-          </div>
-
-          {/*  Anniversary Card 2  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Romance Monogram Wax Seal Kit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZabnPI_5wzJDPgcHI4JJQ5yK5Hf0Y0NQTVLakCSVZr9CMT37qgbRAtnXMe0x0ZzE49YCsglc5cKMwzCBhijQ17I85aqakqfqJIPqghYu7PQaAnOKfvF3pfd45XHF0lvaWMcOZX-EqvXvtHnKYUPfbjeu6h7_-YYXbM3rAir9cd0vgmuP7bsJApp0Jc1a1SpS8BiiayJ4_tdf0ftvypqh5q93PzjmVnU2lPOfJ8cX7QFv3p_htW2I" />
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Romance Wax Seal Stamper Kit</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Solid brass seal stamper with couple's initials, rose gold wax beads, and spoon.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹2,200</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Customize
-                <span className="material-symbols-outlined text-[14px]">tune</span>
-              </button>
-            </div>
-          </div>
-
-          {/*  Anniversary Card 3  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Antiqued Wooden Slide Box" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ" />
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Antiqued Wooden Slide Box</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Handmade pine slide case holding archival notes, dried blooms, and seal tokens.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹3,150</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
-          </div>
-
-          {/*  Anniversary Card 4  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Gilded Memory Folio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRXdxOcOZPhzCFrSVx-PRPSJbsERWjmdC7x4dLe4yS6NJnIcmcsRKg_9Hk7gx9OMz2yG0NkUpymyDRsvlA1Z355GpqR2d_ZqLfizIhNvwNrCt4Cd2_Vm28Vsd5Fd8GqODZ5STK4ZqDg5zV_D4F5X22lxXGCidHLAce35hMycTbleZ8mXfWUM9QioYep8qD1GIKS0syuj_utCLjz92ATxIuK9G0oLWpvVOYq_weUh_EzirnP91MFig" />
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Gilded Memory Folio</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Accordion linen folio album tipped in 24k gold leaf calligraphy and photo mounts.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹3,800</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/*  Row 3: Birthday  */}
-      <div className="flex flex-col">
-        <div className="flex items-baseline justify-between mb-space-sm border-b border-border-vellum pb-2">
-          <div className="flex items-center gap-3">
-            <h3 className="font-headline-lg text-headline-lg text-primary tracking-wide">Birthday</h3>
-            <span className="font-label-sm text-label-sm text-secondary uppercase tracking-widest hidden sm:inline-block">(Milestone Celebrations Suite)</span>
-          </div>
-          <a className="font-label-sm text-label-sm uppercase text-primary hover:text-secondary inline-flex items-center gap-1 tracking-wider transition-colors" href="#">
-            View All Birthday Curations
-            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-          </a>
-        </div>
-
-        {/*  4 Grid Cards  */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-          {/*  Birthday Card 1  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Name Frame Royal Large" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM" />
-                <span className="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5">Custom Milestone</span>
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Name Frame Royal (Large)</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Hand-illuminated calligraphic name crest with gold-leaf filigree in solid teak frame.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹3,600</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Customize
-                <span className="material-symbols-outlined text-[14px]">tune</span>
-              </button>
-            </div>
-          </div>
-
-          {/*  Birthday Card 2  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Name Frame Classic Small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZabnPI_5wzJDPgcHI4JJQ5yK5Hf0Y0NQTVLakCSVZr9CMT37qgbRAtnXMe0x0ZzE49YCsglc5cKMwzCBhijQ17I85aqakqfqJIPqghYu7PQaAnOKfvF3pfd45XHF0lvaWMcOZX-EqvXvtHnKYUPfbjeu6h7_-YYXbM3rAir9cd0vgmuP7bsJApp0Jc1a1SpS8BiiayJ4_tdf0ftvypqh5q93PzjmVnU2lPOfJ8cX7QFv3p_htW2I" />
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Name Frame Classic (Small)</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Delicate brass desktop floating frame with hand-penned birthday blessing scroll.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹1,850</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
-          </div>
-
-          {/*  Birthday Card 3  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal Confectionery Trunk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ" />
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Artisanal Confectionery Trunk</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Hexagonal trunk with roasted almonds, chocolate pralines, and celebration scroll.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹2,400</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
-          </div>
-
-          {/*  Birthday Card 4  */}
-          <div className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
-            <div>
-              <div className="relative aspect-square overflow-hidden bg-surface-container">
-                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Executive Scribe Valet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRXdxOcOZPhzCFrSVx-PRPSJbsERWjmdC7x4dLe4yS6NJnIcmcsRKg_9Hk7gx9OMz2yG0NkUpymyDRsvlA1Z355GpqR2d_ZqLfizIhNvwNrCt4Cd2_Vm28Vsd5Fd8GqODZ5STK4ZqDg5zV_D4F5X22lxXGCidHLAce35hMycTbleZ8mXfWUM9QioYep8qD1GIKS0syuj_utCLjz92ATxIuK9G0oLWpvVOYq_weUh_EzirnP91MFig" />
-              </div>
-              <div className="p-4">
-                <h4 className="font-headline-sm text-[18px] text-primary mb-1">Executive Scribe Valet</h4>
-                <p className="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Italian leather desk journal, turned walnut brass dip pen, and custom ink well.</p>
-                <span className="font-headline-sm text-[18px] text-primary font-medium block">₹4,800</span>
-              </div>
-            </div>
-            <div className="p-4 pt-0">
-              <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
-                Order Online
-                <span className="material-symbols-outlined text-[14px]">north_east</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   </div>
 </section>
