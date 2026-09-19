@@ -10,6 +10,9 @@ import { TrustBadges } from "@/app/product/[slug]/trust-badges";
 import { useSelectedVariant } from "@/app/product/[slug]/use-selected-variant";
 import { VariantSelector } from "@/app/product/[slug]/variant-selector";
 import { useVolumePricing, VolumePricingDisplay, type VolumeTier } from "@/app/product/[slug]/volume-pricing";
+import { CustomisationConfig } from "@/lib/customisation-api";
+import { CustomisationPanel } from "@/app/product/[slug]/customisation/customisation-panel";
+import { useCustomisation } from "@/app/product/[slug]/customisation/use-customisation";
 import { useStoreConfig } from "@/components/store-config-provider";
 import { formatMoney } from "@/lib/money";
 import { displayPrice, priceRange } from "@/lib/pricing";
@@ -57,6 +60,7 @@ type AddToCartButtonProps = {
 	volumePricingTiers?: VolumeTier[];
 	/** Show a "remind me when back in stock" flow when out of stock (Restock Notifications module). */
 	restockNotificationsEnabled?: boolean;
+	customisationConfig?: CustomisationConfig | null;
 };
 
 const LOW_STOCK_THRESHOLD = 5;
@@ -67,10 +71,12 @@ export function AddToCartButton({
 	summary,
 	volumePricingTiers = [],
 	restockNotificationsEnabled = false,
+	customisationConfig = null,
 }: AddToCartButtonProps) {
 	const { currency, locale, taxBehavior } = useStoreConfig();
 	const [quantity, setQuantity] = useState(1);
 	const { items, openCart, dispatch, syncCart, reconcile, startMutation } = useCart();
+	const customisationHook = useCustomisation(customisationConfig);
 
 	const selectedVariant = useSelectedVariant(variants);
 
@@ -148,10 +154,12 @@ export function AddToCartButton({
 		e.preventDefault();
 
 		if (!selectedVariant || isOutOfStock) return;
+		if (!customisationHook.validate()) return;
 
 		const variantId = selectedVariant.id;
 		const addedQuantity = effectiveQuantity;
 		const previousQuantity = items.find((item) => item.productVariant.id === variantId)?.quantity ?? 0;
+		const metadata = customisationHook.buildMetadata();
 
 		trackAddToCart(selectedVariant, product.name, addedQuantity);
 
@@ -173,6 +181,7 @@ export function AddToCartButton({
 					priceGross: selectedVariant.priceGross,
 					images: selectedVariant.images,
 					product,
+					metadata,
 				},
 			},
 		});
@@ -180,7 +189,7 @@ export function AddToCartButton({
 		startMutation(async () => {
 			// The server clamps line quantities to available stock and still responds
 			// with the updated cart — sync from the RETURNED cart; reconcile only on failure.
-			const result = await addToCart(variantId, addedQuantity);
+			const result = await addToCart(variantId, addedQuantity, metadata);
 			const line = result.cart?.lineItems.find((item) => item.productVariant.id === variantId);
 			if (result.success && result.cart && line) {
 				syncCart(result.cart);
@@ -244,6 +253,8 @@ export function AddToCartButton({
 
 			{variants.length > 1 && <VariantSelector variants={variants} />}
 
+			{customisationConfig && <CustomisationPanel config={customisationConfig} hook={customisationHook} />}
+
 			<VolumePricingDisplay tiers={resolvedTiers} quantity={effectiveQuantity} volumePrice={volumePrice} />
 
 			<div className="flex flex-col gap-3 pt-4">
@@ -260,7 +271,7 @@ export function AddToCartButton({
 							/>
 							<button
 								type="submit"
-								disabled={!selectedVariant || isOutOfStock}
+								disabled={!selectedVariant || isOutOfStock || !customisationHook.isValid}
 								className="flex-1 h-[49px] bg-tertiary-fixed hover:bg-surface-container-lowest text-on-tertiary-fixed hover:text-primary transition-all duration-300 font-label-lg text-label-lg uppercase tracking-widest flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
 							>
 								<span className="">{buttonText}</span>

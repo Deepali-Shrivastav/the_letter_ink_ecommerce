@@ -8,6 +8,7 @@ export type CartLineItem = {
 		/** Gross twin of `price`; absent on optimistic lines built before the server replies. */
 		priceGross?: string | null;
 		images: string[];
+		metadata?: Record<string, any>;
 		product: {
 			id: string;
 			name: string;

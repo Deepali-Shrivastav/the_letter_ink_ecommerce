@@ -24,6 +24,7 @@ import { commerce, meGetCached } from "@/lib/commerce";
 import { buildProductBreadcrumbJsonLd, buildProductJsonLd, JsonLdScript } from "@/lib/json-ld";
 import { TrackProductView } from "@/lib/track";
 import { cn } from "@/lib/utils";
+import { fetchProductCustomisation } from "@/lib/customisation-api";
 
 // MediaGallery and the purchase panel read useSearchParams (selected variant),
 // so they need a Suspense boundary to keep the rest of the page prerenderable.
@@ -136,19 +137,22 @@ const getProductPageData = async (slug: string) => {
 	const me = await meGetCached().catch(() => null);
 	const reviewsEnabled = me?.store.settings?.enabledTools?.reviews ?? false;
 	const restockNotificationsEnabled = me?.store.settings?.enabledTools?.restockNotifications ?? false;
-	const [product, reviews] = await Promise.all([
-		safeProductGet(slug),
+	const product = await safeProductGet(slug);
+	if (!product) return { product: null, reviews: null, restockNotificationsEnabled, customisationConfig: null };
+
+	const [reviews, customisationConfig] = await Promise.all([
 		reviewsEnabled
 			? commerce.productReviewsBrowse({ idOrSlug: slug }, { limit: 20 }).catch(() => null)
 			: Promise.resolve(null),
+		fetchProductCustomisation(product.id).catch(() => null),
 	]);
 
-	return { product, reviews, restockNotificationsEnabled };
+	return { product, reviews, restockNotificationsEnabled, customisationConfig };
 };
 
 const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> }) => {
 	const { slug } = await params;
-	const { product, reviews, restockNotificationsEnabled } = await getProductPageData(slug);
+	const { product, reviews, restockNotificationsEnabled, customisationConfig } = await getProductPageData(slug);
 
 	if (!product) {
 		notFound();
@@ -254,6 +258,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 									summary={product.summary}
 									volumePricingTiers={product.volumePricingTiers}
 									restockNotificationsEnabled={restockNotificationsEnabled}
+									customisationConfig={customisationConfig}
 								/>
 							</Suspense>
 						)}

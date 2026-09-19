@@ -112,13 +112,38 @@ export function CartItem({ item }: CartItemProps) {
 			{/* Product Details */}
 			<div className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
 				<div className="flex items-start justify-between gap-2">
-					<Link
-						href={`/product/${product.slug}`}
-						onClick={closeCart}
-						className="text-sm font-medium leading-tight text-foreground hover:underline line-clamp-2"
-					>
-						{product.name}
-					</Link>
+					<div className="flex flex-col gap-0.5">
+						<Link
+							href={`/product/${product.slug}`}
+							onClick={closeCart}
+							className="text-sm font-medium leading-tight text-foreground hover:underline line-clamp-2"
+						>
+							{product.name}
+						</Link>
+						{productVariant.metadata && (
+							<div className="flex flex-col gap-0.5 mt-1 w-full text-muted-foreground">
+								{Object.entries(productVariant.metadata).map(([key, value]) => {
+									if (!value) return null;
+									if (key === "custom_text") {
+										return (
+											<span key={key} className="text-xs italic">
+												"{String(value)}"
+											</span>
+										);
+									}
+									if (typeof value === "object" && "label" in (value as any)) {
+										const name = key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+										return (
+											<span key={key} className="text-xs">
+												<span className="font-medium">{name}:</span> {(value as any).label}
+											</span>
+										);
+									}
+									return null;
+								})}
+							</div>
+						)}
+					</div>
 					<button
 						type="button"
 						onClick={handleRemove}

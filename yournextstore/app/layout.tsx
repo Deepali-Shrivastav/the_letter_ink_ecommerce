@@ -6,7 +6,7 @@ import { cacheLife } from "next/cache";
 import { Geist, Geist_Mono, Raleway, EB_Garamond } from "next/font/google";
 import { getImageProps } from "next/image";
 import Link from "next/link";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Suspense } from "react";
 import { CartBootstrap, CartProvider } from "@/app/cart/cart-context";
 import { CartSidebar } from "@/app/cart/cart-sidebar";
@@ -268,17 +268,18 @@ export default async function RootLayout({
 				<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${ebGaramond.variable} antialiased`} suppressHydrationWarning>
-				{/* DO NOT REMOVE / REORDER: required for GDPR + GTM Consent Mode v2. Must stay at top of <body>. */}
 				<Suspense>
 					<CookieConsent />
 				</Suspense>
-				<Suspense>
-					<StoreJsonLd />
-				</Suspense>
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-					<CartProviderWrapper>{children}</CartProviderWrapper>
+				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+					<div className="contents">
+						<CartProviderWrapper>{children}</CartProviderWrapper>
+					</div>
 					<Suspense>
 						<NewsletterPopupSection />
+					</Suspense>
+					<Suspense>
+						<StoreJsonLd />
 					</Suspense>
 					<Toaster richColors position="top-center" />
 				</ThemeProvider>

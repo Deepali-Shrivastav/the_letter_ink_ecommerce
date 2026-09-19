@@ -78,6 +78,7 @@ const mapMedusaCartToYNS = (medusaCart: any) => {
         price: String(item.unit_price),
         priceGross: String(item.unit_price),
         images: item.thumbnail ? [item.thumbnail] : [],
+        metadata: item.metadata,
         product: {
           id: item.variant?.product_id || item.id,
           name: item.title,
@@ -116,8 +117,8 @@ export const commerce = {
       } catch {}
 
       throw new Error("Product not found");
-    } catch (e) {
-      throw e;
+    } catch (error) {
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   },
   productReviewsBrowse: async () => {
@@ -156,7 +157,7 @@ export const commerce = {
         meta: { count: physicalProducts.length },
       };
     } catch (error) {
-      console.warn("Medusa API Error (productBrowse):", error);
+      console.log("Medusa API Error (productBrowse):", error instanceof Error ? error.message : String(error));
       return { data: [], meta: { count: 0 } };
     }
   },
@@ -311,11 +312,11 @@ export const commerce = {
       const { cart } = await medusaClient.carts.retrieve(cartId);
       return mapMedusaCartToYNS(cart);
     } catch (error) {
-      console.error("cartGet error:", error);
+      console.log("cartGet error:", error instanceof Error ? error.message : String(error));
       throw new Error("Cart not found");
     }
   },
-  cartUpsert: async ({ cartId, variantId, quantity, mode }: { cartId?: string; variantId: string; quantity: number; mode?: "set" }) => {
+  cartUpsert: async ({ cartId, variantId, quantity, mode, metadata }: { cartId?: string, variantId: string, quantity: number, mode?: "set", metadata?: Record<string, unknown> }) => {
     try {
       let activeCartId = cartId;
 
@@ -331,16 +332,16 @@ export const commerce = {
         await medusaClient.carts.lineItems.delete(activeCartId!, existingLineItem.id);
       } else if (existingLineItem) {
         const newQuantity = mode === "set" ? quantity : existingLineItem.quantity + quantity;
-        await medusaClient.carts.lineItems.update(activeCartId!, existingLineItem.id, { quantity: newQuantity });
+        await medusaClient.carts.lineItems.update(activeCartId!, existingLineItem.id, { quantity: newQuantity, metadata: metadata || existingLineItem.metadata });
       } else if (quantity > 0) {
-        await medusaClient.carts.lineItems.create(activeCartId!, { variant_id: variantId, quantity });
+        await medusaClient.carts.lineItems.create(activeCartId!, { variant_id: variantId, quantity, metadata });
       }
 
       const { cart: updatedCart } = await medusaClient.carts.retrieve(activeCartId!);
       return mapMedusaCartToYNS(updatedCart);
     } catch (error) {
-      console.error("cartUpsert error:", error);
-      throw error;
+      console.log("cartUpsert error:", error instanceof Error ? error.message : String(error));
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   },
   collectionBrowse: async (args?: { active?: boolean; limit?: number }) => {
@@ -357,7 +358,7 @@ export const commerce = {
         meta: { count: res.count || res.collections.length },
       };
     } catch (error) {
-      console.error("Medusa API Error (collections):", error);
+      console.log("Medusa API Error (collections):", error instanceof Error ? error.message : String(error));
       return { data: [], meta: { count: 0 } };
     }
   },
@@ -390,8 +391,8 @@ export const commerce = {
         productCollections: [],
       };
     } catch (error) {
-      console.error("Medusa API Error (collectionGet):", error);
-      throw error;
+      console.log("Medusa API Error (collectionGet):", error instanceof Error ? error.message : String(error));
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   },
   categoryGet: async ({ idOrSlug }: { idOrSlug: string }) => {
@@ -409,8 +410,8 @@ export const commerce = {
         active: true,
       };
     } catch (error) {
-      console.error("Medusa API Error (categoryGet):", error);
-      throw error;
+      console.log("Medusa API Error (categoryGet):", error instanceof Error ? error.message : String(error));
+      throw new Error(error instanceof Error ? error.message : String(error));
     }
   },
 };

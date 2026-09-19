@@ -20,7 +20,7 @@ export async function getCart() {
 	return cart;
 }
 
-export async function addToCart(variantId: string, quantity = 1) {
+export async function addToCart(variantId: string, quantity = 1, metadata?: Record<string, unknown>) {
 	const cartCookie = await getCartCookieJson();
 
 	// The yns_cart cookie can point at a cartId that no longer exists server-side
@@ -28,9 +28,9 @@ export async function addToCart(variantId: string, quantity = 1) {
 	// retry once with a FRESH cart so the add always lands. No revalidatePath — the
 	// client syncs from this action's returned cart (the layout cartGet hits a
 	// read-replica and can return the pre-write cart, dropping the just-added line).
-	let [error, cart] = await try_(commerce.cartUpsert({ cartId: cartCookie?.id, variantId, quantity }));
+	let [error, cart] = await try_(commerce.cartUpsert({ cartId: cartCookie?.id, variantId, quantity, metadata }));
 	if (error) {
-		[error, cart] = await try_(commerce.cartUpsert({ variantId, quantity }));
+		[error, cart] = await try_(commerce.cartUpsert({ variantId, quantity, metadata }));
 		if (error) {
 			console.error("cart: addToCart failed after fresh-cart retry", { variantId, quantity, error });
 			return { success: false, cart: null };
