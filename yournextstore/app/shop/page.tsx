@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { ShopHeader } from "@/components/sections/shop/shop-header";
-import { ShopCatalog } from "@/components/sections/shop/shop-catalog";
+import { ShopPageClient } from "@/components/sections/shop-page-client";
 
 export const metadata: Metadata = {
 	title: "Shop - The Letter Ink",
@@ -10,8 +9,7 @@ export const metadata: Metadata = {
 export default function ShopPage() {
 	return (
 		<div className="bg-background min-h-screen">
-			<ShopHeader />
-			<ShopCatalog />
+			<ShopPageClient />
 		</div>
 	);
 }

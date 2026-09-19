@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GiftingPageClient } from "@/components/sections/gifting-page-client";
+import { GiftingLandingClient } from "@/components/sections/gifting-landing-client";
 
 export const metadata: Metadata = {
 	title: "Artisanal Gifting Atelier - Gifts for Every Milestone",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function GiftingPage() {
-	return <GiftingPageClient />;
+	return <GiftingLandingClient />;
 }

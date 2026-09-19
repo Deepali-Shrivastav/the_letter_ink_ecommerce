@@ -1,0 +1,981 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Raleway:ital,wght@0,300..700;1,300..700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-tint": "#5e5e5e",
+          "on-secondary-fixed-variant": "#434750",
+          "surface": "#f9f9f9",
+          "primary-container": "#1b1b1b",
+          "border-vellum": "#EAE6E1",
+          "outline-variant": "#cfc4c5",
+          "secondary": "#5a5e68",
+          "outline": "#7e7576",
+          "on-error": "#ffffff",
+          "tertiary-fixed": "#fadcd0",
+          "on-primary-fixed": "#1b1b1b",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#474747",
+          "on-primary-container": "#848484",
+          "surface-variant": "#e2e2e2",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#c3c6d1",
+          "background": "#f9f9f9",
+          "primary-fixed-dim": "#c6c6c6",
+          "surface-container-lowest": "#ffffff",
+          "paper-tint": "#FAF8F6",
+          "surface-container": "#eeeeee",
+          "on-background": "#1a1c1c",
+          "on-tertiary-fixed": "#271811",
+          "surface-dim": "#dadada",
+          "tertiary-fixed-dim": "#ddc1b5",
+          "error-crimson": "#B00020",
+          "primary": "#000000",
+          "surface-container-low": "#f3f3f4",
+          "on-secondary-container": "#5f636c",
+          "on-error-container": "#93000a",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#977f75",
+          "inverse-on-surface": "#f0f1f1",
+          "tertiary-container": "#271811",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#dfe2ed",
+          "on-surface-variant": "#4c4546",
+          "inverse-surface": "#2f3131",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed": "#181c23",
+          "primary-fixed": "#e2e2e2",
+          "tertiary": "#000000",
+          "surface-bright": "#f9f9f9",
+          "surface-container-high": "#e8e8e8",
+          "on-tertiary": "#ffffff",
+          "secondary-container": "#dcdfea",
+          "on-surface": "#1a1c1c",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#56423a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter-mobile": "1rem",
+          "space-lg": "3.75rem",
+          "margin-mobile": "1.25rem",
+          "margin": "4rem",
+          "space-md": "2.5rem",
+          "gutter": "2rem",
+          "space-sm": "1.25rem",
+          "space-xs": "0.625rem",
+          "space-xl": "6.25rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Raleway"
+          ],
+          "label-sm": [
+            "Raleway"
+          ],
+          "label-lg": [
+            "Raleway"
+          ],
+          "body-sm": [
+            "Raleway"
+          ],
+          "label-md": [
+            "Raleway"
+          ],
+          "headline-lg-mobile": [
+            "EB Garamond"
+          ],
+          "display-hero-mobile": [
+            "EB Garamond"
+          ],
+          "body-md": [
+            "Raleway"
+          ],
+          "headline-lg": [
+            "EB Garamond"
+          ],
+          "display-hero": [
+            "EB Garamond"
+          ],
+          "body-lg": [
+            "Raleway"
+          ],
+          "headline-md": [
+            "Raleway"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "19px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.18em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-lg": [
+            "15px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.15em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "label-md": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-lg-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero-mobile": [
+            "38px",
+            {
+              "lineHeight": "46px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "300"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "400"
+            }
+          ],
+          "display-hero": [
+            "54px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "0.12em",
+              "fontWeight": "400"
+            }
+          ],
+          "body-lg": [
+            "17px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "0.05em",
+              "fontWeight": "300"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50"><div class="w-full bg-tertiary-fixed text-on-tertiary-fixed px-margin-mobile lg:px-margin py-space-xs text-center border-b border-border-vellum"><p class="font-label-sm text-label-sm uppercase tracking-widest">BESPOKE COMMISSIONS &amp; SEASONAL WORKSHOPS — WORLDWIDE ATELIER SHIPPING | USE CODE "INKMAGIC" FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING &amp; WAX SEALING</p></div><div class="w-full bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-border-vellum"><div class="h-20 max-w-[1440px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-xs shrink-0"><img alt="The Letter Ink Studio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vyb2Ejr-NUNuNKgFBKn7F4uOww6ot9ACKwF3lOcEr2EA50I1s_u4wBj3D-YNHbVygfjbRytAjUQUEIgt_MAyJ_Ki9cpMeQaXW9zc21UyGPyosuygT-KBD2DM0-HWYYEBXSz0C5El1Zdm6BIhr1u21tQa9ospD15UXoc9T0aK0xUZ89pVX9h_8AbYbOLoi-HW6qOPShkh2uKGeVQBdCfxKnYFfblm1OTFar9iC8ztEh28XwTEeXMjJ1Qg"><span class="font-headline-sm text-headline-sm uppercase text-primary tracking-widest hidden sm:inline-block">The Letter Ink</span></div><nav class="hidden xl:flex items-center gap-space-sm" data-active-classes="text-primary font-semibold border-b border-primary"><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="home" href="#">Home</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="shop" href="#">Shop</a><a aria-current="page" class="uppercase transition-colors pb-1 text-primary font-semibold border-b border-primary" data-path="gifting" href="#">Gifting</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="gallery" href="#">Gallery</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="workshops" href="#">Workshops</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="services" href="#">Services</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="about-us" href="#">About Us</a><a class="font-label-md text-label-md uppercase text-on-surface-variant hover:text-primary transition-colors pb-1" data-path="contact-us" href="#">Contact Us</a></nav><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Search Archive" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span></button><button aria-label="Cart" class="relative p-space-xs text-on-surface hover:text-secondary transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary text-on-primary font-label-sm text-[9px] flex items-center justify-center font-bold">2</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-[116px] bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Editorial Hero Section with Soft Blush Wash Backdrop -->
+<section class="relative w-full bg-paper-tint overflow-hidden">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-lg lg:py-space-xl">
+<div class="flex flex-col lg:flex-row items-center gap-space-lg">
+<!-- Left Column: Typography & Intentional Cadence -->
+<div class="w-full lg:w-7/12 flex flex-col items-start z-10">
+<nav aria-label="Breadcrumb" class="mb-space-sm">
+<ol class="flex items-center space-x-2">
+<li class="">
+<a class="font-label-sm text-label-sm uppercase text-secondary hover:text-primary transition-colors" href="#">Home</a>
+</li>
+<li class="text-secondary font-label-sm">/</li>
+<li aria-current="page" class="font-label-sm text-label-sm uppercase text-primary font-semibold">Gifting</li>
+</ol>
+</nav>
+<span class="inline-block bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1 font-label-sm text-label-sm uppercase tracking-widest rounded-full mb-space-sm">
+            Curated Gifting Atelier
+          </span>
+<h1 class="font-display-hero text-display-hero text-primary mb-space-sm tracking-wide">
+            Artisanal Gifts for Every Milestone
+          </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-space-md">
+            Meaningful, hand-inscribed treasures crafted with timeless scripts, botanical wax seals, and heirloom framing designed to hold love across generations.
+          </p>
+<div class="flex flex-wrap items-center gap-space-xs">
+<a class="bg-tertiary-fixed hover:bg-surface-container-lowest text-primary px-7 py-3.5 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2" href="#gift-guide">
+              Explore Gift Guide
+              <span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+<a class="bg-surface-container-lowest hover:bg-tertiary-fixed text-primary px-7 py-3.5 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2" href="#corporate-consult">
+              Corporate &amp; Bulk Gifting
+              <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Subtle Atelier Stat Strip -->
+<div class="grid grid-cols-3 gap-6 pt-space-lg mt-space-lg w-full max-w-lg">
+<div>
+<span class="font-display-hero-mobile text-display-hero-mobile text-primary block">100%</span>
+<span class="font-label-sm text-label-sm uppercase text-secondary">Pure Cotton Paper</span>
+</div>
+<div>
+<span class="font-display-hero-mobile text-display-hero-mobile text-primary block">48 hr</span>
+<span class="font-label-sm text-label-sm uppercase text-secondary">Atelier Drafting</span>
+</div>
+<div>
+<span class="font-display-hero-mobile text-display-hero-mobile text-primary block">24k</span>
+<span class="font-label-sm text-label-sm uppercase text-secondary">Gold Foil Finishes</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Tactile Visual Composition -->
+<div class="w-full lg:w-5/12 relative">
+<div class="relative w-full aspect-[4/5] bg-surface-container-lowest overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Editorial close-up of a handmade deckle edge cotton paper letter inscribed in fine Spencerian black ink calligraphy, sealed with a rose gold floral wax seal and paired with silk ribbon and dried wild eucalyptus sprigs on a soft linen atelier table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM">
+<div class="absolute bottom-4 left-4 right-4 bg-surface-container-lowest/95 backdrop-blur-sm p-4 text-left">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Signature Atelier Presentation</p>
+<p class="font-headline-sm text-headline-sm text-primary">Deckle Parchment &amp; Custom Sealant</p>
+</div>
+</div>
+<!-- Decorative Blush Plate -->
+<div class="hidden sm:block absolute -bottom-6 -right-6 w-44 h-44 bg-tertiary-fixed -z-10"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Gifting by Occasion: 4 Rich Visual Cards -->
+<section class="w-full py-space-xl bg-background overflow-hidden" id="gift-guide">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<!-- Section Header with Slider Controls -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-4">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-1">ARTISANAL CURATIONS &amp; TRUNKS</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Bespoke Keepsake Hampers</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mt-2">
+Hand-assembled willow baskets, botanical wooden chests, and luxury trunks filled with hand-penned scrolls, wax seals, crystal, and confectionery treasures.
+</p>
+</div>
+<div class="flex items-center gap-4 shrink-0">
+<span class="font-label-md text-label-md uppercase tracking-wider text-secondary" id="hamper-counter">01 / 04</span>
+<div class="flex items-center gap-2">
+<button aria-label="Previous Hamper" class="w-10 h-10 rounded-full border border-secondary flex items-center justify-center text-primary hover:bg-tertiary-fixed hover:border-primary transition-colors cursor-pointer" onclick="document.getElementById('hamper-track').scrollBy({ left: -360, behavior: 'smooth' })" type="button">
+<span class="material-symbols-outlined text-[20px]">west</span>
+</button>
+<button aria-label="Next Hamper" class="w-10 h-10 rounded-full border border-secondary flex items-center justify-center text-primary hover:bg-tertiary-fixed hover:border-primary transition-colors cursor-pointer" onclick="document.getElementById('hamper-track').scrollBy({ left: 360, behavior: 'smooth' })" type="button">
+<span class="material-symbols-outlined text-[20px]">east</span>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Hamper Slider Cards Track -->
+<div class="flex gap-gutter overflow-x-auto pb-4 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none]" id="hamper-track">
+<!-- Card 1 -->
+<div class="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="The Sovereign Atelier Keepsake Trunk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM">
+<span class="absolute top-4 left-4 bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
+BESTSELLER • SIGNATURE CURATION
+</span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-baseline justify-between gap-2 mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">The Sovereign Atelier Keepsake Trunk</h3>
+<div class="text-right shrink-0">
+<span class="font-headline-sm text-headline-sm text-primary font-medium block">₹3,800</span>
+<span class="font-body-sm text-[12px] text-secondary line-through block">₹4,600</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+Hand-woven blush wire hamper featuring custom dip-pen calligraphy, personalized wax seal, pure 24k gold leaf illumination, and bespoke botanical accents.
+</p>
+<div class="flex flex-wrap gap-1.5 mb-space-sm">
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Custom Vow Scrolls</span>
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Brass Seal Stamp</span>
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">French Lavender</span>
+</div>
+</div>
+<div class="pt-space-xs border-t border-border-vellum">
+<button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
+VIEW HAMPER DETAILS
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Card 2 -->
+<div class="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="The Bridal Epistolary Hamper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmN0585oPlkvTnE6ZZgZ3E_mcmJxmoAl4Lm7gf4ch59NhAbsYEh5Grsnhj6aUmVxlNW92T23VKUhUqmnhndVDNgPL9G2IPS3XM5sWpJFOcMr-MxYD_GQ_3sKsjUxQL3mepkwfcm1RoKq-EGCVy2oIzYj265Ni9nf_gsCE78ntmqE8xgy4GSCThwSpkW94yQFORm7nnU5w4LrzR6YOrgSMz74y7rByMSAMf17NUbaODpkVfaXYr2yo">
+<span class="absolute top-4 left-4 bg-surface-container-lowest text-primary px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
+BRIDAL &amp; TROUSSEAU
+</span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-baseline justify-between gap-2 mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">The Bridal Epistolary Hamper</h3>
+<span class="font-headline-sm text-headline-sm text-primary font-medium shrink-0">₹4,200</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+Delicate tulle-wrapped tiered gift hamper with hand-bound deckle vow books, his &amp; hers engraved champagne flutes, and hand-poured botanical sealing wax.
+</p>
+<div class="flex flex-wrap gap-1.5 mb-space-sm">
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Pair of Flutes</span>
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Silk Ribbon Suite</span>
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Gold Mica Ink</span>
+</div>
+</div>
+<div class="pt-space-xs border-t border-border-vellum">
+<button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
+VIEW HAMPER DETAILS
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Card 3 -->
+<div class="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Almond &amp; Gilded Scribe Chest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ">
+<span class="absolute top-4 left-4 bg-surface-container-lowest text-primary px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
+FESTIVE EDITION
+</span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-baseline justify-between gap-2 mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Almond &amp; Gilded Scribe Chest</h3>
+<span class="font-headline-sm text-headline-sm text-primary font-medium shrink-0">₹2,400</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+Hexagonal presentation trunk with artisanal confectionery tin, turned dip-pen, brass melting ladle, imported flex nibs, and gold illuminated greeting.
+</p>
+<div class="flex flex-wrap gap-1.5 mb-space-sm">
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Artisanal Confectionery</span>
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Dip Pen &amp; Nibs</span>
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Sealing Beads</span>
+</div>
+</div>
+<div class="pt-space-xs border-t border-border-vellum">
+<button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
+VIEW HAMPER DETAILS
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Card 4 -->
+<div class="min-w-[300px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] bg-surface-container-lowest flex flex-col justify-between shadow-sm group shrink-0 border border-border-vellum">
+<div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="The Grand Scribe Desk Valet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRXdxOcOZPhzCFrSVx-PRPSJbsERWjmdC7x4dLe4yS6NJnIcmcsRKg_9Hk7gx9OMz2yG0NkUpymyDRsvlA1Z355GpqR2d_ZqLfizIhNvwNrCt4Cd2_Vm28Vsd5Fd8GqODZ5STK4ZqDg5zV_D4F5X22lxXGCidHLAce35hMycTbleZ8mXfWUM9QioYep8qD1GIKS0syuj_utCLjz92ATxIuK9G0oLWpvVOYq_weUh_EzirnP91MFig">
+<span class="absolute top-4 left-4 bg-surface-container-lowest text-primary px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider font-semibold">
+EXECUTIVE PRESTIGE
+</span>
+</div>
+<div class="p-space-sm flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-baseline justify-between gap-2 mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">The Grand Scribe Desk Valet</h3>
+<span class="font-headline-sm text-headline-sm text-primary font-medium shrink-0">₹5,200</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+Italian leather desk blotter, custom carved marble paperweight, monogrammed wax seal kit, and archival correspondence note cards in keepsake oak box.
+</p>
+<div class="flex flex-wrap gap-1.5 mb-space-sm">
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Oak Presentation Box</span>
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Engraved Stamp</span>
+<span class="bg-surface-container-low px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Archival Cards</span>
+</div>
+</div>
+<div class="pt-space-xs border-t border-border-vellum">
+<button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
+VIEW HAMPER DETAILS
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Bottom Controls & Callout Bar -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-space-md pt-space-sm border-t border-border-vellum">
+<div class="flex items-center gap-2">
+<span class="w-8 h-1 bg-primary"></span>
+<span class="w-4 h-1 bg-surface-container-highest"></span>
+<span class="w-4 h-1 bg-surface-container-highest"></span>
+<span class="w-4 h-1 bg-surface-container-highest"></span>
+<span class="font-label-sm text-label-sm text-secondary ml-2">Swipe or use arrows to view all trunks</span>
+</div>
+<a class="bg-surface-container-lowest hover:bg-tertiary-fixed text-primary px-6 py-3 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2 border border-border-vellum" href="#concierge">
+BUILD BESPOKE HAMPER
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section><!-- Curated By Occasion Grid Section -->
+<section class="w-full py-space-xl bg-paper-tint border-t border-border-vellum" id="curated-occasions">
+  <div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+    <!-- Top Section Header matching sketch header 'Occasion' -->
+    <div class="mb-space-lg text-left">
+      <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-1">Bespoke Curations by Celebration</span>
+      <h2 class="font-display-hero text-headline-lg lg:text-display-hero text-primary tracking-wide">Occasion</h2>
+      <div class="w-20 h-[1px] bg-primary mt-2"></div>
+    </div>
+
+    <div class="flex flex-col gap-space-xl">
+      <!-- Row 1: Wedding -->
+      <div class="flex flex-col">
+        <div class="flex items-baseline justify-between mb-space-sm border-b border-border-vellum pb-2">
+          <div class="flex items-center gap-3">
+            <h3 class="font-headline-lg text-headline-lg text-primary tracking-wide">Wedding</h3>
+            <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest hidden sm:inline-block">(Weddings &amp; Vows Suite)</span>
+          </div>
+          <a class="font-label-sm text-label-sm uppercase text-primary hover:text-secondary inline-flex items-center gap-1 tracking-wider transition-colors" href="#">
+            View All Wedding Curations
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- 4 Grid Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+          <!-- Wedding Card 1 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Bespoke Wedding Vow Suite" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbPwrH7ohCeXQTtAq-sj-6R6uSkr52oj1nFDzx6qHLjw1_AMB9-0_80GWIhI9OE_z4SHuDsjoShKFXLbyM9cMAqaJCg0h2JADi1OtbdEjK0eJ575-HQUJyzoMwZ0epStHBqOFN3VB6TudYujHdQb-b3GPqCCdwNlYtBS0q3QG6CUps39Za8_BVJoJJtWj1EPNJE8uMWOow8sc1Ss2TzrqVNCXNAVzXcSKiXE0RylVoyYqj4J5ztts">
+                <span class="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5">Atelier Classic</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Bespoke Wedding Vow Suite</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Hand-lettered vow scrolls on deckle-edge cotton rag paper with gold wax crest.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹3,950</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Wedding Card 2 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Luxury Wedding Flutes Suite" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmN0585oPlkvTnE6ZZgZ3E_mcmJxmoAl4Lm7gf4ch59NhAbsYEh5Grsnhj6aUmVxlNW92T23VKUhUqmnhndVDNgPL9G2IPS3XM5sWpJFOcMr-MxYD_GQ_3sKsjUxQL3mepkwfcm1RoKq-EGCVy2oIzYj265Ni9nf_gsCE78ntmqE8xgy4GSCThwSpkW94yQFORm7nnU5w4LrzR6YOrgSMz74y7rByMSAMf17NUbaODpkVfaXYr2yo">
+                <span class="absolute top-3 left-3 bg-surface-container-lowest text-primary font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5 border border-border-vellum">Bridal Favorite</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Luxury Wedding Flutes</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Hand-engraved his &amp; hers crystal stemware paired with botanical silk wraps.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹2,800</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Customize
+                <span class="material-symbols-outlined text-[14px]">tune</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Wedding Card 3 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Monogram Glass Keepsake Box" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM">
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Monogram Glass Keepsake Box</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Brass-edged vintage vitrine with gold calligraphy monogram and velvet lining.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹3,450</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Wedding Card 4 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="His &amp; Hers Keepsake Trunk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ">
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">His &amp; Hers Keepsake Trunk</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Trousseau wooden chest with personalized seals, leather journals, and gold ink.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹4,600</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Anniversary -->
+      <div class="flex flex-col">
+        <div class="flex items-baseline justify-between mb-space-sm border-b border-border-vellum pb-2">
+          <div class="flex items-center gap-3">
+            <h3 class="font-headline-lg text-headline-lg text-primary tracking-wide">Anniversary</h3>
+            <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest hidden sm:inline-block">(Anniversaries &amp; Romance Suite)</span>
+          </div>
+          <a class="font-label-sm text-label-sm uppercase text-primary hover:text-secondary inline-flex items-center gap-1 tracking-wider transition-colors" href="#">
+            View All Anniversary Curations
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- 4 Grid Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+          <!-- Anniversary Card 1 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Personalized Handwritten Scroll" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM">
+                <span class="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5">Bestseller</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Personalized Handwritten Scroll</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Spencerian script poetry or love letter on hand-distressed 150 GSM cotton rag.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹2,950</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Anniversary Card 2 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Romance Monogram Wax Seal Kit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZabnPI_5wzJDPgcHI4JJQ5yK5Hf0Y0NQTVLakCSVZr9CMT37qgbRAtnXMe0x0ZzE49YCsglc5cKMwzCBhijQ17I85aqakqfqJIPqghYu7PQaAnOKfvF3pfd45XHF0lvaWMcOZX-EqvXvtHnKYUPfbjeu6h7_-YYXbM3rAir9cd0vgmuP7bsJApp0Jc1a1SpS8BiiayJ4_tdf0ftvypqh5q93PzjmVnU2lPOfJ8cX7QFv3p_htW2I">
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Romance Wax Seal Stamper Kit</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Solid brass seal stamper with couple's initials, rose gold wax beads, and spoon.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹2,200</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Customize
+                <span class="material-symbols-outlined text-[14px]">tune</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Anniversary Card 3 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Antiqued Wooden Slide Box" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ">
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Antiqued Wooden Slide Box</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Handmade pine slide case holding archival notes, dried blooms, and seal tokens.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹3,150</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Anniversary Card 4 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Gilded Memory Folio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRXdxOcOZPhzCFrSVx-PRPSJbsERWjmdC7x4dLe4yS6NJnIcmcsRKg_9Hk7gx9OMz2yG0NkUpymyDRsvlA1Z355GpqR2d_ZqLfizIhNvwNrCt4Cd2_Vm28Vsd5Fd8GqODZ5STK4ZqDg5zV_D4F5X22lxXGCidHLAce35hMycTbleZ8mXfWUM9QioYep8qD1GIKS0syuj_utCLjz92ATxIuK9G0oLWpvVOYq_weUh_EzirnP91MFig">
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Gilded Memory Folio</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Accordion linen folio album tipped in 24k gold leaf calligraphy and photo mounts.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹3,800</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Birthday -->
+      <div class="flex flex-col">
+        <div class="flex items-baseline justify-between mb-space-sm border-b border-border-vellum pb-2">
+          <div class="flex items-center gap-3">
+            <h3 class="font-headline-lg text-headline-lg text-primary tracking-wide">Birthday</h3>
+            <span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest hidden sm:inline-block">(Milestone Celebrations Suite)</span>
+          </div>
+          <a class="font-label-sm text-label-sm uppercase text-primary hover:text-secondary inline-flex items-center gap-1 tracking-wider transition-colors" href="#">
+            View All Birthday Curations
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- 4 Grid Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+          <!-- Birthday Card 1 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Name Frame Royal Large" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1M2U6YRXPmpopy_4vY66woUD8yQ6EIKGnPAUpWJ0QYTzSANMzHSkUjyqExbxaYvrRrf5w8sfOlFWiIJMRzlmmsMfAc8DMXOmpLgi9dimvZ3jEmcXr06RRzKe6CicHvMxv3MEvLq5E0kwn6arSvEcXV6o_csnQTqWirojbkwi0Ey8VCRkjKyeYPyfpKR7si77AOOweGCygBffC6hHKwz2q2Y_hy-dgFTElkfZXdP5boS2k7MN-XM">
+                <span class="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5">Custom Milestone</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Name Frame Royal (Large)</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Hand-illuminated calligraphic name crest with gold-leaf filigree in solid teak frame.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹3,600</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Customize
+                <span class="material-symbols-outlined text-[14px]">tune</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Birthday Card 2 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Name Frame Classic Small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZabnPI_5wzJDPgcHI4JJQ5yK5Hf0Y0NQTVLakCSVZr9CMT37qgbRAtnXMe0x0ZzE49YCsglc5cKMwzCBhijQ17I85aqakqfqJIPqghYu7PQaAnOKfvF3pfd45XHF0lvaWMcOZX-EqvXvtHnKYUPfbjeu6h7_-YYXbM3rAir9cd0vgmuP7bsJApp0Jc1a1SpS8BiiayJ4_tdf0ftvypqh5q93PzjmVnU2lPOfJ8cX7QFv3p_htW2I">
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Name Frame Classic (Small)</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Delicate brass desktop floating frame with hand-penned birthday blessing scroll.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹1,850</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Birthday Card 3 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal Confectionery Trunk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARitCH9kBoLcMfeQQ43dzjODtYzBXbDtF00v3EeYuwg9yXfJKMUEoTymO7NRYceq4eahaTo-XEHVdI57_KAnBk31_bOArVgHz6Kj5bWbWruJbqRtLopWIpKlS8-lRMkEKiCQFpNccJeq6Ev4O3FnuN2E4yh7FD_PvcovM7THYu3YGRYbWL6Qht71Yqq3RM0_y9jawbaFVdgFfuARedTkNAxbSqQvHTFgB3dq4y32SZwH8pauxq7lQ">
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Artisanal Confectionery Trunk</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Hexagonal trunk with roasted almonds, chocolate pralines, and celebration scroll.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹2,400</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Birthday Card 4 -->
+          <div class="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
+            <div>
+              <div class="relative aspect-square overflow-hidden bg-surface-container">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Executive Scribe Valet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRXdxOcOZPhzCFrSVx-PRPSJbsERWjmdC7x4dLe4yS6NJnIcmcsRKg_9Hk7gx9OMz2yG0NkUpymyDRsvlA1Z355GpqR2d_ZqLfizIhNvwNrCt4Cd2_Vm28Vsd5Fd8GqODZ5STK4ZqDg5zV_D4F5X22lxXGCidHLAce35hMycTbleZ8mXfWUM9QioYep8qD1GIKS0syuj_utCLjz92ATxIuK9G0oLWpvVOYq_weUh_EzirnP91MFig">
+              </div>
+              <div class="p-4">
+                <h4 class="font-headline-sm text-[18px] text-primary mb-1">Executive Scribe Valet</h4>
+                <p class="font-body-sm text-[13px] text-on-surface-variant line-clamp-2 mb-3">Italian leather desk journal, turned walnut brass dip pen, and custom ink well.</p>
+                <span class="font-headline-sm text-[18px] text-primary font-medium block">₹4,800</span>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <button class="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                Order Online
+                <span class="material-symbols-outlined text-[14px]">north_east</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Interactive Gifting Concierge: 3-Step Bespoke Customizer -->
+
+<!-- Best-Selling Gifting Sets (Grid of Curated Bundles) -->
+
+<!-- Corporate & Bulk Orders Consultation Banner -->
+<section class="w-full py-space-xl bg-paper-tint" id="corporate-consult">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="bg-surface-container-lowest p-8 sm:p-12 lg:p-16 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-space-lg">
+<div class="w-full lg:w-7/12">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-2">Corporate &amp; Large Gatherings</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-space-xs">Prestige Brand Gifting &amp; Bulk Suites</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mb-space-md">
+            Elevate luxury brand activations, gala dinner place cards, VIP client holiday hampers, and partner appreciation with authentic dip-pen craftsmanship. We handle volume orders from 25 to 2,500+ customized pieces with seamless project coordination.
+          </p>
+<div class="flex flex-wrap gap-4">
+<a class="bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary px-6 py-3 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]">download</span>
+              Download 2025 Gifting Lookbook
+            </a>
+<button class="bg-surface-container-low hover:bg-surface-container-highest text-primary px-6 py-3 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2" onclick="openConsultModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+              Book Gifting Concierge
+            </button>
+</div>
+</div>
+<div class="w-full lg:w-5/12 bg-paper-tint p-6">
+<h3 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-4">Direct Atelier Inquiries</h3>
+<form class="space-y-3" onsubmit="event.preventDefault(); alert('Thank you. An atelier gifting director will reach out within 24 hours.');">
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Company / Host Name</label>
+<input class="w-full bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary focus:outline-none focus:border-primary" placeholder="Acme Luxury or Couple Names" required="" type="text">
+</div>
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Work Email or WhatsApp</label>
+<input class="w-full bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary focus:outline-none focus:border-primary" placeholder="client@luxurybrand.com" required="" type="email">
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Estimated Units</label>
+<select class="w-full bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary">
+<option>10 – 50 pieces</option>
+<option>50 – 200 pieces</option>
+<option>200 – 1000+ pieces</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-label-sm uppercase text-secondary block mb-1">Target Date</label>
+<input class="w-full bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface border border-secondary focus:outline-none focus:border-primary" type="date">
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 font-label-md text-label-md uppercase tracking-wider hover:bg-tertiary-fixed hover:text-primary transition-colors mt-2" type="submit">
+              Submit Corporate Brief
+            </button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- Client Testimonial Quotes from Gift Recipients -->
+<section class="w-full py-space-xl bg-background">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin">
+<div class="text-center max-w-xl mx-auto mb-space-lg">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-1">Recipient Words</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Echoes of Delight</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Quote 1 -->
+<div class="bg-paper-tint p-8 flex flex-col justify-between shadow-sm relative">
+<span class="material-symbols-outlined text-[36px] text-tertiary-fixed-dim select-none">format_quote</span>
+<blockquote class="font-headline-sm text-headline-sm text-primary my-4 italic">
+            “My husband presented our wedding vows inscribed on cotton deckle paper for our first anniversary. Unrolling that scroll brought every tear back. The wax seal is pure poetry.”
+          </blockquote>
+<div class="border-t border-border-vellum pt-4">
+<p class="font-label-md text-label-md uppercase text-primary">Ananya &amp; Rohan Mehta</p>
+<p class="font-body-sm text-body-sm text-secondary">1st Anniversary Heirloom Box, Mumbai</p>
+</div>
+</div>
+<!-- Quote 2 -->
+<div class="bg-paper-tint p-8 flex flex-col justify-between shadow-sm relative">
+<span class="material-symbols-outlined text-[36px] text-tertiary-fixed-dim select-none">format_quote</span>
+<blockquote class="font-headline-sm text-headline-sm text-primary my-4 italic">
+            “We ordered 120 personalized lettered gift boxes for our executive retreat in Udaipur. The attendees were mesmerized by having their personal monograms hand-pressed into stone.”
+          </blockquote>
+<div class="border-t border-border-vellum pt-4">
+<p class="font-label-md text-label-md uppercase text-primary">Vikram Singhania</p>
+<p class="font-body-sm text-body-sm text-secondary">Director of Brand Experience, Singhania Capital</p>
+</div>
+</div>
+<!-- Quote 3 -->
+<div class="bg-paper-tint p-8 flex flex-col justify-between shadow-sm relative">
+<span class="material-symbols-outlined text-[36px] text-tertiary-fixed-dim select-none">format_quote</span>
+<blockquote class="font-headline-sm text-headline-sm text-primary my-4 italic">
+            “The Spencerian family tree frame was the centerpiece of my mother’s 70th birthday. The golden ink flourishes and delicate preservation glass made it a genuine museum piece.”
+          </blockquote>
+<div class="border-t border-border-vellum pt-4">
+<p class="font-label-md text-label-md uppercase text-primary">Devika Chawla</p>
+<p class="font-body-sm text-body-sm text-secondary">Family Lineage Commission, Delhi</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Customizer Script Logic -->
+<script>
+    let currentStep = 1;
+
+    function selectStep(step) {
+      currentStep = step;
+      updateStepUI();
+    }
+
+    function nextStep() {
+      if (currentStep < 3) {
+        currentStep++;
+        updateStepUI();
+      } else {
+        alert('Thank you! Your custom gift parameters have been staged. An artisan will confirm availability.');
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStepUI();
+      }
+    }
+
+    function updateStepUI() {
+      // Hide all tabs & step contents
+      [1, 2, 3].forEach(step => {
+        const tab = document.getElementById('tab-step-' + step);
+        const content = document.getElementById('step-content-' + step);
+        if (tab && content) {
+          if (step === currentStep) {
+            content.classList.remove('hidden');
+            content.classList.add('block');
+            tab.className = 'cursor-pointer flex items-center gap-2 text-primary font-label-md text-label-md uppercase';
+            const badge = tab.querySelector('span:first-child');
+            if (badge) {
+              badge.className = 'w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center text-[11px] font-bold';
+            }
+          } else {
+            content.classList.add('hidden');
+            content.classList.remove('block');
+            tab.className = 'cursor-pointer flex items-center gap-2 text-secondary font-label-md text-label-md uppercase';
+            const badge = tab.querySelector('span:first-child');
+            if (badge) {
+              badge.className = 'w-6 h-6 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center text-[11px] font-bold';
+            }
+          }
+        }
+      });
+
+      // Update Prev / Next Buttons
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+
+      if (btnPrev && btnNext) {
+        if (currentStep === 1) {
+          btnPrev.disabled = true;
+          btnPrev.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+          btnPrev.disabled = false;
+          btnPrev.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        if (currentStep === 3) {
+          btnNext.querySelector('span:first-child').innerText = 'Complete Request';
+        } else {
+          btnNext.querySelector('span:first-child').innerText = 'Proceed';
+        }
+      }
+    }
+
+    function updateSummaryMedium(name) {
+      document.getElementById('summary-medium').innerText = name;
+    }
+
+    function setScript(scriptName, element) {
+      document.querySelectorAll('.script-btn').forEach(btn => {
+        btn.classList.remove('bg-tertiary-fixed', 'text-primary');
+        btn.classList.add('bg-surface-container-low');
+      });
+      element.classList.add('bg-tertiary-fixed');
+      element.classList.remove('bg-surface-container-low');
+      document.getElementById('summary-script').innerText = scriptName;
+    }
+
+    function handleTextInput(element) {
+      const words = element.value.trim().split(/\s+/).filter(Boolean);
+      document.getElementById('word-count').innerText = words.length + ' / 150 words';
+    }
+
+    function setSeal(sealColor, element) {
+      element.parentElement.querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('ring-2', 'ring-offset-2', 'ring-primary');
+      });
+      element.classList.add('ring-2', 'ring-offset-2', 'ring-primary');
+      document.getElementById('summary-seal').innerText = sealColor;
+    }
+
+    function updateSummaryBotanical(val) {
+      document.getElementById('summary-botanical').innerText = val;
+    }
+
+    function updateSummaryRibbon(val) {
+      document.getElementById('summary-ribbon').innerText = val;
+    }
+
+    function openConsultModal() {
+      const el = document.getElementById('corporate-consult');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+</div></main><footer class="w-full bg-paper-tint border-t border-border-vellum mt-space-xl"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter"><div class="lg:col-span-4"><span class="font-headline-md text-headline-md uppercase text-primary tracking-widest block mb-space-sm">The Letter Ink</span><p class="font-body-md text-body-md text-on-surface-variant pr-space-md mb-space-md">An artisanal calligraphy studio and bespoke stationery atelier dedicated to heirloom lettering, pure fluid ink, and tactile cotton papers crafted with quiet intentionality.</p><div class="border-t border-border-vellum pt-space-sm"><p class="font-label-sm text-label-sm uppercase text-secondary mb-1">Atelier Quarters</p><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Ratan niwas, ground floor, plot no 33/A behind biyani chembers, bhusawal Maharashtra 425201</p></div></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Navigation</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Home Atelier</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Curated Shop</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Artisanal Gifting</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Works Gallery</a></li><li class="border-b border-border-vellum pb-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Lettering Workshops</a></li><li class=""><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Custom Commissions</a></li></ul></div><div class="lg:col-span-2"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Studio &amp; Hours</h4><ul class="space-y-space-xs"><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Tuesday — Saturday</span><span class="font-body-sm text-body-sm text-on-surface-variant">10:00 AM – 6:30 PM IST</span></li><li class="border-b border-border-vellum pb-space-xs"><span class="font-label-sm text-label-sm uppercase text-secondary block">Sunday &amp; Monday</span><span class="font-body-sm text-body-sm text-on-surface-variant">Reserved for Studio Craft</span></li><li class=""><span class="font-label-sm text-label-sm uppercase text-secondary block">Consultations</span><span class="font-body-sm text-body-sm text-on-surface-variant">By Private Appointment</span></li></ul></div><div class="lg:col-span-4"><h4 class="font-label-md text-label-md uppercase text-primary tracking-widest mb-space-sm">Atelier Gazette</h4><p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">Subscribe for intimate studio dispatches, seasonal release previews, and invitations to upcoming workshop cohorts.</p><form class="flex flex-col sm:flex-row gap-space-xs" onsubmit="event.preventDefault();"><input class="bg-surface-container-lowest border border-secondary text-on-surface px-4 py-3 font-body-sm text-body-sm rounded-none focus:outline-none focus:border-primary w-full" placeholder="Your email address" type="email"><button class="bg-tertiary-fixed hover:bg-surface-container-lowest hover:border hover:border-primary text-primary font-label-lg text-label-lg uppercase px-6 py-3 transition-colors shrink-0" type="submit">Join the Circle</button></form></div></div></div><div class="border-t border-border-vellum bg-surface-container-low"><div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-sm flex flex-col md:flex-row items-center justify-between gap-space-xs"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">© 2025 The Letter Ink Atelier. All rights reserved.</p><div class="flex items-center gap-space-md"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Terms</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Privacy Policy</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-wider transition-colors" href="#">Shipping &amp; Care</a></div></div></div></footer>
+
+
+
+</body></html>
