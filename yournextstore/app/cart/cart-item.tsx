@@ -130,7 +130,18 @@ export function CartItem({ item }: CartItemProps) {
 					</button>
 				</div>
 
-				<div className="flex items-center justify-between">
+				{item.metadata?.customization_selections && (
+					<div className="flex flex-col gap-0.5 text-xs text-muted-foreground mt-1 mb-2">
+						{Object.entries(item.metadata.customization_selections).map(([key, value]) => (
+							<div key={key} className="flex gap-1.5">
+								<span className="font-medium text-foreground">{key}:</span> 
+								<span>{String(value)}</span>
+							</div>
+						))}
+					</div>
+				)}
+
+				<div className="flex items-center justify-between mt-auto">
 					{/* Quantity Controls */}
 					<div
 						className={cn(

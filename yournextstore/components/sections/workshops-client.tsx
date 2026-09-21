@@ -211,12 +211,6 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 											>
 												{ws.badgeText}
 											</span>
-											{ws.spotsText && (
-												<span className="text-xs text-red-600 uppercase font-semibold flex items-center gap-1.5">
-													<span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-													{ws.spotsText}
-												</span>
-											)}
 										</div>
 										<h3 className="font-headline-md text-2xl text-primary font-serif mb-3">
 											{ws.title}

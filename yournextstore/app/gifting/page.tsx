@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { GiftingLandingClient } from "@/components/sections/gifting-landing-client";
 import { medusaClient } from "@/lib/medusa";
-import { headers } from "next/headers";
+
 
 export const metadata: Metadata = {
 	title: "Artisanal Gifting Atelier - Gifts for Every Milestone",
@@ -9,9 +10,9 @@ export const metadata: Metadata = {
 		"Meaningful, hand-inscribed treasures crafted with timeless scripts, botanical wax seals, and heirloom framing designed to hold love across generations.",
 };
 
+
 export default async function GiftingPage() {
-	await headers(); // Opt into dynamic rendering to fetch fresh products from Medusa
-	
+	await connection(); // Opt into dynamic rendering to fetch fresh products from Medusa (Next.js 15 safe)
 	// Fetch Hampers
 	let hampers: any[] = [];
 	try {

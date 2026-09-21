@@ -86,11 +86,6 @@ export function CuratedOccasions() {
 									alt={occasion.title}
 									className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
 								/>
-								<div className="absolute top-4 right-4 bg-tertiary-fixed/90 backdrop-blur-sm px-3 py-1 rounded-full">
-									<span className="font-label-sm text-label-sm uppercase text-primary font-semibold">
-										{occasion.tag}
-									</span>
-								</div>
 							</div>
 							<div className="p-6 text-center bg-paper-tint flex-grow flex flex-col justify-between">
 								<div>

@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useSelectedVariant } from "@/app/product/[slug]/use-selected-variant";
+import { useCustomization } from "@/app/product/[slug]/customization-context";
 import { Button } from "@/components/ui/button";
 import { cn, isVideoUrl } from "@/lib/utils";
 import { YNSMedia } from "@/lib/yns-media";
@@ -31,11 +32,13 @@ export function MediaGallery({ images, productName, variants }: MediaGalleryProp
 	const searchParams = useSearchParams();
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [isZoomed, setIsZoomed] = useState(false);
+	const { previewImageUrl } = useCustomization();
 
-	// The gallery always shows the full image set (product + every variant image). When a
-	// variant is selected we don't filter the list — that would hide the other thumbnails —
-	// we just jump the active image to that variant's first photo within the full gallery.
-	const displayImages = images;
+	// If there is an active bespoke customization preview image, prioritize it as the first image
+	const displayImages = useMemo(() => {
+		if (!previewImageUrl) return images;
+		return [previewImageUrl, ...images.filter((img) => img !== previewImageUrl)];
+	}, [images, previewImageUrl]);
 
 	const selectedVariant = useSelectedVariant(variants);
 
@@ -45,16 +48,27 @@ export function MediaGallery({ images, productName, variants }: MediaGalleryProp
 			selectedVariant && selectedVariant.combinations.length > 0 ? selectedVariant.images[0] : undefined;
 		if (!firstVariantImage) return 0;
 
-		const index = images.indexOf(firstVariantImage);
+		const index = displayImages.indexOf(firstVariantImage);
 		return index >= 0 ? index : 0;
-	}, [selectedVariant, images]);
+	}, [selectedVariant, displayImages]);
 
-	// Jump to the selected variant's image when the variant changes (avoids useEffect)
+	// Jump to the preview image when customization combination resolves
+	const prevPreviewImageRef = useRef(previewImageUrl);
+	if (prevPreviewImageRef.current !== previewImageUrl) {
+		prevPreviewImageRef.current = previewImageUrl;
+		if (previewImageUrl) {
+			setSelectedIndex(0);
+		}
+	}
+
+	// Jump to the selected variant's image when the variant changes
 	const searchParamsKey = searchParams.toString();
 	const prevSearchParamsKey = useRef(searchParamsKey);
 	if (prevSearchParamsKey.current !== searchParamsKey) {
 		prevSearchParamsKey.current = searchParamsKey;
-		setSelectedIndex(variantImageIndex);
+		if (!previewImageUrl) {
+			setSelectedIndex(variantImageIndex);
+		}
 	}
 
 	const handlePrevious = useCallback(() => {

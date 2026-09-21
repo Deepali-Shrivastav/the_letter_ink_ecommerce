@@ -24,6 +24,7 @@ export type CartLineItem = {
 	// Present (non-empty) on configurable-bundle lines: the customer's chosen components.
 	// Its presence is how we tell a configurable bundle from a legacy fixed one.
 	setSelections?: Array<{ quantity: number }>;
+	metadata?: Record<string, any>;
 };
 
 export type Cart = {

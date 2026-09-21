@@ -10,6 +10,7 @@ import { MediaGallery } from "@/app/product/[slug]/media-gallery";
 import { ProductFeatures } from "@/app/product/[slug]/product-features";
 import { ProductReviews } from "@/app/product/[slug]/product-reviews";
 import { RelatedProducts } from "@/app/product/[slug]/related-products";
+import { ProductCustomizationProvider } from "@/app/product/[slug]/customization-context";
 import { TiptapRenderer } from "@/components/tiptap-renderer";
 import {
 	Breadcrumb,
@@ -188,96 +189,98 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
 			{/* Product Showcase (2-Column Editorial Masterpiece) */}
 			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter pb-space-lg">
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-gutter items-start">
-					{/* Left Column: Expansive Imagery Gallery */}
-					<div className="lg:col-span-7 flex flex-col gap-4">
-						<Suspense fallback={<GallerySkeleton />}>
-							<MediaGallery images={allImages} productName={product.name} variants={product.variants} />
-						</Suspense>
-					</div>
-
-					{/* Right Column: Atelier Customizer & Purchase Actions */}
-					<div className="lg:col-span-5 flex flex-col gap-6">
-						{/* Header Info */}
-						<div className="flex flex-col gap-2 pb-5 bg-gradient-to-b from-transparent to-surface-container-low/40 p-1">
-							<div className="flex items-center justify-between gap-4">
-								<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">The Atelier Heirlooms Series</span>
-								{reviewSummary && reviewSummary.reviewCount > 0 && (
-									<a href="#reviews" className="flex items-center gap-1.5 transition-opacity hover:opacity-80">
-										<div className="flex text-primary">
-											<StarRow rating={reviewSummary.averageRating} />
-										</div>
-										<span className="font-label-sm text-label-sm text-on-surface font-semibold">{reviewSummary.averageRating.toFixed(1)}</span>
-										<span className="font-body-sm text-body-sm text-secondary">({reviewSummary.reviewCount} Patrons)</span>
-									</a>
-								)}
-							</div>
-							<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
-								{product.name}
-							</h1>
-							<p className="font-body-md text-body-md text-secondary leading-relaxed">
-								{product.summary || "Bespoke Classical Calligraphy in Antiqued Brass & Double Glass Float Frame"}
-							</p>
+				<ProductCustomizationProvider productId={product.id}>
+					<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-gutter items-start">
+						{/* Left Column: Expansive Imagery Gallery */}
+						<div className="lg:col-span-7 flex flex-col gap-4">
+							<Suspense fallback={<GallerySkeleton />}>
+								<MediaGallery images={allImages} productName={product.name} variants={product.variants} />
+							</Suspense>
 						</div>
 
-						{/* Editorial Description Callout */}
-						{product.content && (
-							<div className="p-4 bg-paper-tint text-on-surface">
-								<div className="font-body-md text-body-md italic text-on-surface-variant leading-relaxed">
-									<TiptapRenderer content={product.content} />
+						{/* Right Column: Atelier Customizer & Purchase Actions */}
+						<div className="lg:col-span-5 flex flex-col gap-6">
+							{/* Header Info */}
+							<div className="flex flex-col gap-2 pb-5 bg-gradient-to-b from-transparent to-surface-container-low/40 p-1">
+								<div className="flex items-center justify-between gap-4">
+									<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">The Atelier Heirlooms Series</span>
+									{reviewSummary && reviewSummary.reviewCount > 0 && (
+										<a href="#reviews" className="flex items-center gap-1.5 transition-opacity hover:opacity-80">
+											<div className="flex text-primary">
+												<StarRow rating={reviewSummary.averageRating} />
+											</div>
+											<span className="font-label-sm text-label-sm text-on-surface font-semibold">{reviewSummary.averageRating.toFixed(1)}</span>
+											<span className="font-body-sm text-body-sm text-secondary">({reviewSummary.reviewCount} Patrons)</span>
+										</a>
+									)}
+								</div>
+								<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
+									{product.name}
+								</h1>
+								<p className="font-body-md text-body-md text-secondary leading-relaxed">
+									{product.summary || "Bespoke Classical Calligraphy in Antiqued Brass & Double Glass Float Frame"}
+								</p>
+							</div>
+
+							{/* Editorial Description Callout */}
+							{product.content && (
+								<div className="p-4 bg-paper-tint text-on-surface">
+									<div className="font-body-md text-body-md italic text-on-surface-variant leading-relaxed">
+										<TiptapRenderer content={product.content} />
+									</div>
+								</div>
+							)}
+
+							{product.type === "bundle" && product.bundle?.groups?.length ? (
+								<BundleBuilder
+									bundleId={product.id}
+									bundle={product.bundle}
+									pricing={{
+										mode: product.bundlePriceMode,
+										fixedPriceAmount: product.bundleFixedPriceAmount,
+										fixedPriceAmountGross: product.bundleFixedPriceAmountGross,
+										amountOffAmount: product.bundleAmountOffAmount,
+										amountOffAmountGross: product.bundleAmountOffAmountGross,
+									}}
+								/>
+							) : (
+								<Suspense fallback={<PurchasePanelSkeleton />}>
+									<AddToCartButton
+										variants={product.variants}
+										product={{
+											id: product.id,
+											name: product.name,
+											slug: product.slug,
+											images: product.images,
+										}}
+										summary={product.summary}
+										volumePricingTiers={product.volumePricingTiers}
+										restockNotificationsEnabled={restockNotificationsEnabled}
+									/>
+								</Suspense>
+							)}
+							
+							{/* Trust & Fulfillment Triad */}
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-3">
+								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
+									<span className="material-symbols-outlined text-primary text-[20px]">brush</span>
+									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">100% Dip-Pen Hand Scripted</span>
+									<span className="font-body-sm text-[12px] text-secondary">Zero digital prints; genuine archival hand calligraphy.</span>
+								</div>
+								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
+									<span className="material-symbols-outlined text-primary text-[20px]">mark_chat_read</span>
+									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">Pre-Dispatch Proof</span>
+									<span className="font-body-sm text-[12px] text-secondary">High-res approval via WhatsApp before glass sealing.</span>
+								</div>
+								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
+									<span className="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
+									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">5-7 Days • Insured</span>
+									<span className="font-body-sm text-[12px] text-secondary">Cushioned wooden crate courier delivery nationwide.</span>
 								</div>
 							</div>
-						)}
-
-						{product.type === "bundle" && product.bundle?.groups?.length ? (
-							<BundleBuilder
-								bundleId={product.id}
-								bundle={product.bundle}
-								pricing={{
-									mode: product.bundlePriceMode,
-									fixedPriceAmount: product.bundleFixedPriceAmount,
-									fixedPriceAmountGross: product.bundleFixedPriceAmountGross,
-									amountOffAmount: product.bundleAmountOffAmount,
-									amountOffAmountGross: product.bundleAmountOffAmountGross,
-								}}
-							/>
-						) : (
-							<Suspense fallback={<PurchasePanelSkeleton />}>
-								<AddToCartButton
-									variants={product.variants}
-									product={{
-										id: product.id,
-										name: product.name,
-										slug: product.slug,
-										images: product.images,
-									}}
-									summary={product.summary}
-									volumePricingTiers={product.volumePricingTiers}
-									restockNotificationsEnabled={restockNotificationsEnabled}
-								/>
-							</Suspense>
-						)}
-						
-						{/* Trust & Fulfillment Triad */}
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-3">
-							<div className="flex flex-col gap-1 p-3 bg-paper-tint">
-								<span className="material-symbols-outlined text-primary text-[20px]">brush</span>
-								<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">100% Dip-Pen Hand Scripted</span>
-								<span className="font-body-sm text-[12px] text-secondary">Zero digital prints; genuine archival hand calligraphy.</span>
-							</div>
-							<div className="flex flex-col gap-1 p-3 bg-paper-tint">
-								<span className="material-symbols-outlined text-primary text-[20px]">mark_chat_read</span>
-								<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">Pre-Dispatch Proof</span>
-								<span className="font-body-sm text-[12px] text-secondary">High-res approval via WhatsApp before glass sealing.</span>
-							</div>
-							<div className="flex flex-col gap-1 p-3 bg-paper-tint">
-								<span className="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
-								<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">5-7 Days • Insured</span>
-								<span className="font-body-sm text-[12px] text-secondary">Cushioned wooden crate courier delivery nationwide.</span>
-							</div>
 						</div>
 					</div>
-				</div>
+				</ProductCustomizationProvider>
 			</section>
 
 			{/* Reviews Section */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { addToCart } from "@/app/cart/actions";
 import { useCart } from "@/app/cart/cart-context";
@@ -15,6 +15,15 @@ import { formatMoney } from "@/lib/money";
 import { displayPrice, priceRange } from "@/lib/pricing";
 import { trackAddToCart } from "@/lib/track";
 import { cn } from "@/lib/utils";
+import { CustomizationSelector } from "./customization-selector";
+import { useCustomization } from "./customization-context";
+
+type CustomizationCombination = {
+  id: string;
+  preview_image_url: string | null;
+  price_adjustment: number | null;
+  values: { id: string; value: string; }[];
+};
 
 // Every net price below has a gross twin; which of the pair a shopper sees is the store's
 // `taxBehavior` (see lib/pricing.ts). The twins stay optional so this still renders against
@@ -71,6 +80,7 @@ export function AddToCartButton({
 	const { currency, locale, taxBehavior } = useStoreConfig();
 	const [quantity, setQuantity] = useState(1);
 	const { items, openCart, dispatch, syncCart, reconcile, startMutation } = useCart();
+	const { matchedCombination, selectedValuesByName } = useCustomization();
 
 	const selectedVariant = useSelectedVariant(variants);
 
@@ -87,7 +97,13 @@ export function AddToCartButton({
 	);
 
 	const unitPrice = volumePrice ?? (selectedVariant ? displayPrice(selectedVariant, taxBehavior) : null);
-	const totalPrice = unitPrice ? BigInt(unitPrice) * BigInt(effectiveQuantity) : null;
+	
+	// Add customization price adjustment if present
+	const finalUnitPrice = matchedCombination?.price_adjustment && unitPrice 
+		? String(Number(unitPrice) + matchedCombination.price_adjustment) 
+		: unitPrice;
+		
+	const totalPrice = finalUnitPrice ? BigInt(finalUnitPrice) * BigInt(effectiveQuantity) : null;
 
 	const buttonText = useMemo(() => {
 		if (!selectedVariant) return "Select options";
@@ -104,16 +120,20 @@ export function AddToCartButton({
 		const fmt = (amount: bigint) => formatMoney({ amount, currency, locale });
 
 		if (selectedVariant) {
-			const price = BigInt(displayPrice(selectedVariant, taxBehavior));
+			const basePrice = BigInt(displayPrice(selectedVariant, taxBehavior));
+			const price = matchedCombination?.price_adjustment
+				? basePrice + BigInt(matchedCombination.price_adjustment)
+				: basePrice;
+			
 			const listPrice = BigInt(
 				displayPrice(selectedVariant, taxBehavior, "originalPrice") ??
 					displayPrice(selectedVariant, taxBehavior),
 			);
-			const onSale = listPrice > price;
+			const onSale = listPrice > basePrice;
 			return {
 				display: fmt(price),
 				compareAt: onSale ? fmt(listPrice) : null,
-				discountPercent: onSale ? Math.round((Number(listPrice - price) / Number(listPrice)) * 100) : null,
+				discountPercent: onSale ? Math.round((Number(listPrice - basePrice) / Number(listPrice)) * 100) : null,
 			};
 		}
 
@@ -165,22 +185,36 @@ export function AddToCartButton({
 			type: "ADD_ITEM",
 			item: {
 				quantity: addedQuantity,
+				metadata: {
+					customization_selections: selectedValuesByName,
+					customization_combination_id: matchedCombination?.id,
+					preview_image: matchedCombination?.preview_image_url,
+					customization_price_adjustment: matchedCombination?.price_adjustment
+				},
 				productVariant: {
 					id: variantId,
-					price: selectedVariant.price,
-					// Carry the gross twin so the optimistic line renders in the same basis the
-					// server-returned cart will use — no net/gross flip while the write is in flight.
-					priceGross: selectedVariant.priceGross,
-					images: selectedVariant.images,
+					price: finalUnitPrice || selectedVariant.price, 
+					priceGross: finalUnitPrice || selectedVariant.priceGross,
+					images: matchedCombination?.preview_image_url 
+						? [matchedCombination.preview_image_url] 
+						: selectedVariant.images,
 					product,
 				},
 			},
 		});
 
 		startMutation(async () => {
-			// The server clamps line quantities to available stock and still responds
-			// with the updated cart — sync from the RETURNED cart; reconcile only on failure.
-			const result = await addToCart(variantId, addedQuantity);
+			const result = await addToCart(
+				variantId, 
+				addedQuantity, 
+				{
+					customization_selections: selectedValuesByName,
+					customization_combination_id: matchedCombination?.id,
+					preview_image: matchedCombination?.preview_image_url,
+					customization_price_adjustment: matchedCombination?.price_adjustment
+				},
+				finalUnitPrice ? Number(finalUnitPrice) : undefined
+			);
 			const line = result.cart?.lineItems.find((item) => item.productVariant.id === variantId);
 			if (result.success && result.cart && line) {
 				syncCart(result.cart);
@@ -243,6 +277,33 @@ export function AddToCartButton({
 			</div>
 
 			{variants.length > 1 && <VariantSelector variants={variants} />}
+			<CustomizationSelector />
+
+			{matchedCombination && (
+				<div className="p-3.5 bg-paper-tint/70 border border-border/80 rounded-sm flex items-center gap-3.5 mt-2">
+					{matchedCombination.preview_image_url && (
+						<img 
+							src={matchedCombination.preview_image_url} 
+							alt="Selected combination preview" 
+							className="w-14 h-14 object-cover rounded border border-border shrink-0 shadow-xs"
+						/>
+					)}
+					<div className="flex-1 min-w-0">
+						<div className="text-[11px] uppercase tracking-widest text-secondary font-label-sm font-semibold">
+							Active Bespoke Combination
+						</div>
+						<div className="text-sm font-medium text-primary truncate mt-0.5">
+							{matchedCombination.values?.map((v: any) => v.value).join(" • ")}
+						</div>
+						{matchedCombination.price_adjustment ? (
+							<div className="text-xs text-secondary mt-0.5">
+								{matchedCombination.price_adjustment > 0 ? "+" : ""}
+								{formatMoney({ amount: BigInt(matchedCombination.price_adjustment), currency, locale })} adjustment included
+							</div>
+						) : null}
+					</div>
+				</div>
+			)}
 
 			<VolumePricingDisplay tiers={resolvedTiers} quantity={effectiveQuantity} volumePrice={volumePrice} />
 

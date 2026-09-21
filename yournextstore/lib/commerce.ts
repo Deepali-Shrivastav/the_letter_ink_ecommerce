@@ -72,17 +72,19 @@ const mapMedusaCartToYNS = (medusaCart: any) => {
   return {
     id: medusaCart.id,
     lineItems: medusaCart.items ? medusaCart.items.map((item: any) => ({
+      id: item.id,
       quantity: item.quantity,
+      metadata: item.metadata || {},
       productVariant: {
         id: item.variant_id,
         price: String(item.unit_price),
         priceGross: String(item.unit_price),
-        images: item.thumbnail ? [item.thumbnail] : [],
+        images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
         product: {
           id: item.variant?.product_id || item.id,
           name: item.title,
           slug: item.variant?.product?.handle || "product",
-          images: item.thumbnail ? [item.thumbnail] : [],
+          images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
           type: "standard"
         }
       }
@@ -315,7 +317,7 @@ export const commerce = {
       throw new Error("Cart not found");
     }
   },
-  cartUpsert: async ({ cartId, variantId, quantity, mode }: { cartId?: string; variantId: string; quantity: number; mode?: "set" }) => {
+  cartUpsert: async ({ cartId, variantId, quantity, mode, metadata, unit_price }: { cartId?: string; variantId: string; quantity: number; mode?: "set"; metadata?: Record<string, any>; unit_price?: number }) => {
     try {
       let activeCartId = cartId;
 
@@ -327,13 +329,19 @@ export const commerce = {
       let { cart } = await medusaClient.carts.retrieve(activeCartId!);
       const existingLineItem = cart.items?.find((item: any) => item.variant_id === variantId);
 
+      const createPayload: any = { variant_id: variantId, quantity, metadata };
+      if (unit_price !== undefined) createPayload.unit_price = unit_price;
+      
+      const updatePayload: any = { metadata };
+      if (unit_price !== undefined) updatePayload.unit_price = unit_price;
+
       if (quantity === 0 && existingLineItem) {
         await medusaClient.carts.lineItems.delete(activeCartId!, existingLineItem.id);
       } else if (existingLineItem) {
-        const newQuantity = mode === "set" ? quantity : existingLineItem.quantity + quantity;
-        await medusaClient.carts.lineItems.update(activeCartId!, existingLineItem.id, { quantity: newQuantity });
+        updatePayload.quantity = mode === "set" ? quantity : existingLineItem.quantity + quantity;
+        await medusaClient.carts.lineItems.update(activeCartId!, existingLineItem.id, updatePayload);
       } else if (quantity > 0) {
-        await medusaClient.carts.lineItems.create(activeCartId!, { variant_id: variantId, quantity });
+        await medusaClient.carts.lineItems.create(activeCartId!, createPayload);
       }
 
       const { cart: updatedCart } = await medusaClient.carts.retrieve(activeCartId!);

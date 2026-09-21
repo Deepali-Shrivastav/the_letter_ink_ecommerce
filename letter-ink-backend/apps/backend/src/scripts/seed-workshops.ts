@@ -32,7 +32,7 @@ export default async function seedWorkshopsScript({ container }: ExecArgs) {
     ]
 
     for (const workshop of defaultWorkshops) {
-      const created = await workshopModuleService.createWorkshops(workshop)
+      const created = await workshopModuleService.createWorkshops(workshop as any)
       console.log(`Created Workshop: ${created.title} (${created.id})`)
     }
   } catch (error) {
