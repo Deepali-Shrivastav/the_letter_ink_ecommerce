@@ -1,1 +1,13 @@
-.\agents
+# Knowledge graph
+graphify-out/
+
+# Agents
+.agents/
+
+# Screens and stitch assets
+screens/
+stitch-screens/
+stitch-assets/
+stitch_assets/
+stitch_homepage.*
+*stitch*

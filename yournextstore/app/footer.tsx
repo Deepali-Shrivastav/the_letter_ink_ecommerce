@@ -78,8 +78,8 @@ async function FooterCollections() {
 						</Link>
 					</li>
 					<li>
-						<Link href="/gallery" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-							Gallery
+						<Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+							Blog
 						</Link>
 					</li>
 				</ul>

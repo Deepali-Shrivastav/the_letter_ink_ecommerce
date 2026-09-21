@@ -143,9 +143,8 @@ async function getNavLinks(): Promise<NavLink[]> {
 		{ href: "/", label: "Home" },
 		{ href: "/shop", label: "Shop" },
 		{ href: "/gifting", label: "Gifting" },
-		{ href: "/gallery", label: "Gallery" },
 		{ href: "/workshops", label: "Workshops" },
-		{ href: "/blog", label: "Blogs" },
+		{ href: "/blog", label: "Blog" },
 		{ href: "/about", label: "About Us" },
 		{ href: "/contact", label: "Contact Us" },
 	];
