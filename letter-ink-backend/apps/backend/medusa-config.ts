@@ -19,6 +19,9 @@ module.exports = defineConfig({
     },
     {
       resolve: "./src/modules/customizations",
+    },
+    {
+      resolve: "./src/modules/blog",
     }
   ]
 })

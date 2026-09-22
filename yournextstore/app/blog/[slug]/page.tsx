@@ -93,24 +93,24 @@ const getBlogPostData = async (slug: string) => {
 
 const BlogPostContent = async ({ params }: { params: Promise<{ slug: string }> }) => {
 	const { slug } = await params;
-	const post = await getBlogPostData(slug).catch(() => null);
+	const post = await commerce.postGet({ idOrSlug: slug }).catch(() => null);
 
-	if (!post?.active) {
-		return <BlogArticleClient />;
+	if (!post) {
+		notFound();
 	}
 
 	const baseUrl = getCanonicalUrl();
-	const publishedAt = post.publishedAt ?? post.createdAt;
+	const publishedAt = post.publish_date || new Date().toISOString();
 
 	const articleJsonLd = {
 		"@context": "https://schema.org",
 		"@type": "BlogPosting",
 		headline: post.title,
-		url: `${baseUrl}/blog/${post.slug}`,
+		url: `${baseUrl}/blog/${post.handle}`,
 		datePublished: publishedAt,
-		dateModified: post.updatedAt,
-		...(post.image ? { image: post.image } : {}),
-		...(post.seo?.description ? { description: post.seo.description } : {}),
+		dateModified: post.publish_date,
+		...(post.images && post.images.length > 0 ? { image: post.images[0] } : {}),
+		...(post.description ? { description: post.description } : {}),
 	};
 
 	const breadcrumbJsonLd = {
@@ -124,70 +124,10 @@ const BlogPostContent = async ({ params }: { params: Promise<{ slug: string }> }
 	};
 
 	return (
-		<article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+		<>
 			<JsonLdScript data={articleJsonLd} />
 			<JsonLdScript data={breadcrumbJsonLd} />
-
-			{/* Header */}
-			<div className="mb-8">
-				<Breadcrumb>
-					<BreadcrumbList>
-						<BreadcrumbItem>
-							<BreadcrumbLink asChild>
-								<Link href="/">Home</Link>
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator />
-						<BreadcrumbItem>
-							<BreadcrumbLink asChild>
-								<Link href="/blog">Blog</Link>
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator />
-						<BreadcrumbItem>
-							<BreadcrumbPage className="line-clamp-1">{post.title}</BreadcrumbPage>
-						</BreadcrumbItem>
-					</BreadcrumbList>
-				</Breadcrumb>
-				<div className="mt-6 flex items-center gap-3 text-sm text-muted-foreground">
-					{post.tag && (
-						<span className="rounded-full bg-secondary px-3 py-1 font-medium text-foreground">
-							{post.tag}
-						</span>
-					)}
-					<time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
-				</div>
-				<h1 className="mt-4 text-4xl font-medium tracking-tight text-balance">{post.title}</h1>
-			</div>
-
-			{/* Cover image */}
-			{post.image && (
-				<div className="relative aspect-[3/2] bg-secondary rounded-2xl overflow-hidden mb-10">
-					<YNSMedia
-						src={post.image}
-						alt={post.title}
-						fill
-						priority
-						sizes="(max-width: 768px) 100vw, 768px"
-						className="object-cover"
-					/>
-				</div>
-			)}
-
-			{/* Content */}
-			<div className="prose prose-sm dark:prose-invert max-w-none">
-				<TiptapRenderer content={post.content} />
-			</div>
-
-			{/* Footer nav */}
-			<div className="mt-16 border-t border-border pt-8">
-				<Link
-					href="/blog"
-					className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-				>
-					← Back to blog
-				</Link>
-			</div>
-		</article>
+			<BlogArticleClient post={post} />
+		</>
 	);
 };

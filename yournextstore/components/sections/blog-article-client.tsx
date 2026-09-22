@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export function BlogArticleClient() {
+export function BlogArticleClient({ post }: { post?: any }) {
 	const [readingProgress, setReadingProgress] = useState(0);
 	const [openFaq, setOpenFaq] = useState<number | null>(null);
 	const [bookmarked, setBookmarked] = useState(false);
@@ -129,7 +129,7 @@ export function BlogArticleClient() {
 						<span className="text-outline-variant">Studio Care</span>
 						<span className="text-outline-variant font-light">/</span>
 						<span className="text-primary font-semibold truncate max-w-[220px] sm:max-w-none">
-							Preserving Glass Engraving
+							{post?.title || "Preserving Glass Engraving"}
 						</span>
 					</nav>
 					<div className="flex items-center space-x-4">
@@ -150,19 +150,18 @@ export function BlogArticleClient() {
 					{/* Category Pill */}
 					<div className="inline-flex items-center justify-center mb-space-xs">
 						<span className="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm tracking-[0.2em] uppercase px-5 py-1.5 rounded-full font-semibold">
-							STUDIO CARE &amp; CONSERVATION
+							{post?.category || "STUDIO CARE & CONSERVATION"}
 						</span>
 					</div>
 
 					{/* Headline */}
 					<h1 className="font-headline-lg text-headline-lg lg:text-display-hero text-primary font-normal leading-tight tracking-[0.03em] mt-3 mb-6">
-						Preserving Glass Engraving: Caring for Hand-Etched Flutes &amp; Victorian Crystal
+						{post?.title || "Preserving Glass Engraving: Caring for Hand-Etched Flutes & Victorian Crystal"}
 					</h1>
 
 					{/* Subtitle */}
 					<p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed font-light">
-						A comprehensive conservatory guide to washing, handling, and buffering personalized glassware
-						etched with micro-drill diamond burs to prevent clouding, thermal shock, and micro-fractures.
+						{post?.description || "A comprehensive conservatory guide to washing, handling, and buffering personalized glassware etched with micro-drill diamond burs to prevent clouding, thermal shock, and micro-fractures."}
 					</p>
 
 					{/* Byline & Metadata Strip */}
@@ -186,7 +185,7 @@ export function BlogArticleClient() {
 						</div>
 						<div className="flex flex-col sm:items-end text-center sm:text-right">
 							<span className="font-label-sm text-label-sm tracking-[0.18em] uppercase text-primary font-medium">
-								4 MIN READ • OCTOBER 11, 2024
+								{post?.read_time || "4 MIN READ"} • {post?.publish_date || "OCTOBER 11, 2024"}
 							</span>
 							<span className="font-body-sm text-body-sm text-secondary">
 								Verified Fine-Craft Conservatory Protocol
@@ -268,8 +267,8 @@ export function BlogArticleClient() {
 						<div className="w-full aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
 							<img
 								className="w-full h-full object-cover"
-								alt="Artisanal studio workspace featuring a pair of luxury crystal champagne flutes exquisitely hand-engraved with fine Spencerian calligraphy monograms"
-								src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFsdymvbrtuYrQ3_aK26tXiZPazl0Gl_sGKpQIZbUfLbA05U-1V1Wqy_oi0hLvfwps3MF5eSegza_KKx9UNq6NINzYP37EUS70BB-uu7lYeK1Re_RwC6aAhzhHCzGAQkhoWkyhzBuMaMxFdQ0lYjndDR97BgljqSMvvsD3UCNpL5nXpkyj6R7GPS_f12jQfOLac_XlgT8yLPdVAQWe-9ZAYG6MOUn8tsj4Uq47QdaKpT7tDn-0f9w"
+								alt={post?.title || "Artisanal studio workspace"}
+								src={post?.images?.[0] || "https://lh3.googleusercontent.com/aida-public/AB6AXuAFsdymvbrtuYrQ3_aK26tXiZPazl0Gl_sGKpQIZbUfLbA05U-1V1Wqy_oi0hLvfwps3MF5eSegza_KKx9UNq6NINzYP37EUS70BB-uu7lYeK1Re_RwC6aAhzhHCzGAQkhoWkyhzBuMaMxFdQ0lYjndDR97BgljqSMvvsD3UCNpL5nXpkyj6R7GPS_f12jQfOLac_XlgT8yLPdVAQWe-9ZAYG6MOUn8tsj4Uq47QdaKpT7tDn-0f9w"}
 							/>
 						</div>
 						<div className="bg-paper-tint p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-secondary border-t border-border-vellum">
@@ -289,28 +288,33 @@ export function BlogArticleClient() {
 
 				{/* Editorial Main Reading Canvas */}
 				<div className="max-w-3xl mx-auto px-margin-mobile lg:px-4 py-space-sm space-y-space-md">
-					{/* Opening Narrative with Drop Cap */}
-					<div className="font-body-lg text-body-lg text-on-surface leading-relaxed space-y-6">
-						<p className="text-justify sm:text-left">
-							<span className="float-left font-display-hero text-[68px] leading-[60px] pr-3 pt-1 text-primary font-normal">
-								E
-							</span>
-							ach carved stroke upon fine crystal is an indelible dialogue between pressurized diamond and silica.
-							When bespoke vows, gilded dates, and fluid Flourished Copperplate monograms are hand-inscribed into
-							bridal flutes or Victorian decanters, the glass undergoes a profound architectural metamorphosis.
-							Unlike uniform laser blasting or mass acid dipping, bespoke rotary diamond engraving creates
-							micro-topographies—hundreds of delicate, microscopic prismatic fissures that catch candlelight with
-							peerless iridescence.
-						</p>
-						<p className="text-on-surface-variant font-light">
-							Yet, this tactile transcendence demands deliberate stewardship. Left to harsh modern detergents,
-							violent dishwasher currents, or rapid thermal gradients, the crystalline tooth of the engraving
-							can harbor mineral scale, micro-stress fractures, or irreversible surface haze. Herein lies our
-							atelier’s definitive conservatory standard for preserving hand-engraved crystal across generations.
-						</p>
-					</div>
+					{post?.content ? (
+						<div className="font-body-lg text-body-lg text-on-surface leading-relaxed space-y-6" dangerouslySetInnerHTML={{ __html: post.content }} />
+					) : (
+						<div className="font-body-lg text-body-lg text-on-surface leading-relaxed space-y-6">
+							<p className="text-justify sm:text-left">
+								<span className="float-left font-display-hero text-[68px] leading-[60px] pr-3 pt-1 text-primary font-normal">
+									E
+								</span>
+								ach carved stroke upon fine crystal is an indelible dialogue between pressurized diamond and silica.
+								When bespoke vows, gilded dates, and fluid Flourished Copperplate monograms are hand-inscribed into
+								bridal flutes or Victorian decanters, the glass undergoes a profound architectural metamorphosis.
+								Unlike uniform laser blasting or mass acid dipping, bespoke rotary diamond engraving creates
+								micro-topographies—hundreds of delicate, microscopic prismatic fissures that catch candlelight with
+								peerless iridescence.
+							</p>
+							<p className="text-on-surface-variant font-light">
+								Yet, this tactile transcendence demands deliberate stewardship. Left to harsh modern detergents,
+								violent dishwasher currents, or rapid thermal gradients, the crystalline tooth of the engraving
+								can harbor mineral scale, micro-stress fractures, or irreversible surface haze. Herein lies our
+								atelier’s definitive conservatory standard for preserving hand-engraved crystal across generations.
+							</p>
+						</div>
+					)}
 
 					{/* Atelier Technical Metric Box / SVG Diagram */}
+					{!post?.content && (
+					<>
 					<div className="bg-surface-container-lowest p-6 lg:p-8 shadow-sm border border-border-vellum">
 						<div className="flex items-center justify-between pb-4 border-b border-border-vellum">
 							<div className="flex items-center space-x-2">
@@ -663,6 +667,8 @@ export function BlogArticleClient() {
 							</div>
 						</div>
 					</section>
+					</>
+					)}
 
 					{/* Author Bio Card */}
 					<div className="bg-surface-container-low p-6 sm:p-8 mt-space-lg shadow-sm border border-border-vellum">

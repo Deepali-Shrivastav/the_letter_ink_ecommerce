@@ -387,7 +387,38 @@ export const commerce = {
     return { data: [] };
   },
   postBrowse: async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:9000/store/blogs", {
+        headers: {
+          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b",
+        },
+        cache: "no-store",
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return { data: json.blogs || [] };
+      }
+    } catch (e) {
+      console.warn("postBrowse error:", e);
+    }
     return { data: [] };
+  },
+  postGet: async ({ idOrSlug }: { idOrSlug: string }) => {
+    try {
+      const res = await fetch(`http://127.0.0.1:9000/store/blogs/${idOrSlug}`, {
+        headers: {
+          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b",
+        },
+        cache: "no-store",
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.blog || null;
+      }
+    } catch (e) {
+      console.warn("postGet error:", e);
+    }
+    return null;
   },
   orderGet: async ({ id }: { id: string }) => {
     try {
