@@ -31,7 +31,7 @@ interface FooterProps extends React.HTMLAttributes<HTMLElement> {
  * Designed following shadcn/ui and 21st.dev best practices.
  */
 export const Footer: FC<FooterProps> = ({
-  logoSrc = '/Logo.jpeg',
+  logoSrc = '/Latest-logo.png',
   companyName = 'The Letter Ink',
   description = 'An artisanal calligraphy studio, bespoke wedding stationery atelier, and custom lettering workshop.',
   usefulLinks = [

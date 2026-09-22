@@ -1,3 +1,35 @@
+// Shim legacy url.parse for @medusajs/medusa-js (axios) to prevent Node 22+ [DEP0169] deprecation warning
+if (typeof window === "undefined") {
+	try {
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		const nodeUrl = require("node:url");
+		if (nodeUrl && nodeUrl.parse) {
+			const originalParse = nodeUrl.parse;
+			nodeUrl.parse = function (urlString: string, ...args: any[]) {
+				try {
+					const u = new URL(urlString, "http://localhost");
+					return {
+						protocol: u.protocol,
+						slashes: true,
+						auth: u.username ? (u.password ? `${u.username}:${u.password}` : u.username) : null,
+						host: u.host,
+						port: u.port,
+						hostname: u.hostname,
+						hash: u.hash,
+						search: u.search,
+						query: args[0] ? Object.fromEntries(u.searchParams) : u.search ? u.search.slice(1) : null,
+						pathname: u.pathname,
+						path: u.pathname + u.search,
+						href: u.href,
+					};
+				} catch {
+					return originalParse.call(nodeUrl, urlString, ...args);
+				}
+			};
+		}
+	} catch {}
+}
+
 import Medusa from "@medusajs/medusa-js";
 import { cacheLife } from "next/cache";
 

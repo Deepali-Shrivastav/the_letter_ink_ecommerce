@@ -1,6 +1,7 @@
 import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { Container, Heading, Text, Button, Input, Badge, Table } from "@medusajs/ui"
-import { useState, useEffect } from "react"
+import { ArrowUpTray, Photo, XMarkMini } from "@medusajs/icons"
+import { useState, useEffect, useRef } from "react"
 
 const ProductCustomizationsWidget = ({ data }: any) => {
   const product = data
@@ -14,6 +15,9 @@ const ProductCustomizationsWidget = ({ data }: any) => {
   const [priceAdjustment, setPriceAdjustment] = useState<string>("0")
   const [imageUrl, setImageUrl] = useState<string>("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const fetchCustomizations = async () => {
     if (!product?.id) return;
@@ -54,6 +58,45 @@ const ProductCustomizationsWidget = ({ data }: any) => {
     })
     setNewValueTitles({ ...newValueTitles, [optionId]: "" })
     fetchCustomizations()
+  }
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    setUploadError(null)
+
+    try {
+      const formData = new FormData()
+      formData.append("files", file)
+
+      const res = await fetch("/admin/uploads", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      })
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.message || err.error || `Upload failed (status: ${res.status})`)
+      }
+
+      const result = await res.json()
+      const uploadedUrl = result.files?.[0]?.url
+
+      if (!uploadedUrl) {
+        throw new Error("No URL returned from upload service")
+      }
+
+      setImageUrl(uploadedUrl)
+    } catch (err: any) {
+      console.error("Photo upload error:", err)
+      setUploadError(err.message || "Failed to upload photo")
+    } finally {
+      setIsUploading(false)
+      if (e.target) e.target.value = ""
+    }
   }
 
   const handleCreateCombination = async () => {
@@ -258,32 +301,134 @@ const ProductCustomizationsWidget = ({ data }: any) => {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-ui-fg-subtle">Price Adjustment (+/- in cents or currency units)</label>
-                <Input 
-                  type="number"
-                  placeholder="0 (e.g. 500 for +$5.00)"
-                  value={priceAdjustment}
-                  onChange={(e) => setPriceAdjustment(e.target.value)}
-                />
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-medium text-ui-fg-subtle">Price Adjustment (+/- in cents or currency units)</label>
+              <Input 
+                type="number"
+                placeholder="0 (e.g. 500 for +$5.00)"
+                value={priceAdjustment}
+                onChange={(e) => setPriceAdjustment(e.target.value)}
+              />
+            </div>
+
+            {/* Photo Upload & Linking Section */}
+            <div className="flex flex-col gap-3 p-3 bg-ui-bg-base border border-ui-border-base rounded-md">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-medium text-ui-fg-subtle flex items-center gap-1.5">
+                  <Photo className="w-3.5 h-3.5 text-ui-fg-muted" />
+                  Combination Preview Photo (optional)
+                </label>
+                {imageUrl && (
+                  <Button
+                    type="button"
+                    variant="transparent"
+                    size="small"
+                    onClick={() => {
+                      setImageUrl("")
+                      setUploadError(null)
+                    }}
+                    className="text-xs text-ui-fg-muted hover:text-ui-fg-error h-6 px-1.5"
+                  >
+                    <XMarkMini className="w-3.5 h-3.5 mr-1" />
+                    Clear photo
+                  </Button>
+                )}
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-ui-fg-subtle">Preview Image URL (optional)</label>
-                <Input 
-                  placeholder="https://... or image link"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
+              {/* Upload Button and URL input */}
+              <div className="flex flex-wrap items-center gap-3">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
                 />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="small"
+                  disabled={isUploading}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex items-center gap-1.5 shrink-0"
+                >
+                  <ArrowUpTray className="w-3.5 h-3.5" />
+                  {isUploading ? "Uploading photo..." : "Upload Photo"}
+                </Button>
+
+                <div className="flex-1 min-w-[220px]">
+                  <Input
+                    placeholder="Or paste image URL (https://...)"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                  />
+                </div>
               </div>
+
+              {uploadError && (
+                <Text className="text-xs text-ui-fg-error">
+                  {uploadError}
+                </Text>
+              )}
+
+              {/* Active Image Preview Card */}
+              {imageUrl && (
+                <div className="flex items-center gap-3 p-2 bg-ui-bg-subtle border border-ui-border-base rounded-md">
+                  <img
+                    src={imageUrl}
+                    alt="Combination Preview"
+                    className="w-12 h-12 object-cover rounded border border-ui-border-base bg-white shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <Text className="text-xs font-medium text-ui-fg-base">
+                      Linked to this combination
+                    </Text>
+                    <Text className="text-[11px] text-ui-fg-muted truncate">
+                      {imageUrl}
+                    </Text>
+                  </div>
+                </div>
+              )}
+
+              {/* Select from existing product gallery if available */}
+              {product?.images && product.images.length > 0 && (
+                <div className="flex flex-col gap-1.5 pt-2 border-t border-ui-border-base/60">
+                  <span className="text-[11px] text-ui-fg-muted font-medium">
+                    Or select from existing product images:
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {product.images.map((img: any) => {
+                      const isSelected = imageUrl === img.url
+                      return (
+                        <button
+                          key={img.id || img.url}
+                          type="button"
+                          title="Click to link this image"
+                          onClick={() => setImageUrl(isSelected ? "" : img.url)}
+                          className={`relative rounded border p-0.5 transition-all overflow-hidden ${
+                            isSelected
+                              ? "border-ui-border-interactive ring-2 ring-ui-border-interactive scale-105"
+                              : "border-ui-border-base hover:border-ui-border-strong opacity-75 hover:opacity-100"
+                          }`}
+                        >
+                          <img
+                            src={img.url}
+                            alt="Gallery preview"
+                            className="w-10 h-10 object-cover rounded-xs"
+                          />
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div>
               <Button 
                 variant="primary" 
                 onClick={handleCreateCombination}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isUploading}
               >
                 {isSubmitting ? "Creating..." : "Save Combination"}
               </Button>
@@ -321,11 +466,23 @@ const ProductCustomizationsWidget = ({ data }: any) => {
                   </Table.Cell>
                   <Table.Cell>
                     {comb.preview_image_url ? (
-                      <a href={comb.preview_image_url} target="_blank" rel="noreferrer" className="text-blue-500 underline text-xs">
-                        View Image
-                      </a>
+                      <div className="flex items-center gap-2">
+                        <img 
+                          src={comb.preview_image_url} 
+                          alt="Preview" 
+                          className="w-10 h-10 object-cover rounded border border-ui-border-base bg-white shrink-0" 
+                        />
+                        <a 
+                          href={comb.preview_image_url} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="text-blue-500 hover:underline text-xs"
+                        >
+                          View full
+                        </a>
+                      </div>
                     ) : (
-                      <span className="text-xs text-ui-fg-muted">None</span>
+                      <span className="text-xs text-ui-fg-muted italic">No photo linked</span>
                     )}
                   </Table.Cell>
                   <Table.Cell className="text-right">

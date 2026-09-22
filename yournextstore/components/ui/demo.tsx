@@ -41,7 +41,7 @@ const FooterDemo = () => {
   return (
     <div className="w-full bg-background">
       <Footer
-        logoSrc="/Logo.jpeg"
+        logoSrc="/Latest-logo.png"
         onSubscribe={handleNewsletterSubscribe}
         socialLinks={socialLinksData}
       />

@@ -1,5 +1,19 @@
 import type { NextConfig } from "next";
 
+// Suppress Node.js 22+ DEP0169 url.parse deprecation warning caused by legacy client dependencies
+if (typeof process !== "undefined" && process.emitWarning) {
+	const originalEmitWarning = process.emitWarning;
+	process.emitWarning = function (warning: any, ...args: any[]) {
+		if (
+			(typeof warning === "string" && (warning.includes("DEP0169") || warning.includes("url.parse"))) ||
+			(typeof warning === "object" && warning?.code === "DEP0169")
+		) {
+			return;
+		}
+		return (originalEmitWarning as any).apply(process, [warning, ...args]);
+	};
+}
+
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {

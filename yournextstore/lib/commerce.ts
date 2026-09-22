@@ -167,7 +167,7 @@ export const commerce = {
     try {
       const res = await fetch("http://127.0.0.1:9000/store/workshops", {
         headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_22aed401e4e1f40b61fb80d5528e4dfdf39a82188d2af4d2cf11d396977ce54c",
+          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b",
         },
         cache: "no-store",
       });

@@ -84,15 +84,15 @@ export function ProductCustomizationProvider({
         setOptions(fetchedOptions);
         setCombinations(fetchedCombinations);
 
-        // Pre-populate selections by optionId from searchParams or default to first value
+        // Only populate selections from URL query params; do not default to any values (start blank)
         const initialSelections: Record<string, string> = {};
         fetchedOptions.forEach((opt) => {
           const fromParam = searchParams.get(opt.title);
-          const matchedVal = opt.values.find((v) => v.value === fromParam);
-          if (matchedVal) {
-            initialSelections[opt.id] = matchedVal.id;
-          } else if (opt.values.length > 0) {
-            initialSelections[opt.id] = opt.values[0].id;
+          if (fromParam) {
+            const matchedVal = opt.values.find((v) => v.value === fromParam);
+            if (matchedVal) {
+              initialSelections[opt.id] = matchedVal.id;
+            }
           }
         });
 
@@ -105,21 +105,38 @@ export function ProductCustomizationProvider({
       });
   }, [productId]);
 
-  // Handle setting an option value
+  // Handle setting an option value (supports toggling off to blank)
   const setOptionValue = (
     optionId: string,
     valueId: string,
     optionTitle: string,
     valueName: string
   ) => {
-    setSelections((prev) => ({
-      ...prev,
-      [optionId]: valueId,
-    }));
+    const isCurrentlySelected = selections[optionId] === valueId;
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.set(optionTitle, valueName);
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    if (isCurrentlySelected) {
+      // Toggle off / deselect back to blank
+      setSelections((prev) => {
+        const updated = { ...prev };
+        delete updated[optionId];
+        return updated;
+      });
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete(optionTitle);
+      const queryString = params.toString();
+      router.replace(queryString ? `${pathname}?${queryString}` : pathname, { scroll: false });
+    } else {
+      // Select value
+      setSelections((prev) => ({
+        ...prev,
+        [optionId]: valueId,
+      }));
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(optionTitle, valueName);
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    }
   };
 
   // Compute selectedValuesByName (title -> value string)

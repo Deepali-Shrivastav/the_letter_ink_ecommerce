@@ -2,7 +2,7 @@ const Medusa = require("@medusajs/medusa-js").default;
 
 const medusa = new Medusa({
   baseUrl: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000",
-  publishableApiKey: "pk_22aed401e4e1f40b61fb80d5528e4dfdf39a82188d2af4d2cf11d396977ce54c",
+  publishableApiKey: "pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b",
   maxRetries: 3,
 });
 

@@ -122,9 +122,8 @@ export async function Footer() {
 				<div className="py-12 sm:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
 					{/* Brand */}
 					<div className="sm:max-w-xs">
-						<Link href="/" className="flex items-center gap-3 text-xl font-bold text-foreground">
-							<img src="/Logo.jpeg" alt="The Letter Ink Logo" className="h-10 w-10 rounded-sm object-cover" />
-							<span>The Letter Ink</span>
+						<Link href="/" className="inline-block" aria-label="The Letter Ink Home">
+							<img src="/Latest-logo.png" alt="The Letter Ink" className="h-12 sm:h-14 w-auto object-contain" />
 						</Link>
 						<p className="mt-4 text-sm text-muted-foreground leading-relaxed">
 							An artisanal calligraphy studio, bespoke wedding stationery atelier, and custom lettering workshop.

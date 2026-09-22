@@ -171,18 +171,13 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 		<StoreConfigProvider value={storeConfig}>
 			<CartProvider>
 				<div className="flex min-h-screen flex-col">
-					<div className="w-full bg-[#fcece3] text-on-tertiary-fixed px-margin-mobile lg:px-margin py-2 text-center border-b border-border-vellum relative z-[60]">
-						<p className="font-label-sm text-label-sm uppercase tracking-widest text-[10px] md:text-xs">
-							BESPOKE COMMISSIONS & SEASONAL WORKSHOPS • WORLDWIDE ATELIER SHIPPING
-						</p>
-					</div>
 					<header className="sticky top-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
 						<div className="w-full px-margin-mobile lg:px-8">
 							<div className="relative flex items-center justify-between h-20">
 								{/* Left: Logo */}
-								<div className="flex items-center shrink-0 w-[200px]">
-									<Link href="/" className="flex items-center justify-center p-1 bg-[#ffe4e1] rounded-sm overflow-hidden">
-										<img alt="The Letter Ink Logo" className="h-10 w-auto object-contain rounded-xs" src="/Logo.jpeg" />
+								<div className="flex items-center shrink-0 xl:w-[200px]">
+									<Link href="/" className="flex items-center py-1" aria-label="The Letter Ink Home">
+										<img alt="The Letter Ink Logo" className="h-10 sm:h-12 w-auto object-contain" src="/Latest-logo.png" />
 									</Link>
 								</div>
 								
@@ -213,7 +208,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 							</div>
 						</div>
 					</header>
-					<div className="w-full bg-[#fcece3] text-on-tertiary-fixed px-margin-mobile lg:px-margin py-2 text-center border-t border-b border-border-vellum">
+					<div className="w-full bg-tertiary-fixed text-on-tertiary-fixed px-margin-mobile lg:px-margin py-2 text-center border-t border-b border-border-vellum">
 						<p className="font-label-sm text-label-sm uppercase tracking-widest text-[10px] md:text-xs">
 							USE CODE 'INKMAGIC' FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING & WAX SEALING
 						</p>
