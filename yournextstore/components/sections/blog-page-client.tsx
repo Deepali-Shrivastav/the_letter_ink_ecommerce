@@ -73,9 +73,6 @@ export function BlogPageClient() {
 <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
 <div className="lg:col-span-7 relative h-80 sm:h-96 lg:h-[480px] overflow-hidden bg-surface-container-high">
 <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="Editorial overhead photograph of antique brass calligraphy nib dripping real 24 karat liquid gold gouache onto thick raw deckle edge handmade cotton rag paper with subtle rose watercolor stains, glass ink wells, and soft directional atelier daylight casting quiet shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5p9YKXHZ_lFyC5fabjVhtgxLBLRCQcdBhRu7__0dUd54R2fRwX-iUZlv_fPppvH28Tb7ueh1hXUEbm1H2KK9h4cqVa5U-H68QVPG1FPORvdvMV1P3r7oueyMKHZOV1I6nJtk9WOphSF50fnm-K6YJyCaifhQc-zuHVwbazpjGMUn4c47R1oidIlSxKhoxKG5r9oDA0zKKhiJJjr5JmGBdbEsz7HR7HjT8S3RNDOKwsR4zZ9FS-bc"/>
-<div className="absolute top-4 left-4 bg-tertiary-fixed text-on-tertiary-fixed px-3.5 py-1.5 font-label-sm text-label-sm uppercase tracking-[0.18em] shadow-sm">
-              Editor’s Featured Essay
-            </div>
 </div>
 <div className="lg:col-span-5 p-space-sm sm:p-space-md flex flex-col justify-between bg-surface-container-lowest">
 <div className="space-y-space-xs">
@@ -94,9 +91,9 @@ export function BlogPageClient() {
               </p>
 </div>
 <div className="pt-space-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-<a className="inline-flex items-center justify-center h-[49px] px-7 bg-tertiary-fixed text-on-tertiary-fixed font-label-lg text-label-lg uppercase tracking-[0.15em] hover:bg-primary hover:text-on-primary transition-all duration-200 shadow-sm" href="#">
+<Link className="inline-flex items-center justify-center h-[49px] px-7 bg-tertiary-fixed text-on-tertiary-fixed font-label-lg text-label-lg uppercase tracking-[0.15em] hover:bg-primary hover:text-on-primary transition-all duration-200 shadow-sm" href="/blog/preserving-glass-engraving">
                 Read Article
-              </a>
+              </Link>
 <span className="font-body-sm text-body-sm text-secondary italic">Dispatched Oct 24, 2024</span>
 </div>
 </div>
@@ -107,169 +104,163 @@ export function BlogPageClient() {
 {/* Article 1 */}
 <article className="bg-surface-container-lowest shadow-sm flex flex-col justify-between p-6 group transition-all duration-300">
 <div className="space-y-4">
-<div className="relative h-60 overflow-hidden bg-surface-container">
+<Link href="/blog/preserving-glass-engraving" className="block relative h-60 overflow-hidden bg-surface-container">
 <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Delicate close-up of handwritten wedding vows on natural cream deckle paper with ivory silk ribbons and a dried botanical rose sprig, soft morning studio lighting in quiet neutral tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXsCT-gBBWhNqL15AIEuUKKsdw7R3jN2QyoThP-BtbO7rmQ1AgSorPJAk21sY7qMinllo8tTxer0naGx-Ue41sFHaZ6YdrlYRAyx80EFisbA2QQtgOJbQ9-t_m7KHZxHpXe748s8A7DfcL54OrVp6r8m8czSO7twvAnNICp9JiYg1HVKRECj7W-LWgt6DVH6pSFZhuNafjg3gBz3fndzcQWYR3YFnSu_pnv9f52nY6_te3-VxrS2Q"/>
-<span className="absolute bottom-3 left-3 bg-paper-tint text-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider shadow-sm">
-                Wedding Paper
-              </span>
-</div>
+</Link>
 <div className="flex items-center space-x-2 text-secondary font-label-sm text-label-sm uppercase tracking-wider">
 <span>5 Min Read</span>
 <span>•</span>
 <span>Oct 18, 2024</span>
 </div>
+<Link href="/blog/preserving-glass-engraving">
 <h4 className="font-headline-lg text-headline-sm text-primary group-hover:text-on-tertiary-container transition-colors leading-snug">
               The Sacred Geometry of Wedding Vow Keepsakes: Why Handwritten Still Matters
             </h4>
+</Link>
 <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
               In an age of luminous screens and ephemeral text, a bride and groom’s vows committed to archival cotton paper become the singular physical heirloom passed down through generations.
             </p>
 </div>
 <div className="pt-6 mt-6 flex items-center justify-between">
 <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Etiquette &amp; Vows</span>
-<a className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="#">
+<Link className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="/blog/preserving-glass-engraving">
               Read Essay <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
+</Link>
 </div>
 </article>
 {/* Article 2 */}
 <article className="bg-surface-container-lowest shadow-sm flex flex-col justify-between p-6 group transition-all duration-300">
 <div className="space-y-4">
-<div className="relative h-60 overflow-hidden bg-surface-container">
+<Link href="/blog/preserving-glass-engraving" className="block relative h-60 overflow-hidden bg-surface-container">
 <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Macro capture of hand engraved crystal champagne flutes with delicate micro serif calligraphy, tiny diamond burr dust reflections, illuminated by warm side lamp on dark wooden desk." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdyFwtW9JSQTC4CuMdNu8hiQjy1_v24mQGR7g0KQk6LUcWlPk9CCVxsVDhtAEvgD_U7qIGfRkhxFZj8zdPRJFnbUVTzewhPzqF_QcbvDyb_zpPE-gAhkvuV1lG2jtF_QZCAGyjMpJVoRIq0F7FUa6eH8Xy2HDGsRO-gG_zPO06wKNmi4ZZEd-_XSik15oN8Jnyr7k9MJT1gyANe1V_uAgTE8-u4620UrnMYUB9hobY7gVgGUwGiRY"/>
-<span className="absolute bottom-3 left-3 bg-paper-tint text-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider shadow-sm">
-                Studio Care
-              </span>
-</div>
+</Link>
 <div className="flex items-center space-x-2 text-secondary font-label-sm text-label-sm uppercase tracking-wider">
 <span>4 Min Read</span>
 <span>•</span>
 <span>Oct 11, 2024</span>
 </div>
+<Link href="/blog/preserving-glass-engraving">
 <h4 className="font-headline-lg text-headline-sm text-primary group-hover:text-on-tertiary-container transition-colors leading-snug">
               Preserving Glass Engraving: Caring for Hand-Etched Flutes &amp; Victorian Crystal
             </h4>
+</Link>
 <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
               A comprehensive conservatory guide to washing, handling, and buffering personalized glassware etched with micro-drill burs to prevent clouding and micro-fractures.
             </p>
 </div>
 <div className="pt-6 mt-6 flex items-center justify-between">
 <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Conservation</span>
-<a className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="#">
+<Link className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="/blog/preserving-glass-engraving">
               Read Essay <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
+</Link>
 </div>
 </article>
 {/* Article 3 */}
 <article className="bg-surface-container-lowest shadow-sm flex flex-col justify-between p-6 group transition-all duration-300">
 <div className="space-y-4">
-<div className="relative h-60 overflow-hidden bg-surface-container">
+<Link href="/blog/preserving-glass-engraving" className="block relative h-60 overflow-hidden bg-surface-container">
 <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal glass jars filled with rich amber walnut ink, wooden pestle with dried walnut husks, droppers, and vintage nib boxes on an antique stone workspace in Maharashtra atelier." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHSMgV-aAM-4dORpA-AQp9OdfWS7pbze56a22DCnsqtuhjJEKyQW3udkfH2LGYmGCz25JlAkLVMDeOp8UuncvbkGQTHkFXQBurAsiJUSsg2DxYz1LINIVhR24k5oVj6dP0Kc_p5xIYLXVageO6OhO9PsSkNdd45PEb9G9rfzmNbmgJ7TjGFOrk-3gaOvZwxNzb5Q4bqMhTlf5AQsUnlxSkOxXoisq7BEKvFrL9tOipJgySAdidFug"/>
-<span className="absolute bottom-3 left-3 bg-paper-tint text-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider shadow-sm">
-                The Scribe’s Craft
-              </span>
-</div>
+</Link>
 <div className="flex items-center space-x-2 text-secondary font-label-sm text-label-sm uppercase tracking-wider">
 <span>6 Min Read</span>
 <span>•</span>
 <span>Sep 29, 2024</span>
 </div>
+<Link href="/blog/preserving-glass-engraving">
 <h4 className="font-headline-lg text-headline-sm text-primary group-hover:text-on-tertiary-container transition-colors leading-snug">
               From Raw Pigments to Fluid Script: Crafting Custom Walnut Inks in Bhusawal
             </h4>
+</Link>
 <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
               Inside our slow distillation ritual: simmering sun-dried green hulls, balancing clove oil preservatives, and calibrating gum arabic for optimal nib hairspring flow.
             </p>
 </div>
 <div className="pt-6 mt-6 flex items-center justify-between">
 <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Studio Recipes</span>
-<a className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="#">
+<Link className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="/blog/preserving-glass-engraving">
               Read Essay <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
+</Link>
 </div>
 </article>
 {/* Article 4 */}
 <article className="bg-surface-container-lowest shadow-sm flex flex-col justify-between p-6 group transition-all duration-300">
 <div className="space-y-4">
-<div className="relative h-60 overflow-hidden bg-surface-container">
+<Link href="/blog/preserving-glass-engraving" className="block relative h-60 overflow-hidden bg-surface-container">
 <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Melted soft rose and sage green sealing wax poured onto textured handmade paper with solid brass stamp engraved with ornate royal monogram, melting spoon over flickering candle flame." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYUapVE1ZDcy_yfdbUv70EnECSykN03HP7y75sYhAWpnFa8KwG0yMQ9oBE2lKfmJGKtTdYCR3ViqxEp9g5D6Qnl1gxMugjn2KqwTIYNuUds-he8cMt9LEnHA0LqQEeGycM-tyW1emc-Nj6iRdyIzvFbaOyMpuE-YzF47XE0VDNhqxavO7FrWLzFERGFpcM05yoBrfmXjF7iPzElmxQanYLZP5bOpX18JXrev6G8ZYI6JvmOcw87_M"/>
-<span className="absolute bottom-3 left-3 bg-paper-tint text-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider shadow-sm">
-                Epistolary Lore
-              </span>
-</div>
+</Link>
 <div className="flex items-center space-x-2 text-secondary font-label-sm text-label-sm uppercase tracking-wider">
 <span>7 Min Read</span>
 <span>•</span>
 <span>Sep 15, 2024</span>
 </div>
+<Link href="/blog/preserving-glass-engraving">
 <h4 className="font-headline-lg text-headline-sm text-primary group-hover:text-on-tertiary-container transition-colors leading-snug">
               The Quiet Art of Sealing: Natural Beeswax, Shellac &amp; Hand-Turned Brass Stamps
             </h4>
+</Link>
 <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
               Why flexible resin formulations matter for international postal handling, and how our atelier sources cold-pressed beeswax from sustainable Indian apiaries.
             </p>
 </div>
 <div className="pt-6 mt-6 flex items-center justify-between">
 <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Wax Artistry</span>
-<a className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="#">
+<Link className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="/blog/preserving-glass-engraving">
               Read Essay <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
+</Link>
 </div>
 </article>
 {/* Article 5 */}
 <article className="bg-surface-container-lowest shadow-sm flex flex-col justify-between p-6 group transition-all duration-300">
 <div className="space-y-4">
-<div className="relative h-60 overflow-hidden bg-surface-container">
+<Link href="/blog/preserving-glass-engraving" className="block relative h-60 overflow-hidden bg-surface-container">
 <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Analytical top-down calligraphy practice sheet showing 55 degree slant guide lines, delicate hairline flourishes in Higgins eternal black ink, contrasting Spencerian hand with bold Copperplate shades." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHyJ-DzIwXdykKhGrC1awUoaWsx7KH3fIhY5uzHDeQi-6jW_1Ugf5ArQhqDzd__JKmHw0326_fZ6FTyE8kCH2pT3eX7OC-mGRLP09zucgVe5mtRwHRilYor9CYeV41Ck6BFRFBp4_Myjj_1O2sH0gwup5fzpoLOuqTr-pseE3T1iuml0ZBqHuIZQUAYcqeRRAyEkjVvZTh4ec8vN5xqo7nq5-gnJdaCYqqpGmXn0tHOwA3Mmc1Bg8"/>
-<span className="absolute bottom-3 left-3 bg-paper-tint text-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider shadow-sm">
-                Calligraphy Technique
-              </span>
-</div>
+</Link>
 <div className="flex items-center space-x-2 text-secondary font-label-sm text-label-sm uppercase tracking-wider">
 <span>10 Min Read</span>
 <span>•</span>
 <span>Aug 30, 2024</span>
 </div>
+<Link href="/blog/preserving-glass-engraving">
 <h4 className="font-headline-lg text-headline-sm text-primary group-hover:text-on-tertiary-container transition-colors leading-snug">
               Flourishing with Restraint: Spencerian vs. Copperplate Principles
             </h4>
+</Link>
 <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
               Deconstructing arm movement versus finger dexterity: understanding the mathematical oval geometry that prevents ornate flourishing from cluttering legibility.
             </p>
 </div>
 <div className="pt-6 mt-6 flex items-center justify-between">
 <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Penmanship</span>
-<a className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="#">
+<Link className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="/blog/preserving-glass-engraving">
               Read Essay <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
+</Link>
 </div>
 </article>
 {/* Article 6 */}
 <article className="bg-surface-container-lowest shadow-sm flex flex-col justify-between p-6 group transition-all duration-300">
 <div className="space-y-4">
-<div className="relative h-60 overflow-hidden bg-surface-container">
+<Link href="/blog/preserving-glass-engraving" className="block relative h-60 overflow-hidden bg-surface-container">
 <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal packaging session showing handmade wooden shadowbox lined with natural linen, tissue wrapping, dried rose petals, personalized thank you letter with wax seal ready for delivery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnnOZq7wnhLKqHMnaMBqGEl6fkeH6N0E9ikAmx1vAu20IAbSpKBwHuyU_vu5aX58SBnkNQVXbFE1ekdh-wiLpr1pvuWEGa5RWTJXhxApJTp-fALku-CoiL_JrvnkPwC-wK5pbh83V929uvi7wC0hdiHso6D64KVmqzbcgSzCK_YIsvaKmUdr2HDuWWFw32-MagzLlwCZiMIe1Qq6_m-beBvN-hVODISbVGIrjDhdB5V9kO5d_af2g"/>
-<span className="absolute bottom-3 left-3 bg-paper-tint text-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-wider shadow-sm">
-                Behind the Easel
-              </span>
-</div>
+</Link>
 <div className="flex items-center space-x-2 text-secondary font-label-sm text-label-sm uppercase tracking-wider">
 <span>4 Min Read</span>
 <span>•</span>
 <span>Aug 14, 2024</span>
 </div>
+<Link href="/blog/preserving-glass-engraving">
 <h4 className="font-headline-lg text-headline-sm text-primary group-hover:text-on-tertiary-container transition-colors leading-snug">
               How We Prepare Custom Shadowbox Packaging for Pan-India Courier
             </h4>
+</Link>
 <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 leading-relaxed">
               A glimpse into the unboxing architecture: layering museum conservation acid-free matboards, moisture-lock liners, and protective wooden framing.
             </p>
 </div>
 <div className="pt-6 mt-6 flex items-center justify-between">
 <span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Atelier Logistics</span>
-<a className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="#">
+<Link className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform" href="/blog/preserving-glass-engraving">
               Read Essay <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
+</Link>
 </div>
 </article>
 </div>

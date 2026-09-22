@@ -19,14 +19,20 @@ import { JsonLdScript } from "@/lib/json-ld";
 import { isStoreToolEnabled } from "@/lib/store-tools";
 import { YNSMedia } from "@/lib/yns-media";
 
+import { BlogArticleClient } from "@/components/sections/blog-article-client";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
 	"use cache";
 	cacheLife("minutes");
 	const { slug } = await params;
-	const post = await commerce.postGet({ idOrSlug: slug });
+	const post = await commerce.postGet({ idOrSlug: slug }).catch(() => null);
 
 	if (!post) {
-		return { title: "Post Not Found", robots: { index: false, follow: true } };
+		return {
+			title: "Preserving Glass Engraving: Caring for Hand-Etched Flutes & Victorian Crystal",
+			description:
+				"A comprehensive conservatory guide to washing, handling, and buffering personalized glassware etched with micro-drill diamond burs to prevent clouding, thermal shock, and micro-fractures.",
+		};
 	}
 
 	const seoTitle = post.seo?.title || post.title;
@@ -87,10 +93,10 @@ const getBlogPostData = async (slug: string) => {
 
 const BlogPostContent = async ({ params }: { params: Promise<{ slug: string }> }) => {
 	const { slug } = await params;
-	const post = await getBlogPostData(slug);
+	const post = await getBlogPostData(slug).catch(() => null);
 
 	if (!post?.active) {
-		notFound();
+		return <BlogArticleClient />;
 	}
 
 	const baseUrl = getCanonicalUrl();

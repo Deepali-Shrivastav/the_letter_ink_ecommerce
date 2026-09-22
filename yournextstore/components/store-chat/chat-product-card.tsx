@@ -111,12 +111,11 @@ export function ChatProductCard({
 
 		void (async () => {
 			const result = await addToCart(selectedVariant.id, 1);
-			const line = result.cart?.lineItems.find((item) => item.productVariant.id === selectedVariant.id);
-			if (result.success && result.cart && line) {
+			if (result.success && result.cart) {
 				syncCart(result.cart);
 			} else {
 				await reconcile();
-				toast.error("This item is out of stock");
+				toast.error(result.error || "Could not add item to cart");
 			}
 		})();
 	};

@@ -71,24 +71,27 @@ const mapMedusaProductToYNS = (medusaProduct: any) => {
 const mapMedusaCartToYNS = (medusaCart: any) => {
   return {
     id: medusaCart.id,
-    lineItems: medusaCart.items ? medusaCart.items.map((item: any) => ({
-      id: item.id,
-      quantity: item.quantity,
-      metadata: item.metadata || {},
-      productVariant: {
-        id: item.variant_id,
-        price: String(item.unit_price),
-        priceGross: String(item.unit_price),
-        images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
-        product: {
-          id: item.variant?.product_id || item.id,
-          name: item.title,
-          slug: item.variant?.product?.handle || "product",
+    lineItems: medusaCart.items ? medusaCart.items.map((item: any) => {
+      const priceVal = String(item.metadata?.custom_unit_price ?? item.unit_price);
+      return {
+        id: item.id,
+        quantity: item.quantity,
+        metadata: item.metadata || {},
+        productVariant: {
+          id: item.variant_id,
+          price: priceVal,
+          priceGross: priceVal,
           images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
-          type: "standard"
+          product: {
+            id: item.variant?.product_id || item.product_id || item.id,
+            name: item.title || item.product_title || "Product",
+            slug: item.variant?.product?.handle || item.product_handle || "product",
+            images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
+            type: "standard"
+          }
         }
-      }
-    })) : [],
+      };
+    }) : [],
     subtotal: medusaCart.subtotal,
     subtotalNet: medusaCart.subtotal,
     subtotalGross: medusaCart.total,
@@ -311,6 +314,9 @@ export const commerce = {
   cartGet: async ({ cartId }: { cartId: string }) => {
     try {
       const { cart } = await medusaClient.carts.retrieve(cartId);
+      if (cart && cart.currency_code && cart.currency_code.toLowerCase() !== "inr") {
+        return null;
+      }
       return mapMedusaCartToYNS(cart);
     } catch (error) {
       console.error("cartGet error:", error);
@@ -327,13 +333,21 @@ export const commerce = {
       }
 
       let { cart } = await medusaClient.carts.retrieve(activeCartId!);
+      if (cart && cart.currency_code && cart.currency_code.toLowerCase() !== "inr") {
+        const { cart: newCart } = await medusaClient.carts.create({});
+        activeCartId = newCart.id;
+        cart = newCart;
+      }
+
       const existingLineItem = cart.items?.find((item: any) => item.variant_id === variantId);
 
-      const createPayload: any = { variant_id: variantId, quantity, metadata };
-      if (unit_price !== undefined) createPayload.unit_price = unit_price;
-      
-      const updatePayload: any = { metadata };
-      if (unit_price !== undefined) updatePayload.unit_price = unit_price;
+      const itemMetadata = {
+        ...(metadata || {}),
+        ...(unit_price !== undefined ? { custom_unit_price: unit_price } : {})
+      };
+
+      const createPayload: any = { variant_id: variantId, quantity, metadata: itemMetadata };
+      const updatePayload: any = { metadata: itemMetadata };
 
       if (quantity === 0 && existingLineItem) {
         await medusaClient.carts.lineItems.delete(activeCartId!, existingLineItem.id);

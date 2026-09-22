@@ -173,11 +173,11 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 				<div className="flex min-h-screen flex-col">
 					<header className="sticky top-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
 						<div className="w-full px-margin-mobile lg:px-8">
-							<div className="relative flex items-center justify-between h-20">
+							<div className="relative flex items-center justify-between h-20 sm:h-24">
 								{/* Left: Logo */}
-								<div className="flex items-center shrink-0 xl:w-[200px]">
+								<div className="flex items-center shrink-0 xl:w-[260px]">
 									<Link href="/" className="flex items-center py-1" aria-label="The Letter Ink Home">
-										<img alt="The Letter Ink Logo" className="h-10 sm:h-12 w-auto object-contain" src="/Latest-logo.png" />
+										<img alt="The Letter Ink Logo" className="h-14 sm:h-16 lg:h-20 w-auto object-contain transition-all duration-200" src="/Latest-logo.png" />
 									</Link>
 								</div>
 								
@@ -189,7 +189,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 								</div>
 
 								{/* Right: Actions */}
-								<div className="flex items-center justify-end gap-5 w-[200px]">
+								<div className="flex items-center justify-end gap-5 w-[200px] xl:w-[260px]">
 									<button aria-label="Search" className="text-on-surface hover:text-primary transition-colors">
 										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
 									</button>
@@ -257,7 +257,7 @@ export default async function RootLayout({
 
 	return (
 		// suppressHydrationWarning: next-themes sets the theme class on <html> before hydration.
-		<html lang={lang} suppressHydrationWarning>
+		<html lang={lang} className="light" style={{ colorScheme: "light" }} suppressHydrationWarning>
 			<head>
 				<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 			</head>
@@ -269,7 +269,7 @@ export default async function RootLayout({
 				<Suspense>
 					<StoreJsonLd />
 				</Suspense>
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+				<ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light" disableTransitionOnChange>
 					<CartProviderWrapper>{children}</CartProviderWrapper>
 					<Suspense>
 						<NewsletterPopupSection />

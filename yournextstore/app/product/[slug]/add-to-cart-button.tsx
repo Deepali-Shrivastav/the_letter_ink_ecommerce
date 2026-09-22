@@ -215,15 +215,15 @@ export function AddToCartButton({
 				},
 				finalUnitPrice ? Number(finalUnitPrice) : undefined
 			);
-			const line = result.cart?.lineItems.find((item) => item.productVariant.id === variantId);
-			if (result.success && result.cart && line) {
+			if (result.success && result.cart) {
 				syncCart(result.cart);
-				if (line.quantity < previousQuantity + addedQuantity) {
+				const line = result.cart.lineItems.find((item) => item.productVariant.id === variantId);
+				if (line && line.quantity < previousQuantity + addedQuantity) {
 					toast.warning(`Only ${line.quantity} in stock — quantity adjusted`);
 				}
 			} else {
 				await reconcile();
-				toast.error("This item is out of stock");
+				toast.error(result.error || "Could not add item to cart");
 			}
 		});
 	};

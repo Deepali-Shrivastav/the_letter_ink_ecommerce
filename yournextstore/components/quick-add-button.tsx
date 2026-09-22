@@ -62,12 +62,11 @@ export function QuickAddButton({
 			// The server clamps to available stock and still returns the cart — surface
 			// the failure instead of letting the optimistic item silently vanish.
 			const result = await addToCart(variantId, 1);
-			const line = result.cart?.lineItems.find((item) => item.productVariant.id === variantId);
-			if (result.success && result.cart && line) {
+			if (result.success && result.cart) {
 				syncCart(result.cart);
 			} else {
 				await reconcile();
-				toast.error("This item is out of stock");
+				toast.error(result.error || "Could not add item to cart");
 			}
 		})();
 	};

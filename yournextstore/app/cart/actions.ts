@@ -33,12 +33,13 @@ export async function addToCart(variantId: string, quantity = 1, metadata?: Reco
 		[error, cart] = await try_(commerce.cartUpsert({ variantId, quantity, metadata, unit_price }));
 		if (error) {
 			console.error("cart: addToCart failed after fresh-cart retry", { variantId, quantity, error });
-			return { success: false, cart: null };
+			const message = (error as any)?.response?.data?.message || (error instanceof Error ? error.message : "Could not add item to cart");
+			return { success: false, cart: null, error: message };
 		}
 	}
 
 	if (!cart) {
-		return { success: false, cart: null };
+		return { success: false, cart: null, error: "Could not create cart" };
 	}
 
 	if (cart.id !== cartCookie?.id) {
