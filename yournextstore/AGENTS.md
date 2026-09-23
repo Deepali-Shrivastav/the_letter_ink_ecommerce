@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Your Next Store — e-commerce app built with Next.js App Router + Commerce Kit SDK.
+The Letter Ink — e-commerce storefront built with Next.js App Router and Medusa.js backend.
 
 ## Commands
 
@@ -75,8 +75,8 @@ grep -b -o -m1 '<div hidden id="S:' .next/server/app/index.html | cut -d: -f1  #
 ```
 
 The same rule holds for a deployed store, because the static shell is the first flush of the live
-response too: `bash scripts/check-shell.sh https://<store>/`. `YNS_SHELL_CHECK=warn` prints the
-failures and exits 0 (the release valve when a store must ship anyway), `YNS_SHELL_CHECK=off` skips
+response too: `bash scripts/check-shell.sh https://<store>/`. `STORE_SHELL_CHECK=warn` prints the
+failures and exits 0 (the release valve when a store must ship anyway), `STORE_SHELL_CHECK=off` skips
 the check entirely. Error documents are skipped by design — `_global-error` and anything that
 resolved to `notFound()` while prerendering replace the root layout, so they carry no chrome to
 measure.
@@ -115,8 +115,7 @@ store. Keep them when you touch the chrome, the tokens or a `<head>` asset.
 - **Touch targets.** Interactive elements are ≥ 24×24 CSS px. Use the `Button` sizes (`icon-sm` for
   icon buttons); never shrink one back down with `h-auto p-1`. A decorative dot belongs in an
   `aria-hidden` span inside a 24 px button, not as the button.
-- **Fixed docks.** The "Made with YNS" badge, the chat launcher and the newsletter launcher all sit
-  at `z-50`/`bottom-4`; the consent banner is `z-[60]` so its controls stay above them and clickable.
+- **Fixed docks.** The chat launcher and the newsletter launcher sit at `z-50`/`bottom-4`.
 - **Measure it.** `bun run audit <url>` against `bun start` while working, and
   `bun run audit https://<store>/` after publishing. The accessibility audits are deterministic —
   a failure is a real defect; the simulated performance numbers swing ±0.3 s run to run, so compare
@@ -225,7 +224,7 @@ runs `lint-staged`: Biome over the staged files, then `bun tsc --noEmit` and `bu
 staged — a CSS-only commit stages no TypeScript, so the contrast assertions would otherwise never
 run on the one file that can break them. `bun run check` runs the whole suite by hand.
 
-`bun run build` stays out of both, because prerendering reads live store data through `YNS_API_KEY`.
+`bun run build` stays out of both, because prerendering reads live store data through Medusa backend.
 Run it yourself before publishing — it is also where the prerendered-shell check runs.
 
 ## Validation Checklist
@@ -240,14 +239,13 @@ Run it yourself before publishing — it is also where the prerendered-shell che
 - [ ] No console errors, images load, responsive layout
 - [ ] No hardcoded secrets; env vars set (`.env.local` / Vercel dashboard)
 
-Required env: `YNS_API_KEY`
+Required env: `NEXT_PUBLIC_MEDUSA_BACKEND_URL`
 
 ## Troubleshooting
 
 | Error | Cause | Fix |
 |-------|-------|-----|
 | `Cannot read property 'variants' of undefined` | Product data missing | Use optional chaining (`product?.variants`) |
-| `Missing env.YNS_API_KEY` | Env not loaded | Create `.env.local`, restart dev server |
 | `noDefaultExport` | Default export in non-special file | Use named export |
 | `BigInt literal syntax` | Using `0n` with ES2020 | Use `BigInt(0)` |
 
@@ -260,7 +258,6 @@ Required env: `YNS_API_KEY`
 
 **When starting work on the project, ALWAYS call the `init` tool from `next-devtools-mcp` FIRST to set up proper context and establish documentation requirements. Do this automatically without being asked.**
 
-<!-- YNS-DOCS-START -->[YNS Docs]|base: https://yournextstore.com/docs/{section}/{slug}|Fetch with `Accept: text/markdown` header for raw markdown (token-efficient). YNS docs are the single source of truth hosted at yournextstore.com.|getting-started:{introduction,quick-start,first-store-setup}|storefront:{overview,installation,configuration,customization,deployment}|commerce-sdk:{overview,authentication,products,cart,orders,collections}|api-reference:{overview,products,variants,bundles,collections,categories,brands,inventory,search,reviews,orders,carts,customers,coupons,promotions,subscription-plans,loyalty,shipping,tax-rates,pickup-locations,events,tickets,posts,blog-categories,post-comments,subscribers,newsletters,contact-messages,media,images,brand-kit,socials,analytics,settings,team,domain,legal-pages,feedback-sessions}<!-- YNS-DOCS-END -->
 
 <!-- BEGIN:nextjs-agent-rules -->
 

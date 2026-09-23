@@ -6,7 +6,7 @@ import { isVideoUrl } from "@/lib/utils";
 
 type ImageProps = ComponentProps<typeof Image>;
 
-const YNSImageWithPolling = (props: ImageProps) => {
+const LetterInkImageWithPolling = (props: ImageProps) => {
 	const { props: resolvedProps } = getImageProps(props as Parameters<typeof getImageProps>[0]);
 	const [isReady, setIsReady] = useState(false);
 
@@ -40,21 +40,21 @@ const YNSImageWithPolling = (props: ImageProps) => {
 			? { position: "absolute", inset: 0, width: "100%", height: "100%" }
 			: { width: resolvedProps.width, height: resolvedProps.height };
 
-		return <div className={`yns-image-shimmer ${props.className ?? ""}`} style={style} />;
+		return <div className={`letterink-image-shimmer ${props.className ?? ""}`} style={style} />;
 	}
 
 	return <Image {...props} />;
 };
 
-const YNSImage = process.env.NODE_ENV === "development" ? YNSImageWithPolling : Image;
+const LetterInkImage = process.env.NODE_ENV === "development" ? LetterInkImageWithPolling : Image;
 
-type YNSMediaProps = ImageProps & {
+type LetterInkMediaProps = ImageProps & {
 	autoPlay?: boolean;
 	controls?: boolean;
 };
 
 /** Renders a <video> for video URLs, otherwise falls back to the Image component. */
-export const YNSMedia = ({ autoPlay = true, controls = false, ...props }: YNSMediaProps) => {
+export const LetterInkMedia = ({ autoPlay = true, controls = false, ...props }: LetterInkMediaProps) => {
 	const src = typeof props.src === "string" ? props.src : "";
 	if (isVideoUrl(src)) {
 		return (
@@ -76,5 +76,5 @@ export const YNSMedia = ({ autoPlay = true, controls = false, ...props }: YNSMed
 			/>
 		);
 	}
-	return <YNSImage {...props} />;
+	return <LetterInkImage {...props} />;
 };

@@ -34,11 +34,16 @@ import Medusa from "@medusajs/medusa-js";
 import { cacheLife } from "next/cache";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
+const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
+
+if (!PUBLISHABLE_KEY && process.env.NODE_ENV === "development") {
+  console.warn("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY is not set. API calls to Medusa may fail.");
+}
 
 export const medusaClient = new Medusa({
   baseUrl: BACKEND_URL,
   maxRetries: 3,
-  publishableApiKey: process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_test_dummykey",
+  publishableApiKey: PUBLISHABLE_KEY,
 });
 
 // Polyfills for getStoreSeo etc since Medusa doesn't have a direct equivalent

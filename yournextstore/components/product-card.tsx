@@ -8,7 +8,7 @@ import { formatMoney } from "@/lib/money";
 import { priceRange } from "@/lib/pricing";
 import { getStoreConfig } from "@/lib/store-config";
 import { isVideoUrl } from "@/lib/utils";
-import { YNSMedia } from "@/lib/yns-media";
+import { LetterInkMedia } from "@/lib/the-letter-ink-media";
 import { QuickAddButton } from "./quick-add-button";
 
 type BrowseProduct = APIProductsBrowseResult["data"][number];
@@ -86,7 +86,7 @@ export async function ProductCard({
 							playsInline
 						/>
 					) : (
-						<YNSMedia
+						<LetterInkMedia
 							src={primaryImage}
 							alt={product.name}
 							fill
@@ -106,7 +106,7 @@ export async function ProductCard({
 							playsInline
 						/>
 					) : (
-						<YNSMedia
+						<LetterInkMedia
 							src={secondaryImage}
 							alt={`${product.name} - alternate view`}
 							fill

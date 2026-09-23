@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getSubdomainPublicUrl } from "@/lib/commerce";
+import { logger } from "@/lib/logger";
 
 async function handler(request: NextRequest) {
 	// better-auth lives on the apex (global users), not the tenant subdomain — on a
@@ -33,8 +34,8 @@ async function handler(request: NextRequest) {
 			headers: responseHeaders,
 		});
 	} catch (error) {
-		console.error(`[auth proxy] ${request.method} ${url.toString()} failed:`, error);
-		return NextResponse.json({ error: "Auth proxy request failed" }, { status: 502 });
+		logger.error(`[auth proxy] ${request.method} ${request.nextUrl.pathname} failed:`, error);
+		return NextResponse.json({ error: "Authentication service unavailable" }, { status: 502 });
 	}
 }
 

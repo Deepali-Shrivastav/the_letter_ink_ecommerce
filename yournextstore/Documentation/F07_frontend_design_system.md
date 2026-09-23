@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: Design System
+# The Letter Ink — theletterink: Design System
 
 > **Document:** F07 — Design System  
 > **Tailwind CSS:** v4.3.3 | **Shadcn-style components**

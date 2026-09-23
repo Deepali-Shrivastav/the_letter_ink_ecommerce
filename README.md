@@ -3,7 +3,7 @@
 This repository contains the backend and frontend for The Letter Ink eCommerce platform. 
 The project is divided into two main parts:
 1. **letter-ink-backend**: A Medusa.js backend handling the commerce logic.
-2. **yournextstore**: A Next.js frontend storefront.
+2. **The Letter Ink Storefront**: A Next.js frontend storefront (in `yournextstore/`).
 
 ## Prerequisites
 

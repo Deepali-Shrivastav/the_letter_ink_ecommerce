@@ -4,6 +4,8 @@ import { try_ } from "safe-try";
 import { commerce } from "@/lib/commerce";
 import { getCartCookieJson, setCartCookie } from "@/lib/cookies";
 import { getStoreConfig } from "@/lib/store-config";
+import { isValidId, isValidQuantity } from "@/lib/validation";
+import { logger } from "@/lib/logger";
 
 export async function getCart() {
 	const cartCookie = await getCartCookieJson();
@@ -14,27 +16,32 @@ export async function getCart() {
 
 	const [error, cart] = await try_(commerce.cartGet({ cartId: cartCookie.id }));
 	if (error) {
-		console.error("cart: cartGet failed", { cartId: cartCookie.id, error });
+		logger.error("cart: cartGet failed", { cartId: cartCookie.id, error });
 		return null;
 	}
 	return cart;
 }
 
 export async function addToCart(variantId: string, quantity = 1, metadata?: Record<string, any>, unit_price?: number) {
+	if (!isValidId(variantId)) {
+		return { success: false, cart: null, error: "Invalid product variant identifier" };
+	}
+
+	const validQuantity = isValidQuantity(quantity, 1, 99) ? quantity : 1;
+	const validUnitPrice = typeof unit_price === "number" && unit_price >= 0 ? unit_price : undefined;
+	const safeMetadata = metadata && typeof metadata === "object" ? metadata : undefined;
+
 	const cartCookie = await getCartCookieJson();
 
-	// The yns_cart cookie can point at a cartId that no longer exists server-side
+	// The theletterink_cart cookie can point at a cartId that no longer exists server-side
 	// (expired, store re-seeded, old session). cartUpsert then throws "Cart not found";
-	// retry once with a FRESH cart so the add always lands. No revalidatePath — the
-	// client syncs from this action's returned cart (the layout cartGet hits a
-	// read-replica and can return the pre-write cart, dropping the just-added line).
-	let [error, cart] = await try_(commerce.cartUpsert({ cartId: cartCookie?.id, variantId, quantity, metadata, unit_price }));
+	// retry once with a FRESH cart so the add always lands.
+	let [error, cart] = await try_(commerce.cartUpsert({ cartId: cartCookie?.id, variantId, quantity: validQuantity, metadata: safeMetadata, unit_price: validUnitPrice }));
 	if (error) {
-		[error, cart] = await try_(commerce.cartUpsert({ variantId, quantity, metadata, unit_price }));
+		[error, cart] = await try_(commerce.cartUpsert({ variantId, quantity: validQuantity, metadata: safeMetadata, unit_price: validUnitPrice }));
 		if (error) {
-			console.error("cart: addToCart failed after fresh-cart retry", { variantId, quantity, error });
-			const message = (error as any)?.response?.data?.message || (error instanceof Error ? error.message : "Could not add item to cart");
-			return { success: false, cart: null, error: message };
+			logger.error("cart: addToCart failed after fresh-cart retry", { variantId, quantity: validQuantity, error });
+			return { success: false, cart: null, error: "Could not add item to cart. Please try again." };
 		}
 	}
 
@@ -53,6 +60,10 @@ export async function addBundleToCart(
 	bundleId: string,
 	selections: Array<{ variantId: string; groupId: string; quantity: number }>,
 ) {
+	if (!isValidId(bundleId) || !Array.isArray(selections) || selections.length === 0) {
+		return { success: false as const, error: "Invalid bundle selection" };
+	}
+
 	const [cartCookie, { currency }] = await Promise.all([getCartCookieJson(), getStoreConfig()]);
 
 	const [error, cart] = await try_(
@@ -65,11 +76,8 @@ export async function addBundleToCart(
 	);
 
 	if (error) {
-		// The SDK throws on a 4xx; surface a readable message. Precise per-group validation
-		// is handled client-side in the bundle builder — this is the server backstop.
-		console.error("cart: addBundleToCart failed", { bundleId, error });
-		const message = error instanceof Error ? error.message : "Could not add bundle to cart";
-		return { success: false as const, error: message };
+		logger.error("cart: addBundleToCart failed", { bundleId, error });
+		return { success: false as const, error: "Could not add bundle to cart. Please try again." };
 	}
 
 	if (!cart) {
@@ -84,6 +92,10 @@ export async function addBundleToCart(
 }
 
 export async function removeFromCart(variantId: string) {
+	if (!isValidId(variantId)) {
+		return { success: false, cart: null };
+	}
+
 	const cartCookie = await getCartCookieJson();
 
 	if (!cartCookie?.id) {
@@ -99,7 +111,7 @@ export async function removeFromCart(variantId: string) {
 		}),
 	);
 	if (error) {
-		console.error("cart: removeFromCart failed", { cartId: cartCookie.id, variantId, error });
+		logger.error("cart: removeFromCart failed", { cartId: cartCookie.id, variantId, error });
 		return { success: false, cart: null };
 	}
 	return { success: true, cart };
@@ -107,6 +119,14 @@ export async function removeFromCart(variantId: string) {
 
 // Set absolute quantity for a cart item
 export async function setCartQuantity(variantId: string, quantity: number) {
+	if (!isValidId(variantId)) {
+		return { success: false, cart: null };
+	}
+
+	const validQuantity = typeof quantity === "number" && Number.isInteger(quantity)
+		? Math.max(0, Math.min(quantity, 99))
+		: 0;
+
 	const cartCookie = await getCartCookieJson();
 
 	if (!cartCookie?.id) {
@@ -118,13 +138,14 @@ export async function setCartQuantity(variantId: string, quantity: number) {
 		commerce.cartUpsert({
 			cartId: cartCookie.id,
 			variantId,
-			quantity: Math.max(quantity, 0),
+			quantity: validQuantity,
 			mode: "set",
 		}),
 	);
 	if (error) {
-		console.error("cart: setCartQuantity failed", { cartId: cartCookie.id, variantId, quantity, error });
+		logger.error("cart: setCartQuantity failed", { cartId: cartCookie.id, variantId, quantity: validQuantity, error });
 		return { success: false, cart: null };
 	}
 	return { success: true, cart };
 }
+

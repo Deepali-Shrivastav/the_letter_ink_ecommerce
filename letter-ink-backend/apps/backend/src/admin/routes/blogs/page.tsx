@@ -181,7 +181,7 @@ const BlogsAdminPage = () => {
                   </div>
                   <div className="grid gap-2">
                     <Label>Category</Label>
-                    <Input name="category" value={formData.category} onChange={handleChange} placeholder="e.g. Technical Guide" />
+                    <Input name="category" value={formData.category} onChange={handleChange} placeholder="e.g. Calligraphy Insights" />
                   </div>
                 </div>
 
@@ -192,7 +192,7 @@ const BlogsAdminPage = () => {
                   </div>
                   <div className="grid gap-2">
                     <Label>Publish Date</Label>
-                    <Input name="publish_date" value={formData.publish_date} onChange={handleChange} placeholder="e.g. Oct 12, 2024" />
+                    <Input name="publish_date" value={formData.publish_date} onChange={handleChange} placeholder="e.g. October 12, 2026" />
                   </div>
                   <div className="grid gap-2">
                     <Label>Status</Label>
@@ -205,17 +205,17 @@ const BlogsAdminPage = () => {
 
                 <div className="grid gap-2">
                   <Label>Description (Summary)</Label>
-                  <Textarea name="description" value={formData.description} onChange={handleChange} placeholder="Short summary for the blog listing card..." rows={3} />
+                  <Textarea name="description" value={formData.description} onChange={handleChange} placeholder="Brief summary introducing the article..." rows={3} />
                 </div>
 
                 <div className="grid gap-2">
                   <Label>Content (HTML/Tiptap format)</Label>
-                  <Textarea name="content" value={formData.content} onChange={handleChange} placeholder="<p>Full content goes here...</p>" rows={12} className="font-mono text-xs" />
+                  <Textarea name="content" value={formData.content} onChange={handleChange} placeholder="<p>Article body content with HTML styling...</p>" rows={12} className="font-mono text-xs" />
                 </div>
                 
                 <div className="grid gap-2">
                   <Label>Images (JSON Array format)</Label>
-                  <Textarea name="images" value={formData.images} onChange={handleChange} placeholder='[ "https://url-to-image.com" ]' rows={3} className="font-mono text-xs" />
+                  <Textarea name="images" value={formData.images} onChange={handleChange} placeholder='[ "https://example.com/editorial-banner.jpg" ]' rows={3} className="font-mono text-xs" />
                   <Text className="text-ui-fg-subtle text-xs">Enter a valid JSON array of image strings.</Text>
                 </div>
                 

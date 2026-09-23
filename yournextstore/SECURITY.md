@@ -9,7 +9,7 @@ Security updates are provided only for the latest state of the codebase.
 
 If you discover a security vulnerability, please report it to:
 
-**support@yournextstore.com**
+**support@theletterink.com**
 
 Include as much detail as possible to help us investigate the issue.  
 We will acknowledge the report and follow up if additional information is required.

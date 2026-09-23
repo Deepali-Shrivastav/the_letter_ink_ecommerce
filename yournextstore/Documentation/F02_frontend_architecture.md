@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: Frontend Architecture
+# The Letter Ink — theletterink: Frontend Architecture
 
 > **Document:** F02 — Frontend Architecture  
 > **Next.js Version:** 16.3.4

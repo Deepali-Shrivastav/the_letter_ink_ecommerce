@@ -305,7 +305,7 @@ const ProductCustomizationsWidget = ({ data }: any) => {
               <label className="text-xs font-medium text-ui-fg-subtle">Price Adjustment (+/- in cents or currency units)</label>
               <Input 
                 type="number"
-                placeholder="0 (e.g. 500 for +$5.00)"
+                placeholder="0 (e.g. 500 for +₹500)"
                 value={priceAdjustment}
                 onChange={(e) => setPriceAdjustment(e.target.value)}
               />

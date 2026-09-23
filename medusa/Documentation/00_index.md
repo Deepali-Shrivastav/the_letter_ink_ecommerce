@@ -19,7 +19,7 @@
 | [07](./07_module_catalog.md) | **Module Catalog** | All 36 modules, 16 providers, configuration |
 | [08](./08_workflow_reference.md) | **Workflow Reference** | All 200+ workflows across 37 domains |
 | [10](./10_developer_guide.md) | **Developer Guide** | Local setup, conventions, extending Medusa |
-| [11](./11_frontend_integration.md) | **Frontend Integration** | Connecting `yournextstore` to Medusa |
+| [11](./11_frontend_integration.md) | **Frontend Integration** | Connecting `theletterink` to Medusa |
 
 ---
 
@@ -31,7 +31,7 @@
 
 ```
 ┌─────────────────────┐     Store API      ┌──────────────────────────┐
-│   yournextstore     │ ──────────────────▶ │  Medusa v2 Backend       │
+│   theletterink     │ ──────────────────▶ │  Medusa v2 Backend       │
 │   (Next.js)         │     /store/*        │  @medusajs/medusa 2.20.1 │
 │                     │ ──────────────────▶ │                          │
 │   Admin Dashboard   │     Admin API       │  36 Commerce Modules     │

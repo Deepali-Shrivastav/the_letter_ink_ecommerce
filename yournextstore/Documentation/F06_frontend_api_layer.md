@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: API Layer & Commerce Kit
+# The Letter Ink — theletterink: API Layer & Commerce Kit
 
 > **Document:** F06 — API Layer & Commerce Kit SDK Reference
 

@@ -49,7 +49,7 @@ export default async function seedBlogs({ container }: ExecArgs) {
   for (const b of blogsToCreate) {
     const existing = await blogModuleService.listPosts({ handle: b.handle })
     if (existing.length === 0) {
-      await blogModuleService.createPosts(b)
+      await blogModuleService.createPosts([b] as any)
       console.log(`Created post: ${b.title}`)
     } else {
       console.log(`Post already exists: ${b.title}`)

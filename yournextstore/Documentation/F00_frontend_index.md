@@ -1,8 +1,8 @@
-# The Letter Ink — yournextstore Frontend: Documentation Suite
+# The Letter Ink — theletterink Frontend: Documentation Suite
 
 > **Complete Industry-Standard Technical Documentation**  
 > **Next.js Version:** 16.3.4 | **React:** 19.2.8 | **Generated:** 2026-09-15  
-> **Scope:** `yournextstore/` — full frontend analysis
+> **Scope:** `theletterink/` — full frontend analysis
 
 ---
 

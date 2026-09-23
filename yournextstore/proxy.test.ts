@@ -26,7 +26,7 @@ test("forwards the browser's Origin untouched", async () => {
 	const response = await checkoutRequest({ origin: "https://acme.example" });
 
 	expect(forwardedValue(response, "origin")).toBe("https://acme.example");
-	expect(forwardedValue(response, "x-yns-forwarded-origin")).toBe("1");
+	expect(forwardedValue(response, "x-letterink-forwarded-origin")).toBe("1");
 });
 
 test("a request without an Origin gets none", async () => {

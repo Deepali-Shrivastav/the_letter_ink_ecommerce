@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: Performance & SEO Guide
+# The Letter Ink — theletterink: Performance & SEO Guide
 
 > **Document:** F08 — Performance & SEO  
 > **Next.js Version:** 16.3.4

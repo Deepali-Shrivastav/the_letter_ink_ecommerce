@@ -1,7 +1,7 @@
 # The Letter Ink — Frontend Integration Guide
 
 > **Document:** 11 — Frontend Integration Guide  
-> **Scope:** Connecting `yournextstore` (Next.js) to the Medusa v2 backend
+> **Scope:** Connecting `theletterink` (Next.js) to the Medusa v2 backend
 
 ---
 
@@ -26,7 +26,7 @@
 ## 1. Integration Overview
 
 ```
-yournextstore (Next.js)
+theletterink (Next.js)
   │
   ├── Uses: @medusajs/js-sdk (official client)
   │
@@ -57,7 +57,7 @@ yournextstore (Next.js)
 
 ## 2. Environment Configuration
 
-Add to `yournextstore/.env.local`:
+Add to `theletterink/.env.local`:
 
 ```env
 # Medusa backend URL

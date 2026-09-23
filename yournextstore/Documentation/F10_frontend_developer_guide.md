@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: Developer Guide
+# The Letter Ink — theletterink: Developer Guide
 
 > **Document:** F10 — Frontend Developer Guide
 
@@ -34,7 +34,7 @@
 ### Step 1: Install dependencies
 
 ```bash
-cd yournextstore
+cd theletterink
 bun install
 ```
 

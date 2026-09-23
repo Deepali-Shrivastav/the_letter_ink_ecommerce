@@ -2,6 +2,8 @@
 
 import { try_ } from "safe-try";
 import { commerce } from "@/lib/commerce";
+import { isValidEmail } from "@/lib/validation";
+import { logger } from "@/lib/logger";
 
 type NewsletterState = {
 	success: boolean;
@@ -15,7 +17,7 @@ export async function subscribeToNewsletter(
 ): Promise<NewsletterState> {
 	const email = formData.get("email");
 
-	if (!email || typeof email !== "string") {
+	if (!isValidEmail(email)) {
 		return { success: false, message: "", error: "Please enter a valid email address." };
 	}
 
@@ -29,10 +31,10 @@ export async function subscribeToNewsletter(
 		};
 	}
 
-	const [error] = await try_(commerce.subscriberCreate({ email, marketingConsent: true }));
+	const [error] = await try_(commerce.subscriberCreate({ email: email.trim().toLowerCase(), marketingConsent: true }));
 	if (error) {
-		console.error("newsletter: subscriberCreate failed", { error });
-		return { success: false, message: "", error: "Something went wrong. Please try again." };
+		logger.error("newsletter: subscriberCreate failed", { error });
+		return { success: false, message: "", error: "Something went wrong. Please try again later." };
 	}
 
 	return { success: true, message: "Thanks for subscribing!" };

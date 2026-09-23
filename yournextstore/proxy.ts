@@ -34,7 +34,7 @@ export async function proxy(request: NextRequest) {
 		// validates the forwarded origin against this store's own domains instead.
 		// This header marks the proxy as one that forwards; the platform only uses it to
 		// *tighten* the check, so it grants nothing if forged.
-		requestHeaders.set("x-yns-forwarded-origin", "1");
+		requestHeaders.set("x-letterink-forwarded-origin", "1");
 
 		const url = new URL(`/${subdomain}${request.nextUrl.pathname}${request.nextUrl.search}`, destinationUrl);
 		url.searchParams.set("auth", "0");

@@ -1,6 +1,5 @@
 import { expect, test } from "bun:test";
 
-process.env.YNS_API_KEY ??= "test-key";
 const { sendContactMessage } = await import("@/app/contact/action");
 const { subscribeToNewsletter } = await import("@/app/newsletter/action");
 

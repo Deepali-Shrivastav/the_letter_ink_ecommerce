@@ -6,13 +6,19 @@ export async function GET(
   req: MedusaRequest,
   res: MedusaResponse
 ): Promise<void> {
+  const logger = req.scope.resolve("logger", { allowUnregistered: true }) as any
   const blogModuleService: BlogModuleService = req.scope.resolve(BLOG_MODULE)
   
-  const posts = await blogModuleService.listPosts({
-    status: "published"
-  }, {
-    order: { created_at: "DESC" }
-  })
+  try {
+    const posts = await blogModuleService.listPosts({
+      status: "published"
+    }, {
+      order: { created_at: "DESC" }
+    })
 
-  res.json({ blogs: posts })
+    res.json({ blogs: posts || [] })
+  } catch (err: any) {
+    logger?.error?.("Failed to list published blog posts:", err)
+    res.status(500).json({ message: "Failed to retrieve blog posts" })
+  }
 }

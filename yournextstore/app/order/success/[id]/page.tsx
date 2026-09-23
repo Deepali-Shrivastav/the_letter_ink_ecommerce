@@ -11,7 +11,7 @@ import { formatMoney } from "@/lib/money";
 import { cartDisplaySubtotal, displayAmount, displayPrice } from "@/lib/pricing";
 import { getStoreConfig } from "@/lib/store-config";
 import { getProductThumbnail } from "@/lib/utils";
-import { YNSMedia } from "@/lib/yns-media";
+import { LetterInkMedia } from "@/lib/the-letter-ink-media";
 
 export const metadata: Metadata = {
 	title: "Order Confirmed",
@@ -188,7 +188,7 @@ async function OrderItem({ item }: { item: OrderLineItem }) {
 				href={`/product/${product.slug}`}
 				className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-secondary"
 			>
-				{image && <YNSMedia src={image} alt={product.name} fill className="object-cover" sizes="80px" />}
+				{image && <LetterInkMedia src={image} alt={product.name} fill className="object-cover" sizes="80px" />}
 			</Link>
 
 			{/* Product Details */}

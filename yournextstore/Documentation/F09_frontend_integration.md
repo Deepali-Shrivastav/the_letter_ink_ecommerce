@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: Medusa Backend Integration Guide
+# The Letter Ink — theletterink: Medusa Backend Integration Guide
 
 > **Document:** F09 — Medusa Integration Guide  
 > **Purpose:** Replace the YNS platform API with the Medusa v2 backend
@@ -23,7 +23,7 @@
 
 ## 1. Integration Strategy
 
-The `yournextstore` frontend uses `commerce-kit` SDK which abstracts the backend API. To connect it to the **Medusa backend** instead of the YNS platform, there are two approaches:
+The `theletterink` frontend uses `commerce-kit` SDK which abstracts the backend API. To connect it to the **Medusa backend** instead of the YNS platform, there are two approaches:
 
 ### Option A: Configure commerce-kit with Medusa endpoint (Recommended)
 
@@ -64,7 +64,7 @@ This document covers **Option B** in full detail — the explicit Medusa SDK app
 
 ## 3. Environment Configuration
 
-### yournextstore `.env.local`
+### theletterink `.env.local`
 
 ```env
 # Medusa backend URL

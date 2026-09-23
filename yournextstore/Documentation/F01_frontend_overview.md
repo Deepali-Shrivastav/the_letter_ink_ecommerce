@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: Project Overview
+# The Letter Ink — theletterink: Project Overview
 
 > **Document:** F01 — Frontend Project Overview  
 > **Next.js Version:** 16.3.4 | **React:** 19.2.8
@@ -20,7 +20,7 @@
 
 | Property | Value |
 |---|---|
-| **Project Name** | yournextstore (The Letter Ink Storefront) |
+| **Project Name** | theletterink (The Letter Ink Storefront) |
 | **Framework** | Next.js 16.3.4 (App Router) |
 | **Language** | TypeScript 7.x |
 | **Runtime** | Bun 1.x |
@@ -113,7 +113,7 @@
 ## 3. Project Structure
 
 ```
-yournextstore/
+theletterink/
 │
 ├── app/                          ← Next.js App Router root
 │   ├── layout.tsx                ← Root layout: header, footer, providers
@@ -238,7 +238,7 @@ yournextstore/
 │   ├── track.tsx                 ← Analytics event queue
 │   ├── dates.ts                  ← Date formatting
 │   ├── vts.ts                    ← Variant-type selector
-│   ├── yns-media.tsx             ← Responsive media helper
+│   ├── the-letter-ink-media.tsx             ← Responsive media helper
 │   ├── store-tools.ts            ← Feature flag helpers
 │   ├── invariant.ts              ← Runtime assertion
 │   ├── utils.ts                  ← `cn()` class merger

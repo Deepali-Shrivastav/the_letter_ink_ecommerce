@@ -40,7 +40,7 @@
 **The Letter Ink** is an e-commerce storefront with a fully decoupled architecture:
 
 - **Backend (this document):** Medusa v2 monorepo — handles all commerce logic, data persistence, payment processing, fulfillment, and administration.
-- **Frontend (separate):** `yournextstore` — Next.js storefront that consumes the Medusa Store API.
+- **Frontend (separate):** `theletterink` — Next.js storefront that consumes the Medusa Store API.
 
 ### Commerce Capabilities
 
@@ -243,7 +243,7 @@ medusa/                             ← monorepo root
 | 08 | [Workflow Reference](./08_workflow_reference.md) | All workflows and steps |
 | 09 | [Configuration Guide](./09_configuration.md) | Environment setup, medusa-config.ts |
 | 10 | [Developer Guide](./10_developer_guide.md) | Local setup, conventions, extending |
-| 11 | [Frontend Integration Guide](./11_frontend_integration.md) | Connecting yournextstore to Medusa |
+| 11 | [Frontend Integration Guide](./11_frontend_integration.md) | Connecting theletterink to Medusa |
 | 12 | [Security & Auth Guide](./12_security_auth.md) | Auth flows, RBAC, API key management |
 
 ---

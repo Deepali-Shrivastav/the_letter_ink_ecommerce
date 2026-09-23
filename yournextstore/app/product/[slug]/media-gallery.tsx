@@ -7,7 +7,7 @@ import { useSelectedVariant } from "@/app/product/[slug]/use-selected-variant";
 import { useCustomization } from "@/app/product/[slug]/customization-context";
 import { Button } from "@/components/ui/button";
 import { cn, isVideoUrl } from "@/lib/utils";
-import { YNSMedia } from "@/lib/yns-media";
+import { LetterInkMedia } from "@/lib/the-letter-ink-media";
 
 type Variant = {
 	id: string;
@@ -126,7 +126,7 @@ export function MediaGallery({ images, productName, variants }: MediaGalleryProp
 						controls
 					/>
 				) : (
-					<YNSMedia
+					<LetterInkMedia
 						src={displayImages[selectedIndex] ?? ""}
 						alt={`${productName} - View ${selectedIndex + 1}`}
 						fill
@@ -201,7 +201,7 @@ export function MediaGallery({ images, productName, variants }: MediaGalleryProp
 									playsInline
 								/>
 							) : (
-								<YNSMedia
+								<LetterInkMedia
 									src={image}
 									alt={`${productName} thumbnail ${index + 1}`}
 									fill

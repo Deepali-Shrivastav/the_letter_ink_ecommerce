@@ -30,14 +30,14 @@ type QueueItem = ({ event: "ViewContent" | "AddToCart" } & TrackedItem) | { even
 
 declare global {
 	interface Window {
-		ynsTrackQueue?: QueueItem[];
+		letterInkTrackQueue?: QueueItem[];
 	}
 }
 
 const publish = (item: QueueItem) => {
-	window.ynsTrackQueue = window.ynsTrackQueue || [];
-	window.ynsTrackQueue.push(item);
-	window.dispatchEvent(new Event("yns:track"));
+	window.letterInkTrackQueue = window.letterInkTrackQueue || [];
+	window.letterInkTrackQueue.push(item);
+	window.dispatchEvent(new Event("letterink:track"));
 };
 
 /** Same item id convention as the product feeds: variant sku when set, variant id otherwise. */

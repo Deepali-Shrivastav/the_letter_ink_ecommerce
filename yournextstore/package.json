@@ -1,5 +1,5 @@
 {
-  "name": "yournextstore",
+  "name": "theletterink",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,8 +8,6 @@
     "start": "next start",
     "prepare": "husky",
     "lint": "npx @biomejs/biome check --write --unsafe",
-    "publish:store": "bash scripts/publish.sh",
-    "api": "bash scripts/api.sh",
     "test": "bun test",
     "format": "bun run biome format --write",
     "check": "bun run biome check && bun tsc --noEmit && bun test",

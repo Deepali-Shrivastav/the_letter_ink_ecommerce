@@ -4,10 +4,9 @@ import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { useEffect } from "react";
 
-// Only the YNS builder/toolbar hosts may drive or observe navigation when the
-// storefront is embedded in an iframe (matches `allowedDevOrigins` and the
-// toolbar hosts in instrumentation-client.ts).
-const TRUSTED_PARENT_HOSTNAME = /(^|\.)(yns\.store|yns\.cx|yournextstore\.com|vercel\.run|localhost)$/;
+// Only trusted parent hosts may drive or observe navigation when the
+// storefront is embedded in an iframe.
+const TRUSTED_PARENT_HOSTNAME = /(^|\.)(vercel\.run|localhost)$/;
 
 const isTrustedParentOrigin = (origin: string) => {
 	try {
@@ -88,15 +87,15 @@ export function ErrorOverlayRemover() {
 		const inject = () => {
 			const shadowRoot = document.querySelector("nextjs-portal")?.shadowRoot;
 			if (!shadowRoot) return false;
-			if (shadowRoot.querySelector("style[data-yns-hide-dev-chrome]")) return true;
+			if (shadowRoot.querySelector("style[data-letterink-hide-dev-chrome]")) return true;
 
 			const style = document.createElement("style");
-			style.setAttribute("data-yns-hide-dev-chrome", "");
+			style.setAttribute("data-letterink-hide-dev-chrome", "");
 			style.textContent = `${hiddenSelectors.join(",\n")} { display: none !important; }`;
 			shadowRoot.appendChild(style);
 
 			// Otherwise a Next.js rename degrades silently into dev chrome over the preview.
-			if (!hiddenSelectors.some((selector) => shadowRoot.querySelector(selector))) {
+			if (process.env.NODE_ENV === "development" && !hiddenSelectors.some((selector) => shadowRoot.querySelector(selector))) {
 				console.warn("Next.js dev overlay found, but none of its chrome selectors matched:", hiddenSelectors);
 			}
 			return true;

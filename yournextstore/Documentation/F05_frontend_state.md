@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: State Management
+# The Letter Ink — theletterink: State Management
 
 > **Document:** F05 — State Management
 

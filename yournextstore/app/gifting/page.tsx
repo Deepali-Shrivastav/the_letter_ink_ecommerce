@@ -3,6 +3,7 @@ import { cacheLife } from "next/cache";
 import { Suspense } from "react";
 import { GiftingLandingClient } from "@/components/sections/gifting-landing-client";
 import { medusaClient } from "@/lib/medusa";
+import { logger } from "@/lib/logger";
 
 export const metadata: Metadata = {
 	title: "Artisanal Gifting Atelier - Gifts for Every Milestone",
@@ -24,7 +25,7 @@ async function getGiftingData() {
 			hampers = prods.products;
 		}
 	} catch (e: any) {
-		console.error("Failed to fetch hampers:", e.message || e);
+		logger.error("Failed to fetch hampers:", e);
 	}
 
 	// Fetch Occasions and their products
@@ -47,7 +48,7 @@ async function getGiftingData() {
 			}
 		}
 	} catch (e: any) {
-		console.error("Failed to fetch occasions:", e.message || e);
+		logger.error("Failed to fetch occasions:", e);
 	}
 
 	return { hampers, occasionsWithProducts };

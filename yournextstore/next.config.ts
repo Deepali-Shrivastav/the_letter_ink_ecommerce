@@ -17,8 +17,7 @@ if (typeof process !== "undefined" && process.emitWarning) {
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
-	/* config options here */
-	allowedDevOrigins: ["*.vercel.run", "*.yns.store", "*.yns.cx"],
+	allowedDevOrigins: ["*.vercel.run"],
 	devIndicators: false,
 	reactCompiler: true,
 	cacheComponents: true,
@@ -47,14 +46,9 @@ const nextConfig: NextConfig = {
 		],
 	},
 	images: {
-		// Store media lives on Vercel Blob (per-store subdomain) and the YNS platform hosts.
-		// A "**" wildcard would make the image optimizer an open proxy for any https URL.
+		// Store media remote image patterns
 		remotePatterns: [
 			{ protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
-			{ protocol: "https", hostname: "yns.store" },
-			{ protocol: "https", hostname: "**.yns.store" },
-			{ protocol: "https", hostname: "yns.cx" },
-			{ protocol: "https", hostname: "**.yns.cx" },
 			{ protocol: "https", hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com" },
 			{ protocol: "https", hostname: "images.pexels.com" },
 			{ protocol: "https", hostname: "images.unsplash.com" },

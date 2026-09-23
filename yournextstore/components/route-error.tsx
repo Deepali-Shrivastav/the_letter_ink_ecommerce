@@ -3,6 +3,7 @@
 import { AlertCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
+import { logger } from "@/lib/logger";
 
 /**
  * Shared fallback for route-level error boundaries. `retry` re-fetches and
@@ -22,7 +23,7 @@ export function RouteErrorFallback({
 	retry: () => void;
 }) {
 	useEffect(() => {
-		console.error("route error boundary", { digest: error.digest, error });
+		logger.error("route error boundary", { digest: error.digest, error });
 	}, [error]);
 
 	return (

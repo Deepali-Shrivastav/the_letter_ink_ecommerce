@@ -75,7 +75,7 @@ export function CartSidebar() {
 										: "Shipping and taxes calculated at checkout"}
 								</p>
 								{/* Keep this a plain <a>, never <Link>/router.push: /checkout is proxied to a
-								    different Next.js zone (yns.store). A soft RSC nav 500s the cross-zone request.
+								    different backend/checkout zone. A soft RSC nav 500s the cross-zone request.
 								    While a cart write is in flight, block the link: a full navigation now would
 								    load /checkout before the item is committed server-side and show an empty cart. */}
 								<Button asChild className="w-full h-12 text-base font-medium">

@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "yournextstore",
+      "name": "theletterink",
       "dependencies": {
         "@ai-sdk/react": "4.0.96",
         "@medusajs/medusa-js": "^6.1.7",

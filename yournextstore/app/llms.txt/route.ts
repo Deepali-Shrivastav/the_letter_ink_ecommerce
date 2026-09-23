@@ -12,12 +12,11 @@ export async function GET() {
 	const blogEnabled = me.store.settings?.enabledTools?.blog ?? false;
 	const contactFormEnabled = me.store.settings?.enabledTools?.contactForm ?? false;
 
-	const [products, collections, legalPages, posts] = await Promise.all([
+	const [products, collections, posts] = await Promise.all([
 		commerce
 			.productBrowse({ active: true, limit: FEATURED_PRODUCTS, orderBy: "createdAt", orderDirection: "desc" })
 			.catch(() => ({ data: [] })),
 		commerce.collectionBrowse({ active: true, limit: FEATURED_COLLECTIONS }).catch(() => ({ data: [] })),
-		commerce.legalPageBrowse().catch(() => ({ data: [] })),
 		blogEnabled
 			? commerce.postBrowse({ active: true, limit: FEATURED_POSTS }).catch(() => ({ data: [] }))
 			: Promise.resolve({ data: [] }),
@@ -72,15 +71,6 @@ export async function GET() {
 		sections.push("");
 		for (const p of posts.data) {
 			sections.push(`- [${p.title}](${baseUrl}/blog/${p.slug})${p.tag ? `: ${p.tag}.` : "."}`);
-		}
-		sections.push("");
-	}
-
-	if (legalPages.data.length > 0) {
-		sections.push("## Policies");
-		sections.push("");
-		for (const p of legalPages.data) {
-			sections.push(`- [${p.label}](${baseUrl}/legal${p.href})`);
 		}
 		sections.push("");
 	}

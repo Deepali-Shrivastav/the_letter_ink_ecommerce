@@ -23,11 +23,6 @@ async function getAllCollections() {
 	return result.data.map((c) => ({ slug: c.slug, lastModified: c.createdAt }));
 }
 
-async function getAllLegalPages() {
-	const result = await commerce.legalPageBrowse();
-	return result.data.map((p) => ({ path: p.href, updatedAt: p.updatedAt }));
-}
-
 async function getContactFormEnabled() {
 	const me = await meGetCached().catch(() => null);
 	return me?.store.settings?.enabledTools?.contactForm ?? false;
@@ -56,10 +51,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		{ url: `${baseUrl}/faq`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
 	];
 
-	const [products, collections, legalPages, blog, contactFormEnabled] = await Promise.all([
+	const [products, collections, blog, contactFormEnabled] = await Promise.all([
 		getAllProducts().catch(() => []),
 		getAllCollections().catch(() => []),
-		getAllLegalPages().catch(() => []),
 		getBlogState().catch(() => ({ enabled: false, posts: [] })),
 		getContactFormEnabled().catch(() => false),
 	]);
@@ -88,13 +82,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		priority: 0.7,
 	}));
 
-	const legalRoutes: MetadataRoute.Sitemap = legalPages.map((p) => ({
-		url: `${baseUrl}/legal${p.path}`,
-		lastModified: new Date(p.updatedAt),
-		changeFrequency: "yearly",
-		priority: 0.3,
-	}));
-
 	const blogRoutes: MetadataRoute.Sitemap = blog.enabled
 		? [
 				{ url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
@@ -107,5 +94,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			]
 		: [];
 
-	return [...staticRoutes, ...productRoutes, ...collectionRoutes, ...legalRoutes, ...blogRoutes];
+	return [...staticRoutes, ...productRoutes, ...collectionRoutes, ...blogRoutes];
 }

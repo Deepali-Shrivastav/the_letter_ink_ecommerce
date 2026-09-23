@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: Page Routes Reference
+# The Letter Ink — theletterink: Page Routes Reference
 
 > **Document:** F03 — Page Routes Reference
 

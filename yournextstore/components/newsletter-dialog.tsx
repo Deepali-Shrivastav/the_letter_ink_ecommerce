@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-const STORAGE_KEY = "yns-newsletter-popup-dismissed";
+const STORAGE_KEY = "letterink-newsletter-popup-dismissed";
 
 type PopupStep = "cta" | "form" | "success";
 type PopupState = "idle" | "open" | "dismissed";

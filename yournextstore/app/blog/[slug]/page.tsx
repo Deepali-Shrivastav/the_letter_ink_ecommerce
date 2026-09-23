@@ -17,7 +17,6 @@ import { commerce, getCanonicalUrl } from "@/lib/commerce";
 import { formatDate } from "@/lib/dates";
 import { JsonLdScript } from "@/lib/json-ld";
 import { isStoreToolEnabled } from "@/lib/store-tools";
-import { YNSMedia } from "@/lib/yns-media";
 
 import { BlogArticleClient } from "@/components/sections/blog-article-client";
 

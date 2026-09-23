@@ -11,3 +11,9 @@ stitch-assets/
 stitch_assets/
 stitch_homepage.*
 *stitch*
+
+# Environment files
+.env*
+**/.env*
+!**/.env.example
+!**/.env.template

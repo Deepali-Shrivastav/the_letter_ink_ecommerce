@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { formatMoney } from "@/lib/money";
 import { displayAmount, displayPrice, type TaxBehavior } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 type Bundle = NonNullable<APIProductGetByIdResult["bundle"]>;
 type Group = Bundle["groups"][number];
@@ -24,7 +25,7 @@ type GroupSelections = Record<string, Record<string, number>>;
 // Raw bundle pricing fields off the product (commerce-kit 0.50). `discountPercentage` is already on
 // the clean `bundle` object; the mode + fixed/amount values live on the product for now.
 // TODO: fold priceMode/fixedPriceAmount/amountOffAmount (and their gross twins) into
-// `serializeBundleForApi` and read from `product.bundle` instead of the raw fields — see YNS-1449.
+// `serializeBundleForApi` and read from `product.bundle` instead of the raw fields.
 type Pricing = {
 	mode: "fixed" | "percent" | "amount";
 	fixedPriceAmount: string | null;
@@ -154,7 +155,7 @@ export function BundleBuilder({
 			openCart();
 			toast.success("Bundle added to cart");
 		} catch (error) {
-			console.error("Failed to add bundle to cart:", error);
+			logger.error("Failed to add bundle to cart:", error);
 			toast.error("Failed to add to cart");
 		} finally {
 			setIsAdding(false);

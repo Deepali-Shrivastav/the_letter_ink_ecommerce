@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
+import { logger } from "./logger";
 
-export const CART_COOKIE = "yns_cart";
+export const CART_COOKIE = "theletterink_cart";
 export type CartCookieJson = { id: string };
 
 export async function setCartCookie(cartCookieJson: CartCookieJson) {
@@ -12,7 +13,7 @@ export async function setCartCookie(cartCookieJson: CartCookieJson) {
 			path: "/",
 		});
 	} catch (error) {
-		console.error("Failed to set cart cookie", error);
+		logger.error("Failed to set cart cookie", error);
 	}
 }
 

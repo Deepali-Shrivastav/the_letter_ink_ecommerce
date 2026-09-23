@@ -13,7 +13,6 @@ import { CartSidebar } from "@/app/cart/cart-sidebar";
 import { CartButton } from "@/app/cart-button";
 import { Footer } from "@/app/footer";
 import { Navbar, type NavLink } from "@/app/navbar";
-import { CookieConsent } from "@/components/cookie-consent";
 import { ErrorOverlayRemover, NavigationReporter } from "@/components/devtools";
 import { NewsletterDialog } from "@/components/newsletter-dialog";
 import { SearchInput } from "@/components/search/search-input";
@@ -220,8 +219,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 				<Suspense>
 					<CartBootstrapper />
 				</Suspense>
-				{/* Inside CartProvider on purpose: add-to-cart from chat uses the cart context.
-			    Also renders the "Made with YNS" badge so badge and launcher share one dock. */}
+				{/* Inside CartProvider on purpose: add-to-cart from chat uses the cart context. */}
 				<Suspense>
 					<StoreChatSection />
 				</Suspense>
@@ -262,10 +260,6 @@ export default async function RootLayout({
 				<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${ebGaramond.variable} antialiased`} suppressHydrationWarning>
-				{/* DO NOT REMOVE / REORDER: required for GDPR + GTM Consent Mode v2. Must stay at top of <body>. */}
-				<Suspense>
-					<CookieConsent />
-				</Suspense>
 				<Suspense>
 					<StoreJsonLd />
 				</Suspense>

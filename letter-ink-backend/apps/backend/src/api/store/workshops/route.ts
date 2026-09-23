@@ -5,6 +5,7 @@ export const GET = async (
   req: MedusaRequest,
   res: MedusaResponse
 ) => {
+  const logger = req.scope.resolve("logger", { allowUnregistered: true }) as any
   const workshopModuleService = req.scope.resolve(WORKSHOP_MODULE)
 
   try {
@@ -18,6 +19,7 @@ export const GET = async (
       count,
     })
   } catch (err: any) {
-    res.status(500).json({ message: err.message })
+    logger?.error?.("Failed to list workshops:", err)
+    res.status(500).json({ message: "Failed to retrieve workshops" })
   }
 }

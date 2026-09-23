@@ -1,53 +1,37 @@
-# Contributing to Your Next Store
+# Contributing to The Letter Ink
 
 ## Getting Started
 
 ```bash
-git clone https://github.com/yournextstore/yournextstore.git
-cd yournextstore
 bun install
-cp .env.example .env.local   # then add your YNS_API_KEY from yns.app/admin
+cp .env.example .env.local
 bun dev
 ```
 
-You need [Bun 1.0+](https://bun.sh/) and a YNS API key from [yns.app/admin](https://yns.app/admin).
+You need [Bun 1.0+](https://bun.sh/) and the Medusa backend running on `http://localhost:9000`.
 
 ## Project Structure
 
-This is a [Next.js App Router](https://nextjs.org/docs) project. If you're unfamiliar with App Router, Server Components, or Server Actions, start with the [Next.js docs](https://nextjs.org/docs).
+This is a [Next.js App Router](https://nextjs.org/docs) project connecting to a Medusa.js backend.
 
-What's YNS-specific:
-
-- **`lib/commerce.ts`** — Commerce Kit SDK client. All product/cart/checkout data goes through `commerce.productBrowse()`, `commerce.cartUpsert()`, etc.
+Key directories and modules:
+- **`lib/commerce.ts`** — API adapter connecting to Medusa backend endpoints (`commerce.productBrowse()`, `commerce.cartUpsert()`, etc.)
 - **`lib/money.ts`** — `formatMoney()` for all price formatting
-- **`components/ui/`** — Shadcn UI primitives (Radix-based). Don't edit these directly — regenerate with `bunx shadcn@latest`
-- **Error handling** — use `safe-try`: `const [error, result] = await safe(...)`
-- **No `/api` routes** — mutations use Server Actions
+- **`components/ui/`** — Accessible UI primitives
+- **`app/`** — Next.js 16 App Router pages and layouts
 
 ## Coding Conventions
 
-[Biome](https://biomejs.dev/) enforces most of these. Run `bun run lint` before pushing.
+[Biome](https://biomejs.dev/) enforces linting and formatting. Run `bun run lint` before pushing.
 
-- Named exports only (except `page.tsx`, `layout.tsx`, etc.)
-- Static typing without `any`
-- `map`/`filter`/`reduce` over imperative loops
-- `formatMoney()` for prices, `safe-try` for errors
+- Named exports for reusable components and helpers
+- Strong TypeScript typing
+- Server Components by default; `"use client"` only for client interactivity
+- Responsive design adhering to atelier brand tokens
 
-## Before Submitting a PR
+## Verification Checklist
 
 ```bash
-tsc --noEmit     # No type errors
-bun run lint      # No lint errors
-bun test          # Tests pass
-bun run build     # Build succeeds
+bun run check     # Typecheck, lint, and run tests
+bun run build     # Production build validation
 ```
-
-Fork the repo, create a branch from `main`, and open a PR with a clear description of what changed and why.
-
-### Good First Issues
-
-Look for issues labeled [`good first issue`](https://github.com/yournextstore/yournextstore/labels/good%20first%20issue).
-
-## Questions?
-
-[GitHub Discussions](https://github.com/yournextstore/yournextstore/discussions) or [Discord](https://yournextstore.com/discord).

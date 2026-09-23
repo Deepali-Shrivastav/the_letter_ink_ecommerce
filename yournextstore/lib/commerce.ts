@@ -1,8 +1,12 @@
-import { medusaClient } from "./medusa";
+import { medusaClient, getCanonicalUrl as getMedusaCanonicalUrl } from "./medusa";
 import { cacheLife } from "next/cache";
+import { logger } from "./logger";
 
-// Map Medusa Product to YNS Product Shape
-const mapMedusaProductToYNS = (medusaProduct: any) => {
+const BACKEND_URL = (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000").replace(/\/$/, "");
+const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
+
+// Map Medusa Product to Storefront Product Shape
+const mapMedusaProductToStorefront = (medusaProduct: any) => {
   return {
     id: medusaProduct.id,
     name: medusaProduct.title,
@@ -16,7 +20,7 @@ const mapMedusaProductToYNS = (medusaProduct: any) => {
         ? (v.prices.find((p: any) => p.currency_code?.toLowerCase() === "inr") || v.prices[0])
         : null;
 
-      const priceStr = priceObj ? String(priceObj.amount) : "1500";
+      const priceStr = priceObj ? String(priceObj.amount) : "0";
       const currencyStr = (priceObj?.currency_code || "inr").toUpperCase();
       
       return {
@@ -27,7 +31,7 @@ const mapMedusaProductToYNS = (medusaProduct: any) => {
         currency: currencyStr,
         images: [],
         sku: v.sku || null,
-        stock: v.inventory_quantity ?? 100,
+        stock: v.inventory_quantity ?? 0,
         omnibusPrice: null,
         combinations: v.options ? v.options.map((o: any) => {
           const parentOption = medusaProduct.options?.find((po: any) => po.id === o.option_id);
@@ -68,7 +72,7 @@ const mapMedusaProductToYNS = (medusaProduct: any) => {
   };
 };
 
-const mapMedusaCartToYNS = (medusaCart: any) => {
+const mapMedusaCartToStorefront = (medusaCart: any) => {
   return {
     id: medusaCart.id,
     lineItems: medusaCart.items ? medusaCart.items.map((item: any) => {
@@ -109,14 +113,14 @@ export const commerce = {
       } as any);
 
       if (response.products && response.products.length > 0) {
-        return mapMedusaProductToYNS(response.products[0]);
+        return mapMedusaProductToStorefront(response.products[0]);
       }
 
       // Try by ID
       try {
         const idRes = await medusaClient.products.retrieve(idOrSlug, { fields } as any);
         if (idRes.product) {
-          return mapMedusaProductToYNS(idRes.product);
+          return mapMedusaProductToStorefront(idRes.product);
         }
       } catch {}
 
@@ -157,22 +161,25 @@ export const commerce = {
       });
 
       return {
-        data: physicalProducts.map(mapMedusaProductToYNS),
+        data: physicalProducts.map(mapMedusaProductToStorefront),
         meta: { count: physicalProducts.length },
       };
     } catch (error) {
-      console.warn("Medusa API Error (productBrowse):", error);
+      logger.warn("Medusa API Error (productBrowse):", error);
       return { data: [], meta: { count: 0 } };
     }
   },
   workshopBrowse: async () => {
     // 1. Try custom Workshop Module endpoint
     try {
-      const res = await fetch("http://127.0.0.1:9000/store/workshops", {
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b",
-        },
+      const headers: Record<string, string> = {};
+      if (PUBLISHABLE_KEY) {
+        headers["x-publishable-api-key"] = PUBLISHABLE_KEY;
+      }
+      const res = await fetch(`${BACKEND_URL}/store/workshops`, {
+        headers,
         cache: "no-store",
+        signal: AbortSignal.timeout(8000),
       });
       if (res.ok) {
         const json = await res.json();
@@ -181,7 +188,7 @@ export const commerce = {
         }
       }
     } catch (e) {
-      console.warn("Workshop Module endpoint fallback trigger:", e);
+      logger.warn("Workshop Module endpoint fallback trigger:", e);
     }
 
     // 2. Fallback to product list with is_workshop metadata
@@ -202,18 +209,18 @@ export const commerce = {
         title: p.title,
         handle: p.handle,
         description: p.description || "",
-        date: p.metadata?.date || "Saturday, Oct 14, 2026",
-        time: p.metadata?.time || "10:00 AM - 1:00 PM",
-        venue: p.metadata?.venue || "The Letter Ink Studio, Bangalore",
-        level: p.metadata?.level || "Beginner to Intermediate",
-        price: p.variants?.[0]?.prices?.[0]?.amount || 4500,
-        spots_text: p.metadata?.spotsText || "Limited to 12 seats",
-        kit_info: p.metadata?.kitInfo || "Full professional calligraphy kit included",
+        date: p.metadata?.date || "",
+        time: p.metadata?.time || "",
+        venue: p.metadata?.venue || "",
+        level: p.metadata?.level || "",
+        price: p.variants?.[0]?.prices?.[0]?.amount || 0,
+        spots_text: p.metadata?.spotsText || "",
+        kit_info: p.metadata?.kitInfo || "",
         images: p.images?.map((img: any) => img.url) || (p.thumbnail ? [p.thumbnail] : []),
         status: "published",
       }));
     } catch (err) {
-      console.error("workshopBrowse fallback error:", err);
+      logger.error("workshopBrowse fallback error:", err);
       return [];
     }
   },
@@ -258,7 +265,7 @@ export const commerce = {
         brands: [],
       };
     } catch (error) {
-      console.error("Medusa API Error (productFilters):", error);
+      logger.error("Medusa API Error (productFilters):", error);
       return {
         priceBounds: { min: 0, max: 0 },
         variantTypes: [],
@@ -284,7 +291,7 @@ export const commerce = {
         meta: { count: res.count || res.product_categories?.length || 0 },
       };
     } catch (error) {
-      console.error("Medusa API Error (categoriesBrowse):", error);
+      logger.error("Medusa API Error (categoriesBrowse):", error);
       return { data: [], meta: { count: 0 } };
     }
   },
@@ -295,7 +302,7 @@ export const commerce = {
         limit,
         fields: "*variants.prices,*variants.options,*images,*categories,*collection",
       });
-      const mapped = res.products.map(mapMedusaProductToYNS);
+      const mapped = res.products.map(mapMedusaProductToStorefront);
       return {
         items: mapped.map((p) => ({
           id: p.id,
@@ -307,19 +314,19 @@ export const commerce = {
         totalCount: res.count || res.products.length,
       };
     } catch (error) {
-      console.error("Medusa API Error (search):", error);
+      logger.error("Medusa API Error (search):", error);
       return { items: [], totalCount: 0 };
     }
   },
   cartGet: async ({ cartId }: { cartId: string }) => {
     try {
       const { cart } = await medusaClient.carts.retrieve(cartId);
-      if (cart && cart.currency_code && cart.currency_code.toLowerCase() !== "inr") {
+      if (cart && (cart as any).currency_code && (cart as any).currency_code.toLowerCase() !== "inr") {
         return null;
       }
-      return mapMedusaCartToYNS(cart);
+      return mapMedusaCartToStorefront(cart);
     } catch (error) {
-      console.error("cartGet error:", error);
+      logger.error("cartGet error:", error);
       throw new Error("Cart not found");
     }
   },
@@ -333,7 +340,7 @@ export const commerce = {
       }
 
       let { cart } = await medusaClient.carts.retrieve(activeCartId!);
-      if (cart && cart.currency_code && cart.currency_code.toLowerCase() !== "inr") {
+      if (cart && (cart as any).currency_code && (cart as any).currency_code.toLowerCase() !== "inr") {
         const { cart: newCart } = await medusaClient.carts.create({});
         activeCartId = newCart.id;
         cart = newCart;
@@ -359,9 +366,9 @@ export const commerce = {
       }
 
       const { cart: updatedCart } = await medusaClient.carts.retrieve(activeCartId!);
-      return mapMedusaCartToYNS(updatedCart);
+      return mapMedusaCartToStorefront(updatedCart);
     } catch (error) {
-      console.error("cartUpsert error:", error);
+      logger.error("cartUpsert error:", error);
       throw error;
     }
   },
@@ -379,44 +386,47 @@ export const commerce = {
         meta: { count: res.count || res.collections.length },
       };
     } catch (error) {
-      console.error("Medusa API Error (collections):", error);
+      logger.error("Medusa API Error (collections):", error);
       return { data: [], meta: { count: 0 } };
     }
   },
-  legalPageBrowse: async () => {
-    return { data: [] };
-  },
   postBrowse: async () => {
     try {
-      const res = await fetch("http://127.0.0.1:9000/store/blogs", {
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b",
-        },
+      const headers: Record<string, string> = {};
+      if (PUBLISHABLE_KEY) {
+        headers["x-publishable-api-key"] = PUBLISHABLE_KEY;
+      }
+      const res = await fetch(`${BACKEND_URL}/store/blogs`, {
+        headers,
         cache: "no-store",
+        signal: AbortSignal.timeout(8000),
       });
       if (res.ok) {
         const json = await res.json();
         return { data: json.blogs || [] };
       }
     } catch (e) {
-      console.warn("postBrowse error:", e);
+      logger.warn("postBrowse error:", e);
     }
     return { data: [] };
   },
   postGet: async ({ idOrSlug }: { idOrSlug: string }) => {
     try {
-      const res = await fetch(`http://127.0.0.1:9000/store/blogs/${idOrSlug}`, {
-        headers: {
-          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b",
-        },
+      const headers: Record<string, string> = {};
+      if (PUBLISHABLE_KEY) {
+        headers["x-publishable-api-key"] = PUBLISHABLE_KEY;
+      }
+      const res = await fetch(`${BACKEND_URL}/store/blogs/${encodeURIComponent(idOrSlug)}`, {
+        headers,
         cache: "no-store",
+        signal: AbortSignal.timeout(8000),
       });
       if (res.ok) {
         const json = await res.json();
         return json.blog || null;
       }
     } catch (e) {
-      console.warn("postGet error:", e);
+      logger.warn("postGet error:", e);
     }
     return null;
   },
@@ -443,7 +453,7 @@ export const commerce = {
         productCollections: [],
       };
     } catch (error) {
-      console.error("Medusa API Error (collectionGet):", error);
+      logger.error("Medusa API Error (collectionGet):", error);
       throw error;
     }
   },
@@ -462,9 +472,44 @@ export const commerce = {
         active: true,
       };
     } catch (error) {
-      console.error("Medusa API Error (categoryGet):", error);
+      logger.error("Medusa API Error (categoryGet):", error);
       throw error;
     }
+  },
+  subscriberCreate: async (_data: { email: string; marketingConsent?: boolean }) => {
+    return { success: true };
+  },
+  contactMessageCreate: async (_data: { email: string; message: string }) => {
+    return { success: true };
+  },
+  productReviewCreate: async (
+    _target: { idOrSlug: string },
+    _review: { author: string; email: string; content: string; rating: number },
+  ) => {
+    return { success: true };
+  },
+  cartAddBundle: async (_args: any) => {
+    return null;
+  },
+  request: async <T = any>(path: string, options?: Omit<RequestInit, "body"> & { body?: any }): Promise<T> => {
+    const url = `${BACKEND_URL}${path.startsWith("/") ? path : `/${path}`}`;
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      ...(options?.headers as Record<string, string>),
+    };
+    if (PUBLISHABLE_KEY) {
+      headers["x-publishable-api-key"] = PUBLISHABLE_KEY;
+    }
+    const res = await fetch(url, {
+      ...options,
+      headers,
+      body: options?.body && typeof options.body !== "string" ? JSON.stringify(options.body) : options?.body,
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) {
+      throw new Error(`Medusa request to ${path} failed with status ${res.status}`);
+    }
+    return res.json();
   },
 };
 
@@ -481,7 +526,7 @@ export const meGetCached = async () => {
         enabledTools: { reviews: false, restockNotifications: false }
       }
     },
-    publicUrl: "http://localhost:3000"
+    publicUrl: getCanonicalUrl()
   };
 };
 
@@ -497,7 +542,7 @@ export function getStoreFaviconUrl() {
 }
 
 export function getCanonicalUrl(): string {
-  return "http://localhost:3000";
+  return getMedusaCanonicalUrl();
 }
 
 export const getSubdomainPublicUrl = () => {

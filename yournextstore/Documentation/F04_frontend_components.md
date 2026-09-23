@@ -1,4 +1,4 @@
-# The Letter Ink — yournextstore: Component Library
+# The Letter Ink — theletterink: Component Library
 
 > **Document:** F04 — Component Library Reference
 
@@ -580,7 +580,7 @@ Provides `{ currency, locale, taxBehavior }` to all client components.
 
 Inline product card inside blog post content (Tiptap node).
 
-### `YnsMedia` — `lib/yns-media.tsx`
+### `LetterInkMedia` — `lib/the-letter-ink-media.tsx`
 
 Helper for responsive media (images and videos) in product galleries.
 

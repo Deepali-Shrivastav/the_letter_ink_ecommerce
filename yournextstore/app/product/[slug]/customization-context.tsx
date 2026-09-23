@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { logger } from "@/lib/logger";
 
 export type CustomizationOptionValue = {
   id: string;
@@ -64,15 +65,16 @@ export function ProductCustomizationProvider({
   useEffect(() => {
     if (!productId) return;
 
-    const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
-    const publishableKey =
-      process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY ||
-      "pk_22aed401e4e1f40b61fb80d5528e4dfdf39a82188d2af4d2cf11d396977ce54c";
+    const backendUrl = (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000").replace(/\/$/, "");
+    const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 
-    fetch(`${backendUrl}/store/products/${productId}/customizations`, {
-      headers: {
-        "x-publishable-api-key": publishableKey,
-      },
+    const headers: Record<string, string> = {};
+    if (publishableKey) {
+      headers["x-publishable-api-key"] = publishableKey;
+    }
+
+    fetch(`${backendUrl}/store/products/${encodeURIComponent(productId)}/customizations`, {
+      headers,
     })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
@@ -84,14 +86,14 @@ export function ProductCustomizationProvider({
         setOptions(fetchedOptions);
         setCombinations(fetchedCombinations);
 
-        // Only populate selections from URL query params; do not default to any values (start blank)
+        // Auto-select first active combination
         const initialSelections: Record<string, string> = {};
-        fetchedOptions.forEach((opt) => {
-          const fromParam = searchParams.get(opt.title);
-          if (fromParam) {
-            const matchedVal = opt.values.find((v) => v.value === fromParam);
-            if (matchedVal) {
-              initialSelections[opt.id] = matchedVal.id;
+        fetchedCombinations.forEach((comb) => {
+          if (comb.values && comb.values.length > 0) {
+            for (const val of comb.values) {
+              if (val.option_id && !initialSelections[val.option_id]) {
+                initialSelections[val.option_id] = val.id;
+              }
             }
           }
         });
@@ -100,7 +102,7 @@ export function ProductCustomizationProvider({
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Failed to fetch customizations", err);
+        logger.error("Failed to fetch customizations", err);
         setLoading(false);
       });
   }, [productId]);

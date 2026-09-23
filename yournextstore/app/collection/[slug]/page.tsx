@@ -17,7 +17,7 @@ import {
 import { commerce, getStoreSeo } from "@/lib/commerce";
 import { buildCollectionBreadcrumbJsonLd, buildCollectionJsonLd, JsonLdScript } from "@/lib/json-ld";
 import { encodeVts } from "@/lib/vts";
-import { YNSMedia } from "@/lib/yns-media";
+import { LetterInkMedia } from "@/lib/the-letter-ink-media";
 
 // The page has no pagination, so a smart collection renders one browse page. 100 is the API's max.
 const SMART_COLLECTION_LIMIT = 100;
@@ -81,7 +81,7 @@ function CollectionHeader({ collection }: { collection: APICollectionGetByIdResu
 			</div>
 			{collection.image && (
 				<div className="absolute top-0 right-0 w-1/2 h-full hidden lg:block">
-					<YNSMedia
+					<LetterInkMedia
 						src={collection.image}
 						alt={collection.name}
 						fill

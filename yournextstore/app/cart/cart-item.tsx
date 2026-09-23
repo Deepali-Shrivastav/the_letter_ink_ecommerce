@@ -8,7 +8,7 @@ import { type Cart, type CartLineItem, getLineItemUnitPrice, useCart } from "@/a
 import { useStoreConfig } from "@/components/store-config-provider";
 import { formatMoney } from "@/lib/money";
 import { cn, getProductThumbnail } from "@/lib/utils";
-import { YNSMedia } from "@/lib/yns-media";
+import { LetterInkMedia } from "@/lib/the-letter-ink-media";
 
 type CartItemProps = {
 	item: CartLineItem;
@@ -106,7 +106,7 @@ export function CartItem({ item }: CartItemProps) {
 				onClick={closeCart}
 				className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-secondary"
 			>
-				{image && <YNSMedia src={image} alt={product.name} fill className="object-cover" sizes="96px" />}
+				{image && <LetterInkMedia src={image} alt={product.name} fill className="object-cover" sizes="96px" />}
 			</Link>
 
 			{/* Product Details */}

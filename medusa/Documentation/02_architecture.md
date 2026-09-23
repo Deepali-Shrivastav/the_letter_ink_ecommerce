@@ -51,7 +51,7 @@ Medusa v2 follows a **modular monolith** architecture:
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                   CLIENT LAYER                                  │
-│   yournextstore (Next.js)     Admin Dashboard (React + Vite)   │
+│   theletterink (Next.js)     Admin Dashboard (React + Vite)   │
 └────────────────┬──────────────────────────────┬────────────────┘
                  │ Store API                    │ Admin API
                  ▼                              ▼
