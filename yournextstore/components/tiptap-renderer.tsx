@@ -179,8 +179,47 @@ function passThrough({ children }: { children?: ReactNode | ReactNode[] }): Reac
 	return children ?? null;
 }
 
-export function TiptapRenderer({ content }: { content: JSONContent | null | undefined }) {
+export function TiptapRenderer({ content }: { content: JSONContent | string | null | undefined }) {
 	if (!content) return null;
+
+	if (typeof content === "string") {
+		const trimmed = content.trim();
+		if (!trimmed || trimmed.toUpperCase() === "NA" || trimmed.toUpperCase() === "N/A") {
+			return null;
+		}
+
+		if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+			try {
+				const parsed = JSON.parse(trimmed);
+				if (parsed && Array.isArray(parsed.content)) {
+					return <TiptapRenderer content={parsed} />;
+				}
+			} catch {
+				// Not JSON, continue to string rendering
+			}
+		}
+
+		if (/<\/?[a-z][\s\S]*>/i.test(trimmed)) {
+			return (
+				<div
+					className="space-y-3 leading-relaxed"
+					dangerouslySetInnerHTML={{ __html: trimmed }}
+				/>
+			);
+		}
+
+		const paragraphs = trimmed.split(/\r?\n\s*\r?\n/);
+		return (
+			<div className="space-y-3 break-words [overflow-wrap:anywhere]">
+				{paragraphs.map((para, idx) => (
+					<p key={idx} className="whitespace-pre-line leading-relaxed break-words [overflow-wrap:anywhere]">
+						{para}
+					</p>
+				))}
+			</div>
+		);
+	}
+
 	const root = content as TiptapJSONContent;
 	const children = root.content;
 	if (!Array.isArray(children) || children.length === 0) return null;
@@ -190,7 +229,7 @@ export function TiptapRenderer({ content }: { content: JSONContent | null | unde
 	const pruned: TiptapJSONContent = { ...root, content: prunedChildren };
 
 	return (
-		<>
+		<div className="break-words [overflow-wrap:anywhere]">
 			{renderToReactElement({
 				content: pruned,
 				extensions,
@@ -218,6 +257,6 @@ export function TiptapRenderer({ content }: { content: JSONContent | null | unde
 					unhandledMark: passThrough,
 				},
 			})}
-		</>
+		</div>
 	);
 }

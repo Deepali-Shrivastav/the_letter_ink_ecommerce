@@ -199,7 +199,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 						</div>
 
 						{/* Right Column: Atelier Customizer & Purchase Actions */}
-						<div className="lg:col-span-5 flex flex-col gap-6">
+						<div className="lg:col-span-5 flex flex-col gap-6 min-w-0 w-full">
 							{/* Header Info */}
 							<div className="flex flex-col gap-2 pb-5 bg-gradient-to-b from-transparent to-surface-container-low/40 p-1">
 								<div className="flex items-center justify-between gap-4">
@@ -214,18 +214,18 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 										</a>
 									)}
 								</div>
-								<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
+								<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1 break-words [overflow-wrap:anywhere]">
 									{product.name}
 								</h1>
-								<p className="font-body-md text-body-md text-secondary leading-relaxed">
+								<p className="font-body-md text-body-md text-secondary leading-relaxed break-words [overflow-wrap:anywhere]">
 									{product.summary || "Bespoke Classical Calligraphy in Antiqued Brass & Double Glass Float Frame"}
 								</p>
 							</div>
 
 							{/* Editorial Description Callout */}
-							{product.content && (
-								<div className="p-4 bg-paper-tint text-on-surface">
-									<div className="font-body-md text-body-md italic text-on-surface-variant leading-relaxed">
+							{product.content && (typeof product.content !== "string" || !["NA", "N/A"].includes(product.content.trim().toUpperCase())) && (
+								<div className="w-full min-w-0 h-auto p-4 md:p-5 bg-paper-tint text-on-surface border border-border-vellum/40 break-words [overflow-wrap:anywhere]">
+									<div className="font-body-md text-body-md text-on-surface-variant leading-relaxed break-words [overflow-wrap:anywhere]">
 										<TiptapRenderer content={product.content} />
 									</div>
 								</div>

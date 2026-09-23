@@ -2,6 +2,8 @@ import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import BlogModuleService from "../../../modules/blog/service"
 import { BLOG_MODULE } from "../../../modules/blog"
 
+import { isStudioVideo } from "../../common/blog-video-helper"
+
 export async function GET(
   req: MedusaRequest,
   res: MedusaResponse
@@ -16,7 +18,9 @@ export async function GET(
       order: { created_at: "DESC" }
     })
 
-    res.json({ blogs: posts || [] })
+    const articles = (posts || []).filter(p => !isStudioVideo(p))
+
+    res.json({ blogs: articles })
   } catch (err: any) {
     logger?.error?.("Failed to list published blog posts:", err)
     res.status(500).json({ message: "Failed to retrieve blog posts" })

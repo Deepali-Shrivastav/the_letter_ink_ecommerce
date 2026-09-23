@@ -19,6 +19,8 @@ export const createWorkshopSchema = z.object({
   status: z.enum(["draft", "published"]).default("published"),
 })
 
+export const updateWorkshopSchema = createWorkshopSchema.partial()
+
 export const createBlogSchema = z.object({
   title: z.string().min(1, "Title is required").max(255),
   handle: z.string().max(200).optional(),

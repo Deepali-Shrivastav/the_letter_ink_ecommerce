@@ -28,6 +28,8 @@ export async function POST(
   }
 }
 
+import { isStudioVideo } from "../../common/blog-video-helper"
+
 export async function GET(
   req: MedusaRequest,
   res: MedusaResponse
@@ -39,7 +41,8 @@ export async function GET(
     const posts = await blogModuleService.listPosts({}, {
       order: { created_at: "DESC" }
     })
-    res.json({ blogs: posts || [] })
+    const articles = (posts || []).filter(p => !isStudioVideo(p))
+    res.json({ blogs: articles })
   } catch (err: any) {
     logger?.error?.("Failed to list blog posts (admin):", err)
     res.status(500).json({ message: "Failed to retrieve blog posts" })

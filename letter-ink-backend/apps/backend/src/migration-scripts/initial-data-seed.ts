@@ -35,9 +35,9 @@ export default async function initial_data_seed({
     ModuleRegistrationName.FULFILLMENT
   );
 
-  const countries = ["gb", "de", "dk", "se", "fr", "es", "it"];
+  const countries = ["in"];
 
-  logger.info("Seeding store data...");
+  logger.info("Seeding store data for The Letter Ink...");
   const {
     result: [defaultSalesChannel],
   } = await createSalesChannelsWorkflow(container).run({
@@ -45,7 +45,7 @@ export default async function initial_data_seed({
       salesChannelsData: [
         {
           name: "Default Sales Channel",
-          description: "Created by Medusa",
+          description: "The Letter Ink Primary Sales Channel",
         },
       ],
     },
@@ -57,7 +57,7 @@ export default async function initial_data_seed({
     input: {
       api_keys: [
         {
-          title: "Default Publishable API Key",
+          title: "The Letter Ink Publishable API Key",
           type: "publishable",
           created_by: "",
         },
@@ -72,21 +72,16 @@ export default async function initial_data_seed({
     },
   });
 
-  const {
-    result: [store],
-  } = await createStoresWorkflow(container).run({
+  logger.info("Seeding store currency and details...");
+  await createStoresWorkflow(container).run({
     input: {
       stores: [
         {
-          name: "Default Store",
+          name: "The Letter Ink",
           supported_currencies: [
             {
-              currency_code: "eur",
+              currency_code: "inr",
               is_default: true,
-            },
-            {
-              currency_code: "usd",
-              is_default: false,
             },
           ],
           default_sales_channel_id: defaultSalesChannel.id,
@@ -95,13 +90,13 @@ export default async function initial_data_seed({
     },
   });
 
-  logger.info("Seeding region data...");
+  logger.info("Seeding India region data...");
   const { result: regionResult } = await createRegionsWorkflow(container).run({
     input: {
       regions: [
         {
-          name: "Europe",
-          currency_code: "eur",
+          name: "India",
+          currency_code: "inr",
           countries,
           payment_providers: ["pp_system_default"],
         },
@@ -109,9 +104,9 @@ export default async function initial_data_seed({
     },
   });
   const region = regionResult[0];
-  logger.info("Finished seeding regions.");
+  logger.info("Finished seeding India region.");
 
-  logger.info("Seeding tax regions...");
+  logger.info("Seeding India tax regions...");
   await createTaxRegionsWorkflow(container).run({
     input: countries.map((country_code) => ({
       country_code,
@@ -127,11 +122,11 @@ export default async function initial_data_seed({
     input: {
       locations: [
         {
-          name: "European Warehouse",
+          name: "The Letter Ink Studio",
           address: {
-            city: "Copenhagen",
-            country_code: "DK",
-            address_1: "",
+            city: "Bangalore",
+            country_code: "IN",
+            address_1: "Indiranagar",
           },
         },
       ],
@@ -149,7 +144,6 @@ export default async function initial_data_seed({
   });
 
   logger.info("Seeding fulfillment data...");
-  // This is created by a migration script in core.
   const { data: shippingProfileResult } = await query.graph({
     entity: "shipping_profile",
     fields: ["id"],
@@ -157,38 +151,14 @@ export default async function initial_data_seed({
   const shippingProfile = shippingProfileResult[0];
 
   const fulfillmentSet = await fulfillmentModuleService.createFulfillmentSets({
-    name: "European Warehouse delivery",
+    name: "The Letter Ink Studio Delivery",
     type: "shipping",
     service_zones: [
       {
-        name: "Europe",
+        name: "India",
         geo_zones: [
           {
-            country_code: "gb",
-            type: "country",
-          },
-          {
-            country_code: "de",
-            type: "country",
-          },
-          {
-            country_code: "dk",
-            type: "country",
-          },
-          {
-            country_code: "se",
-            type: "country",
-          },
-          {
-            country_code: "fr",
-            type: "country",
-          },
-          {
-            country_code: "es",
-            type: "country",
-          },
-          {
-            country_code: "it",
+            country_code: "in",
             type: "country",
           },
         ],
@@ -208,28 +178,24 @@ export default async function initial_data_seed({
   await createShippingOptionsWorkflow(container).run({
     input: [
       {
-        name: "Standard Shipping",
+        name: "Standard Delivery (India)",
         price_type: "flat",
         provider_id: "manual_manual",
         service_zone_id: fulfillmentSet.service_zones[0].id,
         shipping_profile_id: shippingProfile.id,
         type: {
           label: "Standard",
-          description: "Ship in 2-3 days.",
+          description: "Delivers in 3-5 business days across India.",
           code: "standard",
         },
         prices: [
           {
-            currency_code: "usd",
-            amount: 10,
-          },
-          {
-            currency_code: "eur",
-            amount: 10,
+            currency_code: "inr",
+            amount: 150,
           },
           {
             region_id: region.id,
-            amount: 10,
+            amount: 150,
           },
         ],
         rules: [
@@ -246,28 +212,24 @@ export default async function initial_data_seed({
         ],
       },
       {
-        name: "Express Shipping",
+        name: "Express Studio Courier",
         price_type: "flat",
         provider_id: "manual_manual",
         service_zone_id: fulfillmentSet.service_zones[0].id,
         shipping_profile_id: shippingProfile.id,
         type: {
           label: "Express",
-          description: "Ship in 24 hours.",
+          description: "Priority studio packing with 24-48h dispatch.",
           code: "express",
         },
         prices: [
           {
-            currency_code: "usd",
-            amount: 10,
-          },
-          {
-            currency_code: "eur",
-            amount: 10,
+            currency_code: "inr",
+            amount: 350,
           },
           {
             region_id: region.id,
-            amount: 10,
+            amount: 350,
           },
         ],
         rules: [
@@ -295,226 +257,106 @@ export default async function initial_data_seed({
   });
   logger.info("Finished seeding stock location data.");
 
-  logger.info("Seeding product data...");
+  logger.info("Seeding collections for The Letter Ink...");
+  const { result: collectionsResult } = await createCollectionsWorkflow(
+    container
+  ).run({
+    input: {
+      collections: [
+        {
+          title: "Hampers",
+          handle: "hampers",
+        },
+        {
+          title: "Signature Series",
+          handle: "signature-series",
+        },
+      ],
+    },
+  });
+  const hampersCollection = collectionsResult.find((c) => c.handle === "hampers");
 
+  logger.info("Seeding product categories...");
   const { result: categoryResult } = await createProductCategoriesWorkflow(
     container
   ).run({
     input: {
       product_categories: [
         {
-          name: "Shirts",
+          name: "Name Frames & Wall Art",
+          handle: "name-frames-and-wall-art",
           is_active: true,
         },
         {
-          name: "Sweatshirts",
+          name: "Bespoke Stationery",
+          handle: "bespoke-stationery",
           is_active: true,
         },
         {
-          name: "Pants",
+          name: "Wax Seals & Atelier Kits",
+          handle: "wax-seals-and-atelier-kits",
           is_active: true,
         },
         {
-          name: "Merch",
+          name: "Gifting Hampers",
+          handle: "gifting-hampers",
           is_active: true,
         },
       ],
     },
   });
 
+  const nameFramesCat = categoryResult.find((cat) => cat.name === "Name Frames & Wall Art")!;
+  const stationeryCat = categoryResult.find((cat) => cat.name === "Bespoke Stationery")!;
+  const waxSealsCat = categoryResult.find((cat) => cat.name === "Wax Seals & Atelier Kits")!;
+  const hampersCat = categoryResult.find((cat) => cat.name === "Gifting Hampers")!;
+
+  logger.info("Seeding product options...");
   const { result: productOptionsResult } = await createProductOptionsWorkflow(
     container
   ).run({
     input: {
       product_options: [
         {
-          title: "Size",
-          values: ["S", "M", "L", "XL"],
-        },
-        {
-          title: "Color",
-          values: ["Black", "White"],
+          title: "Frame Size",
+          values: ["Small (8x10)", "Large (12x16)"],
         },
       ],
     },
   });
-  const sizeOption = productOptionsResult.find((o) => o.title === "Size")!;
-  const colorOption = productOptionsResult.find((o) => o.title === "Color")!;
+  const frameSizeOption = productOptionsResult.find((o) => o.title === "Frame Size")!;
 
+  logger.info("Seeding Letter Ink products in INR...");
   await createProductsWorkflow(container).run({
     input: {
       products: [
         {
-          title: "Medusa T-Shirt",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Shirts")!.id,
-          ],
+          title: "Name Frame Royal Large",
+          subtitle: "Shadowbox Keepsake",
+          category_ids: [nameFramesCat.id],
           description:
-            "Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.",
-          handle: "t-shirt",
-          weight: 400,
+            "Custom flourish calligraphy with 24k gold leaf illuminated accents in vintage brass float frame.",
+          handle: "name-frame-royal-large",
+          weight: 1200,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-back.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-back.png",
+              url: "https://lh3.googleusercontent.com/aida-public/AB6AXuD6CVMoZTEzClzL6mBTDZFn4mIVWlWdhETun5YggvA6JKVS_wjG4gtS3CPrzGUJ8f4CCq5uH3qo1mWauANxHoo3b3V026ErVhIxis2yLb1t1aBEuEBjJwNUiBJoVyd122PeQO4F8_JlQ1Hn2DHWszWI0huoBraFkrBnuoRfjjowJRh5AvcIqCnjE4EkyOd9YIE_x_kIHxBXRccCEyu1JIYGdibIYiY3C2RSxPEVTXnl8mz1u4jBKnk",
             },
           ],
-          options: [
-            { id: sizeOption.id },
-            { id: colorOption.id },
-          ],
+          options: [{ id: frameSizeOption.id }],
           variants: [
             {
-              title: "S / Black",
-              sku: "SHIRT-S-BLACK",
+              title: "Large (12x16)",
+              sku: "NF-ROYAL-LG",
               options: {
-                Size: "S",
-                Color: "Black",
+                "Frame Size": "Large (12x16)",
               },
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "S / White",
-              sku: "SHIRT-S-WHITE",
-              options: {
-                Size: "S",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M / Black",
-              sku: "SHIRT-M-BLACK",
-              options: {
-                Size: "M",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M / White",
-              sku: "SHIRT-M-WHITE",
-              options: {
-                Size: "M",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L / Black",
-              sku: "SHIRT-L-BLACK",
-              options: {
-                Size: "L",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L / White",
-              sku: "SHIRT-L-WHITE",
-              options: {
-                Size: "L",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL / Black",
-              sku: "SHIRT-XL-BLACK",
-              options: {
-                Size: "XL",
-                Color: "Black",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL / White",
-              sku: "SHIRT-XL-WHITE",
-              options: {
-                Size: "XL",
-                Color: "White",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
+                  amount: 3800,
+                  currency_code: "inr",
                 },
               ],
             },
@@ -526,91 +368,32 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Sweatshirt",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Sweatshirts")!.id,
-          ],
+          title: "Name Frame Classic Small",
+          subtitle: "Desk Heirloom",
+          category_ids: [nameFramesCat.id],
           description:
-            "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
-          handle: "sweatshirt",
-          weight: 400,
+            "Natural oak tabletop easel frame with bespoke Spencerian name lettering on 300gsm deckle paper.",
+          handle: "name-frame-classic-small",
+          weight: 600,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-back.png",
+              url: "https://lh3.googleusercontent.com/aida-public/AB6AXuC7UJXbHe7pzwPPs4Vfom_GVG1UjRckKek6ylwgFlyLo2m5TR_PlQOWrTdGp_NqlcK3FZ5EsWp9ED7y3wVZ7e38ucLyEDKSjiPjTDUzYTbAMCgXLYYJuSHSmKxljvsDdDRWBePk0A4WhIsM_FpE3j84nbRof8yk4s8pJkNeLH7bZLyiawttAs6j-n4SQjzT-u4ugPasxi4w1TUPf7nvTlYVsDUcznVqeWu-EGTuCYSXy0_uOQrd0vI",
             },
           ],
-          options: [{ id: sizeOption.id }],
+          options: [{ id: frameSizeOption.id }],
           variants: [
             {
-              title: "S",
-              sku: "SWEATSHIRT-S",
+              title: "Small (8x10)",
+              sku: "NF-CLASSIC-SM",
               options: {
-                Size: "S",
+                "Frame Size": "Small (8x10)",
               },
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M",
-              sku: "SWEATSHIRT-M",
-              options: {
-                Size: "M",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L",
-              sku: "SWEATSHIRT-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL",
-              sku: "SWEATSHIRT-XL",
-              options: {
-                Size: "XL",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
+                  amount: 2499,
+                  currency_code: "inr",
                 },
               ],
             },
@@ -622,91 +405,28 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Sweatpants",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Pants")!.id,
-          ],
+          title: "Vintage Brass Wax Seal Kit",
+          subtitle: "Atelier Sealing Suite",
+          category_ids: [waxSealsCat.id],
           description:
-            "Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.",
-          handle: "sweatpants",
-          weight: 400,
+            "Monogram engraved solid brass wax stamp, melting spoon, kiln-dried rosewood handle, and 3 sticks of flexible mailable sealing wax.",
+          handle: "vintage-brass-wax-seal-kit",
+          weight: 450,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-back.png",
+              url: "https://lh3.googleusercontent.com/aida-public/AB6AXuBCKiJttLURVgb2TsqApuCWY1BQxNARNFc_beK291Av1LF3Qz8x9GDyxV1unnQM22ZgSgMGQjTjW7QxF7SnhTH1MQtEtSW6KrtDOVxaTWVOpGVw3OG16_JNnEx4BFVb2g2omOASWyHVA9tKocgMNDWEfoKyX4DufIXkseapu4f03aI2aQ9T1rIumB7Gc8TBJ6d_RIJG52hFKowNsDPAb6lUeXVPjanUt3Q-OUfL-XV-gBe57HxGUkM",
             },
           ],
-          options: [{ id: sizeOption.id }],
           variants: [
             {
-              title: "S",
-              sku: "SWEATPANTS-S",
-              options: {
-                Size: "S",
-              },
+              title: "Default Kit",
+              sku: "SEAL-KIT-01",
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M",
-              sku: "SWEATPANTS-M",
-              options: {
-                Size: "M",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L",
-              sku: "SWEATPANTS-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL",
-              sku: "SWEATPANTS-XL",
-              options: {
-                Size: "XL",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
+                  amount: 1850,
+                  currency_code: "inr",
                 },
               ],
             },
@@ -718,91 +438,29 @@ export default async function initial_data_seed({
           ],
         },
         {
-          title: "Medusa Shorts",
-          category_ids: [
-            categoryResult.find((cat) => cat.name === "Merch")!.id,
-          ],
+          title: "Artisanal Keepsake Gift Hamper",
+          subtitle: "Bespoke Hamper Chest",
+          collection_id: hampersCollection?.id,
+          category_ids: [hampersCat.id],
           description:
-            "Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.",
-          handle: "shorts",
-          weight: 400,
+            "Handcrafted pine wood presentation box containing an engraved glass perfume vial, custom monogrammed journal, brass wax seal kit, and personalized scroll.",
+          handle: "artisanal-keepsake-gift-hamper",
+          weight: 2500,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
           images: [
             {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-front.png",
-            },
-            {
-              url: "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-back.png",
+              url: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1200",
             },
           ],
-          options: [{ id: sizeOption.id }],
           variants: [
             {
-              title: "S",
-              sku: "SHORTS-S",
-              options: {
-                Size: "S",
-              },
+              title: "Full Hamper Box",
+              sku: "HAMPER-CHEST-01",
               prices: [
                 {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "M",
-              sku: "SHORTS-M",
-              options: {
-                Size: "M",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "L",
-              sku: "SHORTS-L",
-              options: {
-                Size: "L",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
-                },
-              ],
-            },
-            {
-              title: "XL",
-              sku: "SHORTS-XL",
-              options: {
-                Size: "XL",
-              },
-              prices: [
-                {
-                  amount: 10,
-                  currency_code: "eur",
-                },
-                {
-                  amount: 15,
-                  currency_code: "usd",
+                  amount: 4999,
+                  currency_code: "inr",
                 },
               ],
             },
@@ -816,24 +474,26 @@ export default async function initial_data_seed({
       ],
     },
   });
+
   logger.info("Finished seeding product data.");
 
-  logger.info("Seeding inventory levels.");
-
+  logger.info("Seeding inventory levels...");
   const { data: inventoryItems } = await query.graph({
     entity: "inventory_item",
     fields: ["id"],
   });
 
-  await createInventoryLevelsWorkflow(container).run({
-    input: {
-      inventory_levels: inventoryItems.map((item) => ({
-        location_id: stockLocation.id,
-        stocked_quantity: 1000000,
-        inventory_item_id: item.id,
-      })),
-    },
-  });
+  if (inventoryItems.length > 0) {
+    await createInventoryLevelsWorkflow(container).run({
+      input: {
+        inventory_levels: inventoryItems.map((item) => ({
+          location_id: stockLocation.id,
+          stocked_quantity: 1000,
+          inventory_item_id: item.id,
+        })),
+      },
+    });
+  }
 
-  logger.info("Finished seeding inventory levels data.");
+  logger.info("The Letter Ink initial data seed completed successfully!");
 }

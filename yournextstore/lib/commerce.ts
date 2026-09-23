@@ -11,7 +11,11 @@ const mapMedusaProductToStorefront = (medusaProduct: any) => {
     id: medusaProduct.id,
     name: medusaProduct.title,
     slug: medusaProduct.handle,
-    summary: medusaProduct.subtitle || medusaProduct.description?.substring(0, 100),
+    summary: (medusaProduct.subtitle && !["NA", "N/A"].includes(medusaProduct.subtitle.trim().toUpperCase()))
+      ? medusaProduct.subtitle
+      : (medusaProduct.description && !["NA", "N/A"].includes(medusaProduct.description.trim().toUpperCase()))
+        ? medusaProduct.description.substring(0, 100)
+        : null,
     content: medusaProduct.description,
     images: medusaProduct.images ? medusaProduct.images.map((img: any) => img.url) : (medusaProduct.thumbnail ? [medusaProduct.thumbnail] : []),
     variants: medusaProduct.variants ? medusaProduct.variants.map((v: any) => {
@@ -407,6 +411,27 @@ export const commerce = {
       }
     } catch (e) {
       logger.warn("postBrowse error:", e);
+    }
+    return { data: [] };
+  },
+  studioVideosBrowse: async (category?: string) => {
+    try {
+      const headers: Record<string, string> = {};
+      if (PUBLISHABLE_KEY) {
+        headers["x-publishable-api-key"] = PUBLISHABLE_KEY;
+      }
+      const query = category && category !== "all" ? `?category=${encodeURIComponent(category)}` : "";
+      const res = await fetch(`${BACKEND_URL}/store/blog-videos${query}`, {
+        headers,
+        cache: "no-store",
+        signal: AbortSignal.timeout(8000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return { data: json.videos || [] };
+      }
+    } catch (e) {
+      logger.warn("studioVideosBrowse error:", e);
     }
     return { data: [] };
   },
