@@ -70,6 +70,11 @@ bun install
 Ensure you have a `.env.local` file setup (you can copy the example if there is one, or just create it) and make sure your storefront is pointing to the local backend.
 ```bash
 NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
+NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_...
+
+# Razorpay Configuration (Optional for development / required for live payments)
+NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_...
+RAZORPAY_KEY_SECRET=...
 ```
 
 ### Start the Storefront
@@ -78,3 +83,16 @@ Start the Next.js development server:
 bun dev
 ```
 The storefront will now be accessible at `http://localhost:3000` (or whichever port Bun assigns, usually 3000).
+
+---
+
+## 3. Razorpay Checkout Integration
+
+The storefront features an integrated checkout flow with **Razorpay**:
+- **Route**: `/checkout` (Delivery address, phone, contact, promotional vouchers, order summary).
+- **Payment Gateway**: Powered by Razorpay with support for UPI (Google Pay, PhonePe, Paytm, BHIM), Credit/Debit Cards, NetBanking (50+ banks), and Wallets.
+- **API Endpoints**:
+  - `POST /api/checkout/razorpay/create-order`: Generates a verified Razorpay order.
+  - `POST /api/checkout/razorpay/verify`: Validates HMAC-SHA256 signature, completes the cart in Medusa, clears the cart cookie, and stores the order for the success page.
+- **Development/Simulation Mode**: If Razorpay API keys are not yet provided in `.env.local`, a test simulation modal allows testing the complete checkout flow seamlessly.
+

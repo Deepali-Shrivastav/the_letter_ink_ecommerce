@@ -35,7 +35,7 @@ const mapMedusaProductToStorefront = (medusaProduct: any) => {
         currency: currencyStr,
         images: [],
         sku: v.sku || null,
-        stock: v.inventory_quantity ?? 0,
+        stock: null, // Untracked / bypass out-of-stock for now
         omnibusPrice: null,
         combinations: v.options ? v.options.map((o: any) => {
           const parentOption = medusaProduct.options?.find((po: any) => po.id === o.option_id);
@@ -79,12 +79,22 @@ const mapMedusaProductToStorefront = (medusaProduct: any) => {
 const mapMedusaCartToStorefront = (medusaCart: any) => {
   return {
     id: medusaCart.id,
+    promotions: medusaCart.promotions?.map((p: any) => ({
+      id: p.id,
+      code: p.code,
+      isAutomatic: p.is_automatic,
+      type: p.type,
+    })) || [],
+    discountTotal: medusaCart.discount_total || 0,
     lineItems: medusaCart.items ? medusaCart.items.map((item: any) => {
       const priceVal = String(item.metadata?.custom_unit_price ?? item.unit_price);
       return {
         id: item.id,
         quantity: item.quantity,
         metadata: item.metadata || {},
+        discountTotal: item.discount_total || 0,
+        originalPrice: item.unit_price,
+        adjustments: item.adjustments || [],
         productVariant: {
           id: item.variant_id,
           price: priceVal,
@@ -103,6 +113,74 @@ const mapMedusaCartToStorefront = (medusaCart: any) => {
     subtotal: medusaCart.subtotal,
     subtotalNet: medusaCart.subtotal,
     subtotalGross: medusaCart.total,
+  };
+};
+
+const recentOrdersMap = new Map<string, any>();
+
+export const storeRecentOrder = (order: any) => {
+  if (order?.id) {
+    recentOrdersMap.set(order.id, order);
+  }
+};
+
+export const mapMedusaOrderToStorefront = (medusaOrder: any) => {
+  if (!medusaOrder) return null;
+  if (medusaOrder.orderData) return medusaOrder;
+
+  const items = medusaOrder.items || [];
+  const shippingAddress = medusaOrder.shipping_address;
+  const fullName = [shippingAddress?.first_name, shippingAddress?.last_name].filter(Boolean).join(" ").trim();
+
+  return {
+    id: medusaOrder.id,
+    lookup: medusaOrder.display_id ? String(medusaOrder.display_id) : (medusaOrder.id ? medusaOrder.id.slice(-6).toUpperCase() : "ORD-1001"),
+    orderData: {
+      lineItems: items.map((item: any) => {
+        const priceVal = String(item.metadata?.custom_unit_price ?? item.unit_price ?? 0);
+        return {
+          id: item.id,
+          quantity: item.quantity || 1,
+          discountTotal: item.discount_total || 0,
+          originalPrice: item.unit_price || 0,
+          productVariant: {
+            id: item.variant_id || item.id,
+            price: priceVal,
+            priceGross: priceVal,
+            images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
+            product: {
+              id: item.variant?.product_id || item.product_id || item.id,
+              name: item.title || item.product_title || "Atelier Creation",
+              slug: item.variant?.product?.handle || item.product_handle || "product",
+              images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
+              type: "standard"
+            }
+          }
+        };
+      }),
+      subtotal: medusaOrder.subtotal ?? medusaOrder.total ?? 0,
+      subtotalNet: medusaOrder.subtotal ?? medusaOrder.total ?? 0,
+      subtotalGross: medusaOrder.total ?? 0,
+      total: medusaOrder.total ?? 0,
+      totalTax: medusaOrder.tax_total ?? 0,
+      shipping: {
+        name: medusaOrder.shipping_methods?.[0]?.name || "Standard Delivery (India)",
+        price: medusaOrder.shipping_total || 0,
+        priceGross: medusaOrder.shipping_total || 0,
+      },
+      shippingAddress: shippingAddress ? {
+        name: fullName || "Valued Patron",
+        line1: shippingAddress.address_1,
+        line2: shippingAddress.address_2,
+        city: shippingAddress.city,
+        state: shippingAddress.province,
+        postalCode: shippingAddress.postal_code,
+        country: shippingAddress.country_code ? shippingAddress.country_code.toUpperCase() : "IN",
+      } : null,
+      customer: {
+        email: medusaOrder.email || medusaOrder.customer?.email || "",
+      }
+    }
   };
 };
 
@@ -357,8 +435,14 @@ export const commerce = {
         ...(unit_price !== undefined ? { custom_unit_price: unit_price } : {})
       };
 
-      const createPayload: any = { variant_id: variantId, quantity, metadata: itemMetadata };
-      const updatePayload: any = { metadata: itemMetadata };
+      const createPayload: any = { 
+        variant_id: variantId, 
+        quantity, 
+        metadata: itemMetadata
+      };
+      const updatePayload: any = { 
+        metadata: itemMetadata
+      };
 
       if (quantity === 0 && existingLineItem) {
         await medusaClient.carts.lineItems.delete(activeCartId!, existingLineItem.id);
@@ -457,9 +541,18 @@ export const commerce = {
   },
   orderGet: async ({ id }: { id: string }) => {
     try {
+      if (recentOrdersMap.has(id)) {
+        return recentOrdersMap.get(id);
+      }
       const res = await medusaClient.orders.retrieve(id);
-      return res.order;
+      if (res?.order) {
+        return mapMedusaOrderToStorefront(res.order);
+      }
+      return null;
     } catch (e) {
+      if (recentOrdersMap.has(id)) {
+        return recentOrdersMap.get(id);
+      }
       return null;
     }
   },
@@ -532,9 +625,36 @@ export const commerce = {
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) {
-      throw new Error(`Medusa request to ${path} failed with status ${res.status}`);
+      const errText = await res.text().catch(() => "");
+      throw new Error(`Medusa request to ${path} failed with status ${res.status}: ${errText}`);
     }
     return res.json();
+  },
+  cartApplyPromotion: async ({ cartId, promoCode }: { cartId: string; promoCode: string }) => {
+    try {
+      const code = (promoCode || "").trim().toUpperCase();
+      const res = await commerce.request(`/store/carts/${cartId}/promotions`, {
+        method: "POST",
+        body: { promo_codes: [code] }
+      });
+      return mapMedusaCartToStorefront(res.cart);
+    } catch (error) {
+      logger.error("cartApplyPromotion error:", error);
+      throw error;
+    }
+  },
+  cartRemovePromotion: async ({ cartId, promoCode }: { cartId: string; promoCode: string }) => {
+    try {
+      const code = (promoCode || "").trim().toUpperCase();
+      const res = await commerce.request(`/store/carts/${cartId}/promotions`, {
+        method: "DELETE",
+        body: { promo_codes: [code] }
+      });
+      return mapMedusaCartToStorefront(res.cart);
+    } catch (error) {
+      logger.error("cartRemovePromotion error:", error);
+      throw error;
+    }
   },
 };
 

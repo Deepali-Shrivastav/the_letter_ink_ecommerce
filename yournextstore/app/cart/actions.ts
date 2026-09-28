@@ -149,3 +149,50 @@ export async function setCartQuantity(variantId: string, quantity: number) {
 	return { success: true, cart };
 }
 
+export async function applyPromotionCode(promoCode: string) {
+	if (!promoCode || typeof promoCode !== "string") {
+		return { success: false, cart: null, error: "Invalid promo code" };
+	}
+
+	const cartCookie = await getCartCookieJson();
+	if (!cartCookie?.id) {
+		return { success: false, cart: null, error: "No active cart" };
+	}
+
+	const normalizedCode = promoCode.trim().toUpperCase();
+
+	const [error, cart] = await try_(
+		commerce.cartApplyPromotion({ cartId: cartCookie.id, promoCode: normalizedCode })
+	);
+
+	if (error) {
+		logger.error("cart: applyPromotionCode failed", { cartId: cartCookie.id, promoCode: normalizedCode, error });
+		return { success: false, cart: null, error: "Could not apply code. It may be invalid or expired." };
+	}
+
+	return { success: true, cart };
+}
+
+export async function removePromotionCode(promoCode: string) {
+	if (!promoCode || typeof promoCode !== "string") {
+		return { success: false, cart: null };
+	}
+
+	const cartCookie = await getCartCookieJson();
+	if (!cartCookie?.id) {
+		return { success: false, cart: null };
+	}
+
+	const normalizedCode = promoCode.trim().toUpperCase();
+
+	const [error, cart] = await try_(
+		commerce.cartRemovePromotion({ cartId: cartCookie.id, promoCode: normalizedCode })
+	);
+
+	if (error) {
+		logger.error("cart: removePromotionCode failed", { cartId: cartCookie.id, promoCode: normalizedCode, error });
+		return { success: false, cart: null };
+	}
+
+	return { success: true, cart };
+}

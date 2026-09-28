@@ -4,7 +4,7 @@ import { getSubdomainPublicUrl } from "./lib/commerce";
 
 // /account is the platform-rendered shopper account area (unified sign-in); the platform
 // handles unauthenticated access itself, so it is proxied like /checkout, never guarded here.
-const proxiedRoutes = ["/checkout", "/api/feed/", "/api/chat", "/account"];
+const proxiedRoutes = ["/api/feed/", "/api/chat", "/account"];
 
 export async function proxy(request: NextRequest) {
 	// Platform-owned scripts under /_public/ — forwarded verbatim (plus the store, so the
@@ -14,7 +14,7 @@ export async function proxy(request: NextRequest) {
 	if (request.nextUrl.pathname.startsWith("/_public/")) {
 		const { subdomain, publicUrl } = await getSubdomainPublicUrl();
 		const destination = new URL(request.nextUrl.pathname, publicUrl);
-		destination.searchParams.set("store", subdomain);
+		destination.searchParams.set("store", subdomain || "");
 		return NextResponse.rewrite(destination);
 	}
 
@@ -36,7 +36,8 @@ export async function proxy(request: NextRequest) {
 		// *tighten* the check, so it grants nothing if forged.
 		requestHeaders.set("x-letterink-forwarded-origin", "1");
 
-		const url = new URL(`/${subdomain}${request.nextUrl.pathname}${request.nextUrl.search}`, destinationUrl);
+		const prefix = subdomain ? `/${subdomain}` : "";
+		const url = new URL(`${prefix}${request.nextUrl.pathname}${request.nextUrl.search}`, destinationUrl);
 		url.searchParams.set("auth", "0");
 
 		return NextResponse.rewrite(url, {
@@ -51,7 +52,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		"/checkout/:path*",
 		"/api/feed/gmc",
 		"/api/feed/meta",
 		"/api/feed/openai",

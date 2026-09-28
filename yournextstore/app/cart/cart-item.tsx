@@ -169,9 +169,16 @@ export function CartItem({ item }: CartItemProps) {
 					</div>
 
 					{/* Price */}
-					<span className="text-sm font-semibold">
-						{formatMoney({ amount: lineTotal, currency, locale })}
-					</span>
+					<div className="flex flex-col items-end">
+						{(item.discountTotal || 0) > 0 && (
+							<span className="text-xs text-muted-foreground line-through">
+								{formatMoney({ amount: lineTotal, currency, locale })}
+							</span>
+						)}
+						<span className="text-sm font-semibold">
+							{formatMoney({ amount: lineTotal - BigInt(item.discountTotal || 0), currency, locale })}
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>

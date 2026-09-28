@@ -1,0 +1,6 @@
+node_modules
+.turbo
+scripts-archive
+.env
+.env.*
+!.env.example

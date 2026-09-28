@@ -84,10 +84,10 @@ export function AddToCartButton({
 
 	const selectedVariant = useSelectedVariant(variants);
 
-	// stock === null means stock isn't tracked for this variant (unlimited)
-	const isOutOfStock = selectedVariant?.stock === 0;
+	// Temporarily bypass out-of-stock checks
+	const isOutOfStock = false;
 	const maxQuantity = selectedVariant?.stock ?? 99;
-	const effectiveQuantity = isOutOfStock ? 1 : Math.min(quantity, maxQuantity);
+	const effectiveQuantity = Math.min(quantity, maxQuantity);
 
 	const { resolvedTiers, volumePrice } = useVolumePricing(
 		volumePricingTiers,
@@ -153,15 +153,15 @@ export function AddToCartButton({
 		return formatMoney({ amount: BigInt(lowest), currency, locale });
 	}, [selectedVariant, priceInfo.compareAt, locale, currency, taxBehavior]);
 
-	// Stock availability. null stock means it isn't tracked (treated as in stock).
+	// Stock availability. (Out-of-stock badge hidden for now)
 	const stockStatus = useMemo(() => {
 		if (!selectedVariant) return null;
 		const { stock } = selectedVariant;
-		if (stock === 0) return { label: "Out of stock", tone: "out" as const };
+		if (stock === 0) return null;
 		if (stock !== null && stock <= LOW_STOCK_THRESHOLD) {
 			return { label: `Only ${stock} left in stock`, tone: "low" as const };
 		}
-		return { label: "In stock", tone: "in" as const };
+		return null;
 	}, [selectedVariant]);
 
 	const handleSubmit = (e: React.FormEvent) => {

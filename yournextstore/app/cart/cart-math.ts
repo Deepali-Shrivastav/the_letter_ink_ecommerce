@@ -2,6 +2,9 @@ import { cartDisplaySubtotal, displayPrice, type TaxBehavior } from "@/lib/prici
 
 export type CartLineItem = {
 	quantity: number;
+	discountTotal?: number;
+	originalPrice?: number;
+	adjustments?: Array<{ amount: number; description?: string; code?: string }>;
 	productVariant: {
 		id: string;
 		price: string;
@@ -30,6 +33,8 @@ export type CartLineItem = {
 export type Cart = {
 	id: string;
 	lineItems: CartLineItem[];
+	promotions?: Array<{ id: string; code?: string; type?: string; isAutomatic?: boolean }>;
+	discountTotal?: number;
 	// Authoritative money totals (minor units) as the API computed them. `null` when the
 	// store prices through Stripe Tax, and cleared by `cartReducer` because an optimistic
 	// local mutation invalidates them — see `withoutStaleTotals`.
@@ -90,6 +95,7 @@ const withoutStaleTotals = (cart: Cart): Cart => ({
 	subtotal: null,
 	subtotalNet: null,
 	subtotalGross: null,
+	discountTotal: undefined,
 });
 
 export type CartAction =

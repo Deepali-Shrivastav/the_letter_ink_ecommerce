@@ -10,8 +10,8 @@ process.env.YNS_API_KEY ||= "test-key";
 
 const { proxy } = await import("./proxy");
 
-const checkoutRequest = (headers: Record<string, string>) =>
-	proxy(new NextRequest("https://acme.example/checkout/payment", { method: "POST", headers }));
+const accountRequest = (headers: Record<string, string>) =>
+	proxy(new NextRequest("https://acme.example/account", { method: "POST", headers }));
 
 /** `NextResponse.rewrite` carries the mutated request headers in this internal header. */
 const forwardedHeaders = (response: Response) => {
@@ -23,21 +23,21 @@ const forwardedValue = (response: Response, name: string) =>
 	response.headers.get(`x-middleware-request-${name}`);
 
 test("forwards the browser's Origin untouched", async () => {
-	const response = await checkoutRequest({ origin: "https://acme.example" });
+	const response = await accountRequest({ origin: "https://acme.example" });
 
 	expect(forwardedValue(response, "origin")).toBe("https://acme.example");
 	expect(forwardedValue(response, "x-letterink-forwarded-origin")).toBe("1");
 });
 
 test("a request without an Origin gets none", async () => {
-	const response = await checkoutRequest({});
+	const response = await accountRequest({});
 
 	expect(forwardedHeaders(response).has("origin")).toBe(false);
 	expect(forwardedValue(response, "origin")).toBeNull();
 });
 
 test("still rewrites to the subdomain path with auth=0", async () => {
-	const response = await checkoutRequest({ origin: "https://acme.example" });
+	const response = await accountRequest({ origin: "https://acme.example" });
 
-	expect(response.headers.get("x-middleware-rewrite")).toBe("https://yns.cx/acme/checkout/payment?auth=0");
+	expect(response.headers.get("x-middleware-rewrite")).toBe("https://yns.cx/acme/account?auth=0");
 });

@@ -6,6 +6,7 @@ import { cacheLife } from "next/cache";
 import { Geist, Geist_Mono, Raleway, EB_Garamond } from "next/font/google";
 import { getImageProps } from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { Suspense } from "react";
 import { CartBootstrap, CartProvider } from "@/app/cart/cart-context";
@@ -15,10 +16,12 @@ import { Footer } from "@/app/footer";
 import { Navbar, type NavLink } from "@/app/navbar";
 import { ErrorOverlayRemover, NavigationReporter } from "@/components/devtools";
 import { NewsletterDialog } from "@/components/newsletter-dialog";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { SearchInput } from "@/components/search/search-input";
 import { StoreChatSection } from "@/components/store-chat/store-chat-section";
 import { StoreConfigProvider } from "@/components/store-config-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { CampaignBanner } from "@/components/campaign-banner";
 import { Toaster } from "@/components/ui/sonner";
 import { commerce, getCanonicalUrl, getStoreFaviconUrl, meGetCached } from "@/lib/commerce";
 import { getCartCookieJson } from "@/lib/cookies";
@@ -170,6 +173,9 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 		<StoreConfigProvider value={storeConfig}>
 			<CartProvider>
 				<div className="flex min-h-screen flex-col">
+					<Suspense>
+						<AnnouncementBar />
+					</Suspense>
 					<header className="sticky top-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
 						<div className="w-full px-margin-mobile lg:px-8">
 							<div className="relative flex items-center justify-between h-20 sm:h-24">
@@ -207,11 +213,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 							</div>
 						</div>
 					</header>
-					<div className="w-full bg-tertiary-fixed text-on-tertiary-fixed px-margin-mobile lg:px-margin py-2 text-center border-t border-b border-border-vellum">
-						<p className="font-label-sm text-label-sm uppercase tracking-widest text-[10px] md:text-xs">
-							USE CODE 'INKMAGIC' FOR COMPLIMENTARY ARTISANAL GIFT PACKAGING & WAX SEALING
-						</p>
-					</div>
+					<CampaignBanner />
 					<main className="flex-1">{children}</main>
 					<Footer />
 				</div>
@@ -260,6 +262,7 @@ export default async function RootLayout({
 				<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${ebGaramond.variable} antialiased`} suppressHydrationWarning>
+				<Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 				<Suspense>
 					<StoreJsonLd />
 				</Suspense>
