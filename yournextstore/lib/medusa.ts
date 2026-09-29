@@ -42,7 +42,7 @@ if (!PUBLISHABLE_KEY && process.env.NODE_ENV === "development") {
 
 export const medusaClient = new Medusa({
   baseUrl: BACKEND_URL,
-  maxRetries: 3,
+  maxRetries: process.env.NODE_ENV === "development" ? 1 : 3,
   publishableApiKey: PUBLISHABLE_KEY,
 });
 

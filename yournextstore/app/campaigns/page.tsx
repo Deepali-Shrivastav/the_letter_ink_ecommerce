@@ -10,7 +10,7 @@ async function getCampaigns() {
     const baseUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
     const apiKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY;
     
-    const res = await fetch(`${baseUrl}/store/campaigns`, {
+    const res = await fetch(`${baseUrl}/store/campaigns/active`, {
       headers: {
         "x-publishable-api-key": apiKey || "",
       },
@@ -52,11 +52,14 @@ export default async function CampaignsPage() {
                 </div>
                 <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
                   <p className="text-sm font-medium">
-                    Use code: <span className="bg-primary/10 text-primary px-2 py-1 rounded font-mono uppercase">{campaign.campaign_identifier || "AUTO"}</span>
+                    Use code: <span className="bg-primary/10 text-primary px-2 py-1 rounded font-mono uppercase">{campaign.promotions?.[0]?.code || "AUTO"}</span>
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    Valid from {new Date(campaign.starts_at).toLocaleDateString()} to {new Date(campaign.ends_at).toLocaleDateString()}
-                  </p>
+                  {(campaign.starts_at || campaign.ends_at) && (
+                    <p className="text-xs text-muted-foreground">
+                      {campaign.starts_at ? `Valid from ${new Date(campaign.starts_at).toLocaleDateString()}` : "Valid"} 
+                      {campaign.ends_at ? ` to ${new Date(campaign.ends_at).toLocaleDateString()}` : " onwards"}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

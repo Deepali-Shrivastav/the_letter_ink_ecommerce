@@ -32,11 +32,17 @@ function sanitizeData(data: unknown, depth = 0): unknown {
   }
 
   if (data instanceof Error) {
-    return {
+    const sanitizedErr: Record<string, unknown> = {
       name: data.name,
       message: data.message,
       ...(IS_PROD ? {} : { stack: data.stack }),
     };
+    if ("errors" in data && Array.isArray((data as any).errors)) {
+      sanitizedErr.errors = (data as any).errors.map((e: unknown) => sanitizeData(e, depth + 1));
+    } else if (data.name === "AggregateError") {
+      sanitizedErr.errors = [];
+    }
+    return sanitizedErr;
   }
 
   if (typeof data === "object") {

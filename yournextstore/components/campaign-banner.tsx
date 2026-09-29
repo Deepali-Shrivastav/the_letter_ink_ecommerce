@@ -9,25 +9,31 @@ export function CampaignBanner() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Only fetch client-side if we want real-time, but for this banner 
-    // it's fine to fetch from our Next.js API route or just the backend.
-    // For simplicity, we fetch the campaigns page JSON or directly backend
-    fetch("/campaigns")
-      .then(res => {
-        // Since we didn't expose a Next API route, let's just use the fact that 
-        // /campaigns is a page, or better yet, skip fetching and wait.
-        // Actually, we should just query the backend.
-      })
-      .catch(() => {});
+    const fetchCampaigns = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/store/campaigns/active`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.campaigns && data.campaigns.length > 0) {
+            setCampaign(data.campaigns[0]);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch campaigns", err);
+      }
+    };
+    fetchCampaigns();
   }, []);
 
   if (!campaign || !isVisible) return null;
+
+  const promoCode = campaign.promotions?.[0]?.code;
 
   return (
     <div className="bg-primary text-primary-foreground py-2 px-4 flex items-center justify-between">
       <div className="flex-1 text-center text-sm font-medium">
         <Link href="/campaigns" className="hover:underline">
-          {campaign.name}: Use code {campaign.campaign_identifier} for special offers!
+          {campaign.name}: {promoCode ? `Use code ${promoCode} for special offers!` : 'Check out our latest special offers!'}
         </Link>
       </div>
       <button onClick={() => setIsVisible(false)} className="opacity-70 hover:opacity-100">

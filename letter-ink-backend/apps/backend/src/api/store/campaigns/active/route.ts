@@ -25,6 +25,8 @@ export const GET = async (
         id: c.id,
         name: c.name,
         description: c.description,
+        starts_at: c.starts_at,
+        ends_at: c.ends_at,
         promotions: c.promotions?.filter(p => p.status === "active" || !p.status).map(p => ({
           id: p.id,
           code: p.code,

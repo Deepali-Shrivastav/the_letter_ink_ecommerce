@@ -14,7 +14,6 @@ import { CartSidebar } from "@/app/cart/cart-sidebar";
 import { CartButton } from "@/app/cart-button";
 import { Footer } from "@/app/footer";
 import { Navbar, type NavLink } from "@/app/navbar";
-import { ErrorOverlayRemover, NavigationReporter } from "@/components/devtools";
 import { NewsletterDialog } from "@/components/newsletter-dialog";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { SearchInput } from "@/components/search/search-input";
@@ -133,14 +132,7 @@ async function getInitialCart() {
 	}
 }
 
-async function getNavLinks(): Promise<NavLink[]> {
-	"use cache";
-	cacheLife("hours");
-	const [collections, me] = await Promise.all([
-		commerce.collectionBrowse({ limit: 5 }),
-		meGetCached().catch(() => null),
-	]);
-	const blogEnabled = me?.store.settings?.enabledTools?.blog ?? false;
+function getNavLinks(): NavLink[] {
 	return [
 		{ href: "/", label: "Home" },
 		{ href: "/shop", label: "Shop" },
@@ -156,9 +148,12 @@ async function getNavLinks(): Promise<NavLink[]> {
 // shell. Kept in its own component (and its own Suspense boundary below) so the await
 // lands BELOW the chrome instead of above it.
 async function CartBootstrapper() {
-	const { cart, cartId } = await getInitialCart();
-
-	return <CartBootstrap cart={cart} cartId={cartId} />;
+	try {
+		const { cart, cartId } = await getInitialCart();
+		return <CartBootstrap cart={cart} cartId={cartId} />;
+	} catch {
+		return <CartBootstrap cart={null} cartId={null} />;
+	}
 }
 
 async function CartProviderWrapper({ children }: { children: React.ReactNode }) {
@@ -167,7 +162,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 	// leave the page blank until the server responds. The other half of the rule: no
 	// <Suspense> around this component either — the boundary itself is what streams the
 	// chrome out of the shell, whether or not anything inside it is request-time.
-	const [links, storeConfig] = await Promise.all([getNavLinks(), getStoreConfig()]);
+	const [links, storeConfig] = await Promise.all([Promise.resolve(getNavLinks()), getStoreConfig()]);
 
 	return (
 		<StoreConfigProvider value={storeConfig}>
@@ -252,7 +247,6 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const env = process.env.VERCEL_ENV || "development";
 	const lang = await getHtmlLang();
 
 	return (
@@ -266,19 +260,13 @@ export default async function RootLayout({
 				<Suspense>
 					<StoreJsonLd />
 				</Suspense>
-				<ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light" disableTransitionOnChange>
+				<ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light" disableTransitionOnChange scriptProps={{ async: true }}>
 					<CartProviderWrapper>{children}</CartProviderWrapper>
 					<Suspense>
 						<NewsletterPopupSection />
 					</Suspense>
 					<Toaster richColors position="top-center" />
 				</ThemeProvider>
-				{env === "development" && (
-					<>
-						<NavigationReporter />
-						<ErrorOverlayRemover />
-					</>
-				)}
 			</body>
 		</html>
 	);

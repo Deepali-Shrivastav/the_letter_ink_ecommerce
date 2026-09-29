@@ -246,8 +246,8 @@ export const commerce = {
         data: physicalProducts.map(mapMedusaProductToStorefront),
         meta: { count: physicalProducts.length },
       };
-    } catch (error) {
-      logger.warn("Medusa API Error (productBrowse):", error);
+    } catch (error: any) {
+      logger.warn("Medusa API Error (productBrowse):", error?.message || String(error));
       return { data: [], meta: { count: 0 } };
     }
   },
@@ -346,8 +346,8 @@ export const commerce = {
         })),
         brands: [],
       };
-    } catch (error) {
-      logger.error("Medusa API Error (productFilters):", error);
+    } catch (error: any) {
+      logger.warn("Medusa API Error (productFilters):", error?.message || String(error));
       return {
         priceBounds: { min: 0, max: 0 },
         variantTypes: [],
@@ -372,8 +372,8 @@ export const commerce = {
         })),
         meta: { count: res.count || res.product_categories?.length || 0 },
       };
-    } catch (error) {
-      logger.error("Medusa API Error (categoriesBrowse):", error);
+    } catch (error: any) {
+      logger.warn("Medusa API Error (categoriesBrowse):", error?.message || String(error));
       return { data: [], meta: { count: 0 } };
     }
   },
@@ -395,8 +395,8 @@ export const commerce = {
         })),
         totalCount: res.count || res.products.length,
       };
-    } catch (error) {
-      logger.error("Medusa API Error (search):", error);
+    } catch (error: any) {
+      logger.warn("Medusa API Error (search):", error?.message || String(error));
       return { items: [], totalCount: 0 };
     }
   },
@@ -450,7 +450,16 @@ export const commerce = {
         updatePayload.quantity = mode === "set" ? quantity : existingLineItem.quantity + quantity;
         await medusaClient.carts.lineItems.update(activeCartId!, existingLineItem.id, updatePayload);
       } else if (quantity > 0) {
-        await medusaClient.carts.lineItems.create(activeCartId!, createPayload);
+        if (unit_price !== undefined) {
+          await medusaClient.client.request("POST", `/store/carts/${activeCartId}/line-items/custom`, {
+            variant_id: variantId,
+            quantity,
+            metadata: itemMetadata,
+            unit_price
+          });
+        } else {
+          await medusaClient.carts.lineItems.create(activeCartId!, createPayload);
+        }
       }
 
       const { cart: updatedCart } = await medusaClient.carts.retrieve(activeCartId!);
@@ -473,8 +482,8 @@ export const commerce = {
         })),
         meta: { count: res.count || res.collections.length },
       };
-    } catch (error) {
-      logger.error("Medusa API Error (collections):", error);
+    } catch (error: any) {
+      logger.warn("Medusa API Error (collections):", error?.message || String(error));
       return { data: [], meta: { count: 0 } };
     }
   },

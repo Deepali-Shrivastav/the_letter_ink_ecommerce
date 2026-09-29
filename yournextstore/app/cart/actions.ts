@@ -167,7 +167,8 @@ export async function applyPromotionCode(promoCode: string) {
 
 	if (error) {
 		logger.error("cart: applyPromotionCode failed", { cartId: cartCookie.id, promoCode: normalizedCode, error });
-		return { success: false, cart: null, error: "Could not apply code. It may be invalid or expired." };
+		const message = (error as any)?.message || "Could not apply code. It may be invalid or expired.";
+		return { success: false, cart: null, error: message };
 	}
 
 	return { success: true, cart };

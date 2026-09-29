@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,11 +12,17 @@ import {
   Package,
   Info,
   Loader2,
+  AlertCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { formatMoney } from "@/lib/money";
 import { useCart } from "@/app/cart/cart-context";
+import { CartPromoCode } from "@/app/cart/cart-promo";
+import {
+  ShippingAddressForm,
+  ShippingAddressData,
+} from "@/components/checkout/shipping-address-form";
 
 interface CheckoutFormProps {
   initialCart: any;
@@ -35,10 +41,18 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
   const [showSimulatedModal, setShowSimulatedModal] = useState(false);
   const [simulatedOrderInfo, setSimulatedOrderInfo] = useState<any>(null);
 
+  const [shippingAddress, setShippingAddress] = useState<ShippingAddressData | null>(null);
+  const [isAddressValid, setIsAddressValid] = useState(false);
+
   const items = cart?.lineItems ?? [];
   const rawSubtotal = cart?.subtotal ? Number(cart.subtotal) : 0;
   const discountTotal = cart?.discountTotal ? Number(cart.discountTotal) : 0;
   const grandTotal = Math.max(0, rawSubtotal - discountTotal);
+
+  const handleAddressChange = useCallback((data: ShippingAddressData, isValid: boolean) => {
+    setShippingAddress(data);
+    setIsAddressValid(isValid);
+  }, []);
 
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -63,6 +77,14 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
   // Directly launch Razorpay
   const handleLaunchRazorpay = async () => {
     if (!items.length || isProcessing) return;
+
+    if (!isAddressValid || !shippingAddress) {
+      toast.error("Please fill in your delivery address before proceeding to payment.", {
+        icon: <AlertCircle className="h-4 w-4 text-rose-500" />,
+      });
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
@@ -73,6 +95,15 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
         body: JSON.stringify({
           cartId: cart.id,
           amount: grandTotal,
+          customer: {
+            email: shippingAddress.email,
+            phone: shippingAddress.phone,
+            name: `${shippingAddress.firstName} ${shippingAddress.lastName}`.trim(),
+          },
+          notes: {
+            shipping_address: `${shippingAddress.address1}, ${shippingAddress.city}, ${shippingAddress.province} - ${shippingAddress.postalCode}`,
+            instructions: shippingAddress.deliveryNotes || "Standard Delivery",
+          },
         }),
       });
 
@@ -91,6 +122,11 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
           description: "Artisanal Calligraphy & Bespoke Stationery",
           image: "/Logo.jpeg",
           order_id: orderData.orderId,
+          prefill: {
+            name: `${shippingAddress.firstName} ${shippingAddress.lastName}`.trim(),
+            email: shippingAddress.email,
+            contact: shippingAddress.phone,
+          },
           theme: { color: "#201A1C" },
           handler: async function (response: any) {
             toast.loading("Verifying payment...", { id: "payment-verify" });
@@ -102,6 +138,21 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
                 cartId: cart.id,
                 amount: grandTotal,
                 cartItems: items,
+                customer: {
+                  email: shippingAddress.email,
+                  phone: shippingAddress.phone,
+                  name: `${shippingAddress.firstName} ${shippingAddress.lastName}`.trim(),
+                },
+                shippingAddress: {
+                  firstName: shippingAddress.firstName,
+                  lastName: shippingAddress.lastName,
+                  address1: shippingAddress.address1,
+                  address2: shippingAddress.address2,
+                  city: shippingAddress.city,
+                  province: shippingAddress.province,
+                  postalCode: shippingAddress.postalCode,
+                  countryCode: "in",
+                },
               }),
             });
             const verifyData = await verifyRes.json();
@@ -134,13 +185,6 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
     }
   };
 
-  // Automatically trigger Razorpay when navigating to /checkout
-  useEffect(() => {
-    if (items.length > 0) {
-      handleLaunchRazorpay();
-    }
-  }, [items.length]);
-
   const handleSimulateSuccess = async () => {
     setShowSimulatedModal(false);
     setIsProcessing(true);
@@ -157,6 +201,21 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
           cartId: cart?.id,
           amount: grandTotal,
           cartItems: items,
+          customer: {
+            email: shippingAddress?.email || "patron@example.com",
+            phone: shippingAddress?.phone || "9876543210",
+            name: `${shippingAddress?.firstName || "Valued"} ${shippingAddress?.lastName || "Patron"}`.trim(),
+          },
+          shippingAddress: {
+            firstName: shippingAddress?.firstName || "Valued",
+            lastName: shippingAddress?.lastName || "Patron",
+            address1: shippingAddress?.address1 || "",
+            address2: shippingAddress?.address2 || "",
+            city: shippingAddress?.city || "Mumbai",
+            province: shippingAddress?.province || "Maharashtra",
+            postalCode: shippingAddress?.postalCode || "400001",
+            countryCode: "in",
+          },
         }),
       });
 
@@ -192,10 +251,10 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-paper-tint/40">
       {/* Header */}
       <header className="border-b border-border/60 bg-background/95 backdrop-blur-sm sticky top-0 z-30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link
             href="/"
             className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -215,64 +274,174 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
         </div>
       </header>
 
-      {/* Direct Razorpay Bridge Content */}
-      <main className="max-w-xl mx-auto px-4 py-16 text-center">
-        <div className="bg-card border border-border rounded-3xl p-8 shadow-lg space-y-6">
-          <div className="h-16 w-16 mx-auto rounded-2xl bg-blue-600/10 flex items-center justify-center text-blue-600">
-            <ShieldCheck className="h-9 w-9" />
+      {/* Main 2-Column Checkout Layout */}
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* Left Column: Shipping Address & Recipient Details Form */}
+          <div className="lg:col-span-7 space-y-6">
+            <ShippingAddressForm
+              onChange={handleAddressChange}
+            />
           </div>
 
-          <div>
-            <h1 className="text-2xl font-serif font-semibold tracking-tight text-foreground">
-              Razorpay Secure Checkout
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Direct payment gateway for UPI, Credit/Debit Cards, NetBanking & Wallets
-            </p>
+          {/* Right Column: Order Summary, Items Preview, Promos & Payment Action */}
+          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
+            <div className="bg-card border border-border/80 rounded-2xl p-6 sm:p-7 shadow-sm space-y-6">
+              
+              <div className="flex items-center justify-between border-b border-border/60 pb-3">
+                <h3 className="font-serif text-lg font-semibold text-foreground">
+                  Order Summary
+                </h3>
+                <span className="text-xs text-muted-foreground font-medium">
+                  {items.length} {items.length === 1 ? "Item" : "Items"}
+                </span>
+              </div>
+
+              {/* Items List */}
+              <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+                {items.map((item: any) => {
+                  const imageSrc =
+                    item.productVariant?.images?.[0] ||
+                    item.productVariant?.product?.images?.[0] ||
+                    "/placeholder.png";
+                  const unitPrice = Number(item.productVariant?.price || item.originalPrice || 0);
+
+                  return (
+                    <div key={item.id} className="flex gap-3 items-center py-2 border-b border-border/40 last:border-b-0">
+                      <div className="relative h-14 w-14 rounded-lg overflow-hidden bg-muted border border-border/50 shrink-0">
+                        {imageSrc && (
+                          <img
+                            src={imageSrc}
+                            alt={item.productVariant?.product?.name || "Product"}
+                            className="h-full w-full object-cover"
+                          />
+                        )}
+                        <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-4.5 w-4.5 flex items-center justify-center shadow">
+                          {item.quantity}
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-foreground truncate">
+                          {item.productVariant?.product?.name || "Artisanal Creation"}
+                        </p>
+                        <p className="text-[11px] text-muted-foreground">
+                          Qty: {item.quantity}
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-xs font-semibold text-foreground font-mono">
+                          {formatMoney({
+                            amount: BigInt(unitPrice * item.quantity),
+                            currency: storeConfig.currency,
+                            locale: storeConfig.locale,
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Price Breakdown */}
+              <div className="space-y-2 text-xs border-t border-border/60 pt-4">
+                <div className="flex justify-between text-muted-foreground">
+                  <span>Subtotal</span>
+                  <span className="font-mono text-foreground font-medium">
+                    {formatMoney({
+                      amount: BigInt(rawSubtotal),
+                      currency: storeConfig.currency,
+                      locale: storeConfig.locale,
+                    })}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-muted-foreground">
+                  <span>Standard Atelier Delivery (India)</span>
+                  <span className="text-emerald-600 font-medium">Complimentary</span>
+                </div>
+
+                {discountTotal > 0 && (
+                  <div className="flex justify-between text-emerald-600 font-medium">
+                    <span>Promotional Discount</span>
+                    <span className="font-mono">
+                      -{formatMoney({
+                        amount: BigInt(discountTotal),
+                        currency: storeConfig.currency,
+                        locale: storeConfig.locale,
+                      })}
+                    </span>
+                  </div>
+                )}
+
+                <div className="pt-3 border-t border-border/60 flex items-baseline justify-between">
+                  <span className="font-serif font-semibold text-sm text-foreground">
+                    Total Amount
+                  </span>
+                  <span className="text-xl font-serif font-bold text-primary font-mono">
+                    {formatMoney({
+                      amount: BigInt(grandTotal),
+                      currency: storeConfig.currency,
+                      locale: storeConfig.locale,
+                    })}
+                  </span>
+                </div>
+              </div>
+
+              {/* Promo Code Input */}
+              <div className="pt-1">
+                <CartPromoCode />
+              </div>
+
+              {/* Razorpay CTA Button */}
+              <div className="space-y-2 pt-2">
+                <Button
+                  onClick={handleLaunchRazorpay}
+                  disabled={isProcessing}
+                  size="lg"
+                  className="w-full h-14 rounded-full text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <span>Opening Secure Razorpay Gateway…</span>
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="h-4 w-4" />
+                      <span>Proceed to Pay with Razorpay</span>
+                    </>
+                  )}
+                </Button>
+
+                {!isAddressValid && (
+                  <p className="text-[11px] text-amber-600 dark:text-amber-400 text-center flex items-center justify-center gap-1">
+                    <AlertCircle className="h-3 w-3 shrink-0" />
+                    Please fill out the delivery address to proceed.
+                  </p>
+                )}
+              </div>
+
+              {/* Security & Payment Badges */}
+              <div className="pt-2 border-t border-border/40 text-center space-y-1.5">
+                <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
+                  <ShieldCheck className="h-3.5 w-3.5 text-blue-600" />
+                  <span>Accepts UPI, Credit/Debit Cards, NetBanking & Wallets</span>
+                </div>
+                <p className="text-[10px] text-muted-foreground/80">
+                  Protected by 256-bit bank grade encryption & RBI PCI-DSS compliance.
+                </p>
+              </div>
+
+            </div>
           </div>
-
-          {/* Amount Badge */}
-          <div className="bg-secondary/40 py-4 px-6 rounded-2xl border border-border/60 flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Total Payable</span>
-            <span className="text-2xl font-bold text-foreground">
-              {formatMoney({
-                amount: BigInt(grandTotal),
-                currency: storeConfig.currency,
-                locale: storeConfig.locale,
-              })}
-            </span>
-          </div>
-
-          {/* Action Button */}
-          <Button
-            onClick={handleLaunchRazorpay}
-            disabled={isProcessing}
-            size="lg"
-            className="w-full h-14 rounded-full text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <span>Redirecting to Razorpay…</span>
-              </>
-            ) : (
-              <>
-                <Lock className="h-4 w-4" />
-                <span>Pay with Razorpay</span>
-              </>
-            )}
-          </Button>
-
-          <p className="text-xs text-muted-foreground">
-            Protected by 256-bit bank grade encryption & RBI PCI-DSS compliance.
-          </p>
         </div>
       </main>
 
-      {/* Simulated Razorpay Modal */}
+      {/* Simulated Razorpay Modal for test environments */}
       {showSimulatedModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-card border border-border rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200 text-left">
             <div className="flex items-center justify-between pb-3 border-b border-border">
               <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xs">
@@ -292,18 +461,26 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
               </button>
             </div>
 
-            <div className="bg-secondary/40 p-4 rounded-xl space-y-2 border border-border/50">
-              <div className="flex justify-between text-xs">
+            <div className="bg-secondary/40 p-4 rounded-xl space-y-2 border border-border/50 text-xs">
+              <div className="flex justify-between">
                 <span className="text-muted-foreground">Merchant:</span>
                 <span className="font-semibold text-foreground">The Letter Ink</span>
               </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Payment Methods:</span>
-                <span className="font-medium text-foreground">UPI • Cards • NetBanking</span>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Recipient:</span>
+                <span className="font-medium text-foreground">
+                  {shippingAddress?.firstName} {shippingAddress?.lastName}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Deliver To:</span>
+                <span className="font-medium text-foreground truncate max-w-[200px]">
+                  {shippingAddress?.city}, {shippingAddress?.province} - {shippingAddress?.postalCode}
+                </span>
               </div>
               <div className="flex justify-between items-center pt-2 border-t border-border">
-                <span className="text-xs font-semibold text-foreground">Amount:</span>
-                <span className="text-lg font-bold text-primary">
+                <span className="font-semibold text-foreground">Amount:</span>
+                <span className="text-lg font-bold text-primary font-mono">
                   {formatMoney({
                     amount: BigInt(grandTotal),
                     currency: storeConfig.currency,
@@ -313,7 +490,7 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
               </div>
             </div>
 
-            <div className="text-xs text-muted-foreground flex items-start gap-2 bg-blue-50 dark:bg-blue-950/30 p-3 rounded-lg border border-blue-200 dark:border-blue-900 text-blue-800 dark:text-blue-300 text-left">
+            <div className="text-xs text-muted-foreground flex items-start gap-2 bg-blue-50 dark:bg-blue-950/30 p-3 rounded-lg border border-blue-200 dark:border-blue-900 text-blue-800 dark:text-blue-300">
               <Info className="h-4 w-4 shrink-0 mt-0.5" />
               <span>
                 Click below to complete the simulated Razorpay payment and proceed to order confirmation.

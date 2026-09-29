@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef } from "react";
+import { QuickAddButton } from "@/components/quick-add-button";
 
 export function GiftingLandingClient({ hampers = [], occasions = [] }: { hampers?: any[], occasions?: any[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -136,6 +137,20 @@ Hand-assembled willow baskets, botanical wooden chests, and luxury trunks filled
                     {hamper.metadata.badge}
                   </span>
                 )}
+                {hamper.variants?.length > 0 && (
+                  <QuickAddButton
+                    variantId={hamper.variants[0].id}
+                    variantSku={hamper.variants[0].sku}
+                    variantPrice={hamper.variants[0].prices?.[0]?.amount?.toString() || "0"}
+                    variantImages={[hamper.thumbnail].filter(Boolean)}
+                    product={{
+                      id: hamper.id,
+                      name: hamper.title,
+                      slug: hamper.handle || hamper.id,
+                      images: [hamper.thumbnail].filter(Boolean)
+                    }}
+                  />
+                )}
               </div>
               <div className="p-space-sm flex flex-col flex-grow justify-between">
                 <div>
@@ -157,10 +172,10 @@ Hand-assembled willow baskets, botanical wooden chests, and luxury trunks filled
                   </div>
                 </div>
                 <div className="pt-space-xs border-t border-border-vellum">
-                  <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2" type="button">
+                  <Link href={`/product/${hamper.handle || hamper.id}`} className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2.5 font-label-md text-label-md uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2">
                     VIEW HAMPER DETAILS
                     <span className="material-symbols-outlined text-[16px]">north_east</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -195,7 +210,7 @@ Hand-assembled willow baskets, botanical wooden chests, and luxury trunks filled
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-            {occ.products?.map((product) => (
+            {occ.products?.map((product: any) => (
               <div key={product.id} className="bg-surface-container-lowest border border-border-vellum shadow-sm flex flex-col justify-between group hover:border-primary transition-colors">
                 <div>
                   <div className="relative aspect-square overflow-hidden bg-surface-container">
@@ -204,6 +219,20 @@ Hand-assembled willow baskets, botanical wooden chests, and luxury trunks filled
                       <span className="absolute top-3 left-3 bg-surface-container-lowest text-primary font-label-sm text-[11px] uppercase tracking-wider px-2 py-0.5 border border-border-vellum">
                         {product.metadata.badge}
                       </span>
+                    )}
+                    {product.variants?.length > 0 && (
+                      <QuickAddButton
+                        variantId={product.variants[0].id}
+                        variantSku={product.variants[0].sku}
+                        variantPrice={product.variants[0].prices?.[0]?.amount?.toString() || "0"}
+                        variantImages={[product.thumbnail].filter(Boolean)}
+                        product={{
+                          id: product.id,
+                          name: product.title,
+                          slug: product.handle || product.id,
+                          images: [product.thumbnail].filter(Boolean)
+                        }}
+                      />
                     )}
                   </div>
                   <div className="p-4">
@@ -215,10 +244,10 @@ Hand-assembled willow baskets, botanical wooden chests, and luxury trunks filled
                   </div>
                 </div>
                 <div className="p-4 pt-0">
-                  <button className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5" type="button">
+                  <Link href={`/product/${product.handle || product.id}`} className="w-full bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary py-2 font-label-md text-[12px] uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5">
                     Order Online
                     <span className="material-symbols-outlined text-[14px]">north_east</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}

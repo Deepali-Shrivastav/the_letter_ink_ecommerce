@@ -20,6 +20,7 @@ export function JsonLdScript({ data }: { data: Record<string, unknown> }) {
 		<script
 			type="application/ld+json"
 			dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
+			suppressHydrationWarning
 		/>
 	);
 }

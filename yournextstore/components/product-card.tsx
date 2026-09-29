@@ -10,6 +10,7 @@ import { getStoreConfig } from "@/lib/store-config";
 import { isVideoUrl } from "@/lib/utils";
 import { LetterInkMedia } from "@/lib/the-letter-ink-media";
 import { QuickAddButton } from "./quick-add-button";
+import { getActiveCampaigns } from "@/lib/campaigns";
 
 type BrowseProduct = APIProductsBrowseResult["data"][number];
 type CollectionProduct = APICollectionGetByIdResult["productCollections"][number]["product"];
@@ -23,6 +24,9 @@ export async function ProductCard({
 	priority?: boolean;
 }) {
 	const { currency, locale, taxBehavior } = await getStoreConfig();
+	const activeCampaigns = await getActiveCampaigns();
+	const isSaleActive = activeCampaigns.length > 0;
+
 	const variants = "variants" in product ? product.variants : null;
 	const { min: minPrice, max: maxPrice } =
 		variants && variants.length > 0 ? priceRange(variants, taxBehavior) : { min: null, max: null };
@@ -60,6 +64,11 @@ export async function ProductCard({
 	return (
 		<Link href={`/product/${product.slug}${variantSearch}`} className="group">
 			<div className="relative aspect-square bg-secondary rounded-2xl overflow-hidden mb-4">
+				{isSaleActive && (
+					<div className="absolute top-4 left-4 z-10 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+						Sale
+					</div>
+				)}
 				{singleVariant && (
 					<QuickAddButton
 						variantId={singleVariant.id}
