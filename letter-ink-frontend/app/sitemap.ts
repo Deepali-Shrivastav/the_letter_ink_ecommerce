@@ -12,7 +12,13 @@ async function getAllProducts() {
 			limit: PAGE_SIZE,
 			offset: page * PAGE_SIZE,
 		});
-		products.push(...result.data.map((p) => ({ slug: p.slug, updatedAt: p.updatedAt, images: p.images })));
+		products.push(
+			...result.data.map((p: any) => ({
+				slug: p.slug,
+				updatedAt: p.updatedAt ?? new Date().toISOString(),
+				images: p.images ?? [],
+			}))
+		);
 		if (result.data.length < PAGE_SIZE) break;
 	}
 	return products;
@@ -20,23 +26,29 @@ async function getAllProducts() {
 
 async function getAllCollections() {
 	const result = await commerce.collectionBrowse({ active: true, limit: 200 });
-	return result.data.map((c) => ({ slug: c.slug, lastModified: c.createdAt }));
+	return result.data.map((c: any) => ({
+		slug: c.slug,
+		lastModified: c.createdAt ?? new Date().toISOString(),
+	}));
 }
 
 async function getContactFormEnabled() {
 	const me = await meGetCached().catch(() => null);
-	return me?.store.settings?.enabledTools?.contactForm ?? false;
+	return (me?.store.settings?.enabledTools as any)?.contactForm ?? false;
 }
 
 async function getBlogState() {
 	const me = await meGetCached().catch(() => null);
-	if (!me?.store.settings?.enabledTools?.blog) {
+	if (!(me?.store.settings?.enabledTools as any)?.blog) {
 		return { enabled: false, posts: [] as { slug: string; lastModified: string }[] };
 	}
-	const result = await commerce.postBrowse({ active: true, limit: 200 }).catch(() => ({ data: [] }));
+	const result = await (commerce as any).postBrowse?.({ active: true, limit: 200 }).catch(() => ({ data: [] })) ?? { data: [] };
 	return {
 		enabled: true,
-		posts: result.data.map((p) => ({ slug: p.slug, lastModified: p.publishedAt ?? p.createdAt })),
+		posts: (result.data || []).map((p: any) => ({
+			slug: p.slug,
+			lastModified: p.publishedAt ?? p.createdAt ?? new Date().toISOString(),
+		})),
 	};
 }
 

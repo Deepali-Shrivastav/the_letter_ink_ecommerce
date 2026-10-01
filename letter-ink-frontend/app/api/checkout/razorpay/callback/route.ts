@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, connection } from "next/server";
 import { storeRecentOrder } from "@/lib/commerce";
 import { setCartCookie } from "@/lib/cookies";
 import { logger } from "@/lib/logger";
@@ -10,6 +10,7 @@ const BACKEND_URL = (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://127.0
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 
 export async function GET(request: Request) {
+  await connection();
   try {
     const url = new URL(request.url);
     const razorpay_payment_id = url.searchParams.get("razorpay_payment_id");

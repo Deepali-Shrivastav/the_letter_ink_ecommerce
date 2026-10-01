@@ -63,7 +63,7 @@ export function ProductReviews({ reviews, slug }: { reviews: APIProductReviewsBr
 			</div>
 			{reviews.data.length > 0 ? (
 				<div className="space-y-6">
-					{reviews.data.map((review) => (
+					{reviews.data.map((review: any) => (
 						<ReviewCard key={review.id} review={review} />
 					))}
 				</div>

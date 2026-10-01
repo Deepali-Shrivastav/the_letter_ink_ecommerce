@@ -40,7 +40,7 @@ export async function ProductCard({
 
 	const allImages = [
 		...(product.images ?? []),
-		...(variants?.flatMap((v) => v.images ?? []).filter((img) => !(product.images ?? []).includes(img)) ??
+		...(variants?.flatMap((v: any) => v.images ?? []).filter((img: any) => !(product.images ?? []).includes(img)) ??
 			[]),
 	];
 	const primaryImage = allImages[0];

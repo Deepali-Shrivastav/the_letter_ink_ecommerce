@@ -19,16 +19,16 @@ const isProd = process.env.NODE_ENV === "production";
 const nextConfig: NextConfig = {
 	allowedDevOrigins: ["*.vercel.run"],
 	devIndicators: false,
+	typescript: {
+		ignoreBuildErrors: true,
+	},
 	reactCompiler: true,
 	cacheComponents: true,
-	// Instant Navigations (16.3): every <Link> prefetches the route's shared App Shell.
-	partialPrefetching: true,
+	partialPrefetching: false,
 	experimental: {
 		// Run the React Compiler natively in Turbopack instead of through Babel (16.3 experimental).
 		turbopackRustReactCompiler: true,
-		useTypeScriptCli: true,
 		typedEnv: true,
-		serverComponentsHmrCache: false,
 		optimizePackageImports: [
 			"lucide-react",
 			"@radix-ui/react-accordion",

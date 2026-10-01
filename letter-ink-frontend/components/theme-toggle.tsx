@@ -16,7 +16,7 @@ export function ThemeToggle() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="ghost" size="icon-sm" aria-label="Change theme">
+				<Button variant="ghost" size="icon" aria-label="Change theme">
 					{/* CSS-driven swap keeps server and client markup identical (no hydration flash). */}
 					<Sun className="size-5 dark:hidden" />
 					<Moon className="hidden size-5 dark:block" />

@@ -163,7 +163,7 @@ export function GiftingPageClient() {
                           Minimum
                         </span>
                         <div className="border border-border-vellum bg-surface-container-lowest px-3 py-2 text-center text-primary font-medium shadow-inner">
-                          ₹ {priceRange[0].toLocaleString()}
+                          ₹ {(priceRange[0] ?? 0).toLocaleString()}
                         </div>
                       </div>
                       <div className="flex flex-col">
@@ -171,7 +171,7 @@ export function GiftingPageClient() {
                           Maximum
                         </span>
                         <div className="border border-border-vellum bg-surface-container-lowest px-3 py-2 text-center text-primary font-medium shadow-inner">
-                          ₹ {priceRange[1].toLocaleString()}{priceRange[1] === 10000 ? '+' : ''}
+                          ₹ {(priceRange[1] ?? 10000).toLocaleString()}{priceRange[1] === 10000 ? '+' : ''}
                         </div>
                       </div>
                     </div>

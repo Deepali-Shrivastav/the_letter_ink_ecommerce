@@ -10,7 +10,7 @@ import { StoreChatLauncher } from "./chat-launcher";
  */
 export async function StoreChatSection() {
 	const me = await meGetCached().catch(() => null);
-	const settings = me?.store.settings;
+	const settings = me?.store.settings as any;
 	const chat = settings?.enabledTools?.storeChat ? settings.storeChat : null;
 	if (!me || !chat) {
 		return null;

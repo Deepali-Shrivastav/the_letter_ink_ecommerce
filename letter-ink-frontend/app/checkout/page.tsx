@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { getCart } from "@/app/cart/actions";
 import { getStoreConfig } from "@/lib/store-config";
@@ -9,9 +10,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export const instant = false;
-
-export default async function CheckoutPage() {
+async function CheckoutPageContent() {
   const [cart, storeConfig] = await Promise.all([
     getCart(),
     getStoreConfig(),
@@ -25,5 +24,13 @@ export default async function CheckoutPage() {
         locale: storeConfig.locale,
       }}
     />
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div className="max-w-7xl mx-auto px-4 py-16 text-center text-muted-foreground">Loading checkout...</div>}>
+      <CheckoutPageContent />
+    </Suspense>
   );
 }

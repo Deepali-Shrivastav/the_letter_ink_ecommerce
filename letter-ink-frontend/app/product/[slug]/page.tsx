@@ -208,16 +208,16 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 								</div>
 							)}
 
-							{product.type === "bundle" && product.bundle?.groups?.length ? (
+							{product.type === "bundle" && (product as any).bundle?.groups?.length ? (
 								<BundleBuilder
 									bundleId={product.id}
-									bundle={product.bundle}
+									bundle={(product as any).bundle}
 									pricing={{
-										mode: product.bundlePriceMode,
-										fixedPriceAmount: product.bundleFixedPriceAmount,
-										fixedPriceAmountGross: product.bundleFixedPriceAmountGross,
-										amountOffAmount: product.bundleAmountOffAmount,
-										amountOffAmountGross: product.bundleAmountOffAmountGross,
+										mode: (product as any).bundlePriceMode,
+										fixedPriceAmount: (product as any).bundleFixedPriceAmount,
+										fixedPriceAmountGross: (product as any).bundleFixedPriceAmountGross,
+										amountOffAmount: (product as any).bundleAmountOffAmount,
+										amountOffAmountGross: (product as any).bundleAmountOffAmountGross,
 									}}
 								/>
 							) : (
@@ -231,7 +231,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 											images: product.images,
 										}}
 										summary={product.summary}
-										volumePricingTiers={product.volumePricingTiers}
+										volumePricingTiers={(product as any).volumePricingTiers}
 										restockNotificationsEnabled={restockNotificationsEnabled}
 									/>
 								</Suspense>

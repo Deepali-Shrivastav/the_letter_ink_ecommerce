@@ -139,7 +139,7 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 	const accordionGroups = [
 		...(showCategories && facets.categories.length > 0 ? ["categories"] : []),
 		...(showCollections && facets.collections.length > 0 ? ["collections"] : []),
-		...facets.variantTypes.map((vt) => `vt-${vt.label}`),
+		...facets.variantTypes.map((vt: any) => `vt-${vt.label}`),
 		...(facets.brands.length > 0 ? ["brands"] : []),
 		...(hasPrice ? ["price"] : []),
 	];
@@ -168,7 +168,7 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 							<CollapsibleList
 								items={facets.categories}
 								className="space-y-1"
-								renderItem={(category) => {
+								renderItem={(category: any) => {
 									const isActive = searchParams.get("category") === category.slug;
 									return (
 										<li key={category.slug}>
@@ -197,7 +197,7 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 							<CollapsibleList
 								items={facets.collections}
 								className="space-y-1"
-								renderItem={(collection) => {
+								renderItem={(collection: any) => {
 									const isActive = searchParams.get("collection") === collection.slug;
 									return (
 										<li key={collection.slug}>
@@ -219,7 +219,7 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 					</AccordionItem>
 				)}
 
-				{facets.variantTypes.map((vt) => {
+				{facets.variantTypes.map((vt: any) => {
 					const selectedValues = optimisticVts[vt.label] ?? [];
 					return (
 						<AccordionItem key={vt.label} value={`vt-${vt.label}`}>
@@ -228,7 +228,7 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 								<CollapsibleList
 									items={vt.values}
 									className="space-y-2"
-									renderItem={(value) => {
+									renderItem={(value: any) => {
 										const id = `${vt.label}-${value}`;
 										const checked = selectedValues.includes(value);
 										return (
@@ -257,7 +257,7 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 							<CollapsibleList
 								items={facets.brands}
 								className="space-y-1"
-								renderItem={(brand) => {
+								renderItem={(brand: any) => {
 									const isActive = searchParams.get("brand") === brand.slug;
 									return (
 										<li key={brand.slug}>

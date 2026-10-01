@@ -77,7 +77,7 @@ export async function buildProductJsonLd(
 			worstRating: 1,
 		};
 
-		jsonLd.review = reviews.data.map((r) => ({
+		jsonLd.review = reviews.data.map((r: any) => ({
 			"@type": "Review",
 			author: { "@type": "Person", name: r.author },
 			datePublished: r.createdAt,
@@ -131,7 +131,7 @@ export function buildCollectionJsonLd(collection: APICollectionGetByIdResult): R
 			typeof collection.description === "string" ? collection.description : `${collection.name} collection`,
 		image: collection.image ?? undefined,
 		numberOfItems: collection.productCollections.length,
-		hasPart: collection.productCollections.map((pc) => ({
+		hasPart: collection.productCollections.map((pc: any) => ({
 			"@type": "Product",
 			name: pc.product.name,
 			url: `${baseUrl}/product/${pc.product.slug}`,
@@ -181,12 +181,13 @@ export function buildCategoryBreadcrumbJsonLd(
 
 export async function StoreJsonLd() {
 	const me = await meGetCached();
+	const settings = (me?.store?.settings ?? {}) as any;
 	const storeName = me.store.name || "The Letter Ink";
-	const storeDescription = me.store.settings?.storeDescription || undefined;
+	const storeDescription = settings?.storeDescription || undefined;
 	const baseUrl = getBaseUrl();
-	const ogImage = me.store.settings?.ogimage || undefined;
+	const ogImage = settings?.ogimage || undefined;
 	const logo =
-		typeof me.store.settings?.logo === "string" ? me.store.settings.logo : me.store.settings?.logo?.imageUrl;
+		typeof settings?.logo === "string" ? settings.logo : settings?.logo?.imageUrl;
 
 	const organization = {
 		"@context": "https://schema.org",

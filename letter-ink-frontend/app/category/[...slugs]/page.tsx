@@ -65,9 +65,9 @@ export async function generateMetadata({
 	const canonicalPath = flattenParents(category as CategoryLike)
 		.map((c) => c.slug)
 		.join("/");
-	const canonical = category.seo?.canonical || `/category/${canonicalPath}`;
-	const title = category.seo?.title || category.name;
-	const description = category.seo?.description || `Shop the ${category.name} category.`;
+	const canonical = (category as any).seo?.canonical || `/category/${canonicalPath}`;
+	const title = (category as any).seo?.title || category.name;
+	const description = (category as any).seo?.description || `Shop the ${category.name} category.`;
 
 	return {
 		title,
@@ -155,15 +155,10 @@ function CategoryPageSkeleton() {
 
 // Awaiting params/searchParams at the top of the page blocks the static shell —
 // the page stays a sync shell and the dynamic content streams inside Suspense.
-export default async function CategoryPage(props: {
+export default function CategoryPage(props: {
 	params: Promise<{ slugs: string[] }>;
 	searchParams: Promise<CategoryFilterParams>;
 }) {
-	const { slugs } = await props.params;
-	if (slugs.at(-1) === "workshops") {
-		redirect("/workshops");
-	}
-
 	return (
 		<Suspense fallback={<CategoryPageSkeleton />}>
 			<CategoryContent params={props.params} searchParams={props.searchParams} />

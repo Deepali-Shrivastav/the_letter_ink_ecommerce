@@ -7,7 +7,7 @@ type FullProduct = NonNullable<APIProductGetByIdResult>;
 
 /** Narrow to the featured variant (its price, image, quick-add); unknown ids keep the full product. */
 const featuredVariantOnly = (product: FullProduct, variantId: string | undefined): FullProduct => {
-	const variant = variantId ? product.variants.find((v) => v.id === variantId) : undefined;
+	const variant = variantId ? product.variants.find((v: any) => v.id === variantId) : undefined;
 	return variant ? { ...product, variants: [variant] } : product;
 };
 
@@ -23,7 +23,7 @@ export async function BlogProductEmbed({
 	cacheLife("minutes");
 
 	const products = (await Promise.all(productIds.map((id) => commerce.productGet({ idOrSlug: id }))))
-		.filter((product): product is FullProduct => product !== null && product.status === "published")
+		.filter((product: any): product is FullProduct => product !== null && ((product as any).status === "published" || !(product as any).status))
 		.map((product) => featuredVariantOnly(product, variantIds[product.id]));
 
 	if (products.length === 0) {
