@@ -4,7 +4,7 @@ export function ServicesEditorial() {
 	return (
 		<section className="w-full py-space-xl bg-paper-tint" id="services-atelier">
 			<div className="max-w-7xl mx-auto px-margin-mobile md:px-margin">
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 					{/* Sticky / Asymmetrical Editorial Column */}
 					<div className="lg:col-span-4 flex flex-col">
 						<span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary">
@@ -18,21 +18,29 @@ export function ServicesEditorial() {
 							From intimate anniversary vows to high-profile brand activations and private wedding suites, each
 							stroke is executed with intention, archival materials, and unhurried patience.
 						</p>
-						<div className="mt-8 p-6 bg-surface-container-lowest rounded-xl shadow-sm">
-							<h4 className="font-label-md text-label-md uppercase tracking-wider text-primary mb-2">
-								Commission Consultation
-							</h4>
-							<p className="font-body-sm text-body-sm text-secondary mb-4">
-								Have an unusual surface or personal heirloom to inscribe? We take custom requests across India &
-								internationally.
-							</p>
-							<a
-								href="mailto:concierge@theletterink.com"
-								className="inline-flex items-center gap-2 text-primary font-label-sm text-label-sm uppercase tracking-widest hover:underline"
-							>
-								<span>Inquire With Studio</span>
-								<span className="material-symbols-outlined text-[16px]">arrow_outward</span>
-							</a>
+						<div className="mt-8 p-8 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col justify-between hover:bg-tertiary-fixed/20 transition-colors">
+							<div>
+								<div className="flex items-center justify-between mb-4">
+									<span className="font-display-hero text-2xl text-secondary">00</span>
+									<span className="material-symbols-outlined text-primary text-[28px]">forum</span>
+								</div>
+								<h3 className="font-headline-md text-headline-md text-primary mb-2">
+									Commission Consultation
+								</h3>
+								<p className="font-body-md text-body-md text-secondary leading-relaxed">
+									Have an unusual surface or personal heirloom to inscribe? We take custom requests across India &
+									internationally.
+								</p>
+							</div>
+							<div className="mt-6 pt-4 flex items-center justify-between">
+								<span className="font-label-sm text-label-sm uppercase text-secondary">Bespoke Projects</span>
+								<a
+									href="mailto:concierge@theletterink.com"
+									className="text-primary font-label-sm text-label-sm uppercase tracking-wider font-bold hover:underline"
+								>
+									Inquire With Studio →
+								</a>
+							</div>
 						</div>
 					</div>
 					{/* 4 Services Detailed Grid */}

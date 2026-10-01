@@ -20,6 +20,7 @@ async function getWorkshopsData() {
 		const formatVal = (w.format || w.metadata?.format as string)?.toLowerCase();
 		const format: "studio" | "virtual" = formatVal === "studio" ? "studio" : "virtual";
 		const rawPrice = w.price ?? 4500;
+		const numericPrice = typeof rawPrice === "number" ? rawPrice : Number(String(rawPrice).replace(/[^0-9.]/g, "")) || 4500;
 		const formattedPrice = typeof rawPrice === "number" ? `₹${rawPrice.toLocaleString("en-IN")}` : String(rawPrice).startsWith("₹") ? rawPrice : `₹${rawPrice}`;
 
 		return {
@@ -38,6 +39,7 @@ async function getWorkshopsData() {
 			level: w.level || (w.metadata?.level as string) || "Beginner to Intermediate",
 			kitInfo: w.kit_info || w.kitInfo || (w.metadata?.kit_included as string) || "Full calligraphy kit included",
 			price: formattedPrice,
+			rawPrice: numericPrice,
 			variantId: w.variantId || w.id,
 			image: Array.isArray(w.images) ? w.images[0] : w.image || null,
 			slug: w.handle || w.slug || "workshop",

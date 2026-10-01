@@ -29,7 +29,7 @@ export function ContactForm() {
 					id="contact-email"
 					type="email"
 					name="email"
-					placeholder="your@email.com"
+					placeholder="ananya.desai@gmail.com"
 					required
 					className="mt-2 h-12 w-full rounded-lg border border-border bg-background px-4 text-foreground outline-none transition-all placeholder:text-muted-foreground/60 focus:border-foreground/40 focus:ring-2 focus:ring-foreground/10"
 				/>
@@ -41,7 +41,7 @@ export function ContactForm() {
 				<textarea
 					id="contact-message"
 					name="message"
-					placeholder="How can we help?"
+					placeholder="Tell us about your bespoke stationery, wedding calligraphy suites, wax seals, or atelier inquiries..."
 					required
 					rows={6}
 					className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground outline-none transition-all placeholder:text-muted-foreground/60 focus:border-foreground/40 focus:ring-2 focus:ring-foreground/10"

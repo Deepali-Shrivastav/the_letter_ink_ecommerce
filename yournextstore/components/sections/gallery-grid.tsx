@@ -21,16 +21,14 @@ export function GalleryGrid() {
 		<section className="w-full py-space-xl bg-surface-container-lowest" id="shop-gallery">
 			<div className="max-w-7xl mx-auto px-margin-mobile md:px-margin">
 				{/* ── Static header — renders immediately, never blocked ── */}
-				<div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4">
-					<div>
-						<span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary">
-							Explore Our Favourites
-						</span>
-						<h2 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
-							Handcrafted Pieces Loved by Our Patrons
-						</h2>
-					</div>
-					<p className="font-body-sm text-body-sm text-secondary max-w-md mt-2 md:mt-0">
+				<div className="flex flex-col mb-8 pb-4">
+					<span className="font-label-sm text-label-sm tracking-widest text-secondary">
+						Explore Our Favourites
+					</span>
+					<h2 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
+						Handcrafted Pieces Loved by Our Patrons
+					</h2>
+					<p className="font-body-sm text-body-sm text-secondary max-w-2xl mt-3">
 						Every piece is meticulously rendered by hand in our studio. Personalized with bespoke
 						words, archival inks, and heirloom framing.
 					</p>

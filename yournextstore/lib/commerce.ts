@@ -1,6 +1,7 @@
 import { medusaClient, getCanonicalUrl as getMedusaCanonicalUrl } from "./medusa";
 import { cacheLife } from "next/cache";
 import { logger } from "./logger";
+import { formatBrandOrderLookup } from "./utils";
 
 const BACKEND_URL = (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000").replace(/\/$/, "");
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
@@ -96,15 +97,15 @@ const mapMedusaCartToStorefront = (medusaCart: any) => {
         originalPrice: item.unit_price,
         adjustments: item.adjustments || [],
         productVariant: {
-          id: item.variant_id,
+          id: item.variant_id || item.metadata?.custom_variant_id || item.id,
           price: priceVal,
           priceGross: priceVal,
-          images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
+          images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : (item.metadata?.image ? [item.metadata.image] : [])),
           product: {
-            id: item.variant?.product_id || item.product_id || item.id,
-            name: item.title || item.product_title || "Product",
-            slug: item.variant?.product?.handle || item.product_handle || "product",
-            images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : []),
+            id: item.variant?.product_id || item.product_id || item.metadata?.custom_variant_id || item.id,
+            name: item.title || item.product_title || item.metadata?.title || "Product",
+            slug: item.variant?.product?.handle || item.product_handle || item.metadata?.slug || "workshops",
+            images: item.metadata?.preview_image ? [item.metadata.preview_image] : (item.thumbnail ? [item.thumbnail] : (item.metadata?.image ? [item.metadata.image] : [])),
             type: "standard"
           }
         }
@@ -116,11 +117,19 @@ const mapMedusaCartToStorefront = (medusaCart: any) => {
   };
 };
 
-const recentOrdersMap = new Map<string, any>();
+export const recentOrdersMap = new Map<string, any>();
 
 export const storeRecentOrder = (order: any) => {
   if (order?.id) {
     recentOrdersMap.set(order.id, order);
+    recentOrdersMap.set(order.id.toLowerCase(), order);
+  }
+  if (order?.lookup) {
+    recentOrdersMap.set(order.lookup, order);
+    recentOrdersMap.set(order.lookup.toLowerCase(), order);
+    const clean = order.lookup.replace(/^#/, "");
+    recentOrdersMap.set(clean, order);
+    recentOrdersMap.set(clean.toLowerCase(), order);
   }
 };
 
@@ -134,7 +143,13 @@ export const mapMedusaOrderToStorefront = (medusaOrder: any) => {
 
   return {
     id: medusaOrder.id,
-    lookup: medusaOrder.display_id ? String(medusaOrder.display_id) : (medusaOrder.id ? medusaOrder.id.slice(-6).toUpperCase() : "ORD-1001"),
+    display_id: medusaOrder.display_id,
+    status: medusaOrder.status,
+    fulfillment_status: medusaOrder.fulfillment_status,
+    payment_status: medusaOrder.payment_status,
+    created_at: medusaOrder.created_at,
+    fulfillments: medusaOrder.fulfillments || [],
+    lookup: formatBrandOrderLookup(medusaOrder.id, medusaOrder.display_id),
     orderData: {
       lineItems: items.map((item: any) => {
         const priceVal = String(item.metadata?.custom_unit_price ?? item.unit_price ?? 0);
@@ -176,9 +191,11 @@ export const mapMedusaOrderToStorefront = (medusaOrder: any) => {
         state: shippingAddress.province,
         postalCode: shippingAddress.postal_code,
         country: shippingAddress.country_code ? shippingAddress.country_code.toUpperCase() : "IN",
+        phone: shippingAddress.phone || "",
       } : null,
       customer: {
         email: medusaOrder.email || medusaOrder.customer?.email || "",
+        phone: shippingAddress?.phone || medusaOrder.customer?.phone || "",
       }
     }
   };
@@ -205,6 +222,59 @@ export const commerce = {
           return mapMedusaProductToStorefront(idRes.product);
         }
       } catch {}
+
+      // Try Workshop handle/ID fallback
+      try {
+        const headers: Record<string, string> = {};
+        if (PUBLISHABLE_KEY) {
+          headers["x-publishable-api-key"] = PUBLISHABLE_KEY;
+        }
+        const wsRes = await fetch(`${BACKEND_URL}/store/workshops`, { headers, cache: "no-store", signal: AbortSignal.timeout(8000) });
+        if (wsRes.ok) {
+          const json = await wsRes.json();
+          const workshop = (json.workshops || []).find((w: any) => w.handle === idOrSlug || w.id === idOrSlug);
+          if (workshop) {
+            return {
+              id: workshop.id,
+              name: workshop.title,
+              slug: workshop.handle,
+              summary: workshop.description || workshop.spots_text || "Interactive Workshop",
+              content: workshop.description || `Date: ${workshop.date}, Time: ${workshop.time}, Venue: ${workshop.venue}\n${workshop.kit_info || ""}`,
+              images: workshop.images || [],
+              variants: [{
+                id: workshop.id,
+                name: "Standard Ticket",
+                price: String(workshop.price || 0),
+                originalPrice: String(workshop.price || 0),
+                currency: "INR",
+                images: [],
+                sku: workshop.id,
+                stock: null,
+                omnibusPrice: null,
+                combinations: []
+              }],
+              category: { name: "Workshops", slug: "workshops" },
+              galleryCategory: null,
+              badge: "Workshop",
+              metadata: {
+                is_workshop: true,
+                date: workshop.date,
+                time: workshop.time,
+                venue: workshop.venue,
+                level: workshop.level,
+              },
+              seo: {
+                title: workshop.title,
+                description: workshop.description
+              },
+              type: "standard",
+              options: [],
+            };
+          }
+        }
+      } catch (e) {
+        logger.warn("Workshop fallback in productGet failed:", e);
+      }
 
       throw new Error("Product not found");
     } catch (e) {
@@ -316,6 +386,7 @@ export const commerce = {
 
       let minPrice = Infinity;
       let maxPrice = 0;
+      const prices: number[] = [];
 
       for (const p of productsRes.products || []) {
         for (const v of p.variants || []) {
@@ -324,6 +395,7 @@ export const commerce = {
             if (!isNaN(amt)) {
               if (amt < minPrice) minPrice = amt;
               if (amt > maxPrice) maxPrice = amt;
+              prices.push(amt);
             }
           }
         }
@@ -331,8 +403,20 @@ export const commerce = {
 
       if (minPrice === Infinity) minPrice = 0;
 
+      const BUCKETS = 12;
+      const priceDistribution = new Array(BUCKETS).fill(0);
+      if (maxPrice > minPrice && prices.length > 0) {
+        const bucketSize = (maxPrice - minPrice) / BUCKETS;
+        for (const p of prices) {
+          let bucketIndex = Math.floor((p - minPrice) / bucketSize);
+          if (bucketIndex >= BUCKETS) bucketIndex = BUCKETS - 1;
+          priceDistribution[bucketIndex]++;
+        }
+      }
+
       return {
         priceBounds: { min: minPrice, max: maxPrice },
+        priceDistribution,
         variantTypes: [],
         categories: (categoriesRes.product_categories || []).map((c: any) => ({
           id: c.id,
@@ -350,6 +434,7 @@ export const commerce = {
       logger.warn("Medusa API Error (productFilters):", error?.message || String(error));
       return {
         priceBounds: { min: 0, max: 0 },
+        priceDistribution: [],
         variantTypes: [],
         categories: [],
         collections: [],
@@ -401,6 +486,7 @@ export const commerce = {
     }
   },
   cartGet: async ({ cartId }: { cartId: string }) => {
+    "use cache";
     try {
       const { cart } = await medusaClient.carts.retrieve(cartId);
       if (cart && (cart as any).currency_code && (cart as any).currency_code.toLowerCase() !== "inr") {
@@ -428,10 +514,15 @@ export const commerce = {
         cart = newCart;
       }
 
-      const existingLineItem = cart.items?.find((item: any) => item.variant_id === variantId);
+      const existingLineItem = cart.items?.find((item: any) => 
+        item.variant_id === variantId || 
+        item.metadata?.custom_variant_id === variantId || 
+        item.id === variantId
+      );
 
       const itemMetadata = {
         ...(metadata || {}),
+        custom_variant_id: variantId,
         ...(unit_price !== undefined ? { custom_unit_price: unit_price } : {})
       };
 
@@ -450,12 +541,13 @@ export const commerce = {
         updatePayload.quantity = mode === "set" ? quantity : existingLineItem.quantity + quantity;
         await medusaClient.carts.lineItems.update(activeCartId!, existingLineItem.id, updatePayload);
       } else if (quantity > 0) {
-        if (unit_price !== undefined) {
+        if (unit_price !== undefined || variantId.startsWith("wk_")) {
           await medusaClient.client.request("POST", `/store/carts/${activeCartId}/line-items/custom`, {
             variant_id: variantId,
+            title: metadata?.title || metadata?.name || "Workshop Seat",
             quantity,
             metadata: itemMetadata,
-            unit_price
+            unit_price: unit_price ?? (metadata?.raw_price || 4500)
           });
         } else {
           await medusaClient.carts.lineItems.create(activeCartId!, createPayload);
@@ -550,18 +642,49 @@ export const commerce = {
   },
   orderGet: async ({ id }: { id: string }) => {
     try {
-      if (recentOrdersMap.has(id)) {
-        return recentOrdersMap.get(id);
-      }
-      const res = await medusaClient.orders.retrieve(id);
-      if (res?.order) {
-        return mapMedusaOrderToStorefront(res.order);
-      }
+      const cleanId = (id || "").trim();
+      const lowerId = cleanId.toLowerCase();
+      const noHash = cleanId.replace(/^#/, "");
+
+      if (recentOrdersMap.has(cleanId)) return recentOrdersMap.get(cleanId);
+      if (recentOrdersMap.has(lowerId)) return recentOrdersMap.get(lowerId);
+      if (recentOrdersMap.has(noHash)) return recentOrdersMap.get(noHash);
+      if (recentOrdersMap.has(noHash.toLowerCase())) return recentOrdersMap.get(noHash.toLowerCase());
+
+      // Query Medusa tracking API endpoint
+      try {
+        const headers: Record<string, string> = { "Content-Type": "application/json" };
+        if (PUBLISHABLE_KEY) headers["x-publishable-api-key"] = PUBLISHABLE_KEY;
+
+        const trackRes = await fetch(`${BACKEND_URL}/store/orders/track`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ reference: cleanId }),
+          cache: "no-store",
+        });
+
+        if (trackRes.ok) {
+          const json = await trackRes.json();
+          if (json.order) {
+            const mapped = mapMedusaOrderToStorefront(json.order);
+            storeRecentOrder(mapped);
+            return mapped;
+          }
+        }
+      } catch {}
+
+      // Fallback: direct retrieve
+      try {
+        const res = await medusaClient.orders.retrieve(cleanId);
+        if (res?.order) {
+          const mapped = mapMedusaOrderToStorefront(res.order);
+          storeRecentOrder(mapped);
+          return mapped;
+        }
+      } catch {}
+
       return null;
     } catch (e) {
-      if (recentOrdersMap.has(id)) {
-        return recentOrdersMap.get(id);
-      }
       return null;
     }
   },
@@ -569,7 +692,7 @@ export const commerce = {
     try {
       const res = await medusaClient.collections.list({ handle: [idOrSlug] });
       const col = res.collections?.[0];
-      if (!col) throw new Error("Collection not found");
+      if (!col) return null;
 
       return {
         id: col.id,
@@ -580,15 +703,26 @@ export const commerce = {
         productCollections: [],
       };
     } catch (error) {
-      logger.error("Medusa API Error (collectionGet):", error);
-      throw error;
+      logger.warn("Medusa API (collectionGet):", error);
+      return null;
     }
   },
   categoryGet: async ({ idOrSlug }: { idOrSlug: string }) => {
     try {
+      if (idOrSlug === "workshops") {
+        return {
+          id: "cat_workshops",
+          name: "Workshops",
+          slug: "workshops",
+          description: "Artisanal Calligraphy Masterclasses & Studio Workshops",
+          image: null,
+          active: true,
+        };
+      }
+
       const res = await medusaClient.productCategories.list({ handle: idOrSlug });
       const cat = res.product_categories?.[0];
-      if (!cat) throw new Error("Category not found");
+      if (!cat) return null;
 
       return {
         id: cat.id,
@@ -599,8 +733,8 @@ export const commerce = {
         active: true,
       };
     } catch (error) {
-      logger.error("Medusa API Error (categoryGet):", error);
-      throw error;
+      logger.warn("Medusa API (categoryGet):", error);
+      return null;
     }
   },
   subscriberCreate: async (_data: { email: string; marketingConsent?: boolean }) => {

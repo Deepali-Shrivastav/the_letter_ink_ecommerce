@@ -14,7 +14,9 @@ import { GalleryGridClient } from "./gallery-grid-client";
 export async function GalleryGridInner() {
 	const { data: products } = await commerce.productBrowse({ limit: 8 });
 
-	const galleryProducts: GalleryProduct[] = products.map((p) => {
+	const validProducts = products.filter((p) => p.name !== "Product" && p.images && p.images.length > 0);
+
+	const galleryProducts: GalleryProduct[] = validProducts.map((p) => {
 		// Pick the cheapest variant to display as the card price.
 		// Medusa stores amounts in minor units (e.g. 380000 = ₹3,800).
 		const firstVariant = p.variants?.[0];

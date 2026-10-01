@@ -94,24 +94,6 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 
 							<div className="p-5 flex flex-col flex-grow justify-between">
 								<div>
-									{/* Stars */}
-									<div className="flex items-center gap-1 text-amber-500 mb-1">
-										{[...Array(5)].map((_, i) => (
-											<span
-												key={`star-${product.id}-${i}`}
-												className="material-symbols-outlined text-[16px]"
-												style={{ fontVariationSettings: "'FILL' 1" }}
-											>
-												star
-											</span>
-										))}
-										{product.reviews > 0 && (
-											<span className="font-body-sm text-[12px] text-secondary ml-1">
-												({product.reviews})
-											</span>
-										)}
-									</div>
-
 									<h3 className="font-headline-sm text-[17px] text-primary group-hover:underline">
 										{product.name}
 									</h3>
@@ -133,7 +115,7 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 											</span>
 										)}
 									</div>
-									<span className="px-3 py-1.5 bg-tertiary-fixed text-primary font-label-sm text-label-sm uppercase tracking-wider group-hover:bg-primary group-hover:text-on-primary transition-colors">
+									<span className="px-5 py-2.5 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-wider rounded shadow-sm group-hover:bg-tertiary-fixed group-hover:text-primary transition-colors">
 										Shop Now
 									</span>
 								</div>
@@ -144,10 +126,10 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 			)}
 
 			{/* View All Button */}
-			<div className="mt-12 text-center">
+			<div className="mt-16 flex justify-center">
 				<Link
 					href="/shop"
-					className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-widest hover:bg-tertiary-fixed hover:text-primary transition-colors"
+					className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-on-primary font-label-lg text-label-lg tracking-wider shadow-md hover:shadow-lg hover:bg-tertiary-fixed hover:text-primary transition-all"
 				>
 					<span>View Full Atelier Catalogue</span>
 					<span className="material-symbols-outlined text-[18px]">east</span>

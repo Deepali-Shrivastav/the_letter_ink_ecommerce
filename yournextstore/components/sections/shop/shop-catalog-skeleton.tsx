@@ -18,10 +18,9 @@ export function ShopProductCardSkeleton() {
 			{/* Body */}
 			<div className="p-space-md flex flex-col flex-grow justify-between space-y-space-xs">
 				<div>
-					{/* Type label + rating row */}
-					<div className="flex items-center justify-between gap-2 mb-1">
+					{/* Type label */}
+					<div className="mb-1">
 						<div className="h-3 w-28 bg-secondary/30 rounded animate-pulse" />
-						<div className="h-3 w-14 bg-secondary/25 rounded animate-pulse" />
 					</div>
 					{/* Title */}
 					<div className="h-5 w-3/4 bg-secondary/40 rounded animate-pulse mt-2" />

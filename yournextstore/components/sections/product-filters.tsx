@@ -283,7 +283,31 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 					<AccordionItem value="price">
 						<AccordionTrigger className="text-sm">Price</AccordionTrigger>
 						<AccordionContent>
-							<div className="px-1 pt-2">
+							<div className="px-1 pt-4 pb-2">
+								{facets.priceDistribution && facets.priceDistribution.length > 0 && (
+									<div className="flex h-12 w-full items-end gap-[1px] px-[8px] mb-2">
+										{facets.priceDistribution.map((count: number, i: number) => {
+											const maxCount = Math.max(...facets.priceDistribution, 1);
+											const bucketMin = priceFloor + (i * (priceCeil - priceFloor)) / facets.priceDistribution.length;
+											const bucketMax = priceFloor + ((i + 1) * (priceCeil - priceFloor)) / facets.priceDistribution.length;
+											// highlight if bucket is within selected range (even partially)
+											const isActive = bucketMax > priceRange[0] && bucketMin < priceRange[1];
+											
+											return (
+												<div 
+													key={i} 
+													className={cn(
+														"w-full rounded-t-sm transition-all duration-300", 
+														isActive ? "bg-primary" : "bg-primary/20"
+													)}
+													style={{ 
+														height: `${Math.max((count / maxCount) * 100, 4)}%`, 
+													}}
+												/>
+											);
+										})}
+									</div>
+								)}
 								<Slider
 									value={priceRange}
 									min={priceFloor}
@@ -306,9 +330,19 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 										})
 									}
 								/>
-								<div className="mt-3 flex justify-between text-xs text-muted-foreground">
-									<span>{formatMoney({ amount: priceRange[0], currency, locale })}</span>
-									<span>{formatMoney({ amount: priceRange[1], currency, locale })}</span>
+								<div className="mt-4 flex items-center justify-between gap-4">
+									<div className="flex flex-col gap-1 w-full">
+										<span className="text-[10px] uppercase text-muted-foreground font-medium tracking-wider">Minimum</span>
+										<div className="rounded-md border border-input px-3 py-1.5 text-xs text-foreground text-center">
+											{formatMoney({ amount: priceRange[0], currency, locale })}
+										</div>
+									</div>
+									<div className="flex flex-col gap-1 w-full">
+										<span className="text-[10px] uppercase text-muted-foreground font-medium tracking-wider text-right">Maximum</span>
+										<div className="rounded-md border border-input px-3 py-1.5 text-xs text-foreground text-center">
+											{formatMoney({ amount: priceRange[1], currency, locale })}
+										</div>
+									</div>
 								</div>
 							</div>
 						</AccordionContent>

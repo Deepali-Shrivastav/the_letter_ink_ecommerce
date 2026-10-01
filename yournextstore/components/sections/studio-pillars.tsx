@@ -8,7 +8,7 @@ export function StudioPillars() {
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
 							<span className="material-symbols-outlined text-[24px]">history_edu</span>
 						</div>
-						<h3 className="font-label-md text-label-md uppercase tracking-wider text-primary">Hand Written Scripts</h3>
+						<h2 className="font-label-md text-label-md tracking-wider text-primary">Hand Written Scripts</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
 							Each piece is handwritten with authentic dipped pen and pure archival fluid ink.
 						</p>
@@ -18,7 +18,7 @@ export function StudioPillars() {
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
 							<span className="material-symbols-outlined text-[24px]">stylus</span>
 						</div>
-						<h3 className="font-label-md text-label-md uppercase tracking-wider text-primary">Various Styles</h3>
+						<h2 className="font-label-md text-label-md tracking-wider text-primary">Various Styles</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
 							Copperplate, modern script, flourishing, and bespoke heirloom lettering.
 						</p>
@@ -28,7 +28,7 @@ export function StudioPillars() {
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
 							<span className="material-symbols-outlined text-[24px]">brush</span>
 						</div>
-						<h3 className="font-label-md text-label-md uppercase tracking-wider text-primary">Bespoke Customisation</h3>
+						<h2 className="font-label-md text-label-md tracking-wider text-primary">Bespoke Customisation</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
 							Open to bespoke commissions, tailored framing sizes, and custom prose.
 						</p>
@@ -38,7 +38,7 @@ export function StudioPillars() {
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
 							<span className="material-symbols-outlined text-[24px]">verified</span>
 						</div>
-						<h3 className="font-label-md text-label-md uppercase tracking-wider text-primary">Artisanal Wax Seals</h3>
+						<h2 className="font-label-md text-label-md tracking-wider text-primary">Artisanal Wax Seals</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
 							Hand-poured flexible seal wax, real metallic flakes, and botanicals.
 						</p>
@@ -48,7 +48,7 @@ export function StudioPillars() {
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
 							<span className="material-symbols-outlined text-[24px]">schedule</span>
 						</div>
-						<h3 className="font-label-md text-label-md uppercase tracking-wider text-primary">Fast Turnaround</h3>
+						<h2 className="font-label-md text-label-md tracking-wider text-primary">Fast Turnaround</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
 							Carefully packaged and expedited to your doorstep worldwide.
 						</p>
@@ -58,7 +58,7 @@ export function StudioPillars() {
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
 							<span className="material-symbols-outlined text-[24px]">school</span>
 						</div>
-						<h3 className="font-label-md text-label-md uppercase tracking-wider text-primary">Studio Workshops</h3>
+						<h2 className="font-label-md text-label-md tracking-wider text-primary">Studio Workshops</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
 							Intimate masterclasses in Maharashtra & virtual worldwide ateliers.
 						</p>

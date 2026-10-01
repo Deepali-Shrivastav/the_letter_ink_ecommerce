@@ -113,106 +113,108 @@ export function MediaGallery({ images, productName, variants }: MediaGalleryProp
 			onKeyDown={handleKeyDown}
 			className="flex flex-col gap-4 outline-none lg:sticky lg:top-24 lg:self-start"
 		>
-			{/* Main Image */}
-			<div className="relative w-full aspect-[4/5] bg-paper-tint overflow-hidden shadow-sm group">
-				{isVideoUrl(displayImages[selectedIndex] ?? "") ? (
-					<video
-						className="absolute inset-0 w-full h-full object-cover"
-						src={displayImages[selectedIndex]}
-						muted
-						loop
-						autoPlay
-						playsInline
-						controls
-					/>
-				) : (
-					<LetterInkMedia
-						src={displayImages[selectedIndex] ?? ""}
-						alt={`${productName} - View ${selectedIndex + 1}`}
-						fill
-						sizes="(max-width: 1024px) 100vw, 50vw"
-						className={cn(
-							"w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.02]",
-							isZoomed && "scale-150 cursor-zoom-out",
-						)}
-						onClick={() => setIsZoomed(!isZoomed)}
-						priority
-					/>
-				)}
-
-				{/* Navigation Arrows */}
+			<div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-6">
+				{/* Thumbnails (Left on desktop, bottom on mobile) */}
 				{displayImages.length > 1 && (
-					<div className="absolute inset-x-4 top-1/2 flex -translate-y-1/2 justify-between opacity-0 transition-opacity group-hover:opacity-100">
-						<Button
-							variant="secondary"
-							size="icon"
-							className="h-10 w-10 rounded-full bg-surface-container-lowest/90 shadow-sm backdrop-blur-sm hover:bg-surface-container-lowest text-primary"
-							onClick={(e) => {
-								e.stopPropagation();
-								handlePrevious();
-							}}
-							aria-label="Previous image"
-						>
-							<ChevronLeft className="h-5 w-5" />
-						</Button>
-						<Button
-							variant="secondary"
-							size="icon"
-							className="h-10 w-10 rounded-full bg-surface-container-lowest/90 shadow-sm backdrop-blur-sm hover:bg-surface-container-lowest text-primary"
-							onClick={(e) => {
-								e.stopPropagation();
-								handleNext();
-							}}
-							aria-label="Next image"
-						>
-							<ChevronRight className="h-5 w-5" />
-						</Button>
+					<div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto w-full lg:w-[80px] shrink-0 snap-x lg:snap-y snap-mandatory pb-2 lg:pb-0 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+						{displayImages.map((image, index) => (
+							<button
+								key={`${image}-${index}`}
+								type="button"
+								onClick={() => setSelectedIndex(index)}
+								className={cn(
+									"relative aspect-square w-20 lg:w-full shrink-0 snap-center bg-paper-tint overflow-hidden transition-all duration-300 ring-0",
+									selectedIndex === index
+										? "ring-2 ring-primary opacity-100"
+										: "opacity-75 hover:opacity-100 hover:ring-1 hover:ring-primary",
+								)}
+							>
+								{isVideoUrl(image) ? (
+									<video
+										className="absolute inset-0 w-full h-full object-cover"
+										src={image}
+										muted
+										playsInline
+									/>
+								) : (
+									<LetterInkMedia
+										src={image}
+										alt={`${productName} thumbnail ${index + 1}`}
+										fill
+										sizes="80px"
+										className="object-cover w-full h-full"
+									/>
+								)}
+							</button>
+						))}
 					</div>
 				)}
 
-				{/* Image Counter */}
-				{displayImages.length > 1 && (
-					<div className="absolute bottom-5 right-5 pointer-events-none bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1.5 text-secondary font-label-sm text-[10px] uppercase tracking-widest">
-						{selectedIndex + 1} / {displayImages.length}
-					</div>
-				)}
-			</div>
-
-			{/* Thumbnails */}
-			{displayImages.length > 1 && (
-				<div className="grid grid-cols-4 gap-3 md:gap-4 mt-4">
-					{displayImages.map((image, index) => (
-						<button
-							key={`${image}-${index}`}
-							type="button"
-							onClick={() => setSelectedIndex(index)}
+				{/* Main Image */}
+				<div className="relative w-full aspect-[4/5] lg:aspect-auto lg:min-h-[600px] bg-paper-tint overflow-hidden shadow-sm group">
+					{isVideoUrl(displayImages[selectedIndex] ?? "") ? (
+						<video
+							className="absolute inset-0 w-full h-full object-cover"
+							src={displayImages[selectedIndex]}
+							muted
+							loop
+							autoPlay
+							playsInline
+							controls
+						/>
+					) : (
+						<LetterInkMedia
+							src={displayImages[selectedIndex] ?? ""}
+							alt={`${productName} - View ${selectedIndex + 1}`}
+							fill
+							sizes="(max-width: 1024px) 100vw, 50vw"
 							className={cn(
-								"relative aspect-square bg-paper-tint overflow-hidden transition-all duration-300 ring-0",
-								selectedIndex === index
-									? "ring-2 ring-primary opacity-100"
-									: "opacity-75 hover:opacity-100 hover:ring-1 hover:ring-primary",
+								"w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.02]",
+								isZoomed && "scale-150 cursor-zoom-out",
 							)}
-						>
-							{isVideoUrl(image) ? (
-								<video
-									className="absolute inset-0 w-full h-full object-cover"
-									src={image}
-									muted
-									playsInline
-								/>
-							) : (
-								<LetterInkMedia
-									src={image}
-									alt={`${productName} thumbnail ${index + 1}`}
-									fill
-									sizes="80px"
-									className="object-cover w-full h-full"
-								/>
-							)}
-						</button>
-					))}
+							onClick={() => setIsZoomed(!isZoomed)}
+							priority
+						/>
+					)}
+
+					{/* Navigation Arrows */}
+					{displayImages.length > 1 && (
+						<div className="absolute inset-x-4 top-1/2 flex -translate-y-1/2 justify-between opacity-0 transition-opacity group-hover:opacity-100">
+							<Button
+								variant="secondary"
+								size="icon"
+								className="h-10 w-10 rounded-full bg-surface-container-lowest/90 shadow-sm backdrop-blur-sm hover:bg-surface-container-lowest text-primary"
+								onClick={(e) => {
+									e.stopPropagation();
+									handlePrevious();
+								}}
+								aria-label="Previous image"
+							>
+								<ChevronLeft className="h-5 w-5" />
+							</Button>
+							<Button
+								variant="secondary"
+								size="icon"
+								className="h-10 w-10 rounded-full bg-surface-container-lowest/90 shadow-sm backdrop-blur-sm hover:bg-surface-container-lowest text-primary"
+								onClick={(e) => {
+									e.stopPropagation();
+									handleNext();
+								}}
+								aria-label="Next image"
+							>
+								<ChevronRight className="h-5 w-5" />
+							</Button>
+						</div>
+					)}
+
+					{/* Image Counter */}
+					{displayImages.length > 1 && (
+						<div className="absolute bottom-5 right-5 pointer-events-none bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1.5 text-secondary font-label-sm text-[10px] uppercase tracking-widest">
+							{selectedIndex + 1} / {displayImages.length}
+						</div>
+					)}
 				</div>
-			)}
+			</div>
 			
 			{/* Material Authenticity Footnote */}
 			<div className="mt-2 p-4 bg-paper-tint flex items-center justify-between gap-4">

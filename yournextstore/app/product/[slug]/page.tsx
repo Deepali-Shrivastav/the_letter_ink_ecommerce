@@ -1,4 +1,3 @@
-import { Star } from "lucide-react";
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import Link from "next/link";
@@ -8,7 +7,6 @@ import { AddToCartButton } from "@/app/product/[slug]/add-to-cart-button";
 import { BundleBuilder } from "@/app/product/[slug]/bundle-builder";
 import { MediaGallery } from "@/app/product/[slug]/media-gallery";
 import { ProductFeatures } from "@/app/product/[slug]/product-features";
-import { ProductReviews } from "@/app/product/[slug]/product-reviews";
 import { RelatedProducts } from "@/app/product/[slug]/related-products";
 import { ProductCustomizationProvider } from "@/app/product/[slug]/customization-context";
 import { TiptapRenderer } from "@/components/tiptap-renderer";
@@ -60,19 +58,6 @@ function ProductPageSkeleton() {
 	);
 }
 
-function StarRow({ rating }: { rating: number }) {
-	const rounded = Math.round(rating);
-	return (
-		<span className="flex gap-0.5" aria-hidden>
-			{Array.from({ length: 5 }, (_, i) => (
-				<Star
-					key={i}
-					className={cn("h-4 w-4", i < rounded ? "fill-yellow-400 text-yellow-400" : "fill-muted text-muted")}
-				/>
-			))}
-		</span>
-	);
-}
 
 // `productGet` resolves the API error rather than null for a missing slug, so the
 // `!product` branches below are unreachable without this: the throw escapes the
@@ -135,16 +120,10 @@ const getProductPageData = async (slug: string) => {
 	cacheLife("minutes");
 
 	const me = await meGetCached().catch(() => null);
-	const reviewsEnabled = me?.store.settings?.enabledTools?.reviews ?? false;
 	const restockNotificationsEnabled = me?.store.settings?.enabledTools?.restockNotifications ?? false;
-	const [product, reviews] = await Promise.all([
-		safeProductGet(slug),
-		reviewsEnabled
-			? commerce.productReviewsBrowse({ idOrSlug: slug }, { limit: 20 }).catch(() => null)
-			: Promise.resolve(null),
-	]);
+	const product = await safeProductGet(slug);
 
-	return { product, reviews, restockNotificationsEnabled };
+	return { product, reviews: null, restockNotificationsEnabled };
 };
 
 const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> }) => {
@@ -154,8 +133,6 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 	if (!product) {
 		notFound();
 	}
-
-	const reviewSummary = reviews?.summary ?? null;
 
 	const allImages = [
 		...product.images,
@@ -179,7 +156,16 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 					{product.category && (
 						<>
 							<span className="text-secondary/40 text-xs">/</span>
-							<Link href={`/category/${product.category.slug}`} className="hover:text-primary transition-colors">{product.category.name}</Link>
+							<Link
+								href={
+									product.category.slug === "workshops" || Boolean(product.metadata?.is_workshop)
+										? "/workshops"
+										: `/category/${product.category.slug}`
+								}
+								className="hover:text-primary transition-colors"
+							>
+								{product.category.name}
+							</Link>
 						</>
 					)}
 					<span className="text-secondary/40 text-xs">/</span>
@@ -204,15 +190,6 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 							<div className="flex flex-col gap-2 pb-5 bg-gradient-to-b from-transparent to-surface-container-low/40 p-1">
 								<div className="flex items-center justify-between gap-4">
 									<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">The Atelier Heirlooms Series</span>
-									{reviewSummary && reviewSummary.reviewCount > 0 && (
-										<a href="#reviews" className="flex items-center gap-1.5 transition-opacity hover:opacity-80">
-											<div className="flex text-primary">
-												<StarRow rating={reviewSummary.averageRating} />
-											</div>
-											<span className="font-label-sm text-label-sm text-on-surface font-semibold">{reviewSummary.averageRating.toFixed(1)}</span>
-											<span className="font-body-sm text-body-sm text-secondary">({reviewSummary.reviewCount} Patrons)</span>
-										</a>
-									)}
 								</div>
 								<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1 break-words [overflow-wrap:anywhere]">
 									{product.name}
@@ -283,12 +260,6 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 				</ProductCustomizationProvider>
 			</section>
 
-			{/* Reviews Section */}
-			{reviews && (
-				<div id="reviews" className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter py-space-lg border-t border-border-vellum">
-					<ProductReviews reviews={reviews} slug={slug} />
-				</div>
-			)}
 
 			{/* Related Products */}
 			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter py-space-lg">

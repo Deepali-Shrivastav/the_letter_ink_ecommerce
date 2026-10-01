@@ -3,6 +3,7 @@ import { commerce } from "@/lib/commerce";
 
 const EMPTY_FACETS = {
 	priceBounds: { min: 0, max: 0 },
+	priceDistribution: [] as number[],
 	variantTypes: [],
 	categories: [],
 	collections: [],

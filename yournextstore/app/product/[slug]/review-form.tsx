@@ -67,7 +67,7 @@ export function ReviewForm({ slug }: { slug: string }) {
 						type="text"
 						required
 						className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-						placeholder="Your name"
+						placeholder="e.g. Radhika Deshmukh"
 					/>
 				</div>
 				<div>
@@ -80,7 +80,7 @@ export function ReviewForm({ slug }: { slug: string }) {
 						type="email"
 						required
 						className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-						placeholder="your@email.com"
+						placeholder="radhika.deshmukh@gmail.com"
 					/>
 				</div>
 			</div>
@@ -95,7 +95,7 @@ export function ReviewForm({ slug }: { slug: string }) {
 					required
 					rows={4}
 					className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm resize-none"
-					placeholder="Share your experience with this product..."
+					placeholder="Describe the calligraphy craftsmanship, ink luster, paper texture, or bespoke detailing..."
 				/>
 			</div>
 

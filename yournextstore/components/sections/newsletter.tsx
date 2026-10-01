@@ -34,7 +34,7 @@ export function Newsletter() {
 									<input
 										type="email"
 										name="email"
-										placeholder="your@email.com"
+										placeholder="patron@theletterink.com"
 										required
 										className="h-12 w-full flex-1 rounded-full border border-background/20 bg-background/10 px-5 text-background outline-none transition-all placeholder:text-background/30 focus:border-background/40 focus:ring-2 focus:ring-background/10"
 									/>

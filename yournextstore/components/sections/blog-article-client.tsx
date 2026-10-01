@@ -989,7 +989,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 									</label>
 									<input
 										className="w-full bg-paper-tint px-4 py-3 font-body-md text-body-md text-on-surface outline-none border border-border-vellum focus:bg-surface-container-lowest focus:border-primary transition-colors"
-										placeholder="your@email.com"
+										placeholder="radhika.sen@gmail.com"
 										required
 										type="email"
 										value={email}

@@ -20,7 +20,6 @@ import { SearchInput } from "@/components/search/search-input";
 import { StoreChatSection } from "@/components/store-chat/store-chat-section";
 import { StoreConfigProvider } from "@/components/store-config-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { CampaignBanner } from "@/components/campaign-banner";
 import { Toaster } from "@/components/ui/sonner";
 import { commerce, getCanonicalUrl, getStoreFaviconUrl, meGetCached } from "@/lib/commerce";
 import { getCartCookieJson } from "@/lib/cookies";
@@ -168,12 +167,12 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 		<StoreConfigProvider value={storeConfig}>
 			<CartProvider>
 				<div className="flex min-h-screen flex-col">
-					<Suspense>
+					<Suspense fallback={null}>
 						<AnnouncementBar />
 					</Suspense>
-					<header className="sticky top-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
+					<header className="sticky top-0 z-50 bg-surface-container-lowest shadow-sm">
 						<div className="w-full px-margin-mobile lg:px-8">
-							<div className="relative flex items-center justify-between h-20 sm:h-24">
+							<div className="relative flex items-center justify-between h-16 sm:h-20">
 								{/* Left: Logo */}
 								<div className="flex items-center shrink-0 xl:w-[260px]">
 									<Link href="/" className="flex items-center py-1" aria-label="The Letter Ink Home">
@@ -183,7 +182,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 								
 								{/* Center: Navbar */}
 								<div className="hidden xl:flex flex-1 justify-center">
-									<Suspense>
+									<Suspense fallback={null}>
 										<Navbar links={links} />
 									</Suspense>
 								</div>
@@ -208,16 +207,15 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 							</div>
 						</div>
 					</header>
-					<CampaignBanner />
 					<main className="flex-1">{children}</main>
 					<Footer />
 				</div>
 				<CartSidebar />
-				<Suspense>
+				<Suspense fallback={null}>
 					<CartBootstrapper />
 				</Suspense>
 				{/* Inside CartProvider on purpose: add-to-cart from chat uses the cart context. */}
-				<Suspense>
+				<Suspense fallback={null}>
 					<StoreChatSection />
 				</Suspense>
 			</CartProvider>
@@ -257,12 +255,12 @@ export default async function RootLayout({
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${ebGaramond.variable} antialiased`} suppressHydrationWarning>
 				<Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
-				<Suspense>
+				<Suspense fallback={null}>
 					<StoreJsonLd />
 				</Suspense>
 				<ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light" disableTransitionOnChange scriptProps={{ async: true }}>
 					<CartProviderWrapper>{children}</CartProviderWrapper>
-					<Suspense>
+					<Suspense fallback={null}>
 						<NewsletterPopupSection />
 					</Suspense>
 					<Toaster richColors position="top-center" />

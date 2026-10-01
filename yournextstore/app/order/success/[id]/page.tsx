@@ -48,7 +48,29 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 	const order = await commerce.orderGet({ id });
 
 	if (!order) {
-		notFound();
+		return (
+			<div className="max-w-2xl mx-auto px-4 py-16 text-center space-y-6">
+				<div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 mx-auto flex items-center justify-center">
+					<CheckCircle className="h-8 w-8 text-emerald-600" />
+				</div>
+				<h1 className="text-2xl font-serif font-semibold text-foreground">
+					Order Confirmed & Received
+				</h1>
+				<p className="text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
+					Your atelier commission ({id}) has been recorded. You can track live crafting progress, courier dispatch, and delivery updates anytime.
+				</p>
+				<div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+					<Button asChild className="rounded-full px-6">
+						<Link href={`/order/track?id=${encodeURIComponent(id)}`}>
+							Track Order Live
+						</Link>
+					</Button>
+					<Button asChild variant="outline" className="rounded-full px-6">
+						<Link href="/shop">Continue Browsing</Link>
+					</Button>
+				</div>
+			</div>
+		);
 	}
 
 	const { lineItems, shippingAddress, shipping, customer } = order.orderData;
@@ -158,9 +180,14 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 				</div>
 			)}
 
-			{/* Continue Shopping Button */}
-			<div className="mt-8 text-center">
-				<Button asChild>
+			{/* Action Buttons */}
+			<div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+				<Button asChild variant="outline" className="w-full sm:w-auto">
+					<Link href={`/order/track?id=${encodeURIComponent(id)}`}>
+						Track Order Status
+					</Link>
+				</Button>
+				<Button asChild className="w-full sm:w-auto">
 					<Link href="/">Continue Shopping</Link>
 				</Button>
 			</div>

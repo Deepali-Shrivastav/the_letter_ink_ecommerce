@@ -151,6 +151,20 @@ export function CartSidebar() {
 					cartId: cart?.id,
 					amount: grandTotal,
 					cartItems: items,
+					customer: {
+						email: "patron@theletterink.com",
+						name: "Valued Patron",
+						phone: "9876543210",
+					},
+					shippingAddress: {
+						firstName: "Valued",
+						lastName: "Patron",
+						address1: "Heritage Lane, Atelier Studio",
+						city: "Mumbai",
+						province: "Maharashtra",
+						postalCode: "400001",
+						countryCode: "in",
+					},
 				}),
 			});
 
@@ -234,28 +248,16 @@ export function CartSidebar() {
 											: "Shipping and taxes calculated at checkout"}
 									</p>
 
-									{/* Direct Razorpay Checkout Action */}
+									{/* Proceed to Delivery & Checkout */}
 									<Button
-										onClick={handleCheckoutWithRazorpay}
-										disabled={isMutating || isCheckingOut}
-										className="w-full h-12 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 rounded-full flex items-center justify-center gap-2 shadow-md transition-all"
+										onClick={() => {
+											closeCart();
+											router.push("/checkout");
+										}}
+										disabled={isMutating}
+										className="w-full h-12 text-sm sm:text-base font-semibold bg-stone-900 text-white hover:bg-stone-800 rounded-full flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
 									>
-										{isCheckingOut ? (
-											<>
-												<Loader2 className="h-4 w-4 animate-spin" />
-												Connecting to Razorpay…
-											</>
-										) : isMutating ? (
-											<>
-												<Loader2 className="h-4 w-4 animate-spin" />
-												Updating…
-											</>
-										) : (
-											<>
-												<Lock className="h-4 w-4" />
-												Checkout with Razorpay
-											</>
-										)}
+										Proceed to Delivery & Checkout →
 									</Button>
 
 									<button

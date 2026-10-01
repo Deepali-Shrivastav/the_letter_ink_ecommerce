@@ -132,14 +132,14 @@
 	--text-headline-md--letter-spacing: 0.05em;
 	--text-headline-md--font-weight: 300;
 
-	--text-display-hero: 54px;
-	--text-display-hero--line-height: 64px;
-	--text-display-hero--letter-spacing: 0.12em;
+	--text-display-hero: 64px;
+	--text-display-hero--line-height: 72px;
+	--text-display-hero--letter-spacing: 0.1em;
 	--text-display-hero--font-weight: 400;
 
 	--text-body-md: 15px;
 	--text-body-md--line-height: 26px;
-	--text-body-md--letter-spacing: 0.01em;
+	--text-body-md--letter-spacing: 0.02em;
 	--text-body-md--font-weight: 300;
 
 	--text-label-lg: 15px;
@@ -157,9 +157,9 @@
 	--text-headline-lg--letter-spacing: 0.04em;
 	--text-headline-lg--font-weight: 400;
 
-	--text-display-hero-mobile: 38px;
-	--text-display-hero-mobile--line-height: 46px;
-	--text-display-hero-mobile--letter-spacing: 0.08em;
+	--text-display-hero-mobile: 42px;
+	--text-display-hero-mobile--line-height: 50px;
+	--text-display-hero-mobile--letter-spacing: 0.06em;
 	--text-display-hero-mobile--font-weight: 400;
 
 	--text-body-sm: 13px;
@@ -167,8 +167,8 @@
 	--text-body-sm--letter-spacing: 0.01em;
 	--text-body-sm--font-weight: 300;
 
-	--text-label-sm: 11px;
-	--text-label-sm--line-height: 16px;
+	--text-label-sm: 13px;
+	--text-label-sm--line-height: 20px;
 	--text-label-sm--letter-spacing: 0.18em;
 	--text-label-sm--font-weight: 600;
 }

@@ -10,8 +10,8 @@ export type ShopProduct = {
 	description: string;
 	price: string | null;
 	originalPrice: string | null;
-	rating: number;
-	reviews: number;
+	rating?: number;
+	reviews?: number;
 	badge: string | null;
 	image: string | null;
 	slug: string;
@@ -92,7 +92,6 @@ export function ShopCatalogClient({ products }: { products: ShopProduct[] }) {
 								<option value="price-asc">Price: Low to High</option>
 								<option value="price-desc">Price: High to Low</option>
 								<option value="newest">Newest Script Releases</option>
-								<option value="rating">Patron Rating</option>
 							</select>
 						</div>
 					</div>
@@ -260,22 +259,6 @@ export function ShopCatalogClient({ products }: { products: ShopProduct[] }) {
 											<span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary">
 												{product.type}
 											</span>
-											<div className="flex items-center gap-1 text-primary">
-												<span
-													className="material-symbols-outlined text-[15px]"
-													style={{ fontVariationSettings: "'FILL' 1" }}
-												>
-													star
-												</span>
-												<span className="font-label-sm text-label-sm font-semibold">
-													{product.rating.toFixed(1)}
-												</span>
-												{product.reviews > 0 && (
-													<span className="font-label-sm text-label-sm text-secondary">
-														({product.reviews})
-													</span>
-												)}
-											</div>
 										</div>
 										<h3 className="font-headline-sm text-headline-sm text-primary group-hover:text-secondary transition-colors line-clamp-1 mt-2">
 											{product.name}

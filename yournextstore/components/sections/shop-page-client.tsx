@@ -113,7 +113,7 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
               <span className="text-outline">/</span>
               <span className="text-primary font-semibold">Shop</span>
             </nav>
-            <span className="font-label-sm text-label-sm uppercase tracking-[0.28em] text-secondary">
+            <span className="font-label-sm text-label-sm tracking-[0.28em] text-secondary">
               Dispatching from Maharashtra Atelier • Global Transit
             </span>
           </div>
@@ -121,7 +121,7 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
           {/* Main Headline Block */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-end pt-space-xs pb-space-xs">
             <div className="lg:col-span-8 space-y-space-xs">
-              <p className="font-label-md text-label-md uppercase tracking-[0.24em] text-on-secondary-fixed-variant">
+              <p className="font-label-md text-label-md tracking-[0.24em] text-on-secondary-fixed-variant">
                 The Artisanal Collection
               </p>
               <h1 className="font-headline-lg text-headline-lg text-primary tracking-tight leading-tight">
@@ -359,18 +359,7 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
                 </div>
               </div>
 
-              {/* Studio Guarantee Seal Badge */}
-              <div className="bg-paper-tint p-5 border border-border-vellum rounded-lg text-center shadow-sm">
-                <div className="w-10 h-10 mx-auto rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
-                  <span className="material-symbols-outlined text-[20px]">verified</span>
-                </div>
-                <h4 className="font-label-md text-label-md uppercase tracking-wider text-primary mb-1">
-                  Hand-Inscribed Guarantee
-                </h4>
-                <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                  Every card, tag, and keepsake plaque is individually lettered with pointed nib and archival pigment inks by our master scribes.
-                </p>
-              </div>
+
             </aside>
 
             {/* RIGHT MAIN AREA: Dynamic Product Grid & Pagination */}
@@ -401,8 +390,6 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
                       product.category?.name ||
                       product.metadata?.category_name ||
                       "Atelier Heirloom";
-                    const rating = Number(product.metadata?.rating) || 4.9;
-                    const reviewCount = Number(product.metadata?.review_count) || 42;
                     const actionLabel = product.metadata?.action_label || "Order Online";
                     const isWishlisted = !!wishlist[product.id];
                     const imageSrc =
@@ -446,19 +433,9 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
 
                           <div className="space-y-1.5">
                             <div className="flex items-center justify-between">
-                              <span className="font-label-sm text-[10px] uppercase tracking-widest text-secondary block truncate max-w-[150px]">
+                              <span className="font-label-sm text-[10px] uppercase tracking-widest text-secondary block truncate">
                                 {categoryLabel}
                               </span>
-                              <div className="flex items-center gap-1 text-primary">
-                                <span
-                                  className="material-symbols-outlined text-[14px]"
-                                  style={{ fontVariationSettings: "'FILL' 1" }}
-                                >
-                                  star
-                                </span>
-                                <span className="font-label-sm text-[11px] font-medium">{rating.toFixed(1)}</span>
-                                <span className="text-secondary text-[10px]">({reviewCount})</span>
-                              </div>
                             </div>
 
                             <Link href={`/product/${product.slug}`}>
@@ -473,16 +450,15 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
                           </div>
                         </div>
 
-                        <div className="pt-5 mt-4 flex items-center justify-between gap-2 border-t border-border-vellum/50">
-                          <div className="flex flex-col">
-                            <span className="font-label-sm text-[10px] uppercase text-secondary">Price</span>
+                        <div className="pt-5 mt-4 flex flex-col items-start gap-3 border-t border-border-vellum/50">
+                          <div className="flex items-end gap-2">
                             <span className="font-headline-md text-headline-md text-primary font-normal">
                               ₹{price.toLocaleString("en-IN")}
                             </span>
                           </div>
                           <Link
                             href={`/product/${product.slug}`}
-                            className="bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary font-label-md text-label-md uppercase px-4 py-2.5 rounded-full transition-colors shrink-0 shadow-sm text-center"
+                            className="bg-primary hover:bg-tertiary-fixed hover:text-primary text-on-primary font-label-md text-label-md px-4 py-2 rounded text-center transition-colors shadow-sm"
                           >
                             {actionLabel}
                           </Link>
@@ -495,7 +471,7 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
 
               {/* Pagination Bar */}
               {sortedProducts.length > 0 && (
-                <div className="mt-space-lg flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-surface-container-lowest shadow-sm border border-border-vellum">
+                <div className="mt-space-lg flex flex-col items-center justify-center gap-4 p-4 bg-surface-container-lowest shadow-sm border border-border-vellum">
                   <span className="font-body-sm text-body-sm text-secondary">
                     Page {currentPage} of {totalPages} — Handcrafted with slow intentionality
                   </span>
@@ -504,7 +480,7 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
                       <button
                         key={p}
                         onClick={() => setCurrentPage(p)}
-                        className={`w-9 h-9 flex items-center justify-center font-label-sm text-xs transition-colors ${
+                        className={`w-9 h-9 flex items-center justify-center font-label-sm text-xs transition-colors rounded ${
                           p === currentPage
                             ? "bg-primary text-on-primary font-semibold"
                             : "bg-surface-container-low hover:bg-tertiary-fixed text-primary border border-border-vellum"
@@ -517,7 +493,7 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
                     {currentPage < totalPages && (
                       <button
                         onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                        className="px-3 h-9 flex items-center justify-center bg-surface-container-low hover:bg-tertiary-fixed text-primary font-label-sm text-xs uppercase tracking-wider transition-colors gap-1 border border-border-vellum"
+                        className="px-3 h-9 flex items-center justify-center bg-surface-container-low hover:bg-tertiary-fixed text-primary font-label-sm text-xs tracking-wider transition-colors gap-1 border border-border-vellum rounded"
                         type="button"
                       >
                         Next <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
@@ -526,41 +502,23 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
                   </div>
                 </div>
               )}
+
+              {/* Studio Guarantee Seal Badge moved from sidebar */}
+              <div className="mt-8 bg-paper-tint p-5 border border-border-vellum rounded-lg text-center shadow-sm w-full">
+                <div className="w-10 h-10 mx-auto rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
+                  <span className="material-symbols-outlined text-[20px]">verified</span>
+                </div>
+                <h3 className="font-label-md text-label-md tracking-wider text-primary mb-1">
+                  Hand-Inscribed Guarantee
+                </h3>
+                <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                  Every card, tag, and keepsake plaque is individually lettered with pointed nib and archival pigment inks by our master scribes.
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* 3 Trust Pillars Studio Assurance Banner */}
-          <div className="mt-space-xl pt-space-lg border-t border-border-vellum">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-              <div className="bg-surface-container-lowest p-space-md flex flex-col items-center text-center shadow-sm border border-border-vellum">
-                <div className="w-12 h-12 rounded-full bg-tertiary-fixed text-primary flex items-center justify-center mb-space-xs">
-                  <span className="material-symbols-outlined text-[24px]">draw</span>
-                </div>
-                <h4 className="font-label-lg text-label-lg uppercase tracking-widest text-primary mb-2">100% Hand-Rendered</h4>
-                <p className="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
-                  Zero mechanized printing. Every single letterform is carefully penned using genuine dip-pens and custom mixed archival inks.
-                </p>
-              </div>
-              <div className="bg-surface-container-lowest p-space-md flex flex-col items-center text-center shadow-sm border border-border-vellum">
-                <div className="w-12 h-12 rounded-full bg-tertiary-fixed text-primary flex items-center justify-center mb-space-xs">
-                  <span className="material-symbols-outlined text-[24px]">workspace_premium</span>
-                </div>
-                <h4 className="font-label-lg text-label-lg uppercase tracking-widest text-primary mb-2">Artisanal Wax Packaging</h4>
-                <p className="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
-                  Each commission is housed in our signature cream-bound presentation packaging, tied with hand-ripped silk and stamped with hot wax.
-                </p>
-              </div>
-              <div className="bg-surface-container-lowest p-space-md flex flex-col items-center text-center shadow-sm border border-border-vellum">
-                <div className="w-12 h-12 rounded-full bg-tertiary-fixed text-primary flex items-center justify-center mb-space-xs">
-                  <span className="material-symbols-outlined text-[24px]">local_shipping</span>
-                </div>
-                <h4 className="font-label-lg text-label-lg uppercase tracking-widest text-primary mb-2">Secure Insured Courier</h4>
-                <p className="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
-                  Reinforced triple-cushioned wooden shadowbox crating with real-time dispatch tracking across all India pincodes and worldwide.
-                </p>
-              </div>
-            </div>
-          </div>
+
         </div>
       </section>
 

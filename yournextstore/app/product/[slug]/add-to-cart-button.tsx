@@ -81,6 +81,7 @@ export function AddToCartButton({
 	const [quantity, setQuantity] = useState(1);
 	const { items, openCart, dispatch, syncCart, reconcile, startMutation } = useCart();
 	const { matchedCombination, selectedValuesByName } = useCustomization();
+	const [customInscription, setCustomInscription] = useState("");
 
 	const selectedVariant = useSelectedVariant(variants);
 
@@ -178,6 +179,19 @@ export function AddToCartButton({
 		openCart();
 		setQuantity(1);
 
+		const mergedSelections = {
+			...selectedValuesByName,
+			...(customInscription.trim() ? { Inscription: customInscription.trim() } : {}),
+		};
+
+		const itemMetadata = {
+			customization_selections: mergedSelections,
+			customization_combination_id: matchedCombination?.id,
+			preview_image: matchedCombination?.preview_image_url,
+			customization_price_adjustment: matchedCombination?.price_adjustment,
+			custom_inscription: customInscription.trim() || undefined,
+		};
+
 		// Instant local feedback OUTSIDE the transition, then REPLACE with the
 		// server-returned cart (never refetch — the layout cartGet hits a stale
 		// read replica). See patterns/cart-sync.md.
@@ -185,12 +199,7 @@ export function AddToCartButton({
 			type: "ADD_ITEM",
 			item: {
 				quantity: addedQuantity,
-				metadata: {
-					customization_selections: selectedValuesByName,
-					customization_combination_id: matchedCombination?.id,
-					preview_image: matchedCombination?.preview_image_url,
-					customization_price_adjustment: matchedCombination?.price_adjustment
-				},
+				metadata: itemMetadata,
 				productVariant: {
 					id: variantId,
 					price: finalUnitPrice || selectedVariant.price, 
@@ -207,12 +216,7 @@ export function AddToCartButton({
 			const result = await addToCart(
 				variantId, 
 				addedQuantity, 
-				{
-					customization_selections: selectedValuesByName,
-					customization_combination_id: matchedCombination?.id,
-					preview_image: matchedCombination?.preview_image_url,
-					customization_price_adjustment: matchedCombination?.price_adjustment
-				},
+				itemMetadata,
 				finalUnitPrice ? Number(finalUnitPrice) : undefined
 			);
 			if (result.success && result.cart) {
@@ -307,7 +311,33 @@ export function AddToCartButton({
 
 			<VolumePricingDisplay tiers={resolvedTiers} quantity={effectiveQuantity} volumePrice={volumePrice} />
 
-			<div className="flex flex-col gap-3 pt-4">
+			{/* Bespoke Personalization / Custom Inscription Edge Case Input */}
+			<div className="space-y-2 pt-4 pb-2 border-t border-border/70">
+				<div className="flex items-center justify-between">
+					<label htmlFor="bespoke-inscription" className="font-label-sm text-label-sm uppercase tracking-wider text-primary font-medium flex items-center gap-1.5">
+						<span className="material-symbols-outlined text-[16px] text-tertiary">edit_note</span>
+						Personalized Inscription & Calligraphy Text
+					</label>
+					<span className="text-[11px] text-secondary font-mono">
+						{customInscription.length}/150
+					</span>
+				</div>
+				<textarea
+					id="bespoke-inscription"
+					rows={2}
+					maxLength={150}
+					value={customInscription}
+					onChange={(e) => setCustomInscription(e.target.value)}
+					placeholder="e.g. Aarav & Meera — 24th October 2026 • Forever in Love"
+					className="w-full text-xs p-3 rounded-sm border border-border/80 bg-paper-tint/50 focus:bg-background focus:outline-none focus:ring-1 focus:ring-primary text-primary placeholder:text-secondary/60 transition-colors resize-none leading-relaxed"
+				/>
+				<div className="flex items-center justify-between text-[10px] text-secondary">
+					<span>Hand-lettered with archival sumi ink & gilded 24K gold accents</span>
+					<span className="italic">Optional</span>
+				</div>
+			</div>
+
+			<div className="flex flex-col gap-3 pt-2">
 				{isOutOfStock && restockNotificationsEnabled && selectedVariant ? (
 					<RestockNotify productVariantId={selectedVariant.id} productName={product.name} />
 				) : (

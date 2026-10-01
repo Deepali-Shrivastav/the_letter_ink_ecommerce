@@ -39,5 +39,10 @@ export function parseCartCookie(value: string | undefined | null): CartCookieJso
 }
 
 export async function getCartCookieJson(): Promise<null | CartCookieJson> {
-	return parseCartCookie((await cookies()).get(CART_COOKIE)?.value);
+	try {
+		const cookieStore = await cookies();
+		return parseCartCookie(cookieStore.get(CART_COOKIE)?.value);
+	} catch {
+		return null;
+	}
 }

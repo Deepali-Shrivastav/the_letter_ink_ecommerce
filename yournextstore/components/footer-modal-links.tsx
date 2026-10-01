@@ -138,13 +138,15 @@ export function FooterLegalModalButtons() {
 	return (
 		<>
 			<div>
-				<h3 className="text-sm font-semibold text-foreground">Legal & Policies</h3>
-				<ul className="mt-4 space-y-2.5">
+				<h3 className="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">
+					Legal & Policies
+				</h3>
+				<ul className="mt-5 space-y-3">
 					<li>
 						<button
 							type="button"
 							onClick={() => setActivePolicy("terms")}
-							className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left"
+							className="text-sm text-secondary hover:text-primary hover:translate-x-0.5 transition-all text-left inline-block"
 						>
 							Terms & Conditions
 						</button>
@@ -153,7 +155,7 @@ export function FooterLegalModalButtons() {
 						<button
 							type="button"
 							onClick={() => setActivePolicy("privacy")}
-							className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left"
+							className="text-sm text-secondary hover:text-primary hover:translate-x-0.5 transition-all text-left inline-block"
 						>
 							Privacy Policy
 						</button>
@@ -162,7 +164,7 @@ export function FooterLegalModalButtons() {
 						<button
 							type="button"
 							onClick={() => setActivePolicy("shipping")}
-							className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left"
+							className="text-sm text-secondary hover:text-primary hover:translate-x-0.5 transition-all text-left inline-block"
 						>
 							Shipping & Atelier Care
 						</button>
@@ -171,7 +173,7 @@ export function FooterLegalModalButtons() {
 						<button
 							type="button"
 							onClick={() => setActivePolicy("refunds")}
-							className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left"
+							className="text-sm text-secondary hover:text-primary hover:translate-x-0.5 transition-all text-left inline-block"
 						>
 							Refunds & Returns
 						</button>
@@ -201,11 +203,11 @@ export function FooterBottomBarModalButtons() {
 
 	return (
 		<>
-			<div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+			<div className="flex flex-wrap items-center gap-6 text-xs text-secondary">
 				<button
 					type="button"
 					onClick={() => setActivePolicy("terms")}
-					className="hover:text-foreground transition-colors"
+					className="hover:text-primary transition-colors"
 				>
 					Terms of Commission
 				</button>
@@ -213,7 +215,7 @@ export function FooterBottomBarModalButtons() {
 				<button
 					type="button"
 					onClick={() => setActivePolicy("privacy")}
-					className="hover:text-foreground transition-colors"
+					className="hover:text-primary transition-colors"
 				>
 					Privacy Policy
 				</button>
@@ -221,7 +223,7 @@ export function FooterBottomBarModalButtons() {
 				<button
 					type="button"
 					onClick={() => setActivePolicy("shipping")}
-					className="hover:text-foreground transition-colors"
+					className="hover:text-primary transition-colors"
 				>
 					Shipping & Care
 				</button>

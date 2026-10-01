@@ -166,7 +166,7 @@ export function NewsletterDialog({ settings }: NewsletterDialogProps) {
 									<form onSubmit={handleSubmit} className="space-y-3">
 										<Input
 											type="email"
-											placeholder="your@email.com"
+											placeholder="patron@theletterink.com"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
 											required

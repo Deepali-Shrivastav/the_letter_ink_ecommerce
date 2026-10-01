@@ -2,8 +2,11 @@ import { NextResponse } from "next/server";
 import { storeRecentOrder } from "@/lib/commerce";
 import { setCartCookie } from "@/lib/cookies";
 import { logger } from "@/lib/logger";
+import { formatBrandOrderLookup } from "@/lib/utils";
 
-const BACKEND_URL = (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000").replace(/\/$/, "");
+const BACKEND_URL = (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://127.0.0.1:9000")
+  .replace("localhost", "127.0.0.1")
+  .replace(/\/$/, "");
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 
 export async function GET(request: Request) {
@@ -44,7 +47,7 @@ export async function GET(request: Request) {
     // Store in recent orders
     const fallbackOrder = {
       id: completedOrderId,
-      lookup: completedOrderId.slice(-6).toUpperCase(),
+      lookup: formatBrandOrderLookup(completedOrderId),
       orderData: {
         lineItems: [],
         subtotal: 0,

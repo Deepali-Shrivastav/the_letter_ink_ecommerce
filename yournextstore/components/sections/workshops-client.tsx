@@ -16,7 +16,11 @@ import {
 	Sparkles,
 	GraduationCap,
 	CheckCircle,
+	Loader2,
 } from "lucide-react";
+import { addToCart } from "@/app/cart/actions";
+import { useCart } from "@/app/cart/cart-context";
+import { toast } from "sonner";
 
 export type WorkshopItem = {
 	id: string;
@@ -31,6 +35,7 @@ export type WorkshopItem = {
 	level: string;
 	kitInfo?: string;
 	price: string;
+	rawPrice?: number;
 	variantId?: string;
 	image?: string | null;
 	slug?: string;
@@ -40,6 +45,73 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 	const workshops = initialWorkshops;
 	const [activeFilter, setActiveFilter] = useState<"all" | "studio" | "virtual">("all");
 	const [openFaq, setOpenFaq] = useState<number | null>(0);
+	const [addingId, setAddingId] = useState<string | null>(null);
+	const { openCart, dispatch, syncCart, reconcile, startMutation } = useCart();
+
+	const handleEnroll = (ws: WorkshopItem) => {
+		setAddingId(ws.id);
+		openCart();
+
+		const numericPrice = ws.rawPrice ?? (Number(ws.price.replace(/[^0-9.]/g, "")) || 4500);
+		const variantId = ws.variantId || ws.id;
+
+		const itemMetadata = {
+			is_workshop: true,
+			title: ws.title,
+			slug: ws.slug || "workshops",
+			image: ws.image,
+			date: ws.date,
+			time: ws.time,
+			venue: ws.venue,
+			format: ws.format,
+		};
+
+		// Instant local feedback outside transition
+		dispatch({
+			type: "ADD_ITEM",
+			item: {
+				quantity: 1,
+				metadata: itemMetadata,
+				productVariant: {
+					id: variantId,
+					price: String(numericPrice),
+					priceGross: String(numericPrice),
+					images: ws.image ? [ws.image] : [],
+					product: {
+						id: ws.id,
+						name: ws.title,
+						slug: ws.slug || "workshops",
+						images: ws.image ? [ws.image] : [],
+						type: "standard",
+					},
+				},
+			},
+		});
+
+		startMutation(async () => {
+			try {
+				const result = await addToCart(
+					variantId,
+					1,
+					itemMetadata,
+					numericPrice
+				);
+
+				if (result.success && result.cart) {
+					syncCart(result.cart);
+					toast.success(`Reserved seat for ${ws.title}!`);
+				} else {
+					await reconcile();
+					toast.error(result.error || "Could not reserve seat. Please try again.");
+				}
+			} catch (err) {
+				await reconcile();
+				toast.error("Failed to add workshop to cart.");
+			} finally {
+				setAddingId(null);
+			}
+		});
+	};
 
 	const toggleFaq = (index: number) => {
 		setOpenFaq(openFaq === index ? null : index);
@@ -261,12 +333,21 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 											</span>
 										</div>
 										<div className="flex flex-col sm:flex-row gap-2">
-											<Link
-												href={ws.slug ? `/product/${ws.slug}` : "/contact"}
-												className="flex-1 bg-[#fadcd0] hover:bg-primary hover:text-on-primary text-[#271811] text-xs uppercase tracking-wider py-3.5 px-4 font-semibold text-center transition-colors rounded-sm"
+											<button
+												type="button"
+												onClick={() => handleEnroll(ws)}
+												disabled={addingId === ws.id}
+												className="flex-1 bg-[#fadcd0] hover:bg-primary hover:text-on-primary text-[#271811] text-xs uppercase tracking-wider py-3.5 px-4 font-semibold text-center transition-colors rounded-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
 											>
-												Enroll / Reserve
-											</Link>
+												{addingId === ws.id ? (
+													<>
+														<Loader2 className="w-4 h-4 animate-spin" />
+														Adding...
+													</>
+												) : (
+													"Enroll / Reserve"
+												)}
+											</button>
 											<button
 												type="button"
 												className="bg-surface-container hover:bg-surface-variant text-primary p-3 flex items-center justify-center transition-colors rounded-sm"
@@ -501,11 +582,6 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 						{/* Review 1 */}
 						<div className="bg-surface-container-lowest p-8 shadow-sm border border-border-vellum flex flex-col justify-between rounded-sm">
 							<div>
-								<div className="flex items-center gap-1 text-amber-500 mb-4">
-									{[...Array(5)].map((_, i) => (
-										<Star key={i} className="w-4 h-4 fill-current" />
-									))}
-								</div>
 								<p className="text-sm text-on-surface italic mb-6 leading-relaxed">
 									“I was terrified because my daily handwriting is a chaotic doctor's scribble. Within three hours, the breakdown of muscle memory and nib angle completely shifted my perspective. Addressing my sister's wedding suites was a dream come true.”
 								</p>
@@ -524,11 +600,6 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 						{/* Review 2 */}
 						<div className="bg-surface-container-lowest p-8 shadow-sm border border-border-vellum flex flex-col justify-between rounded-sm">
 							<div>
-								<div className="flex items-center gap-1 text-amber-500 mb-4">
-									{[...Array(5)].map((_, i) => (
-										<Star key={i} className="w-4 h-4 fill-current" />
-									))}
-								</div>
 								<p className="text-sm text-on-surface italic mb-6 leading-relaxed">
 									“The physical starter kit delivered to London was packed with such immense care and quiet beauty. The dual overhead Zoom feed felt like having a personal tutor leaning right over my shoulder correcting my tines.”
 								</p>
@@ -547,11 +618,6 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 						{/* Review 3 */}
 						<div className="bg-surface-container-lowest p-8 shadow-sm border border-border-vellum flex flex-col justify-between rounded-sm">
 							<div>
-								<div className="flex items-center gap-1 text-amber-500 mb-4">
-									{[...Array(5)].map((_, i) => (
-										<Star key={i} className="w-4 h-4 fill-current" />
-									))}
-								</div>
 								<p className="text-sm text-on-surface italic mb-6 leading-relaxed">
 									“The glass engraving intensive opened a totally new commercial revenue stream for my luxury wedding styling studio. The focus on micro-bur control and safety gave me instant confidence on real perfume flacons.”
 								</p>

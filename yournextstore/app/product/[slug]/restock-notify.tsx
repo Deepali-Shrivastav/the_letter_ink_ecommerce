@@ -52,7 +52,7 @@ export function RestockNotify({
 						<input type="hidden" name="productVariantId" value={productVariantId} />
 						<div className="space-y-1.5">
 							<Label htmlFor="restock-email">Email</Label>
-							<Input id="restock-email" name="email" type="email" required placeholder="your@email.com" />
+							<Input id="restock-email" name="email" type="email" required placeholder="ananya.sharma@theletterink.com" />
 						</div>
 						<NewsletterConsent checked={marketingConsent} onCheckedChange={setMarketingConsent} />
 						{state?.error && <p className="text-sm text-destructive">{state.error}</p>}

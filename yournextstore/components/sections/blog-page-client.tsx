@@ -470,7 +470,7 @@ export function BlogPageClient({ posts = [], initialVideos = [] }: { posts?: any
                 Be the first to receive long-form essays on botanical inks, seasonal calligraphy masterclasses, and private access to our seasonal wedding stationery slots.
               </p>
               <form className="max-w-md mx-auto pt-4 flex flex-col sm:flex-row gap-2" onSubmit={(e) => { e.preventDefault(); alert('Gratitude. You have been added to our private atelier ledger.'); }}>
-                <input className="flex-1 bg-surface-container-lowest px-4 py-3.5 font-body-sm text-body-sm text-primary placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="ENTER YOUR CORRESPONDENCE EMAIL" required type="email"/>
+                <input className="flex-1 bg-surface-container-lowest px-4 py-3.5 font-body-sm text-body-sm text-primary placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="patron@theletterink.com" required type="email"/>
                 <button className="bg-primary text-on-primary font-label-md text-label-md uppercase tracking-[0.16em] px-7 py-3.5 hover:bg-tertiary-fixed hover:text-on-tertiary-fixed transition-colors shadow-sm" type="submit">
                   Dispatch
                 </button>

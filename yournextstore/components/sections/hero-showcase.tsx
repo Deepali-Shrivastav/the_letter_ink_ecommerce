@@ -5,7 +5,7 @@ export function HeroShowcase() {
 	return (
 		<section className="relative w-full overflow-hidden bg-paper-tint">
 			{/* Visual Multi-pane collage mimicking the hero in inspiration */}
-			<div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-2">
+			<div className="grid grid-cols-2 md:grid-cols-4 gap-2 px-margin-mobile lg:px-8 py-2">
 				<div className="relative h-64 md:h-[420px] overflow-hidden group">
 					<img
 						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -47,25 +47,25 @@ export function HeroShowcase() {
 						Artisanal Calligraphy Atelier
 					</span>
 				</div>
-				<h1 className="font-display-hero text-headline-lg md:text-display-hero tracking-widest uppercase text-primary max-w-4xl text-center leading-tight">
+				<h1 className="font-display-hero text-headline-lg md:text-display-hero tracking-wide text-primary max-w-4xl text-center leading-tight">
 					Thoughtful Script & Handcrafted Calligraphy
 				</h1>
-				<div className="w-16 h-0.5 bg-primary/20 my-6" />
-				<p className="font-body-lg text-body-lg text-secondary max-w-3xl text-center italic font-serif">
+				<div className="w-16 h-0.5 bg-primary/20 my-8" />
+				<p className="font-display-hero text-headline-sm text-secondary max-w-3xl text-center italic">
 					“The Letter Ink is a calligraphy based design studio which strives to bring back the treasure and
 					love of hand rendered scripts. Give us your words and we frame them into reality.”
 				</p>
 				<div className="flex flex-wrap items-center justify-center gap-4 mt-8">
 					<Link
 						href="#shop-gallery"
-						className="px-8 py-3.5 bg-tertiary-fixed text-primary font-label-lg text-label-lg uppercase tracking-widest hover:bg-surface-container-lowest transition-all duration-300 shadow-sm flex items-center gap-2"
+						className="px-10 py-4 bg-primary text-on-primary font-label-lg text-label-lg tracking-widest shadow-md hover:shadow-lg hover:bg-tertiary-fixed hover:text-primary transition-all flex items-center gap-2"
 					>
 						<span>Shop Now</span>
 						<span className="material-symbols-outlined text-[18px]">arrow_forward</span>
 					</Link>
 					<Link
 						href="#services-atelier"
-						className="px-8 py-3.5 bg-transparent text-primary font-label-lg text-label-lg uppercase tracking-widest hover:bg-tertiary-fixed transition-all duration-300"
+						className="px-10 py-4 border border-primary text-primary font-label-lg text-label-lg tracking-widest hover:bg-tertiary-fixed transition-all duration-300"
 					>
 						Explore Commissions
 					</Link>

@@ -63,7 +63,7 @@ export function SearchInput() {
 								ref={iconInputRef}
 								type="search"
 								name="q"
-								placeholder="Search products"
+								placeholder="Search calligraphy, wax seals, bespoke stationery..."
 								value={c.query}
 								onChange={(e) => c.setQuery(e.target.value)}
 								onKeyDown={makeKeyHandler(
@@ -109,7 +109,7 @@ export function SearchInput() {
 								ref={inlineInputRef}
 								type="search"
 								name="q"
-								placeholder="Search products"
+								placeholder="Search calligraphy, wax seals, bespoke stationery..."
 								value={c.query}
 								onChange={(e) => {
 									c.setQuery(e.target.value);

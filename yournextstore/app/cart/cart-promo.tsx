@@ -82,7 +82,7 @@ export function CartPromoCode() {
 				<Input
 					value={code}
 					onChange={(e) => setCode(e.target.value)}
-					placeholder="Discount code"
+					placeholder="e.g. ATELIER10 or WELCOMEINK"
 					className="h-10"
 					disabled={isPending}
 				/>

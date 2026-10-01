@@ -202,7 +202,7 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
           amount: grandTotal,
           cartItems: items,
           customer: {
-            email: shippingAddress?.email || "patron@example.com",
+            email: shippingAddress?.email || "patron@theletterink.com",
             phone: shippingAddress?.phone || "9876543210",
             name: `${shippingAddress?.firstName || "Valued"} ${shippingAddress?.lastName || "Patron"}`.trim(),
           },
@@ -304,7 +304,7 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
                   const imageSrc =
                     item.productVariant?.images?.[0] ||
                     item.productVariant?.product?.images?.[0] ||
-                    "/placeholder.png";
+                    "/Latest-logo.png";
                   const unitPrice = Number(item.productVariant?.price || item.originalPrice || 0);
 
                   return (
@@ -325,7 +325,20 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
                         <p className="text-xs font-medium text-foreground truncate">
                           {item.productVariant?.product?.name || "Artisanal Creation"}
                         </p>
-                        <p className="text-[11px] text-muted-foreground">
+                        {item.metadata?.custom_inscription && (
+                          <p className="text-[11px] text-amber-700 dark:text-amber-400 italic truncate mt-0.5">
+                            "{item.metadata.custom_inscription}"
+                          </p>
+                        )}
+                        {item.metadata?.customization_selections && (
+                          <p className="text-[10px] text-muted-foreground truncate mt-0.5">
+                            {Object.entries(item.metadata.customization_selections)
+                              .filter(([k]) => k !== "Inscription")
+                              .map(([k, v]) => `${k}: ${v}`)
+                              .join(" • ")}
+                          </p>
+                        )}
+                        <p className="text-[10px] text-muted-foreground/80 mt-0.5">
                           Qty: {item.quantity}
                         </p>
                       </div>

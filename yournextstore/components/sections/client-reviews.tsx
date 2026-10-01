@@ -48,17 +48,6 @@ export function ClientReviews() {
 					{reviews.map((review) => (
 						<div key={review.id} className="p-6 bg-paper-tint rounded-xl shadow-sm flex flex-col justify-between">
 							<div>
-								<div className="flex items-center gap-1 text-amber-500 mb-3">
-									{[...Array(5)].map((_, i) => (
-										<span
-											key={i}
-											className="material-symbols-outlined text-[18px]"
-											style={{ fontVariationSettings: "'FILL' 1" }}
-										>
-											star
-										</span>
-									))}
-								</div>
 								<p className="font-body-md text-body-md text-secondary italic mb-4">“{review.quote}”</p>
 							</div>
 							<div className="flex items-center gap-3 pt-3">

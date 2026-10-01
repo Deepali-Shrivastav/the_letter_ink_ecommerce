@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import Link from "next/link";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import { Fragment, Suspense } from "react";
 import { ListingPagination } from "@/components/listing-pagination";
 import { ProductCard } from "@/components/product-card";
@@ -51,6 +51,10 @@ export async function generateMetadata({
 	const slug = slugs.at(-1);
 	if (!slug) {
 		return { title: "Category Not Found", robots: { index: false, follow: true } };
+	}
+
+	if (slug === "workshops") {
+		return { title: "Artisanal Calligraphy Masterclasses & Studio Workshops", robots: { index: true, follow: true } };
 	}
 
 	const category = await commerce.categoryGet({ idOrSlug: slug });
@@ -151,10 +155,15 @@ function CategoryPageSkeleton() {
 
 // Awaiting params/searchParams at the top of the page blocks the static shell —
 // the page stays a sync shell and the dynamic content streams inside Suspense.
-export default function CategoryPage(props: {
+export default async function CategoryPage(props: {
 	params: Promise<{ slugs: string[] }>;
 	searchParams: Promise<CategoryFilterParams>;
 }) {
+	const { slugs } = await props.params;
+	if (slugs.at(-1) === "workshops") {
+		redirect("/workshops");
+	}
+
 	return (
 		<Suspense fallback={<CategoryPageSkeleton />}>
 			<CategoryContent params={props.params} searchParams={props.searchParams} />
@@ -180,6 +189,10 @@ const CategoryContent = async ({
 	const slug = slugs.at(-1);
 	if (!slug) {
 		notFound();
+	}
+
+	if (slug === "workshops") {
+		redirect("/workshops");
 	}
 
 	// Both reads are cached and independent — fetch them in parallel.

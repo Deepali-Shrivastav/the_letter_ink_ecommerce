@@ -313,7 +313,7 @@ export function ContactPageClient() {
 											type="email"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
-											placeholder="radhika@domain.com"
+											placeholder="radhika.deshmukh@gmail.com"
 											className="w-full bg-paper-tint border border-border-vellum px-4 py-3 text-sm font-light text-on-surface focus:outline-none focus:border-primary rounded-sm"
 										/>
 									</div>

@@ -14,7 +14,7 @@ export function CuratedOccasions() {
 		{
 			title: "Hand Made Letters & Scrolls",
 			description: "Heartfelt words penned in dip-pen scripts, sealed with custom botanicals.",
-			icon: "mark_email_read",
+			icon: "history_edu",
 			image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAxHBwu6IFNroq21t1CfzZdB_AEpuYdtmfOPnlTcuHPvH5K-YOfLAcbphMV8XQDD-nd8lfu7_uu5BcE5fVsukh--De2MxW5GTtA56apkbfKbvuypmUc87yGil46ULihWnY0vNmh_Tu9Gcl-v12cyXm8vpU5z4HCUNwlYNXQ2kpGaxdK4ZdLBBwyRbNPCF8G1M-rHZQyaD-u-IhJ7dC-YJ9VwHkaK1fyWqtj8-HzDtHhwnlTlJ4GVLY",
 			tag: "Romantic",
 			linkText: "Explore Letters →",
@@ -32,7 +32,7 @@ export function CuratedOccasions() {
 		{
 			title: "Name Frame Royal Series",
 			description: "Royal Large, Classic Small, and Royal Small personalized wooden name frames.",
-			icon: "crop_original",
+			icon: "filter_frames",
 			image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDSWzo8jBoZwoueq44cZcss8LB_9QWQCqr9uM9elUDQ_3vFWsfstlLd4YHgJUMDhw0L1v3zofENkgVGCuwWHmKFFMLBWmkXx3GUI7186ckF-EbuaPhicuGAVCeciYb1JqrQ_zVf7UHUgwOI2rGLIJDw1B1VXKCIm2oRPDFu5BuxcAflHZ0LdDAqG_q1Es49k7tK5YQnW-3Tr6QOupL8gdWHsEx9iZUpWtHSN-2I5h4aXxN8hv8xrWY",
 			tag: "Bestseller",
 			linkText: "Explore Frames →",
@@ -53,7 +53,7 @@ export function CuratedOccasions() {
 			icon: "draw",
 			image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBzUY4yo7tpJPfUvdWYiyaBKGrmhap7jR22LKRW_ztQ7mGViiY14FIr6BAxjIls2vigffJhXUlHIhtMmaapoFmybrN5ui6Q6TDrumZqt8znZVxGZFittBfl6vw3U51_Kve0AUkCFY-8nYVG4GcZZS7hlKRxsj-fX_fnso5bRwcrDZAiRq7pfH8B4wLbapMOe-3p5JEMwejRM9WejjmO5kEcVOVGaSxKOOyg5HKuh1qXrTqrXzegMt0",
 			tag: "Learn",
-			linkText: "View Workshops →",
+			linkText: "Explore Workshops →",
 			href: "#workshops-section",
 		},
 	];
@@ -61,17 +61,13 @@ export function CuratedOccasions() {
 	return (
 		<section className="w-full py-space-xl bg-background">
 			<div className="max-w-7xl mx-auto px-margin-mobile md:px-margin">
-				<div className="text-center mb-space-md">
-					<span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary">
+				<div className="mb-space-md">
+					<span className="font-label-sm text-label-sm tracking-widest text-secondary">
 						Explore Our Favourites
 					</span>
-					<div className="flex items-center justify-center gap-4 mt-2">
-						<div className="w-12 h-px bg-outline-variant" />
-						<h2 className="font-headline-lg text-headline-lg text-primary tracking-wide">
-							Gifts For Every Occasion
-						</h2>
-						<div className="w-12 h-px bg-outline-variant" />
-					</div>
+					<h2 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
+						Gifts For Every Occasion
+					</h2>
 				</div>
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 					{occasions.map((occasion, i) => (

@@ -157,7 +157,7 @@ export function ChatPanel({
 					value={input}
 					rows={1}
 					maxLength={2000}
-					placeholder="Ask about our products…"
+					placeholder="Ask about bespoke calligraphy, wax seals, workshops, or gifting…"
 					className="max-h-28 flex-1 resize-none rounded-xl border bg-muted/40 px-3 py-2 text-sm outline-none focus:border-foreground/40"
 					onChange={(e) => setInput(e.target.value)}
 					onKeyDown={(e) => {

@@ -1,19 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   MapPin,
   Mail,
   Phone,
   User,
-  Building,
   Home,
-  FileText,
   CheckCircle2,
   Sparkles,
+  Loader2,
+  Building2,
+  Compass,
+  RotateCcw,
 } from "lucide-react";
 
 export interface ShippingAddressData {
@@ -64,7 +65,6 @@ export const INDIAN_STATES = [
   "Jammu & Kashmir",
   "Ladakh",
   "Puducherry",
-  "Goa",
 ];
 
 const LOCAL_STORAGE_KEY = "tli_saved_shipping_address";
@@ -78,6 +78,11 @@ export function ShippingAddressForm({
   initialData,
   onChange,
 }: ShippingAddressFormProps) {
+  // Combined Full Name state for easier entry
+  const [fullName, setFullName] = useState(
+    [initialData?.firstName, initialData?.lastName].filter(Boolean).join(" ") || ""
+  );
+
   const [formData, setFormData] = useState<ShippingAddressData>({
     email: initialData?.email || "",
     phone: initialData?.phone || "",
@@ -92,11 +97,12 @@ export function ShippingAddressForm({
     deliveryNotes: initialData?.deliveryNotes || "",
   });
 
-  const [saveAddress, setSaveAddress] = useState(true);
+  const [isDetectingPin, setIsDetectingPin] = useState(false);
+  const [pinCityDetected, setPinCityDetected] = useState<string | null>(null);
   const [hasLoadedSaved, setHasLoadedSaved] = useState(false);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  // Load from localStorage on mount
+  // 1. Load saved address on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -107,45 +113,60 @@ export function ShippingAddressForm({
           ...parsed,
           countryCode: "IN",
         }));
+        const name = [parsed.firstName, parsed.lastName].filter(Boolean).join(" ");
+        if (name) setFullName(name);
         setHasLoadedSaved(true);
       }
-    } catch (e) {
-      // ignore storage access errors
+    } catch {
+      // ignore
     }
   }, []);
 
-  // Validate fields
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim());
-  const isPhoneValid = /^[6-9]\d{9}$/.test(formData.phone.replace(/\D/g, "").slice(-10));
-  const isFirstNameValid = formData.firstName.trim().length >= 2;
-  const isAddress1Valid = formData.address1.trim().length >= 5;
-  const isCityValid = formData.city.trim().length >= 2;
-  const isPostalCodeValid = /^\d{6}$/.test(formData.postalCode.trim());
-  const isProvinceValid = Boolean(formData.province);
+  // 2. Split full name into first and last name
+  const handleNameChange = (val: string) => {
+    setFullName(val);
+    const parts = val.trim().split(/\s+/);
+    const first = parts[0] || "";
+    const last = parts.slice(1).join(" ") || "";
+    setFormData((prev) => ({ ...prev, firstName: first, lastName: last }));
+  };
 
-  const isValid =
-    isEmailValid &&
-    isPhoneValid &&
-    isFirstNameValid &&
-    isAddress1Valid &&
-    isCityValid &&
-    isPostalCodeValid &&
-    isProvinceValid;
+  // 3. Smart PIN Code Auto-Fill (City & State)
+  const handlePinChange = async (val: string) => {
+    const cleanPin = val.replace(/\D/g, "").slice(0, 6);
+    setFormData((prev) => ({ ...prev, postalCode: cleanPin }));
 
-  // Propagate changes to parent
-  useEffect(() => {
-    onChange(formData, isValid);
-
-    if (saveAddress && isValid) {
+    if (cleanPin.length === 6) {
+      setIsDetectingPin(true);
       try {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(formData));
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, [formData, isValid, saveAddress, onChange]);
+        const res = await fetch(`https://api.postalpincode.in/pincode/${cleanPin}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.[0]?.Status === "Success" && data[0]?.PostOffice?.length > 0) {
+            const district = data[0].PostOffice[0].District;
+            const state = data[0].PostOffice[0].State;
 
-  const handleChange = (field: keyof ShippingAddressData, value: string) => {
+            if (district || state) {
+              setFormData((prev) => ({
+                ...prev,
+                city: district || prev.city,
+                province: state || prev.province,
+              }));
+              setPinCityDetected(`${district}, ${state}`);
+            }
+          }
+        }
+      } catch {
+        // fallback gracefully if external API is slow
+      } finally {
+        setIsDetectingPin(false);
+      }
+    } else {
+      setPinCityDetected(null);
+    }
+  };
+
+  const handleFieldChange = (field: keyof ShippingAddressData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -153,71 +174,125 @@ export function ShippingAddressForm({
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
+  const clearSavedAddress = () => {
+    try {
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+    } catch {}
+    setFullName("");
+    setFormData({
+      email: "",
+      phone: "",
+      firstName: "",
+      lastName: "",
+      address1: "",
+      address2: "",
+      city: "",
+      province: "Maharashtra",
+      postalCode: "",
+      countryCode: "IN",
+      deliveryNotes: "",
+    });
+    setHasLoadedSaved(false);
+  };
+
+  // Validation
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim());
+  const isPhoneValid = /^[6-9]\d{9}$/.test(formData.phone.replace(/\D/g, "").slice(-10));
+  const isNameValid = fullName.trim().length >= 2;
+  const isAddressValid = formData.address1.trim().length >= 4;
+  const isPinValid = /^\d{6}$/.test(formData.postalCode.trim());
+  const isCityValid = formData.city.trim().length >= 2;
+  const isStateValid = Boolean(formData.province);
+
+  const isFormValid =
+    isEmailValid &&
+    isPhoneValid &&
+    isNameValid &&
+    isAddressValid &&
+    isPinValid &&
+    isCityValid &&
+    isStateValid;
+
+  // Propagate to parent
+  useEffect(() => {
+    onChange(formData, isFormValid);
+    if (isFormValid) {
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(formData));
+      } catch {}
+    }
+  }, [formData, isFormValid, onChange]);
+
   return (
-    <div className="bg-card border border-border/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 text-left">
-      {/* Title */}
-      <div className="border-b border-border/60 pb-4 flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <MapPin className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-serif font-semibold text-foreground tracking-tight">
-              Delivery & Recipient Details
-            </h2>
+    <div className="bg-white border border-stone-200/90 rounded-2xl p-6 sm:p-7 shadow-xs space-y-6 text-left">
+      {/* Header Banner */}
+      <div className="flex items-center justify-between pb-4 border-b border-stone-100">
+        <div className="flex items-center gap-2.5">
+          <div className="h-8 w-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-800">
+            <MapPin className="h-4 w-4" />
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Where should our atelier send your handcrafted treasures?
-          </p>
+          <div>
+            <h2 className="text-base sm:text-lg font-serif font-medium text-stone-900">
+              Delivery Address
+            </h2>
+            <p className="text-xs text-stone-500">
+              Where should we deliver your handcrafted stationery?
+            </p>
+          </div>
         </div>
-        {hasLoadedSaved && (
-          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
-            <CheckCircle2 className="h-3 w-3" />
-            Saved Address Loaded
+
+        {isFormValid ? (
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+            <CheckCircle2 className="h-3.5 w-3.5" />
+            Address Ready
           </span>
-        )}
+        ) : hasLoadedSaved ? (
+          <button
+            type="button"
+            onClick={clearSavedAddress}
+            className="inline-flex items-center gap-1 text-[11px] text-stone-400 hover:text-stone-700 transition-colors"
+            title="Reset address"
+          >
+            <RotateCcw className="h-3 w-3" />
+            Reset
+          </button>
+        ) : null}
       </div>
 
-      {/* 1. Contact Info Section */}
+      {/* Form Fields - Minimal & Clean */}
       <div className="space-y-4">
-        <h3 className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">
-          Contact Information
-        </h3>
-
+        {/* Row 1: Full Name & Mobile */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* Email */}
           <div className="space-y-1.5">
-            <Label htmlFor="checkout-email" className="text-xs font-medium">
-              Email Address <span className="text-rose-500">*</span>
+            <Label htmlFor="checkout-fullname" className="text-xs font-medium text-stone-700">
+              Full Name *
             </Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+              <User className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
               <Input
-                id="checkout-email"
-                type="email"
-                placeholder="patron@example.com"
-                value={formData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                onBlur={() => handleBlur("email")}
-                className={`pl-9 text-sm ${
-                  touched.email && !isEmailValid ? "border-rose-500 focus-visible:ring-rose-400" : ""
+                id="checkout-fullname"
+                type="text"
+                placeholder="e.g. Aarav Sharma"
+                value={fullName}
+                onChange={(e) => handleNameChange(e.target.value)}
+                onBlur={() => handleBlur("name")}
+                className={`pl-9 h-11 text-sm border-stone-200 focus-visible:ring-stone-800 ${
+                  touched.name && !isNameValid ? "border-rose-400 focus-visible:ring-rose-400" : ""
                 }`}
                 required
               />
             </div>
-            {touched.email && !isEmailValid && (
-              <p className="text-[11px] text-rose-500">Please enter a valid email address.</p>
+            {touched.name && !isNameValid && (
+              <p className="text-[11px] text-rose-500">Please enter your name.</p>
             )}
-            <p className="text-[10px] text-muted-foreground">
-              Order receipt and dispatch tracking will be sent here.
-            </p>
           </div>
 
-          {/* Phone */}
           <div className="space-y-1.5">
-            <Label htmlFor="checkout-phone" className="text-xs font-medium">
-              Phone Number (10 digits) <span className="text-rose-500">*</span>
+            <Label htmlFor="checkout-phone" className="text-xs font-medium text-stone-700">
+              Mobile Number (10 Digits) *
             </Label>
             <div className="relative flex">
-              <span className="inline-flex items-center px-3 border border-r-0 border-input rounded-l-md bg-muted text-xs text-muted-foreground font-mono">
+              <span className="inline-flex items-center px-3 border border-r-0 border-stone-200 rounded-l-md bg-stone-50 text-xs text-stone-600 font-mono">
                 +91
               </span>
               <Input
@@ -226,207 +301,178 @@ export function ShippingAddressForm({
                 placeholder="9876543210"
                 maxLength={10}
                 value={formData.phone}
-                onChange={(e) => handleChange("phone", e.target.value.replace(/\D/g, ""))}
+                onChange={(e) => handleFieldChange("phone", e.target.value.replace(/\D/g, ""))}
                 onBlur={() => handleBlur("phone")}
-                className={`rounded-l-none text-sm font-mono ${
-                  touched.phone && !isPhoneValid ? "border-rose-500 focus-visible:ring-rose-400" : ""
+                className={`rounded-l-none h-11 text-sm font-mono border-stone-200 focus-visible:ring-stone-800 ${
+                  touched.phone && !isPhoneValid ? "border-rose-400 focus-visible:ring-rose-400" : ""
                 }`}
                 required
               />
             </div>
             {touched.phone && !isPhoneValid && (
-              <p className="text-[11px] text-rose-500">Enter a valid 10-digit Indian mobile number.</p>
+              <p className="text-[11px] text-rose-500">Enter a valid 10-digit mobile number.</p>
             )}
-            <p className="text-[10px] text-muted-foreground">Required for courier delivery updates.</p>
           </div>
         </div>
-      </div>
 
-      {/* 2. Shipping Address Section */}
-      <div className="space-y-4 pt-2">
-        <h3 className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">
-          Shipping Address
-        </h3>
+        {/* Row 2: Email Address */}
+        <div className="space-y-1.5">
+          <Label htmlFor="checkout-email" className="text-xs font-medium text-stone-700">
+            Email Address (for Order Receipt & Tracking) *
+          </Label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
+            <Input
+              id="checkout-email"
+              type="email"
+              placeholder="aarav.sharma@gmail.com"
+              value={formData.email}
+              onChange={(e) => handleFieldChange("email", e.target.value)}
+              onBlur={() => handleBlur("email")}
+              className={`pl-9 h-11 text-sm border-stone-200 focus-visible:ring-stone-800 ${
+                touched.email && !isEmailValid ? "border-rose-400 focus-visible:ring-rose-400" : ""
+              }`}
+              required
+            />
+          </div>
+          {touched.email && !isEmailValid && (
+            <p className="text-[11px] text-rose-500">Please provide a valid email.</p>
+          )}
+        </div>
 
-        {/* Recipient Name */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="checkout-firstname" className="text-xs font-medium">
-              First Name <span className="text-rose-500">*</span>
-            </Label>
+        {/* Row 3: Street Address / Building / Flat */}
+        <div className="space-y-1.5">
+          <Label htmlFor="checkout-address1" className="text-xs font-medium text-stone-700">
+            Flat, House No., Building & Street *
+          </Label>
+          <div className="relative">
+            <Home className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
+            <Input
+              id="checkout-address1"
+              type="text"
+              placeholder="e.g. 402, Lotus Bloom Enclave, 12th Main Road"
+              value={formData.address1}
+              onChange={(e) => handleFieldChange("address1", e.target.value)}
+              onBlur={() => handleBlur("address1")}
+              className={`pl-9 h-11 text-sm border-stone-200 focus-visible:ring-stone-800 ${
+                touched.address1 && !isAddressValid ? "border-rose-400 focus-visible:ring-rose-400" : ""
+              }`}
+              required
+            />
+          </div>
+          {touched.address1 && !isAddressValid && (
+            <p className="text-[11px] text-rose-500">Please enter your street address.</p>
+          )}
+        </div>
+
+        {/* Row 4: PIN Code + Auto-Filled City & State */}
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-start">
+          {/* PIN Code with instant auto-fill */}
+          <div className="sm:col-span-4 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="checkout-postal" className="text-xs font-medium text-stone-700">
+                PIN Code *
+              </Label>
+              {isDetectingPin && (
+                <span className="text-[10px] text-amber-700 flex items-center gap-1">
+                  <Loader2 className="h-3 w-3 animate-spin" /> Detecting…
+                </span>
+              )}
+            </div>
             <div className="relative">
-              <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                id="checkout-firstname"
+                id="checkout-postal"
                 type="text"
-                placeholder="Aarav"
-                value={formData.firstName}
-                onChange={(e) => handleChange("firstName", e.target.value)}
-                onBlur={() => handleBlur("firstName")}
-                className={`pl-9 text-sm ${
-                  touched.firstName && !isFirstNameValid
-                    ? "border-rose-500 focus-visible:ring-rose-400"
-                    : ""
+                placeholder="400001"
+                maxLength={6}
+                value={formData.postalCode}
+                onChange={(e) => handlePinChange(e.target.value)}
+                onBlur={() => handleBlur("postalCode")}
+                className={`h-11 text-sm font-mono border-stone-200 focus-visible:ring-stone-800 ${
+                  touched.postalCode && !isPinValid ? "border-rose-400 focus-visible:ring-rose-400" : ""
                 }`}
                 required
               />
             </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="checkout-lastname" className="text-xs font-medium">
-              Last Name
-            </Label>
-            <Input
-              id="checkout-lastname"
-              type="text"
-              placeholder="Sharma"
-              value={formData.lastName}
-              onChange={(e) => handleChange("lastName", e.target.value)}
-              className="text-sm"
-            />
-          </div>
-        </div>
-
-        {/* Street Address */}
-        <div className="space-y-1.5">
-          <Label htmlFor="checkout-address1" className="text-xs font-medium">
-            Street Address / House No. / Flat <span className="text-rose-500">*</span>
-          </Label>
-          <div className="relative">
-            <Home className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              id="checkout-address1"
-              type="text"
-              placeholder="Villa 402, Lotus Bloom Enclave, 12th Main"
-              value={formData.address1}
-              onChange={(e) => handleChange("address1", e.target.value)}
-              onBlur={() => handleBlur("address1")}
-              className={`pl-9 text-sm ${
-                touched.address1 && !isAddress1Valid
-                  ? "border-rose-500 focus-visible:ring-rose-400"
-                  : ""
-              }`}
-              required
-            />
-          </div>
-          {touched.address1 && !isAddress1Valid && (
-            <p className="text-[11px] text-rose-500">Please provide a complete street address.</p>
-          )}
-        </div>
-
-        {/* Address Line 2 */}
-        <div className="space-y-1.5">
-          <Label htmlFor="checkout-address2" className="text-xs font-medium">
-            Apartment, Suite, Landmark (Optional)
-          </Label>
-          <div className="relative">
-            <Building className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              id="checkout-address2"
-              type="text"
-              placeholder="Near Rose Garden or Opposite City Bank"
-              value={formData.address2}
-              onChange={(e) => handleChange("address2", e.target.value)}
-              className="pl-9 text-sm"
-            />
-          </div>
-        </div>
-
-        {/* PIN Code, City & State */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* PIN Code */}
-          <div className="space-y-1.5">
-            <Label htmlFor="checkout-postal" className="text-xs font-medium">
-              PIN Code <span className="text-rose-500">*</span>
-            </Label>
-            <Input
-              id="checkout-postal"
-              type="text"
-              placeholder="400001"
-              maxLength={6}
-              value={formData.postalCode}
-              onChange={(e) => handleChange("postalCode", e.target.value.replace(/\D/g, ""))}
-              onBlur={() => handleBlur("postalCode")}
-              className={`text-sm font-mono ${
-                touched.postalCode && !isPostalCodeValid
-                  ? "border-rose-500 focus-visible:ring-rose-400"
-                  : ""
-              }`}
-              required
-            />
-            {touched.postalCode && !isPostalCodeValid && (
+            {pinCityDetected && (
+              <p className="text-[11px] text-emerald-600 flex items-center gap-1 font-medium">
+                <Sparkles className="h-3 w-3" /> Auto-detected: {pinCityDetected}
+              </p>
+            )}
+            {touched.postalCode && !isPinValid && (
               <p className="text-[11px] text-rose-500">6-digit PIN required.</p>
             )}
           </div>
 
           {/* City */}
-          <div className="space-y-1.5">
-            <Label htmlFor="checkout-city" className="text-xs font-medium">
-              City <span className="text-rose-500">*</span>
+          <div className="sm:col-span-4 space-y-1.5">
+            <Label htmlFor="checkout-city" className="text-xs font-medium text-stone-700">
+              City / District *
             </Label>
             <Input
               id="checkout-city"
               type="text"
-              placeholder="Mumbai"
+              placeholder="e.g. Mumbai"
               value={formData.city}
-              onChange={(e) => handleChange("city", e.target.value)}
+              onChange={(e) => handleFieldChange("city", e.target.value)}
               onBlur={() => handleBlur("city")}
-              className={`text-sm ${
-                touched.city && !isCityValid ? "border-rose-500 focus-visible:ring-rose-400" : ""
+              className={`h-11 text-sm border-stone-200 focus-visible:ring-stone-800 ${
+                touched.city && !isCityValid ? "border-rose-400 focus-visible:ring-rose-400" : ""
               }`}
               required
             />
           </div>
 
           {/* State */}
-          <div className="space-y-1.5">
-            <Label htmlFor="checkout-province" className="text-xs font-medium">
-              State <span className="text-rose-500">*</span>
+          <div className="sm:col-span-4 space-y-1.5">
+            <Label htmlFor="checkout-state" className="text-xs font-medium text-stone-700">
+              State *
             </Label>
             <select
-              id="checkout-province"
+              id="checkout-state"
               value={formData.province}
-              onChange={(e) => handleChange("province", e.target.value)}
-              className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              onChange={(e) => handleFieldChange("province", e.target.value)}
+              className="w-full h-11 px-3 rounded-md border border-stone-200 bg-white text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-stone-800"
               required
             >
-              {INDIAN_STATES.map((state) => (
-                <option key={state} value={state}>
-                  {state}
+              {INDIAN_STATES.map((s) => (
+                <option key={s} value={s}>
+                  {s}
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Special Delivery Note or Calligraphy Inscription */}
+        {/* Row 5: Landmark & Delivery Note (Optional) */}
         <div className="space-y-1.5 pt-1">
-          <Label htmlFor="checkout-notes" className="text-xs font-medium flex items-center gap-1.5">
-            <FileText className="h-3.5 w-3.5 text-muted-foreground" />
-            Special Delivery Instructions or Gift Note (Optional)
+          <Label htmlFor="checkout-landmark" className="text-xs font-medium text-stone-600">
+            Landmark or Delivery Instruction (Optional)
           </Label>
-          <textarea
-            id="checkout-notes"
-            rows={2}
-            placeholder="e.g. Please ring the doorbell twice, or 'Happy 30th Birthday Priya!'"
-            value={formData.deliveryNotes}
-            onChange={(e) => handleChange("deliveryNotes", e.target.value)}
-            className="w-full rounded-md border border-input bg-background p-3 text-xs focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-          />
+          <div className="relative">
+            <Compass className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
+            <Input
+              id="checkout-landmark"
+              type="text"
+              placeholder="e.g. Near Rose Garden, or Call on arrival"
+              value={formData.deliveryNotes || formData.address2}
+              onChange={(e) => {
+                handleFieldChange("deliveryNotes", e.target.value);
+                handleFieldChange("address2", e.target.value);
+              }}
+              className="pl-9 h-11 text-sm border-stone-200 focus-visible:ring-stone-800"
+            />
+          </div>
         </div>
+      </div>
 
-        {/* Save Address Toggle */}
-        <div className="flex items-center gap-2 pt-2">
-          <Checkbox
-            id="save-address"
-            checked={saveAddress}
-            onCheckedChange={(checked) => setSaveAddress(Boolean(checked))}
-          />
-          <Label htmlFor="save-address" className="text-xs font-normal text-muted-foreground cursor-pointer">
-            Save this address on this device for future orders
-          </Label>
-        </div>
+      {/* Footer reassurance */}
+      <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
+        <span className="flex items-center gap-1.5">
+          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+          Domestic Express Courier Across India
+        </span>
+        <span className="text-[11px] text-stone-400">All prices in INR (₹)</span>
       </div>
     </div>
   );
