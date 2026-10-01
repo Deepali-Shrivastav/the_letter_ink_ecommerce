@@ -1,7 +1,7 @@
 # The Letter Ink — Bespoke eCommerce Platform
 
 <p align="center">
-  <img src="yournextstore/public/Latest-logo.png" height="90" alt="The Letter Ink">
+  <img src="letter-ink-frontend/public/Latest-logo.png" height="90" alt="The Letter Ink">
 </p>
 
 <p align="center">
@@ -110,7 +110,7 @@ the_letter_ink_ecommerce/
 │   │   └── .env                      # Backend environment variables
 │   └── package.json
 │
-├── yournextstore/                    # Next.js 16 Frontend Storefront
+├── letter-ink-frontend/              # Next.js 16 Frontend Storefront
 │   ├── app/
 │   │   ├── checkout/                 # Luxury multi-step checkout
 │   │   ├── order/
@@ -248,11 +248,11 @@ npm run backend:dev
 
 1. Open a new terminal and navigate to the storefront directory:
    ```bash
-   cd yournextstore
+   cd letter-ink-frontend
    bun install   # or: npm install
    ```
 
-2. Configure `.env.local` in `yournextstore/`:
+2. Configure `.env.local` in `letter-ink-frontend/`:
    ```env
    NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
    NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_your_medusa_publishable_key
@@ -274,7 +274,7 @@ npm run backend:dev
 
 ## Environment Variables Reference
 
-### Storefront (`yournextstore/.env.local`)
+### Storefront (`letter-ink-frontend/.env.local`)
 
 | Variable | Required | Description |
 |:---|:---:|:---|
@@ -319,7 +319,7 @@ npm run backend:dev
 An automated end-to-end script is available to test cart creation, shipping method assignment, payment verification, and tracking lookup in one step:
 
 ```bash
-cd yournextstore
+cd letter-ink-frontend
 node scripts/test-order-flow.mjs
 ```
 

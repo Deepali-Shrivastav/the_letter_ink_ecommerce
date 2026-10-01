@@ -60,7 +60,7 @@ npm install
 ```
 
 ### 3. Environment Variables
-Ensure `.env.local` is present in the `yournextstore` folder:
+Ensure `.env.local` is present in the `letter-ink-frontend` folder:
 ```env
 NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
 NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_your_publishable_api_key_here
