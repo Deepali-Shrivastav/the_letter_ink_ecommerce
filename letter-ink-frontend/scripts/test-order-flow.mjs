@@ -1,6 +1,6 @@
 const BACKEND_URL = "http://localhost:9000";
 const FRONTEND_URL = "http://localhost:3000";
-const PUBLISHABLE_KEY = "pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b";
+const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY;
 const headers = {
   "Content-Type": "application/json",
   "x-publishable-api-key": PUBLISHABLE_KEY,

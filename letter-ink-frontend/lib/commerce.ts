@@ -117,20 +117,10 @@ const mapMedusaCartToStorefront = (medusaCart: any) => {
   };
 };
 
-export const recentOrdersMap = new Map<string, any>();
-
+// Order caching removed (SEC-014) to prevent memory leaks and lost data on serverless restarts. 
+// We now rely exclusively on the Medusa tracking API as the single source of truth.
 export const storeRecentOrder = (order: any) => {
-  if (order?.id) {
-    recentOrdersMap.set(order.id, order);
-    recentOrdersMap.set(order.id.toLowerCase(), order);
-  }
-  if (order?.lookup) {
-    recentOrdersMap.set(order.lookup, order);
-    recentOrdersMap.set(order.lookup.toLowerCase(), order);
-    const clean = order.lookup.replace(/^#/, "");
-    recentOrdersMap.set(clean, order);
-    recentOrdersMap.set(clean.toLowerCase(), order);
-  }
+  // No-op to preserve function signature for existing callers
 };
 
 export const mapMedusaOrderToStorefront = (medusaOrder: any) => {
@@ -645,11 +635,6 @@ export const commerce = {
       const cleanId = (id || "").trim();
       const lowerId = cleanId.toLowerCase();
       const noHash = cleanId.replace(/^#/, "");
-
-      if (recentOrdersMap.has(cleanId)) return recentOrdersMap.get(cleanId);
-      if (recentOrdersMap.has(lowerId)) return recentOrdersMap.get(lowerId);
-      if (recentOrdersMap.has(noHash)) return recentOrdersMap.get(noHash);
-      if (recentOrdersMap.has(noHash.toLowerCase())) return recentOrdersMap.get(noHash.toLowerCase());
 
       // Query Medusa tracking API endpoint
       try {

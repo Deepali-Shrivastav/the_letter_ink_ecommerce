@@ -1,4 +1,4 @@
-import { defineMiddlewares } from "@medusajs/medusa";
+import { defineMiddlewares, authenticate } from "@medusajs/medusa";
 import rateLimit from "express-rate-limit";
 
 const isDev = process.env.NODE_ENV !== "production";
@@ -14,8 +14,8 @@ const isLocalhost = (ip?: string) => {
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: isDev ? 10000 : 30, // Relaxed in development
-  skip: (req) => isDev || isLocalhost(req.ip),
+  max: 30,
+  skip: (req) => isLocalhost(req.ip),
   standardHeaders: true,
   legacyHeaders: false,
   message: { message: "Too many authentication requests from this IP, please try again after 15 minutes" },
@@ -23,8 +23,8 @@ const authLimiter = rateLimit({
 
 const defaultLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
-  max: isDev ? 100000 : 1000, // High limit in development for Next.js SSR requests
-  skip: (req) => isDev || isLocalhost(req.ip),
+  max: 1000,
+  skip: (req) => isLocalhost(req.ip),
   standardHeaders: true,
   legacyHeaders: false,
   message: { message: "Too many requests from this IP, please try again later" },
@@ -42,7 +42,7 @@ export default defineMiddlewares({
     },
     {
       matcher: "/admin/*",
-      middlewares: [defaultLimiter],
+      middlewares: [defaultLimiter, authenticate("user", ["session", "bearer", "api-key"])],
     },
   ],
 });

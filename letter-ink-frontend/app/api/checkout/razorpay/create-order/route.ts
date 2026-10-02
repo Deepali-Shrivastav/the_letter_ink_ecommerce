@@ -7,36 +7,64 @@ const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { cartId, amount, customer, notes } = body;
+    const { cartId, customer, notes } = body;
+
+    if (!cartId) {
+      return NextResponse.json(
+        { success: false, error: "cartId is required" },
+        { status: 400 }
+      );
+    }
 
     const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
-    // Amount in paise (1 INR = 100 paise)
-    let amountInPaise = Math.round(Number(amount || 0) * 100);
+    if (!PUBLISHABLE_KEY) {
+      return NextResponse.json(
+        { success: false, error: "Server misconfiguration: missing publishable key" },
+        { status: 500 }
+      );
+    }
 
-    // If cartId provided, verify with Medusa
-    if (cartId && PUBLISHABLE_KEY) {
-      try {
-        const cartRes = await fetch(`${BACKEND_URL}/store/carts/${cartId}`, {
-          headers: {
-            "x-publishable-api-key": PUBLISHABLE_KEY,
-          },
-          cache: "no-store",
-        });
-        if (cartRes.ok) {
-          const cartJson = await cartRes.json();
-          if (cartJson.cart?.total) {
-            amountInPaise = Math.round(cartJson.cart.total * 100);
-          }
-        }
-      } catch (e) {
-        logger.warn("Razorpay create-order: Medusa cart fetch note:", e);
+    let amountInPaise = 0;
+
+    try {
+      const cartRes = await fetch(`${BACKEND_URL}/store/carts/${cartId}`, {
+        headers: {
+          "x-publishable-api-key": PUBLISHABLE_KEY,
+        },
+        cache: "no-store",
+      });
+      
+      if (!cartRes.ok) {
+        return NextResponse.json(
+          { success: false, error: "Failed to fetch cart from server" },
+          { status: 400 }
+        );
       }
+
+      const cartJson = await cartRes.json();
+      if (!cartJson.cart?.total) {
+        return NextResponse.json(
+          { success: false, error: "Cart total is invalid" },
+          { status: 400 }
+        );
+      }
+      
+      amountInPaise = Math.round(cartJson.cart.total * 100);
+    } catch (e) {
+      logger.error("Razorpay create-order: Medusa cart fetch error:", e);
+      return NextResponse.json(
+        { success: false, error: "Internal server error while fetching cart" },
+        { status: 500 }
+      );
     }
 
     if (amountInPaise <= 0) {
-      amountInPaise = 100; // minimum ₹1
+      return NextResponse.json(
+        { success: false, error: "Invalid cart amount" },
+        { status: 400 }
+      );
     }
 
     const isLiveConfigured = Boolean(

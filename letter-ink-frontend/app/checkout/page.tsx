@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+import Script from "next/script";
+
 async function CheckoutPageContent() {
   const [cart, storeConfig] = await Promise.all([
     getCart(),
@@ -17,13 +19,16 @@ async function CheckoutPageContent() {
   ]);
 
   return (
-    <CheckoutForm
-      initialCart={cart}
-      storeConfig={{
-        currency: storeConfig.currency,
-        locale: storeConfig.locale,
-      }}
-    />
+    <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+      <CheckoutForm
+        initialCart={cart}
+        storeConfig={{
+          currency: storeConfig.currency,
+          locale: storeConfig.locale,
+        }}
+      />
+    </>
   );
 }
 

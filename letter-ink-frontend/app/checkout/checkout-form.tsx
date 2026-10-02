@@ -38,8 +38,6 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
   const cart = contextCart || initialCart;
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showSimulatedModal, setShowSimulatedModal] = useState(false);
-  const [simulatedOrderInfo, setSimulatedOrderInfo] = useState<any>(null);
 
   const [shippingAddress, setShippingAddress] = useState<ShippingAddressData | null>(null);
   const [isAddressValid, setIsAddressValid] = useState(false);
@@ -175,61 +173,12 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
         return;
       }
 
-      // In test/demo mode:
-      setSimulatedOrderInfo(orderData);
-      setShowSimulatedModal(true);
+      // If Razorpay checkout.js is not loaded, show error
       setIsProcessing(false);
+      toast.error("Failed to load Razorpay checkout");
     } catch (err: any) {
       setIsProcessing(false);
       toast.error(err.message || "Failed to launch Razorpay");
-    }
-  };
-
-  const handleSimulateSuccess = async () => {
-    setShowSimulatedModal(false);
-    setIsProcessing(true);
-    toast.loading("Completing order...", { id: "payment-verify" });
-
-    try {
-      const verifyRes = await fetch("/api/checkout/razorpay/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          razorpay_order_id: simulatedOrderInfo?.orderId || `order_sim_${Date.now()}`,
-          razorpay_payment_id: `pay_sim_${Date.now()}`,
-          razorpay_signature: "simulated_signature",
-          cartId: cart?.id,
-          amount: grandTotal,
-          cartItems: items,
-          customer: {
-            email: shippingAddress?.email || "patron@theletterink.com",
-            phone: shippingAddress?.phone || "9876543210",
-            name: `${shippingAddress?.firstName || "Valued"} ${shippingAddress?.lastName || "Patron"}`.trim(),
-          },
-          shippingAddress: {
-            firstName: shippingAddress?.firstName || "Valued",
-            lastName: shippingAddress?.lastName || "Patron",
-            address1: shippingAddress?.address1 || "",
-            address2: shippingAddress?.address2 || "",
-            city: shippingAddress?.city || "Mumbai",
-            province: shippingAddress?.province || "Maharashtra",
-            postalCode: shippingAddress?.postalCode || "400001",
-            countryCode: "in",
-          },
-        }),
-      });
-
-      const verifyData = await verifyRes.json();
-      toast.dismiss("payment-verify");
-
-      if (verifyRes.ok && verifyData.success) {
-        router.push(`/order/success/${verifyData.orderId}`);
-      } else {
-        toast.error("Payment completion failed.");
-      }
-    } catch {
-      setIsProcessing(false);
-      toast.error("Could not complete order.");
     }
   };
 
@@ -450,84 +399,6 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
           </div>
         </div>
       </main>
-
-      {/* Simulated Razorpay Modal for test environments */}
-      {showSimulatedModal && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200 text-left">
-            <div className="flex items-center justify-between pb-3 border-b border-border">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xs">
-                  RZP
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground text-sm">Razorpay Checkout Gateway</h4>
-                  <p className="text-[11px] text-muted-foreground">Test & Development Environment</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowSimulatedModal(false)}
-                className="text-muted-foreground hover:text-foreground text-sm p-1"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="bg-secondary/40 p-4 rounded-xl space-y-2 border border-border/50 text-xs">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Merchant:</span>
-                <span className="font-semibold text-foreground">The Letter Ink</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Recipient:</span>
-                <span className="font-medium text-foreground">
-                  {shippingAddress?.firstName} {shippingAddress?.lastName}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Deliver To:</span>
-                <span className="font-medium text-foreground truncate max-w-[200px]">
-                  {shippingAddress?.city}, {shippingAddress?.province} - {shippingAddress?.postalCode}
-                </span>
-              </div>
-              <div className="flex justify-between items-center pt-2 border-t border-border">
-                <span className="font-semibold text-foreground">Amount:</span>
-                <span className="text-lg font-bold text-primary font-mono">
-                  {formatMoney({
-                    amount: BigInt(grandTotal),
-                    currency: storeConfig.currency,
-                    locale: storeConfig.locale,
-                  })}
-                </span>
-              </div>
-            </div>
-
-            <div className="text-xs text-muted-foreground flex items-start gap-2 bg-blue-50 dark:bg-blue-950/30 p-3 rounded-lg border border-blue-200 dark:border-blue-900 text-blue-800 dark:text-blue-300">
-              <Info className="h-4 w-4 shrink-0 mt-0.5" />
-              <span>
-                Click below to complete the simulated Razorpay payment and proceed to order confirmation.
-              </span>
-            </div>
-
-            <div className="flex gap-3 pt-2">
-              <Button
-                variant="outline"
-                onClick={() => setShowSimulatedModal(false)}
-                className="flex-1 rounded-full text-xs"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleSimulateSuccess}
-                className="flex-1 rounded-full text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-1.5"
-              >
-                <CheckCircle2 className="h-4 w-4" /> Simulate Success
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

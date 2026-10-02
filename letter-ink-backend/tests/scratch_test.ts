@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 async function test() {
-  const headers = { 'x-publishable-api-key': 'pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b' };
+  const headers = { 'x-publishable-api-key': process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '' };
   try {
     // 1. Create a cart
     const createCartRes = await axios.post('http://localhost:9000/store/carts', {}, { headers });

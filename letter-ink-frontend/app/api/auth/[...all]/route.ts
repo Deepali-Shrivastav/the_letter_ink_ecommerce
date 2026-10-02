@@ -6,7 +6,7 @@ import { rateLimit } from "@/lib/rate-limit";
 async function handler(request: NextRequest) {
 	const ip = request.ip || request.headers.get("x-forwarded-for") || "127.0.0.1";
 	
-	const rateLimitResult = rateLimit(ip, 20, 60000); // 20 reqs per minute
+	const rateLimitResult = await rateLimit(ip, 20, 60000); // 20 reqs per minute
 	if (!rateLimitResult.success) {
 		logger.warn(`[auth proxy] Rate limit exceeded for IP: ${ip}`);
 		return NextResponse.json(

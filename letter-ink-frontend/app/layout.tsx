@@ -254,7 +254,6 @@ export default async function RootLayout({
 				<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${ebGaramond.variable} antialiased`} suppressHydrationWarning>
-				<Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 				<Suspense fallback={null}>
 					<StoreJsonLd />
 				</Suspense>

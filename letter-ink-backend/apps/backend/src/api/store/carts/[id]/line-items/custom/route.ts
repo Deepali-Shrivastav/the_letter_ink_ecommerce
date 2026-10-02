@@ -11,17 +11,29 @@ export const POST = async (
   try {
     const item: any = {
       quantity,
-      unit_price, // Marks as is_custom_price: true
       metadata: {
         ...(metadata || {}),
         ...(variant_id ? { custom_variant_id: variant_id } : {})
       },
     };
 
-    if (variant_id && !variant_id.startsWith("wk_")) {
-      item.variant_id = variant_id;
-    } else {
+    if (variant_id && variant_id.startsWith("wk_")) {
+      const workshopService = req.scope.resolve("workshopModuleService") as any;
+      if (workshopService) {
+        const workshop = await workshopService.retrieveWorkshop(variant_id);
+        if (workshop) {
+          item.unit_price = workshop.price;
+        } else {
+          return res.status(404).json({ success: false, error: "Workshop not found" });
+        }
+      } else {
+        return res.status(500).json({ success: false, error: "Workshop module unavailable" });
+      }
       item.title = title || metadata?.title || "Workshop Seat";
+    } else {
+      item.variant_id = variant_id;
+      // Do NOT set item.unit_price here. This forces the Medusa core 
+      // addToCartWorkflow to look up the correct price securely from the DB.
     }
 
     const { result } = await addToCartWorkflow(req.scope).run({

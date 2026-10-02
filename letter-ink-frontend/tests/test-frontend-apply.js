@@ -3,7 +3,7 @@ const { commerce } = require("./lib/commerce");
 
 async function testFrontendApply() {
   const headers = {
-    'x-publishable-api-key': 'pk_63a72c5bee39e67a8be438c3dabd0b63dcf83417c2ecd9180d0d6105b068303b',
+    'x-publishable-api-key': process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
     'Content-Type': 'application/json'
   };
 

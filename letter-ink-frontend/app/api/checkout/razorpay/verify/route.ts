@@ -25,9 +25,21 @@ export async function POST(request: Request) {
     } = body;
 
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    
+    if (
+      (razorpay_order_id?.startsWith("order_sim_") || razorpay_signature?.startsWith("simulated_")) &&
+      process.env.ENABLE_PAYMENT_SIMULATION !== 'true'
+    ) {
+      return NextResponse.json(
+        { success: false, error: "Payment simulation is not enabled in this environment" },
+        { status: 400 }
+      );
+    }
+
     const isSimulated =
-      razorpay_order_id?.startsWith("order_sim_") ||
-      razorpay_signature?.startsWith("simulated_");
+      process.env.ENABLE_PAYMENT_SIMULATION === 'true' &&
+      (razorpay_order_id?.startsWith("order_sim_") ||
+      razorpay_signature?.startsWith("simulated_"));
 
     const isLiveConfigured = Boolean(
       keySecret &&

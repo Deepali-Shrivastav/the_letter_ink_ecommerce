@@ -52,13 +52,29 @@ const nextConfig: NextConfig = {
 			{ protocol: "https", hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com" },
 			{ protocol: "https", hostname: "images.pexels.com" },
 			{ protocol: "https", hostname: "images.unsplash.com" },
-			{ protocol: "https", hostname: "**" },
 			{ protocol: "http", hostname: "localhost" },
 		],
 		dangerouslyAllowLocalIP: true,
 	},
 	async headers() {
-		if (isProd) return [];
+		const securityHeaders = [
+			{ key: "X-DNS-Prefetch-Control", value: "on" },
+			{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+			{ key: "X-XSS-Protection", value: "1; mode=block" },
+			{ key: "X-Frame-Options", value: "SAMEORIGIN" },
+			{ key: "X-Content-Type-Options", value: "nosniff" },
+			{ key: "Referrer-Policy", value: "strict-origin-when-cross-origin" }
+		];
+
+		if (isProd) {
+			return [
+				{
+					source: "/:path*",
+					headers: securityHeaders,
+				}
+			];
+		}
+		
 		// Dev-only: AI Builder renders this app in an iframe, and Chrome's HTTP cache
 		// holds stale sub-resources inside iframes — HMR fires but the preview never
 		// sees it. See https://github.com/vercel/next.js/issues/90143.
@@ -66,6 +82,7 @@ const nextConfig: NextConfig = {
 			{
 				source: "/:path*",
 				headers: [
+					...securityHeaders,
 					{ key: "Cache-Control", value: "no-store, must-revalidate" },
 					{ key: "Pragma", value: "no-cache" },
 				],

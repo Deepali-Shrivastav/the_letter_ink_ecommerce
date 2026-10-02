@@ -24,7 +24,7 @@ export const updateWorkshopSchema = createWorkshopSchema.partial()
 export const createBlogSchema = z.object({
   title: z.string().min(1, "Title is required").max(255),
   handle: z.string().max(200).optional(),
-  content: z.string().min(1, "Content is required"),
+  content: z.string().min(1, "Content is required").max(200000, "Content too long"),
   excerpt: z.string().max(1000).optional(),
   status: z.enum(["draft", "published"]).default("published"),
   published_at: z.string().optional(),
@@ -44,12 +44,12 @@ export const createCustomizationOptionSchema = z.object({
 export const createCustomizationValueSchema = z.object({
   option_id: z.string().min(1, "option_id is required"),
   value: z.string().min(1, "value is required").max(100),
-  price_adjustment: z.number().optional(),
+  price_adjustment: z.number().min(0).max(1000000).optional(),
 })
 
 export const createCustomizationCombinationSchema = z.object({
   product_id: z.string().min(1, "product_id is required"),
-  price_adjustment: z.number().optional(),
+  price_adjustment: z.number().min(0).max(1000000).optional(),
   status: z.string().optional(),
   value_ids: z.array(z.string()).optional(),
 })
