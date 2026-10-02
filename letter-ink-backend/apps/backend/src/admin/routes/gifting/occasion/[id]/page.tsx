@@ -219,7 +219,7 @@ const OccasionGiftsAdminPage = () => {
 
                 <div className="grid gap-2">
                   <Label>Image URL</Label>
-                  <Input name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="https://..." />
+                  <Input name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="https://images.unsplash.com/photo-1586075010923-2dd4570fb338..." />
                 </div>
                 
                 <div className="grid gap-2">

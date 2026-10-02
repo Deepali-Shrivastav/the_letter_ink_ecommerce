@@ -17,3 +17,5 @@ stitch_homepage.*
 **/.env*
 !**/.env.example
 !**/.env.template
+
+.playwright-mcp/

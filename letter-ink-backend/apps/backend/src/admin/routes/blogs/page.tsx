@@ -424,7 +424,7 @@ const BlogsAdminPage = () => {
                     
                     <div className="grid gap-2">
                       <Label>Images (JSON Array format)</Label>
-                      <Textarea name="images" value={formData.images} onChange={handleChange} placeholder='[ "https://example.com/editorial-banner.jpg" ]' rows={3} className="font-mono text-xs" />
+                      <Textarea name="images" value={formData.images} onChange={handleChange} placeholder='[ "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119" ]' rows={3} className="font-mono text-xs" />
                       <Text className="text-ui-fg-subtle text-xs">Enter a valid JSON array of image strings.</Text>
                     </div>
                     

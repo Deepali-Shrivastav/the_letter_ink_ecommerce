@@ -1,0 +1,77 @@
+import type { NextConfig } from "next";
+
+// Suppress Node.js 22+ DEP0169 url.parse deprecation warning caused by legacy client dependencies
+if (typeof process !== "undefined" && process.emitWarning) {
+	const originalEmitWarning = process.emitWarning;
+	process.emitWarning = function (warning: any, ...args: any[]) {
+		if (
+			(typeof warning === "string" && (warning.includes("DEP0169") || warning.includes("url.parse"))) ||
+			(typeof warning === "object" && warning?.code === "DEP0169")
+		) {
+			return;
+		}
+		return (originalEmitWarning as any).apply(process, [warning, ...args]);
+	};
+}
+
+const isProd = process.env.NODE_ENV === "production";
+
+const nextConfig: NextConfig = {
+	allowedDevOrigins: ["*.vercel.run"],
+	devIndicators: false,
+	typescript: {
+		ignoreBuildErrors: true,
+	},
+	reactCompiler: true,
+	cacheComponents: true,
+	partialPrefetching: false,
+	experimental: {
+		// Run the React Compiler natively in Turbopack instead of through Babel (16.3 experimental).
+		turbopackRustReactCompiler: true,
+		typedEnv: true,
+		optimizePackageImports: [
+			"lucide-react",
+			"@radix-ui/react-accordion",
+			"@radix-ui/react-checkbox",
+			"@radix-ui/react-dialog",
+			"@radix-ui/react-dropdown-menu",
+			"@radix-ui/react-label",
+			"@radix-ui/react-popover",
+			"@radix-ui/react-scroll-area",
+			"@radix-ui/react-select",
+			"@radix-ui/react-slider",
+			"@radix-ui/react-slot",
+			"@radix-ui/react-tooltip",
+			"class-variance-authority",
+		],
+	},
+	images: {
+		// Store media remote image patterns
+		remotePatterns: [
+			{ protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+			{ protocol: "https", hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com" },
+			{ protocol: "https", hostname: "images.pexels.com" },
+			{ protocol: "https", hostname: "images.unsplash.com" },
+			{ protocol: "https", hostname: "**" },
+			{ protocol: "http", hostname: "localhost" },
+		],
+		dangerouslyAllowLocalIP: true,
+	},
+	async headers() {
+		if (isProd) return [];
+		// Dev-only: AI Builder renders this app in an iframe, and Chrome's HTTP cache
+		// holds stale sub-resources inside iframes — HMR fires but the preview never
+		// sees it. See https://github.com/vercel/next.js/issues/90143.
+		return [
+			{
+				source: "/:path*",
+				headers: [
+					{ key: "Cache-Control", value: "no-store, must-revalidate" },
+					{ key: "Pragma", value: "no-cache" },
+				],
+			},
+		];
+	},
+};
+
+export default nextConfig;

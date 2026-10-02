@@ -155,7 +155,55 @@ export default async function setupIndiaRegionAndPrices({ container }: ExecArgs)
             },
           ],
         })
-        console.log("Shipping option for India created.")
+        console.log("Standard Shipping option for India created.")
+      }
+      
+      const hasReturnShipping = existingOptions.some((opt: any) =>
+        opt.prices?.some((p: any) => p.region_id === indiaRegion.id || p.currency_code === "inr") &&
+        opt.rules?.some((r: any) => r.attribute === "is_return" && r.value === "true")
+      )
+
+      if (!hasReturnShipping) {
+        console.log("Creating Return Shipping for India...")
+        await createShippingOptionsWorkflow(container).run({
+          input: [
+            {
+              name: "Return Shipping (India)",
+              price_type: "flat",
+              provider_id: "manual_manual",
+              service_zone_id: fulfillmentSets[0].service_zones[0].id,
+              shipping_profile_id: shippingProfile.id,
+              type: {
+                label: "Return",
+                description: "Return shipping via manual provider.",
+                code: "return_in",
+              },
+              prices: [
+                {
+                  currency_code: "inr",
+                  amount: 0,
+                },
+                {
+                  region_id: indiaRegion.id,
+                  amount: 0,
+                },
+              ],
+              rules: [
+                {
+                  attribute: "enabled_in_store",
+                  value: "true",
+                  operator: "eq",
+                },
+                {
+                  attribute: "is_return",
+                  value: "true",
+                  operator: "eq",
+                },
+              ],
+            },
+          ],
+        })
+        console.log("Return Shipping option for India created.")
       }
     }
   } catch (err: any) {

@@ -232,7 +232,7 @@ const HamperAdminPage = () => {
                 
                 <div className="grid gap-2">
                   <Label>Image URL</Label>
-                  <Input name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="https://..." />
+                  <Input name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="https://images.unsplash.com/photo-1549465220-1a8b9238cd48..." />
                 </div>
                 
                 <div className="grid gap-2">
