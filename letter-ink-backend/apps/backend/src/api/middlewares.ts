@@ -30,11 +30,24 @@ const defaultLimiter = rateLimit({
   message: { message: "Too many requests from this IP, please try again later" },
 });
 
+const trackLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 20,
+  skip: (req) => isLocalhost(req.ip),
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Too many tracking requests from this IP, please try again later" },
+});
+
 export default defineMiddlewares({
   routes: [
     {
       matcher: "/auth/*",
       middlewares: [authLimiter],
+    },
+    {
+      matcher: "/store/orders/track",
+      middlewares: [trackLimiter],
     },
     {
       matcher: "/store/*",

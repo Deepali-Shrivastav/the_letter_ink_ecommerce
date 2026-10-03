@@ -1,13 +1,13 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { useSelectedVariant } from "@/app/product/[slug]/use-selected-variant";
 import { useCustomization } from "@/app/product/[slug]/customization-context";
+import { useSelectedVariant } from "@/app/product/[slug]/use-selected-variant";
 import { Button } from "@/components/ui/button";
-import { cn, isVideoUrl } from "@/lib/utils";
 import { LetterInkMedia } from "@/lib/the-letter-ink-media";
+import { cn, isVideoUrl } from "@/lib/utils";
 
 type Variant = {
 	id: string;
@@ -215,14 +215,18 @@ export function MediaGallery({ images, productName, variants }: MediaGalleryProp
 					)}
 				</div>
 			</div>
-			
+
 			{/* Material Authenticity Footnote */}
 			<div className="mt-2 p-4 bg-paper-tint flex items-center justify-between gap-4">
 				<div className="flex items-center gap-3">
-					<span className="material-symbols-outlined text-primary text-[22px]">verified</span>
-					<p className="font-body-sm text-body-sm text-secondary">Signed atelier authenticity wax seal certificate encapsulated on rear verso.</p>
+					<CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+					<p className="font-body-sm text-body-sm text-secondary">
+						Signed atelier authenticity wax seal certificate encapsulated on rear verso.
+					</p>
 				</div>
-				<span className="font-label-sm text-label-sm text-primary uppercase tracking-widest whitespace-nowrap hidden sm:block">Atelier Heirlooms</span>
+				<span className="font-label-sm text-label-sm text-primary uppercase tracking-widest whitespace-nowrap hidden sm:block">
+					Atelier Heirlooms
+				</span>
 			</div>
 		</section>
 	);

@@ -1,24 +1,12 @@
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { TiptapRenderer } from "@/components/tiptap-renderer";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { BlogArticleClient } from "@/components/sections/blog-article-client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { commerce, getCanonicalUrl } from "@/lib/commerce";
-import { formatDate } from "@/lib/dates";
 import { JsonLdScript } from "@/lib/json-ld";
 import { isStoreToolEnabled } from "@/lib/store-tools";
-
-import { BlogArticleClient } from "@/components/sections/blog-article-client";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
 	"use cache";
@@ -80,7 +68,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
 	);
 }
 
-const getBlogPostData = async (slug: string) => {
+const _getBlogPostData = async (slug: string) => {
 	"use cache";
 	cacheLife("minutes");
 

@@ -24,6 +24,7 @@ export default async function seedPromotionsScript({ container }: ExecArgs) {
       code: "WELCOME10",
       type: "standard",
       is_automatic: false,
+      status: "active",
       campaign_id: welcomeCampaign.id,
       application_method: {
         type: "percentage",
@@ -63,6 +64,7 @@ export default async function seedPromotionsScript({ container }: ExecArgs) {
       code: "GIFTFEST",
       type: "standard",
       is_automatic: false,
+      status: "active",
       campaign_id: hamperCampaign.id,
       application_method: {
         type: "fixed",

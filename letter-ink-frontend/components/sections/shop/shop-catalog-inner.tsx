@@ -18,17 +18,18 @@ export async function ShopCatalogInner() {
 		const rawAmount = firstVariant?.price ? Number(firstVariant.price) : null;
 
 		const price =
-			rawAmount !== null
-				? formatMoney({ amount: rawAmount, currency: "INR", locale: "en-IN" })
-				: null;
+			rawAmount !== null ? formatMoney({ amount: rawAmount, currency: "INR", locale: "en-IN" }) : null;
 
-		const rawOriginal = firstVariant?.originalPrice
-			? Number(firstVariant.originalPrice)
-			: null;
+		const rawOriginal = firstVariant?.originalPrice ? Number(firstVariant.originalPrice) : null;
+		const isDiscounted =
+			rawOriginal !== null && rawAmount !== null && rawOriginal > rawAmount;
 		const originalPrice =
-			rawOriginal !== null && rawOriginal !== rawAmount
+			isDiscounted
 				? formatMoney({ amount: rawOriginal, currency: "INR", locale: "en-IN" })
 				: null;
+		const discountPercent = isDiscounted
+			? Math.round(((rawOriginal - rawAmount) / rawOriginal) * 100)
+			: 0;
 
 		return {
 			id: p.id,
@@ -38,8 +39,10 @@ export async function ShopCatalogInner() {
 			name: p.name,
 			description: p.summary ?? "",
 			price,
+			rawPrice: rawAmount,
 			originalPrice,
-			rating: 4.9,   // Medusa v2 has no native reviews; use a neutral default
+			discountPercent,
+			rating: 4.9, // Medusa v2 has no native reviews; use a neutral default
 			reviews: 0,
 			badge: (p as any).badge ?? null,
 			image: p.images?.[0] ?? null,

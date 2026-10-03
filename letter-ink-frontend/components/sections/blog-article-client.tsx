@@ -3,6 +3,24 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import {
+	Share2,
+	Pin,
+	MessageSquare,
+	Mail,
+	Check,
+	Link as LinkIcon,
+	Bookmark,
+	BookmarkCheck,
+	Printer,
+	Camera,
+	Compass,
+	AlertTriangle,
+	Package,
+	HelpCircle,
+	ChevronDown,
+	ArrowRight,
+} from "lucide-react";
 
 export function BlogArticleClient({ post }: { post?: any }) {
 	const [readingProgress, setReadingProgress] = useState(0);
@@ -54,7 +72,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 		if (typeof window === "undefined") return;
 		const url = encodeURIComponent(window.location.href);
 		const title = encodeURIComponent(
-			"Preserving Glass Engraving: Caring for Hand-Etched Flutes & Victorian Crystal"
+			"Preserving Glass Engraving: Caring for Hand-Etched Flutes & Victorian Crystal",
 		);
 
 		switch (platform) {
@@ -161,7 +179,8 @@ export function BlogArticleClient({ post }: { post?: any }) {
 
 					{/* Subtitle */}
 					<p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed font-light">
-						{post?.description || "A comprehensive conservatory guide to washing, handling, and buffering personalized glassware etched with micro-drill diamond burs to prevent clouding, thermal shock, and micro-fractures."}
+						{post?.description ||
+							"A comprehensive conservatory guide to washing, handling, and buffering personalized glassware etched with micro-drill diamond burs to prevent clouding, thermal shock, and micro-fractures."}
 					</p>
 
 					{/* Byline & Metadata Strip */}
@@ -196,7 +215,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 					{/* Social Share Bar & Bookmark Actions */}
 					<div className="mt-6 bg-paper-tint px-6 py-3.5 flex flex-wrap items-center justify-between gap-4 border border-border-vellum">
 						<div className="flex items-center space-x-2 font-label-sm text-label-sm uppercase tracking-[0.14em] text-on-surface-variant">
-							<span className="material-symbols-outlined text-[18px]">share</span>
+							<Share2 className="w-4.5 h-4.5" />
 							<span>Share Article:</span>
 							<div className="flex items-center space-x-1 pl-2">
 								<button
@@ -205,7 +224,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 									aria-label="Share on Pinterest"
 									className="p-1.5 hover:text-primary transition-colors text-secondary cursor-pointer"
 								>
-									<span className="material-symbols-outlined text-[18px]">push_pin</span>
+									<Pin className="w-4.5 h-4.5" />
 								</button>
 								<button
 									type="button"
@@ -213,7 +232,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 									aria-label="Share on WhatsApp"
 									className="p-1.5 hover:text-primary transition-colors text-secondary cursor-pointer"
 								>
-									<span className="material-symbols-outlined text-[18px]">chat</span>
+									<MessageSquare className="w-4.5 h-4.5" />
 								</button>
 								<button
 									type="button"
@@ -221,7 +240,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 									aria-label="Share via Email"
 									className="p-1.5 hover:text-primary transition-colors text-secondary cursor-pointer"
 								>
-									<span className="material-symbols-outlined text-[18px]">mail</span>
+									<Mail className="w-4.5 h-4.5" />
 								</button>
 								<button
 									type="button"
@@ -229,9 +248,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 									aria-label="Copy Link"
 									className="p-1.5 hover:text-primary transition-colors text-secondary relative cursor-pointer"
 								>
-									<span className="material-symbols-outlined text-[18px]">
-										{copied ? "done" : "link"}
-									</span>
+									{copied ? <Check className="w-4.5 h-4.5 text-primary" /> : <LinkIcon className="w-4.5 h-4.5" />}
 								</button>
 							</div>
 						</div>
@@ -243,9 +260,11 @@ export function BlogArticleClient({ post }: { post?: any }) {
 									bookmarked ? "text-primary font-semibold" : "text-secondary hover:text-primary"
 								}`}
 							>
-								<span className="material-symbols-outlined text-[18px]">
-									{bookmarked ? "bookmark" : "bookmark_border"}
-								</span>
+								{bookmarked ? (
+									<BookmarkCheck className="w-4.5 h-4.5 fill-primary text-primary" />
+								) : (
+									<Bookmark className="w-4.5 h-4.5" />
+								)}
 								<span>{bookmarked ? "Saved In Folio" : "Save To Atelier Folio"}</span>
 							</button>
 							<span className="text-outline-variant">|</span>
@@ -254,7 +273,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 								onClick={() => window.print()}
 								className="text-secondary hover:text-primary font-label-sm text-label-sm uppercase tracking-[0.14em] transition-colors flex items-center space-x-1 cursor-pointer"
 							>
-								<span className="material-symbols-outlined text-[18px]">print</span>
+								<Printer className="w-4.5 h-4.5" />
 								<span>Print Folio</span>
 							</button>
 						</div>
@@ -268,12 +287,15 @@ export function BlogArticleClient({ post }: { post?: any }) {
 							<img
 								className="w-full h-full object-cover"
 								alt={post?.title || "Artisanal studio workspace"}
-								src={post?.images?.[0] || "https://lh3.googleusercontent.com/aida-public/AB6AXuAFsdymvbrtuYrQ3_aK26tXiZPazl0Gl_sGKpQIZbUfLbA05U-1V1Wqy_oi0hLvfwps3MF5eSegza_KKx9UNq6NINzYP37EUS70BB-uu7lYeK1Re_RwC6aAhzhHCzGAQkhoWkyhzBuMaMxFdQ0lYjndDR97BgljqSMvvsD3UCNpL5nXpkyj6R7GPS_f12jQfOLac_XlgT8yLPdVAQWe-9ZAYG6MOUn8tsj4Uq47QdaKpT7tDn-0f9w"}
+								src={
+									post?.images?.[0] ||
+									"https://lh3.googleusercontent.com/aida-public/AB6AXuAFsdymvbrtuYrQ3_aK26tXiZPazl0Gl_sGKpQIZbUfLbA05U-1V1Wqy_oi0hLvfwps3MF5eSegza_KKx9UNq6NINzYP37EUS70BB-uu7lYeK1Re_RwC6aAhzhHCzGAQkhoWkyhzBuMaMxFdQ0lYjndDR97BgljqSMvvsD3UCNpL5nXpkyj6R7GPS_f12jQfOLac_XlgT8yLPdVAQWe-9ZAYG6MOUn8tsj4Uq47QdaKpT7tDn-0f9w"
+								}
 							/>
 						</div>
 						<div className="bg-paper-tint p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-secondary border-t border-border-vellum">
 							<div className="flex items-center space-x-3">
-								<span className="material-symbols-outlined text-[18px] text-primary">photo_camera</span>
+								<Camera className="w-4.5 h-4.5 text-primary" />
 								<p className="font-body-sm text-body-sm text-on-surface-variant italic">
 									Archival Study 01: Bespoke Spencerian Script rendered on hand-blown Austrian crystal via
 									pneumatic diamond micro-burr (0.8mm ball).
@@ -289,385 +311,386 @@ export function BlogArticleClient({ post }: { post?: any }) {
 				{/* Editorial Main Reading Canvas */}
 				<div className="max-w-3xl mx-auto px-margin-mobile lg:px-4 py-space-sm space-y-space-md">
 					{post?.content ? (
-						<div className="font-body-lg text-body-lg text-on-surface leading-relaxed space-y-6" dangerouslySetInnerHTML={{ __html: post.content }} />
+						<div
+							className="font-body-lg text-body-lg text-on-surface leading-relaxed space-y-6"
+							dangerouslySetInnerHTML={{ __html: post.content }}
+						/>
 					) : (
 						<div className="font-body-lg text-body-lg text-on-surface leading-relaxed space-y-6">
 							<p className="text-justify sm:text-left">
 								<span className="float-left font-display-hero text-[68px] leading-[60px] pr-3 pt-1 text-primary font-normal">
 									E
 								</span>
-								ach carved stroke upon fine crystal is an indelible dialogue between pressurized diamond and silica.
-								When bespoke vows, gilded dates, and fluid Flourished Copperplate monograms are hand-inscribed into
-								bridal flutes or Victorian decanters, the glass undergoes a profound architectural metamorphosis.
-								Unlike uniform laser blasting or mass acid dipping, bespoke rotary diamond engraving creates
-								micro-topographies—hundreds of delicate, microscopic prismatic fissures that catch candlelight with
-								peerless iridescence.
+								ach carved stroke upon fine crystal is an indelible dialogue between pressurized diamond and
+								silica. When bespoke vows, gilded dates, and fluid Flourished Copperplate monograms are
+								hand-inscribed into bridal flutes or Victorian decanters, the glass undergoes a profound
+								architectural metamorphosis. Unlike uniform laser blasting or mass acid dipping, bespoke
+								rotary diamond engraving creates micro-topographies—hundreds of delicate, microscopic
+								prismatic fissures that catch candlelight with peerless iridescence.
 							</p>
 							<p className="text-on-surface-variant font-light">
-								Yet, this tactile transcendence demands deliberate stewardship. Left to harsh modern detergents,
-								violent dishwasher currents, or rapid thermal gradients, the crystalline tooth of the engraving
-								can harbor mineral scale, micro-stress fractures, or irreversible surface haze. Herein lies our
-								atelier’s definitive conservatory standard for preserving hand-engraved crystal across generations.
+								Yet, this tactile transcendence demands deliberate stewardship. Left to harsh modern
+								detergents, violent dishwasher currents, or rapid thermal gradients, the crystalline tooth of
+								the engraving can harbor mineral scale, micro-stress fractures, or irreversible surface haze.
+								Herein lies our atelier’s definitive conservatory standard for preserving hand-engraved
+								crystal across generations.
 							</p>
 						</div>
 					)}
 
 					{/* Atelier Technical Metric Box / SVG Diagram */}
 					{!post?.content && (
-					<>
-					<div className="bg-surface-container-lowest p-6 lg:p-8 shadow-sm border border-border-vellum">
-						<div className="flex items-center justify-between pb-4 border-b border-border-vellum">
-							<div className="flex items-center space-x-2">
-								<span className="material-symbols-outlined text-primary text-[20px]">architecture</span>
-								<h3 className="font-label-md text-label-md uppercase tracking-[0.16em] text-primary font-semibold">
-									Anatomy of the Engraved Surface
-								</h3>
-							</div>
-							<span className="font-label-sm text-label-sm text-secondary uppercase tracking-[0.12em]">
-								MAGNIFICATION 120X
-							</span>
-						</div>
-						{/* Micro SVG Diagram */}
-						<div className="py-6">
-							<svg
-								className="w-full h-auto text-primary"
-								fill="none"
-								viewBox="0 0 700 140"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-									className="opacity-30"
-									d="M 10 110 L 690 110"
-									stroke="currentColor"
-									strokeDasharray="4 4"
-									strokeWidth="1.5"
-								/>
-								<path
-									d="M 10 110 Q 120 110 170 110 C 200 110 220 30 250 30 C 275 30 290 85 320 85 C 340 85 350 45 380 45 C 410 45 425 110 460 110 L 690 110"
-									stroke="currentColor"
-									strokeLinejoin="round"
-									strokeWidth="2.5"
-								/>
-								<circle cx="250" cy="30" fill="currentColor" r="4" />
-								<circle cx="320" cy="85" fill="currentColor" r="4" />
-								<circle cx="380" cy="45" fill="currentColor" r="4" />
-								<text
-									fill="currentColor"
-									fontFamily="Raleway"
-									fontSize="10"
-									fontWeight="600"
-									letterSpacing="0.1em"
-									textAnchor="middle"
-									x="250"
-									y="20"
-								>
-									PRIMARY BURR CAVITY (-120μm)
-								</text>
-								<text
-									fill="currentColor"
-									fontFamily="Raleway"
-									fontSize="9"
-									opacity="0.8"
-									textAnchor="middle"
-									x="345"
-									y="105"
-								>
-									FROSTED TOOTH PRISMS
-								</text>
-								<text
-									fill="currentColor"
-									fontFamily="Raleway"
-									fontSize="9"
-									opacity="0.6"
-									textAnchor="middle"
-									x="560"
-									y="125"
-								>
-									UNTOUCHED LEAD SILICA CANOPY
-								</text>
-							</svg>
-						</div>
-						<p className="font-body-sm text-body-sm text-secondary pt-2">
-							Rotary diamond burs mechanically fracture microscopic silicate bonds rather than melting glass via
-							laser heat. This preserves the surrounding structural integrity while offering the tactile,
-							prismatic sparkle unique to traditional benchwork.
-						</p>
-					</div>
-
-					{/* Section 1 */}
-					<section className="space-y-4 pt-4">
-						<h2 className="font-headline-lg text-headline-md lg:text-headline-lg text-primary font-normal tracking-[0.03em]">
-							The Micro-Structure of Rotary Diamond Engraving
-						</h2>
-						<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed font-light">
-							When observing hand-engraved copperplate script under loupe magnification, one immediately notices
-							the textural difference from standard sandblasting. Diamond burrs—spinning between 18,000 and 32,000
-							RPM—sculpt tiny troughs into the crystal matrix. These troughs act as miniature concave lenses.
-						</p>
-						<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed font-light">
-							Because crystal contains barium oxide or lead monoxide to heighten refractive index, the exposed cut
-							surfaces possess raw chemical affinity for trace minerals found in hard tap water. If left unbuffered
-							after exposure, calcium carbonate calcifies within the hairline strokes, transforming shimmering frost
-							into chalky dullness.
-						</p>
-					</section>
-
-					{/* Section 2: The Three Golden Rules */}
-					<section className="space-y-6 pt-4">
-						<h2 className="font-headline-lg text-headline-md lg:text-headline-lg text-primary font-normal tracking-[0.03em]">
-							The Golden Rules of Cleansing Hand-Etched Crystal
-						</h2>
-						<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed font-light">
-							Treat your engraved flutes not as domestic tableware, but as functional archival sculpture. We
-							counsel our collectors to observe three immutable cleaning rituals:
-						</p>
-
-						{/* Rule Cards Grid */}
-						<div className="space-y-4">
-							{/* Rule 1 */}
-							<div className="bg-surface-container-lowest p-6 shadow-sm border border-border-vellum transition-all hover:bg-paper-tint">
-								<div className="flex items-start gap-4">
-									<span className="font-display-hero text-headline-md text-primary font-light shrink-0">
-										01
-									</span>
-									<div className="space-y-2">
-										<h3 className="font-headline-sm text-headline-sm text-primary font-normal">
-											Absolute Dishwasher Prohibition
+						<>
+							<div className="bg-surface-container-lowest p-6 lg:p-8 shadow-sm border border-border-vellum">
+								<div className="flex items-center justify-between pb-4 border-b border-border-vellum">
+									<div className="flex items-center space-x-2">
+										<Compass className="w-5 h-5 text-primary" />
+										<h3 className="font-label-md text-label-md uppercase tracking-[0.16em] text-primary font-semibold">
+											Anatomy of the Engraved Surface
 										</h3>
-										<p className="font-body-md text-body-md text-on-surface-variant font-light">
-											Never, under any circumstance, place hand-engraved glassware into an automatic
-											dishwasher. The combination of caustic alkaline detergents, high-pressure jet streams,
-											and violent 65°C thermal shifts triggers rapid expansion at the base of micro-carved cuts,
-											causing irreversible micro-fissures and persistent milky clouding.
-										</p>
 									</div>
-								</div>
-							</div>
-
-							{/* Rule 2 */}
-							<div className="bg-surface-container-lowest p-6 shadow-sm border border-border-vellum transition-all hover:bg-paper-tint">
-								<div className="flex items-start gap-4">
-									<span className="font-display-hero text-headline-md text-primary font-light shrink-0">
-										02
+									<span className="font-label-sm text-label-sm text-secondary uppercase tracking-[0.12em]">
+										MAGNIFICATION 120X
 									</span>
-									<div className="space-y-2">
-										<h3 className="font-headline-sm text-headline-sm text-primary font-normal">
-											Lukewarm Cleansing with Botanical Soap
-										</h3>
-										<p className="font-body-md text-body-md text-on-surface-variant font-light">
-											Wash singly in a plastic basin (or line your porcelain sink with an ultra-soft Turkish
-											bath towel). Immerse exclusively in tepid, lukewarm water infused with two drops of
-											organic unscented Castile soap or pH-neutral olive oil cleanser. Use only the soft pad of
-											your bare fingertips or a plush horsehair baby brush across the engraved lettering.
-										</p>
-									</div>
 								</div>
-							</div>
-
-							{/* Rule 3 */}
-							<div className="bg-surface-container-lowest p-6 shadow-sm border border-border-vellum transition-all hover:bg-paper-tint">
-								<div className="flex items-start gap-4">
-									<span className="font-display-hero text-headline-md text-primary font-light shrink-0">
-										03
-									</span>
-									<div className="space-y-2">
-										<h3 className="font-headline-sm text-headline-sm text-primary font-normal">
-											The Egyptian Linen Buffering Technique
-										</h3>
-										<p className="font-body-md text-body-md text-on-surface-variant font-light">
-											Air-drying invites evaporation halos. While the flute is still warm and damp, wrap your
-											non-dominant hand around the bowl (never hold solely by the delicate stem, which is
-											susceptible to torque snapping). Using a lint-free 100% Belgian flax linen or high-thread
-											Egyptian cotton towel, gently pat the grooves dry, then buffer in gentle circular strokes
-											to polish the crystalline facets.
-										</p>
-									</div>
+								{/* Micro SVG Diagram */}
+								<div className="py-6">
+									<svg
+										className="w-full h-auto text-primary"
+										fill="none"
+										viewBox="0 0 700 140"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											className="opacity-30"
+											d="M 10 110 L 690 110"
+											stroke="currentColor"
+											strokeDasharray="4 4"
+											strokeWidth="1.5"
+										/>
+										<path
+											d="M 10 110 Q 120 110 170 110 C 200 110 220 30 250 30 C 275 30 290 85 320 85 C 340 85 350 45 380 45 C 410 45 425 110 460 110 L 690 110"
+											stroke="currentColor"
+											strokeLinejoin="round"
+											strokeWidth="2.5"
+										/>
+										<circle cx="250" cy="30" fill="currentColor" r="4" />
+										<circle cx="320" cy="85" fill="currentColor" r="4" />
+										<circle cx="380" cy="45" fill="currentColor" r="4" />
+										<text
+											fill="currentColor"
+											fontFamily="Raleway"
+											fontSize="10"
+											fontWeight="600"
+											letterSpacing="0.1em"
+											textAnchor="middle"
+											x="250"
+											y="20"
+										>
+											PRIMARY BURR CAVITY (-120μm)
+										</text>
+										<text
+											fill="currentColor"
+											fontFamily="Raleway"
+											fontSize="9"
+											opacity="0.8"
+											textAnchor="middle"
+											x="345"
+											y="105"
+										>
+											FROSTED TOOTH PRISMS
+										</text>
+										<text
+											fill="currentColor"
+											fontFamily="Raleway"
+											fontSize="9"
+											opacity="0.6"
+											textAnchor="middle"
+											x="560"
+											y="125"
+										>
+											UNTOUCHED LEAD SILICA CANOPY
+										</text>
+									</svg>
 								</div>
-							</div>
-						</div>
-					</section>
-
-					{/* Atmospheric Mid-Article Editorial Visual */}
-					<div className="my-space-md">
-						<div className="bg-surface-container-low overflow-hidden shadow-sm border border-border-vellum">
-							<img
-								className="w-full h-80 object-cover"
-								alt="Close up overhead capture of hands drying a fine engraved crystal champagne coupe using a soft unbleached natural linen cloth"
-								src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3kPccCvik-9SaNKg6aK0bImt8_mOjP_KN4Z5mK13vOVxhPToEm60hV5wTqKKzL57ZCbreo88I-xjSc9wNQ5rdFojzJNn9mjIK0ag_fpkzIwodmLceURgPfl2rFCanRfZIzCBIDhOKo55C_mZgKWPT62_KzTx-efzL0zUA-W8B713eDy5RW2Sn9cbDaNBZOxuHERMy1uYUZ1hUUK0yZACC4hEZZyXEI4Yifm3ilG4bcWKdliMnJ-0"
-							/>
-							<div className="p-4 bg-paper-tint flex items-center justify-between border-t border-border-vellum">
-								<span className="font-body-sm text-body-sm text-on-surface-variant italic">
-									Gentle buffering across the engraved relief revives the raw frosted tooth without scratching lead
-									crystal.
-								</span>
-								<span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-medium">
-									ATELIER RITUAL
-								</span>
-							</div>
-						</div>
-					</div>
-
-					{/* Atelier Conservatory Warning Callout Card */}
-					<aside className="bg-tertiary-fixed text-on-tertiary-fixed p-6 sm:p-8 shadow-sm relative overflow-hidden border border-tertiary-fixed-dim">
-						<div className="flex items-start gap-4">
-							<div className="p-2 bg-on-tertiary-fixed text-tertiary-fixed shrink-0 rounded">
-								<span className="material-symbols-outlined text-[24px]">warning</span>
-							</div>
-							<div className="space-y-2">
-								<h4 className="font-label-md text-label-md uppercase tracking-[0.16em] font-bold">
-									The Scribe’s Warning: Acids &amp; Abrasives
-								</h4>
-								<p className="font-body-md text-body-md text-on-tertiary-fixed-variant leading-relaxed">
-									Never apply synthetic scouring pads, melamine foam sponges, or citrus-heavy acidic cleansers to
-									personalized monograms. Lemon-based soaps erode the subtle micro-facets within the engraved
-									groove, permanently rounding the sharp calligraphic hair-strokes and dampening their reflective
-									sparkle.
+								<p className="font-body-sm text-body-sm text-secondary pt-2">
+									Rotary diamond burs mechanically fracture microscopic silicate bonds rather than melting
+									glass via laser heat. This preserves the surrounding structural integrity while offering the
+									tactile, prismatic sparkle unique to traditional benchwork.
 								</p>
 							</div>
-						</div>
-					</aside>
 
-					{/* Section 3: Archival Storage in Maharashtra & Coastal Climates */}
-					<section className="space-y-4 pt-4">
-						<h2 className="font-headline-lg text-headline-md lg:text-headline-lg text-primary font-normal tracking-[0.03em]">
-							Storage &amp; Archival Humidity in Maharashtra &amp; Coastal Climates
-						</h2>
-						<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed font-light">
-							In regions experiencing monsoon swings and high ambient humidity—from Bhusawal to Mumbai and
-							coastal Konkan—glassware is subject to &ldquo;glass disease&rdquo; or silica weeping if sealed in
-							airtight plastic wraps.
-						</p>
-						<div className="bg-surface-container-lowest p-6 space-y-4 shadow-sm border border-border-vellum">
-							<div className="flex items-center space-x-3 pb-2 border-b border-border-vellum">
-								<span className="material-symbols-outlined text-primary">inventory_2</span>
-								<h4 className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary font-semibold">
-									Four Rules of Stemware Storage
-								</h4>
-							</div>
-							<ul className="space-y-3 font-body-md text-body-md text-on-surface-variant font-light">
-								<li className="flex items-start gap-3">
-									<span className="text-primary font-bold">•</span>
-									<span>
-										<strong>Store Rim-Upward:</strong> Storing glasses inverted onto wooden shelves concentrates
-										all structural weight onto the fragile, hand-blown lip. Keep them upright with at least 15mm
-										clearance between stems.
-									</span>
-								</li>
-								<li className="flex items-start gap-3">
-									<span className="text-primary font-bold">•</span>
-									<span>
-										<strong>Porous Silk Lining:</strong> Store heirloom wedding flutes inside velvet-cushioned or
-										pure unbleached raw silk chests rather than poly-foam cases, which emit volatile organic
-										compounds (VOCs) over time.
-									</span>
-								</li>
-								<li className="flex items-start gap-3">
-									<span className="text-primary font-bold">•</span>
-									<span>
-										<strong>Active Silica Desiccants:</strong> Place food-safe breathable silica packets inside
-										display cabinets during humid monsoon months to inhibit moisture condensation within deep
-										calligraphy cuts.
-									</span>
-								</li>
-							</ul>
-						</div>
-					</section>
+							{/* Section 1 */}
+							<section className="space-y-4 pt-4">
+								<h2 className="font-headline-lg text-headline-md lg:text-headline-lg text-primary font-normal tracking-[0.03em]">
+									The Micro-Structure of Rotary Diamond Engraving
+								</h2>
+								<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed font-light">
+									When observing hand-engraved copperplate script under loupe magnification, one immediately
+									notices the textural difference from standard sandblasting. Diamond burrs—spinning between
+									18,000 and 32,000 RPM—sculpt tiny troughs into the crystal matrix. These troughs act as
+									miniature concave lenses.
+								</p>
+								<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed font-light">
+									Because crystal contains barium oxide or lead monoxide to heighten refractive index, the
+									exposed cut surfaces possess raw chemical affinity for trace minerals found in hard tap
+									water. If left unbuffered after exposure, calcium carbonate calcifies within the hairline
+									strokes, transforming shimmering frost into chalky dullness.
+								</p>
+							</section>
 
-					{/* Interactive Accordion / Scribe Notes FAQ */}
-					<section className="space-y-6 pt-space-xs">
-						<div className="flex items-center justify-between pb-2 border-b border-border-vellum">
-							<div>
-								<span className="font-label-sm text-label-sm uppercase tracking-[0.18em] text-secondary block">
-									INQUIRIES &amp; CURATOR ANSWERS
-								</span>
-								<h3 className="font-headline-lg text-headline-md text-primary font-normal">
-									Scribe Notes: Frequently Asked Questions
-								</h3>
-							</div>
-							<span className="material-symbols-outlined text-primary text-[28px]">contact_support</span>
-						</div>
-						<div className="space-y-3">
-							{/* FAQ 1 */}
-							<div className="bg-surface-container-lowest shadow-sm overflow-hidden border border-border-vellum">
-								<button
-									type="button"
-									onClick={() => toggleFaq(0)}
-									className="w-full p-5 text-left flex items-center justify-between gap-4 font-headline-sm text-headline-sm text-primary hover:bg-paper-tint transition-colors cursor-pointer"
-								>
-									<span>Can filled flutes be refrigerated before celebratory toasts?</span>
-									<span
-										className={`material-symbols-outlined text-[20px] transition-transform duration-200 ${
-											openFaq === 0 ? "rotate-180" : ""
-										}`}
-									>
-										expand_more
-									</span>
-								</button>
-								{openFaq === 0 && (
-									<div className="px-5 pb-5 pt-1 text-on-surface-variant font-body-md text-body-md font-light border-t border-border-vellum/50">
-										Yes, but with vital moderation. You may chill the flute for up to 20 minutes in a dry
-										refrigerator. Never place personalized crystal in a sub-zero freezer, as the sudden
-										condensation upon serving hot ambient room air causes extreme thermal shock along the thin
-										engraved margins, risking instant fractures.
+							{/* Section 2: The Three Golden Rules */}
+							<section className="space-y-6 pt-4">
+								<h2 className="font-headline-lg text-headline-md lg:text-headline-lg text-primary font-normal tracking-[0.03em]">
+									The Golden Rules of Cleansing Hand-Etched Crystal
+								</h2>
+								<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed font-light">
+									Treat your engraved flutes not as domestic tableware, but as functional archival sculpture.
+									We counsel our collectors to observe three immutable cleaning rituals:
+								</p>
+
+								{/* Rule Cards Grid */}
+								<div className="space-y-4">
+									{/* Rule 1 */}
+									<div className="bg-surface-container-lowest p-6 shadow-sm border border-border-vellum transition-all hover:bg-paper-tint">
+										<div className="flex items-start gap-4">
+											<span className="font-display-hero text-headline-md text-primary font-light shrink-0">
+												01
+											</span>
+											<div className="space-y-2">
+												<h3 className="font-headline-sm text-headline-sm text-primary font-normal">
+													Absolute Dishwasher Prohibition
+												</h3>
+												<p className="font-body-md text-body-md text-on-surface-variant font-light">
+													Never, under any circumstance, place hand-engraved glassware into an automatic
+													dishwasher. The combination of caustic alkaline detergents, high-pressure jet
+													streams, and violent 65°C thermal shifts triggers rapid expansion at the base of
+													micro-carved cuts, causing irreversible micro-fissures and persistent milky
+													clouding.
+												</p>
+											</div>
+										</div>
 									</div>
-								)}
+
+									{/* Rule 2 */}
+									<div className="bg-surface-container-lowest p-6 shadow-sm border border-border-vellum transition-all hover:bg-paper-tint">
+										<div className="flex items-start gap-4">
+											<span className="font-display-hero text-headline-md text-primary font-light shrink-0">
+												02
+											</span>
+											<div className="space-y-2">
+												<h3 className="font-headline-sm text-headline-sm text-primary font-normal">
+													Lukewarm Cleansing with Botanical Soap
+												</h3>
+												<p className="font-body-md text-body-md text-on-surface-variant font-light">
+													Wash singly in a plastic basin (or line your porcelain sink with an ultra-soft
+													Turkish bath towel). Immerse exclusively in tepid, lukewarm water infused with two
+													drops of organic unscented Castile soap or pH-neutral olive oil cleanser. Use only
+													the soft pad of your bare fingertips or a plush horsehair baby brush across the
+													engraved lettering.
+												</p>
+											</div>
+										</div>
+									</div>
+
+									{/* Rule 3 */}
+									<div className="bg-surface-container-lowest p-6 shadow-sm border border-border-vellum transition-all hover:bg-paper-tint">
+										<div className="flex items-start gap-4">
+											<span className="font-display-hero text-headline-md text-primary font-light shrink-0">
+												03
+											</span>
+											<div className="space-y-2">
+												<h3 className="font-headline-sm text-headline-sm text-primary font-normal">
+													The Egyptian Linen Buffering Technique
+												</h3>
+												<p className="font-body-md text-body-md text-on-surface-variant font-light">
+													Air-drying invites evaporation halos. While the flute is still warm and damp, wrap
+													your non-dominant hand around the bowl (never hold solely by the delicate stem,
+													which is susceptible to torque snapping). Using a lint-free 100% Belgian flax linen
+													or high-thread Egyptian cotton towel, gently pat the grooves dry, then buffer in
+													gentle circular strokes to polish the crystalline facets.
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</section>
+
+							{/* Atmospheric Mid-Article Editorial Visual */}
+							<div className="my-space-md">
+								<div className="bg-surface-container-low overflow-hidden shadow-sm border border-border-vellum">
+									<img
+										className="w-full h-80 object-cover"
+										alt="Close up overhead capture of hands drying a fine engraved crystal champagne coupe using a soft unbleached natural linen cloth"
+										src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3kPccCvik-9SaNKg6aK0bImt8_mOjP_KN4Z5mK13vOVxhPToEm60hV5wTqKKzL57ZCbreo88I-xjSc9wNQ5rdFojzJNn9mjIK0ag_fpkzIwodmLceURgPfl2rFCanRfZIzCBIDhOKo55C_mZgKWPT62_KzTx-efzL0zUA-W8B713eDy5RW2Sn9cbDaNBZOxuHERMy1uYUZ1hUUK0yZACC4hEZZyXEI4Yifm3ilG4bcWKdliMnJ-0"
+									/>
+									<div className="p-4 bg-paper-tint flex items-center justify-between border-t border-border-vellum">
+										<span className="font-body-sm text-body-sm text-on-surface-variant italic">
+											Gentle buffering across the engraved relief revives the raw frosted tooth without
+											scratching lead crystal.
+										</span>
+										<span className="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-medium">
+											ATELIER RITUAL
+										</span>
+									</div>
+								</div>
 							</div>
 
-							{/* FAQ 2 */}
-							<div className="bg-surface-container-lowest shadow-sm overflow-hidden border border-border-vellum">
-								<button
-									type="button"
-									onClick={() => toggleFaq(1)}
-									className="w-full p-5 text-left flex items-center justify-between gap-4 font-headline-sm text-headline-sm text-primary hover:bg-paper-tint transition-colors cursor-pointer"
-								>
-									<span>What should I do if water spots develop inside the engraved grooves?</span>
-									<span
-										className={`material-symbols-outlined text-[20px] transition-transform duration-200 ${
-											openFaq === 1 ? "rotate-180" : ""
-										}`}
-									>
-										expand_more
-									</span>
-								</button>
-								{openFaq === 1 && (
-									<div className="px-5 pb-5 pt-1 text-on-surface-variant font-body-md text-body-md font-light border-t border-border-vellum/50">
-										Prepare a gentle bath of 1 part distilled white vinegar to 4 parts warm demineralized water.
-										Soak a soft cotton bud (Q-tip), trace along the engraved Copperplate flourishes, and allow
-										the solution to sit for 90 seconds. Rinse cleanly with distilled water and buffer with dry
-										Belgian linen. The acetic acid gently lifts calcified minerals without touching the lead glass
-										matrix.
+							{/* Atelier Conservatory Warning Callout Card */}
+							<aside className="bg-tertiary-fixed text-on-tertiary-fixed p-6 sm:p-8 shadow-sm relative overflow-hidden border border-tertiary-fixed-dim">
+								<div className="flex items-start gap-4">
+									<div className="p-2 bg-on-tertiary-fixed text-tertiary-fixed shrink-0 rounded">
+										<AlertTriangle className="w-6 h-6" />
 									</div>
-								)}
-							</div>
+									<div className="space-y-2">
+										<h4 className="font-label-md text-label-md uppercase tracking-[0.16em] font-bold">
+											The Scribe’s Warning: Acids &amp; Abrasives
+										</h4>
+										<p className="font-body-md text-body-md text-on-tertiary-fixed-variant leading-relaxed">
+											Never apply synthetic scouring pads, melamine foam sponges, or citrus-heavy acidic
+											cleansers to personalized monograms. Lemon-based soaps erode the subtle micro-facets
+											within the engraved groove, permanently rounding the sharp calligraphic hair-strokes and
+											dampening their reflective sparkle.
+										</p>
+									</div>
+								</div>
+							</aside>
 
-							{/* FAQ 3 */}
-							<div className="bg-surface-container-lowest shadow-sm overflow-hidden border border-border-vellum">
-								<button
-									type="button"
-									onClick={() => toggleFaq(2)}
-									className="w-full p-5 text-left flex items-center justify-between gap-4 font-headline-sm text-headline-sm text-primary hover:bg-paper-tint transition-colors cursor-pointer"
-								>
-									<span>Can heirloom engraved glass be re-gilded or touched up?</span>
-									<span
-										className={`material-symbols-outlined text-[20px] transition-transform duration-200 ${
-											openFaq === 2 ? "rotate-180" : ""
-										}`}
-									>
-										expand_more
-									</span>
-								</button>
-								{openFaq === 2 && (
-									<div className="px-5 pb-5 pt-1 text-on-surface-variant font-body-md text-body-md font-light border-t border-border-vellum/50">
-										Yes. If your flutes were historically filled with liquid gold leafing, silver paste, or
-										archival pigment rub-in, our Bhusawal studio provides an atelier restoration service. We
-										ultrasonically de-grease the piece and carefully re-apply hand-burnished oil gilding into
-										the original rotary grooves.
+							{/* Section 3: Archival Storage in Maharashtra & Coastal Climates */}
+							<section className="space-y-4 pt-4">
+								<h2 className="font-headline-lg text-headline-md lg:text-headline-lg text-primary font-normal tracking-[0.03em]">
+									Storage &amp; Archival Humidity in Maharashtra &amp; Coastal Climates
+								</h2>
+								<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed font-light">
+									In regions experiencing monsoon swings and high ambient humidity—from Bhusawal to Mumbai and
+									coastal Konkan—glassware is subject to &ldquo;glass disease&rdquo; or silica weeping if
+									sealed in airtight plastic wraps.
+								</p>
+								<div className="bg-surface-container-lowest p-6 space-y-4 shadow-sm border border-border-vellum">
+									<div className="flex items-center space-x-3 pb-2 border-b border-border-vellum">
+										<Package className="w-5 h-5 text-primary" />
+										<h4 className="font-label-md text-label-md uppercase tracking-[0.14em] text-primary font-semibold">
+											Four Rules of Stemware Storage
+										</h4>
 									</div>
-								)}
-							</div>
-						</div>
-					</section>
-					</>
+									<ul className="space-y-3 font-body-md text-body-md text-on-surface-variant font-light">
+										<li className="flex items-start gap-3">
+											<span className="text-primary font-bold">•</span>
+											<span>
+												<strong>Store Rim-Upward:</strong> Storing glasses inverted onto wooden shelves
+												concentrates all structural weight onto the fragile, hand-blown lip. Keep them upright
+												with at least 15mm clearance between stems.
+											</span>
+										</li>
+										<li className="flex items-start gap-3">
+											<span className="text-primary font-bold">•</span>
+											<span>
+												<strong>Porous Silk Lining:</strong> Store heirloom wedding flutes inside
+												velvet-cushioned or pure unbleached raw silk chests rather than poly-foam cases, which
+												emit volatile organic compounds (VOCs) over time.
+											</span>
+										</li>
+										<li className="flex items-start gap-3">
+											<span className="text-primary font-bold">•</span>
+											<span>
+												<strong>Active Silica Desiccants:</strong> Place food-safe breathable silica packets
+												inside display cabinets during humid monsoon months to inhibit moisture condensation
+												within deep calligraphy cuts.
+											</span>
+										</li>
+									</ul>
+								</div>
+							</section>
+
+							{/* Interactive Accordion / Scribe Notes FAQ */}
+							<section className="space-y-6 pt-space-xs">
+								<div className="flex items-center justify-between pb-2 border-b border-border-vellum">
+									<div>
+										<span className="font-label-sm text-label-sm uppercase tracking-[0.18em] text-secondary block">
+											INQUIRIES &amp; CURATOR ANSWERS
+										</span>
+										<h3 className="font-headline-lg text-headline-md text-primary font-normal">
+											Scribe Notes: Frequently Asked Questions
+										</h3>
+									</div>
+									<HelpCircle className="w-7 h-7 text-primary" />
+								</div>
+								<div className="space-y-3">
+									{/* FAQ 1 */}
+									<div className="bg-surface-container-lowest shadow-sm overflow-hidden border border-border-vellum">
+										<button
+											type="button"
+											onClick={() => toggleFaq(0)}
+											className="w-full p-5 text-left flex items-center justify-between gap-4 font-headline-sm text-headline-sm text-primary hover:bg-paper-tint transition-colors cursor-pointer"
+										>
+											<span>Can filled flutes be refrigerated before celebratory toasts?</span>
+											<ChevronDown
+												className={`w-5 h-5 transition-transform duration-200 ${
+													openFaq === 0 ? "rotate-180" : ""
+												}`}
+											/>
+										</button>
+										{openFaq === 0 && (
+											<div className="px-5 pb-5 pt-1 text-on-surface-variant font-body-md text-body-md font-light border-t border-border-vellum/50">
+												Yes, but with vital moderation. You may chill the flute for up to 20 minutes in a dry
+												refrigerator. Never place personalized crystal in a sub-zero freezer, as the sudden
+												condensation upon serving hot ambient room air causes extreme thermal shock along the
+												thin engraved margins, risking instant fractures.
+											</div>
+										)}
+									</div>
+
+									{/* FAQ 2 */}
+									<div className="bg-surface-container-lowest shadow-sm overflow-hidden border border-border-vellum">
+										<button
+											type="button"
+											onClick={() => toggleFaq(1)}
+											className="w-full p-5 text-left flex items-center justify-between gap-4 font-headline-sm text-headline-sm text-primary hover:bg-paper-tint transition-colors cursor-pointer"
+										>
+											<span>What should I do if water spots develop inside the engraved grooves?</span>
+											<ChevronDown
+												className={`w-5 h-5 transition-transform duration-200 ${
+													openFaq === 1 ? "rotate-180" : ""
+												}`}
+											/>
+										</button>
+										{openFaq === 1 && (
+											<div className="px-5 pb-5 pt-1 text-on-surface-variant font-body-md text-body-md font-light border-t border-border-vellum/50">
+												Prepare a gentle bath of 1 part distilled white vinegar to 4 parts warm demineralized
+												water. Soak a soft cotton bud (Q-tip), trace along the engraved Copperplate
+												flourishes, and allow the solution to sit for 90 seconds. Rinse cleanly with distilled
+												water and buffer with dry Belgian linen. The acetic acid gently lifts calcified
+												minerals without touching the lead glass matrix.
+											</div>
+										)}
+									</div>
+
+									{/* FAQ 3 */}
+									<div className="bg-surface-container-lowest shadow-sm overflow-hidden border border-border-vellum">
+										<button
+											type="button"
+											onClick={() => toggleFaq(2)}
+											className="w-full p-5 text-left flex items-center justify-between gap-4 font-headline-sm text-headline-sm text-primary hover:bg-paper-tint transition-colors cursor-pointer"
+										>
+											<span>Can heirloom engraved glass be re-gilded or touched up?</span>
+											<ChevronDown
+												className={`w-5 h-5 transition-transform duration-200 ${
+													openFaq === 2 ? "rotate-180" : ""
+												}`}
+											/>
+										</button>
+										{openFaq === 2 && (
+											<div className="px-5 pb-5 pt-1 text-on-surface-variant font-body-md text-body-md font-light border-t border-border-vellum/50">
+												Yes. If your flutes were historically filled with liquid gold leafing, silver paste,
+												or archival pigment rub-in, our Bhusawal studio provides an atelier restoration
+												service. We ultrasonically de-grease the piece and carefully re-apply hand-burnished
+												oil gilding into the original rotary grooves.
+											</div>
+										)}
+									</div>
+								</div>
+							</section>
+						</>
 					)}
 
 					{/* Author Bio Card */}
@@ -699,9 +722,9 @@ export function BlogArticleClient({ post }: { post?: any }) {
 								</div>
 								<p className="font-body-md text-body-md text-on-surface-variant font-light">
 									Maitri Shah has spent over a decade honing the exacting disciplines of Engrosser’s Script,
-									bespoke deckle-edge wedding suites, and hand-cut glass engraving. She operates The Letter Ink
-									Atelier in Bhusawal, Maharashtra, providing custom heirloom keepsakes to private patrons and
-									luxury houses across the globe.
+									bespoke deckle-edge wedding suites, and hand-cut glass engraving. She operates The Letter
+									Ink Atelier in Bhusawal, Maharashtra, providing custom heirloom keepsakes to private patrons
+									and luxury houses across the globe.
 								</p>
 								<div className="pt-2">
 									<Link
@@ -709,7 +732,7 @@ export function BlogArticleClient({ post }: { post?: any }) {
 										className="inline-flex items-center space-x-2 bg-primary text-on-primary px-6 py-2.5 font-label-md text-label-md uppercase tracking-[0.15em] hover:bg-surface-container-high hover:text-primary transition-all shadow-sm"
 									>
 										<span>Explore Engraved Collections</span>
-										<span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+										<ArrowRight className="w-4 h-4" />
 									</Link>
 								</div>
 							</div>
@@ -844,8 +867,8 @@ export function BlogArticleClient({ post }: { post?: any }) {
 								</Link>
 							</h3>
 							<p className="font-body-sm text-body-sm text-on-surface-variant mt-2 line-clamp-3 font-light">
-								Explaining historical mordants, real gesso preparation, and the eternal luster of unadulterated
-								gold foil on textured papers.
+								Explaining historical mordants, real gesso preparation, and the eternal luster of
+								unadulterated gold foil on textured papers.
 							</p>
 						</div>
 						<div className="pt-6 flex items-center justify-between border-t border-border-vellum mt-4">
@@ -876,8 +899,8 @@ export function BlogArticleClient({ post }: { post?: any }) {
 								<Link href="/blog">The Sacred Geometry of Wedding Vow Keepsakes</Link>
 							</h3>
 							<p className="font-body-sm text-body-sm text-on-surface-variant mt-2 line-clamp-3 font-light">
-								How spatial hierarchy and balanced margins transform personal promises into generational artworks
-								fit for framing.
+								How spatial hierarchy and balanced margins transform personal promises into generational
+								artworks fit for framing.
 							</p>
 						</div>
 						<div className="pt-6 flex items-center justify-between border-t border-border-vellum mt-4">
@@ -910,8 +933,8 @@ export function BlogArticleClient({ post }: { post?: any }) {
 								</Link>
 							</h3>
 							<p className="font-body-sm text-body-sm text-on-surface-variant mt-2 line-clamp-3 font-light">
-								Boiling crushed wild husks with clove preservatives to create archival, warm sepia fluids that glide
-								gracefully across pointed nibs.
+								Boiling crushed wild husks with clove preservatives to create archival, warm sepia fluids that
+								glide gracefully across pointed nibs.
 							</p>
 						</div>
 						<div className="pt-6 flex items-center justify-between border-t border-border-vellum mt-4">
@@ -932,12 +955,14 @@ export function BlogArticleClient({ post }: { post?: any }) {
 				<div className="max-w-3xl mx-auto px-margin-mobile lg:px-4">
 					<div className="flex items-center justify-between pb-6 border-b border-border-vellum">
 						<div>
-							<h3 className="font-headline-lg text-headline-md text-primary font-normal">Patron Reflections</h3>
+							<h3 className="font-headline-lg text-headline-md text-primary font-normal">
+								Patron Reflections
+							</h3>
 							<p className="font-body-sm text-body-sm text-secondary">
 								{comments.length} thoughts on glass care &amp; heirloom preservation
 							</p>
 						</div>
-						<span className="material-symbols-outlined text-primary text-[24px]">forum</span>
+						<MessageSquare className="w-6 h-6 text-primary" />
 					</div>
 
 					{/* Comments Stream */}

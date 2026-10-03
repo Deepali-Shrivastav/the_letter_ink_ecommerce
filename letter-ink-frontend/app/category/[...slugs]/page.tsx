@@ -54,7 +54,10 @@ export async function generateMetadata({
 	}
 
 	if (slug === "workshops") {
-		return { title: "Artisanal Calligraphy Masterclasses & Studio Workshops", robots: { index: true, follow: true } };
+		return {
+			title: "Artisanal Calligraphy Masterclasses & Studio Workshops",
+			robots: { index: true, follow: true },
+		};
 	}
 
 	const category = await commerce.categoryGet({ idOrSlug: slug });

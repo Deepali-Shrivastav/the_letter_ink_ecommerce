@@ -7,8 +7,8 @@ import { setCartQuantity } from "@/app/cart/actions";
 import { type Cart, type CartLineItem, getLineItemUnitPrice, useCart } from "@/app/cart/cart-context";
 import { useStoreConfig } from "@/components/store-config-provider";
 import { formatMoney } from "@/lib/money";
-import { cn, getProductThumbnail } from "@/lib/utils";
 import { LetterInkMedia } from "@/lib/the-letter-ink-media";
+import { cn, getProductThumbnail } from "@/lib/utils";
 
 type CartItemProps = {
 	item: CartLineItem;
@@ -106,7 +106,9 @@ export function CartItem({ item }: CartItemProps) {
 				onClick={closeCart}
 				className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-secondary"
 			>
-				{image && <LetterInkMedia src={image} alt={product.name} fill className="object-cover" sizes="96px" />}
+				{image && (
+					<LetterInkMedia src={image} alt={product.name} fill className="object-cover" sizes="96px" />
+				)}
 			</Link>
 
 			{/* Product Details */}
@@ -134,7 +136,7 @@ export function CartItem({ item }: CartItemProps) {
 					<div className="flex flex-col gap-0.5 text-xs text-muted-foreground mt-1 mb-2">
 						{Object.entries(item.metadata.customization_selections).map(([key, value]) => (
 							<div key={key} className="flex gap-1.5">
-								<span className="font-medium text-foreground">{key}:</span> 
+								<span className="font-medium text-foreground">{key}:</span>
 								<span>{String(value)}</span>
 							</div>
 						))}

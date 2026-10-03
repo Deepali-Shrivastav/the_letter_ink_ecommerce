@@ -7,9 +7,33 @@ import { isVideoUrl } from "@/lib/utils";
 type ImageProps = ComponentProps<typeof Image>;
 
 const LetterInkImageWithPolling = (props: ImageProps) => {
-	const { props: resolvedProps } = getImageProps(props as Parameters<typeof getImageProps>[0]);
-	const [isReady, setIsReady] = useState(false);
+	let resolvedProps: any = null;
+	let hasConfigError = false;
 
+	try {
+		resolvedProps = getImageProps(props as Parameters<typeof getImageProps>[0]).props;
+	} catch {
+		hasConfigError = true;
+	}
+
+	if (hasConfigError || !resolvedProps?.src) {
+		const { fill, priority, unoptimized, ...rest } = props as any;
+		return (
+			<img
+				{...rest}
+				src={typeof props.src === "string" ? props.src : ""}
+				alt={props.alt || ""}
+				className={props.className}
+				style={
+					fill
+						? { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", ...props.style }
+						: props.style
+				}
+			/>
+		);
+	}
+
+	const [isReady, setIsReady] = useState(false);
 	const src = resolvedProps.src;
 
 	useEffect(() => {
@@ -23,7 +47,8 @@ const LetterInkImageWithPolling = (props: ImageProps) => {
 			};
 			img.onerror = () => {
 				if (cancelled) return;
-				setTimeout(probe, 1000);
+				// Fallback to ready on probe error so we don't shimmer indefinitely
+				setIsReady(true);
 			};
 			img.src = src;
 		};
@@ -46,7 +71,29 @@ const LetterInkImageWithPolling = (props: ImageProps) => {
 	return <Image {...props} />;
 };
 
-const LetterInkImage = process.env.NODE_ENV === "development" ? LetterInkImageWithPolling : Image;
+const LetterInkImageSafe = (props: ImageProps) => {
+	try {
+		getImageProps(props as Parameters<typeof getImageProps>[0]);
+		return <Image {...props} />;
+	} catch {
+		const { fill, priority, unoptimized, ...rest } = props as any;
+		return (
+			<img
+				{...rest}
+				src={typeof props.src === "string" ? props.src : ""}
+				alt={props.alt || ""}
+				className={props.className}
+				style={
+					fill
+						? { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", ...props.style }
+						: props.style
+				}
+			/>
+		);
+	}
+};
+
+const LetterInkImage = process.env.NODE_ENV === "development" ? LetterInkImageWithPolling : LetterInkImageSafe;
 
 type LetterInkMediaProps = ImageProps & {
 	autoPlay?: boolean;

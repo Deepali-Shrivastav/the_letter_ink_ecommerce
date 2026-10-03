@@ -1,11 +1,13 @@
+import { MessageCircle, Store } from "lucide-react";
+
 export function ContactBanner() {
 	return (
-		<section className="w-full py-space-lg bg-background" id="contact">
+		<section className="w-full py-space-lg bg-paper-tint border-t border-border-vellum/80" id="contact">
 			<div className="max-w-7xl mx-auto px-margin-mobile md:px-margin">
-				<div className="bg-surface-container-lowest rounded-xl p-8 md:p-12 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+				<div className="bg-surface-container-lowest border border-border-vellum/80 rounded-xl p-8 md:p-12 shadow-xs flex flex-col md:flex-row items-center justify-between gap-8">
 					<div className="flex items-start gap-5">
 						<div className="w-14 h-14 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary shrink-0">
-							<span className="material-symbols-outlined text-[30px]">storefront</span>
+							<Store className="w-7 h-7 text-primary" />
 						</div>
 						<div>
 							<span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary">
@@ -24,7 +26,7 @@ export function ContactBanner() {
 							rel="noopener noreferrer"
 							className="px-6 py-3 bg-tertiary-fixed text-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-colors flex items-center gap-2"
 						>
-							<span className="material-symbols-outlined text-[18px]">chat</span>
+							<MessageCircle className="w-4 h-4" />
 							<span>WhatsApp Atelier</span>
 						</a>
 						<a

@@ -36,7 +36,7 @@ export default async function Image(props: { params: Promise<{ slug: string }> }
 
 	const { storeName } = await getStoreSeo();
 	const { currency, locale, taxBehavior } = await getStoreConfig();
-	const image = product.images.find((url) => !isVideoUrl(url));
+	const image = product.images.find((url: string) => !isVideoUrl(url));
 	const minPrice = product.variants.length > 0 ? priceRange(product.variants, taxBehavior).min : null;
 
 	return new ImageResponse(

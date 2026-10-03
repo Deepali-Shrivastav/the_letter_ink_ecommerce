@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCart } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/app/cart/cart-context";
 
 export function CartButton() {
@@ -10,16 +10,18 @@ export function CartButton() {
 		<button
 			type="button"
 			onClick={openCart}
-			className="text-on-surface hover:text-primary transition-colors relative"
-			aria-label="Shopping cart"
+			className="relative flex items-center justify-center h-11 w-11 rounded-full bg-primary text-on-primary hover:bg-primary/90 transition-all shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-script"
+			aria-label={`Shopping bag${itemCount > 0 ? `, ${itemCount} items` : ""}`}
 		>
-			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-			{itemCount > 0 ? (
+			<ShoppingBag className="h-5 w-5 stroke-[1.75]" />
+			{itemCount > 0 && (
 				<span
 					aria-live="polite"
-					className="absolute -top-1 -right-1 bg-black rounded-full w-2 h-2"
-				/>
-			) : null}
+					className="absolute -top-1 -right-1 flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full bg-brand-script text-white text-[11px] font-semibold ring-2 ring-surface-container-lowest shadow-xs"
+				>
+					{itemCount}
+				</span>
+			)}
 		</button>
 	);
 }

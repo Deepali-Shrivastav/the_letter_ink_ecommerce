@@ -1,7 +1,7 @@
-import type { APIProductGetByIdResult } from "@/lib/commerce-types";
 import { cacheLife } from "next/cache";
 import { ProductCard } from "@/components/product-card";
 import { commerce } from "@/lib/commerce";
+import type { APIProductGetByIdResult } from "@/lib/commerce-types";
 
 type FullProduct = NonNullable<APIProductGetByIdResult>;
 
@@ -23,7 +23,10 @@ export async function BlogProductEmbed({
 	cacheLife("minutes");
 
 	const products = (await Promise.all(productIds.map((id) => commerce.productGet({ idOrSlug: id }))))
-		.filter((product: any): product is FullProduct => product !== null && ((product as any).status === "published" || !(product as any).status))
+		.filter(
+			(product: any): product is FullProduct =>
+				product !== null && ((product as any).status === "published" || !(product as any).status),
+		)
 		.map((product) => featuredVariantOnly(product, variantIds[product.id]));
 
 	if (products.length === 0) {

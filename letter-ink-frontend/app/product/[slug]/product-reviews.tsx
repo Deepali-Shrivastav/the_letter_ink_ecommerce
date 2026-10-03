@@ -1,6 +1,6 @@
-import type { APIProductReviewsBrowseResult } from "@/lib/commerce-types";
 import { Star } from "lucide-react";
 import { ReviewForm } from "@/app/product/[slug]/review-form";
+import type { APIProductReviewsBrowseResult } from "@/lib/commerce-types";
 
 function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "lg" }) {
 	const sizeClass = size === "lg" ? "h-5 w-5" : "h-4 w-4";

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import { Suspense } from "react";
 import { GiftingLandingClient } from "@/components/sections/gifting-landing-client";
-import { medusaClient } from "@/lib/medusa";
 import { logger } from "@/lib/logger";
+import { medusaClient } from "@/lib/medusa";
 
 export const metadata: Metadata = {
 	title: "Artisanal Gifting Atelier - Gifts for Every Milestone",
@@ -29,13 +29,15 @@ async function getGiftingData() {
 	}
 
 	// Fetch Occasions and their products
-	let occasionsWithProducts: any[] = [];
+	const occasionsWithProducts: any[] = [];
 	try {
 		const cats = await medusaClient.productCategories.list({ parent_category_id: "null" } as any);
 		const occasionsRoot = cats.product_categories?.find((c) => c.handle === "occasions");
 
 		if (occasionsRoot) {
-			const subCats = await medusaClient.productCategories.list({ parent_category_id: occasionsRoot.id } as any);
+			const subCats = await medusaClient.productCategories.list({
+				parent_category_id: occasionsRoot.id,
+			} as any);
 			const occasionCategories = subCats.product_categories || [];
 
 			// Fetch top products for each category
@@ -80,4 +82,3 @@ export default function GiftingPage() {
 		</Suspense>
 	);
 }
-

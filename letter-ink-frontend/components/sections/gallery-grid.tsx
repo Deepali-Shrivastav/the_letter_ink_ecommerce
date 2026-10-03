@@ -22,15 +22,15 @@ export function GalleryGrid() {
 			<div className="max-w-7xl mx-auto px-margin-mobile md:px-margin">
 				{/* ── Static header — renders immediately, never blocked ── */}
 				<div className="flex flex-col mb-8 pb-4">
-					<span className="font-label-sm text-label-sm tracking-widest text-secondary">
-						Explore Our Favourites
+					<span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary">
+						Curated Studio Portfolio
 					</span>
 					<h2 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
 						Handcrafted Pieces Loved by Our Patrons
 					</h2>
 					<p className="font-body-sm text-body-sm text-secondary max-w-2xl mt-3">
-						Every piece is meticulously rendered by hand in our studio. Personalized with bespoke
-						words, archival inks, and heirloom framing.
+						Every piece is meticulously rendered by hand in our studio. Personalized with bespoke words,
+						archival inks, and heirloom framing.
 					</p>
 				</div>
 				{/*

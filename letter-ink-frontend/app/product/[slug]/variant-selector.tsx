@@ -154,7 +154,9 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 						{group.type === "color" ? (
 							<>
 								<div className="mb-2 flex items-center justify-between">
-									<legend className="font-label-sm text-label-sm uppercase tracking-wider text-primary">{group.label}</legend>
+									<legend className="font-label-sm text-label-sm uppercase tracking-wider text-primary">
+										{group.label}
+									</legend>
 									{selectedOption && (
 										<span className="font-body-sm text-body-sm text-secondary">{selectedOption.value}</span>
 									)}
@@ -193,7 +195,9 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 						) : (
 							<>
 								<div className="mb-2 flex items-center justify-between">
-									<legend className="font-label-sm text-label-sm uppercase tracking-wider text-primary">{group.label}</legend>
+									<legend className="font-label-sm text-label-sm uppercase tracking-wider text-primary">
+										{group.label}
+									</legend>
 								</div>
 								<div className="flex flex-wrap gap-3">
 									{group.options.map((option) => {

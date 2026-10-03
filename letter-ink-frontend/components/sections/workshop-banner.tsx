@@ -1,3 +1,5 @@
+import { Calendar, MapPin } from "lucide-react";
+
 export function WorkshopBanner() {
 	return (
 		<section className="w-full py-space-lg bg-background" id="workshops-section">
@@ -17,12 +19,14 @@ export function WorkshopBanner() {
 							</p>
 							<div className="flex flex-wrap items-center gap-6 mt-6">
 								<div className="flex items-center gap-2">
-									<span className="material-symbols-outlined text-primary text-[20px]">calendar_today</span>
+									<Calendar className="w-5 h-5 text-primary" />
 									<span className="font-label-md text-label-md text-primary">Seasonal Schedule Open</span>
 								</div>
 								<div className="flex items-center gap-2">
-									<span className="material-symbols-outlined text-primary text-[20px]">location_on</span>
-									<span className="font-label-md text-label-md text-primary">Maharashtra Atelier & Live Zoom</span>
+									<MapPin className="w-5 h-5 text-primary" />
+									<span className="font-label-md text-label-md text-primary">
+										Maharashtra Atelier & Live Zoom
+									</span>
 								</div>
 							</div>
 							<div className="flex items-center gap-4 mt-8">

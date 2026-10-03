@@ -1,16 +1,7 @@
 "use client";
 
+import { ArrowRight, Diamond, Feather, Layers, PenTool, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import {
-	PenTool,
-	Layers,
-	ShieldCheck,
-	Diamond,
-	Feather,
-	Sparkles,
-	History,
-	ArrowRight,
-} from "lucide-react";
 
 export function AboutPageClient() {
 	return (
@@ -18,7 +9,10 @@ export function AboutPageClient() {
 			{/* Top Breadcrumb & Editorial Header Band */}
 			<section className="w-full bg-paper-tint py-4 px-4 sm:px-6 lg:px-16 border-b border-border-vellum">
 				<div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-4">
-					<nav aria-label="Breadcrumbs" className="flex items-center gap-2 text-xs uppercase tracking-widest text-secondary font-label-sm">
+					<nav
+						aria-label="Breadcrumbs"
+						className="flex items-center gap-2 text-xs uppercase tracking-widest text-secondary font-label-sm"
+					>
 						<Link href="/" className="hover:text-primary transition-colors">
 							Home
 						</Link>
@@ -52,7 +46,9 @@ export function AboutPageClient() {
 							{/* Highlighted Quote Card */}
 							<div className="bg-paper-tint p-8 shadow-sm border border-border-vellum relative overflow-hidden rounded-sm">
 								<p className="font-serif text-2xl lg:text-3xl italic text-primary leading-relaxed">
-									“The Letter Ink is a calligraphy based design studio which strives to bring back the treasure and love of hand rendered scripts. Give us your words and we frame them into reality.”
+									“The Letter Ink is a calligraphy based design studio which strives to bring back the
+									treasure and love of hand rendered scripts. Give us your words and we frame them into
+									reality.”
 								</p>
 								<div className="mt-6 pt-4 border-t border-border-vellum/60 flex items-center gap-3">
 									<span className="h-[1px] w-8 bg-primary"></span>
@@ -66,13 +62,20 @@ export function AboutPageClient() {
 						{/* Right Column: Atelier Bio & Slow Living Narrative */}
 						<div className="lg:col-span-5 flex flex-col gap-6 pt-2">
 							<p className="font-body-lg text-base lg:text-lg text-on-surface leading-relaxed font-light">
-								In an era defined by ephemeral pixels, automated typefaces, and rushed correspondence, The Letter Ink was born from a singular, sacred impulse: to preserve the physical heartbeat of slow penmanship.
+								In an era defined by ephemeral pixels, automated typefaces, and rushed correspondence, The
+								Letter Ink was born from a singular, sacred impulse: to preserve the physical heartbeat of
+								slow penmanship.
 							</p>
 							<p className="text-sm text-on-surface-variant leading-relaxed font-light">
-								Founded in Bhusawal, Maharashtra, our studio honors the ancient discipline of the pointed nib and fluid carbon inks. Every curve is pulled with breath and patience; every flourish carries the subtle, irreplaceable tremors of human devotion. We believe words meant to endure deserve tangible, archival weight.
+								Founded in Bhusawal, Maharashtra, our studio honors the ancient discipline of the pointed nib
+								and fluid carbon inks. Every curve is pulled with breath and patience; every flourish carries
+								the subtle, irreplaceable tremors of human devotion. We believe words meant to endure deserve
+								tangible, archival weight.
 							</p>
 							<p className="text-sm text-on-surface-variant leading-relaxed font-light">
-								From heirloom wedding vow suites in floating glass frames to custom family crests, monogrammed seals, and artisanal correspondence, we transform private sentiments into lasting relics that bridge memory, paper, and hand.
+								From heirloom wedding vow suites in floating glass frames to custom family crests, monogrammed
+								seals, and artisanal correspondence, we transform private sentiments into lasting relics that
+								bridge memory, paper, and hand.
 							</p>
 							<div className="pt-2">
 								<div className="bg-surface-container-low p-5 rounded-sm border border-border-vellum flex items-center justify-between">
@@ -125,7 +128,9 @@ export function AboutPageClient() {
 								</h2>
 							</div>
 							<p className="text-sm text-on-surface-variant leading-relaxed font-light">
-								Our atelier table holds no mechanical presses, no mass toner cartridges, and zero synthesized prints. Each creation begins with water-ground carbon inks, custom-blended gouache, and nibs balanced to measure the calligrapher's exact pressure against heavyweight rag cotton.
+								Our atelier table holds no mechanical presses, no mass toner cartridges, and zero synthesized
+								prints. Each creation begins with water-ground carbon inks, custom-blended gouache, and nibs
+								balanced to measure the calligrapher's exact pressure against heavyweight rag cotton.
 							</p>
 							<div className="space-y-4">
 								<div className="flex items-start gap-4 p-4 bg-surface shadow-sm rounded-sm border border-border-vellum/60">
@@ -135,7 +140,8 @@ export function AboutPageClient() {
 											Pointed Pen Discipline
 										</h4>
 										<p className="text-xs text-on-surface-variant font-light mt-0.5">
-											Mastery of classical Spencerian and Copperplate hands requiring hours of rhythmic muscular focus.
+											Mastery of classical Spencerian and Copperplate hands requiring hours of rhythmic
+											muscular focus.
 										</p>
 									</div>
 								</div>
@@ -146,7 +152,8 @@ export function AboutPageClient() {
 											Archival Permanence
 										</h4>
 										<p className="text-xs text-on-surface-variant font-light mt-0.5">
-											Acid-free 300 GSM cotton rag, UV-resistant pigments, and heirloom double-glass floating frames.
+											Acid-free 300 GSM cotton rag, UV-resistant pigments, and heirloom double-glass floating
+											frames.
 										</p>
 									</div>
 								</div>
@@ -180,7 +187,9 @@ export function AboutPageClient() {
 									Archival Integrity
 								</h3>
 								<p className="text-xs text-on-surface-variant leading-relaxed font-light mb-6">
-									We exclusively commission hand-milled 100% pure cotton rag paper (300 GSM) with raw deckled edges, genuine black Sumi soot inks, 24k leaf gilding, and heavyweight brass-stamped botanical wax seals.
+									We exclusively commission hand-milled 100% pure cotton rag paper (300 GSM) with raw deckled
+									edges, genuine black Sumi soot inks, 24k leaf gilding, and heavyweight brass-stamped
+									botanical wax seals.
 								</p>
 							</div>
 							<div className="pt-3 border-t border-border-vellum/60">
@@ -200,7 +209,9 @@ export function AboutPageClient() {
 									Pointed Pen Mastery
 								</h3>
 								<p className="text-xs text-on-surface-variant leading-relaxed font-light mb-6">
-									Every curve honors centuries of tradition. From delicate Spencerian letterforms to strict Classical Copperplate balance and contemporary Roman capitals, every script is drafted freehand without stencils.
+									Every curve honors centuries of tradition. From delicate Spencerian letterforms to strict
+									Classical Copperplate balance and contemporary Roman capitals, every script is drafted
+									freehand without stencils.
 								</p>
 							</div>
 							<div className="pt-3 border-t border-border-vellum/60">
@@ -220,7 +231,9 @@ export function AboutPageClient() {
 									Bespoke Lineage
 								</h3>
 								<p className="text-xs text-on-surface-variant leading-relaxed font-light mb-6">
-									Each commission is treated as a future family heirloom. We assemble custom brass double-glass floating displays to immortalize wedding vows, birth announcements, and intimate correspondence.
+									Each commission is treated as a future family heirloom. We assemble custom brass
+									double-glass floating displays to immortalize wedding vows, birth announcements, and
+									intimate correspondence.
 								</p>
 							</div>
 							<div className="pt-3 border-t border-border-vellum/60">
@@ -277,7 +290,9 @@ export function AboutPageClient() {
 								From unwritten silence to framed permanence.
 							</h2>
 							<p className="text-sm text-on-surface-variant leading-relaxed font-light">
-								We follow a sacred ritual for every single custom order. Whether it is a single poem or a comprehensive sixty-piece wedding invitation suite, our hand remains deliberate at each juncture.
+								We follow a sacred ritual for every single custom order. Whether it is a single poem or a
+								comprehensive sixty-piece wedding invitation suite, our hand remains deliberate at each
+								juncture.
 							</p>
 							<div className="space-y-6 mt-2">
 								<div className="flex items-start gap-4">
@@ -287,7 +302,8 @@ export function AboutPageClient() {
 											Scripting & Alignment
 										</h4>
 										<p className="text-xs text-on-surface-variant font-light mt-0.5">
-											Harmonizing words to exact proportion, choosing between traditional oblique dip-pens or straight Roman holders.
+											Harmonizing words to exact proportion, choosing between traditional oblique dip-pens or
+											straight Roman holders.
 										</p>
 									</div>
 								</div>
@@ -298,7 +314,8 @@ export function AboutPageClient() {
 											Ink Chemistry & Gilding
 										</h4>
 										<p className="text-xs text-on-surface-variant font-light mt-0.5">
-											Selecting Sumi carbon density, walnut hue warmth, or genuine 24 karat sizing for radiant metallic accents.
+											Selecting Sumi carbon density, walnut hue warmth, or genuine 24 karat sizing for radiant
+											metallic accents.
 										</p>
 									</div>
 								</div>
@@ -309,7 +326,8 @@ export function AboutPageClient() {
 											Float Framing & Sealing
 										</h4>
 										<p className="text-xs text-on-surface-variant font-light mt-0.5">
-											Archival framing in dual glass panes, accented with hand-pressed botanical wax seals poured at 180°C.
+											Archival framing in dual glass panes, accented with hand-pressed botanical wax seals
+											poured at 180°C.
 										</p>
 									</div>
 								</div>

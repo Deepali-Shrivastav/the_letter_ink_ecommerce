@@ -2,9 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { getSubdomainPublicUrl } from "./lib/commerce";
 
-// /account is the platform-rendered shopper account area (unified sign-in); the platform
-// handles unauthenticated access itself, so it is proxied like /checkout, never guarded here.
-const proxiedRoutes = ["/api/feed/", "/api/chat", "/account"];
+const proxiedRoutes = ["/api/feed/", "/api/chat"];
 
 export async function proxy(request: NextRequest) {
 	// Platform-owned scripts under /_public/ — forwarded verbatim (plus the store, so the
@@ -57,8 +55,7 @@ export const config = {
 		"/api/feed/openai",
 		"/api/chat",
 		"/api/chat/:path*",
-		"/account",
-		"/account/:path*",
+
 		"/_public/:path*",
 	],
 };

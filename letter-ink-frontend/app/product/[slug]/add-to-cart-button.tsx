@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { ArrowRight, MessageCircle, PenTool } from "lucide-react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { addToCart } from "@/app/cart/actions";
 import { useCart } from "@/app/cart/cart-context";
 import { QuantitySelector } from "@/app/product/[slug]/quantity-selector";
 import { RestockNotify } from "@/app/product/[slug]/restock-notify";
-import { TrustBadges } from "@/app/product/[slug]/trust-badges";
 import { useSelectedVariant } from "@/app/product/[slug]/use-selected-variant";
 import { VariantSelector } from "@/app/product/[slug]/variant-selector";
 import { useVolumePricing, VolumePricingDisplay, type VolumeTier } from "@/app/product/[slug]/volume-pricing";
@@ -15,14 +15,14 @@ import { formatMoney } from "@/lib/money";
 import { displayPrice, priceRange } from "@/lib/pricing";
 import { trackAddToCart } from "@/lib/track";
 import { cn } from "@/lib/utils";
-import { CustomizationSelector } from "./customization-selector";
 import { useCustomization } from "./customization-context";
+import { CustomizationSelector } from "./customization-selector";
 
 type CustomizationCombination = {
-  id: string;
-  preview_image_url: string | null;
-  price_adjustment: number | null;
-  values: { id: string; value: string; }[];
+	id: string;
+	preview_image_url: string | null;
+	price_adjustment: number | null;
+	values: { id: string; value: string }[];
 };
 
 // Every net price below has a gross twin; which of the pair a shopper sees is the store's
@@ -98,12 +98,13 @@ export function AddToCartButton({
 	);
 
 	const unitPrice = volumePrice ?? (selectedVariant ? displayPrice(selectedVariant, taxBehavior) : null);
-	
+
 	// Add customization price adjustment if present
-	const finalUnitPrice = matchedCombination?.price_adjustment && unitPrice 
-		? String(Number(unitPrice) + matchedCombination.price_adjustment) 
-		: unitPrice;
-		
+	const finalUnitPrice =
+		matchedCombination?.price_adjustment && unitPrice
+			? String(Number(unitPrice) + matchedCombination.price_adjustment)
+			: unitPrice;
+
 	const totalPrice = finalUnitPrice ? BigInt(finalUnitPrice) * BigInt(effectiveQuantity) : null;
 
 	const buttonText = useMemo(() => {
@@ -113,7 +114,7 @@ export function AddToCartButton({
 			return `Add to Cart — ${formatMoney({ amount: totalPrice, currency, locale })}`;
 		}
 		return "Add to Cart";
-	}, [selectedVariant, isOutOfStock, totalPrice, locale, currency]);
+	}, [selectedVariant, totalPrice, locale, currency]);
 
 	// Headline price. For the selected variant we show its own price (and the struck-through
 	// list price when it's on sale). Before a variant is picked we fall back to a range.
@@ -125,7 +126,7 @@ export function AddToCartButton({
 			const price = matchedCombination?.price_adjustment
 				? basePrice + BigInt(matchedCombination.price_adjustment)
 				: basePrice;
-			
+
 			const listPrice = BigInt(
 				displayPrice(selectedVariant, taxBehavior, "originalPrice") ??
 					displayPrice(selectedVariant, taxBehavior),
@@ -134,7 +135,9 @@ export function AddToCartButton({
 			return {
 				display: fmt(price),
 				compareAt: onSale ? fmt(listPrice) : null,
-				discountPercent: onSale ? Math.round((Number(listPrice - basePrice) / Number(listPrice)) * 100) : null,
+				discountPercent: onSale
+					? Math.round((Number(listPrice - basePrice) / Number(listPrice)) * 100)
+					: null,
 			};
 		}
 
@@ -144,7 +147,7 @@ export function AddToCartButton({
 			compareAt: null,
 			discountPercent: null,
 		};
-	}, [selectedVariant, variants, locale, currency, taxBehavior]);
+	}, [selectedVariant, variants, locale, currency, taxBehavior, matchedCombination?.price_adjustment]);
 
 	// EU Omnibus: when the variant is discounted, show the lowest price recorded in the last 30 days.
 	const omnibusPrice = useMemo(() => {
@@ -160,7 +163,7 @@ export function AddToCartButton({
 		const { stock } = selectedVariant;
 		if (stock === 0) return null;
 		if (stock !== null && stock <= LOW_STOCK_THRESHOLD) {
-			return { label: `Only ${stock} left in stock`, tone: "low" as const };
+			return { label: `Only ${stock} left in stock`, tone: "low" as "low" | "out" | "in" };
 		}
 		return null;
 	}, [selectedVariant]);
@@ -202,10 +205,10 @@ export function AddToCartButton({
 				metadata: itemMetadata,
 				productVariant: {
 					id: variantId,
-					price: finalUnitPrice || selectedVariant.price, 
+					price: finalUnitPrice || selectedVariant.price,
 					priceGross: finalUnitPrice || selectedVariant.priceGross,
-					images: matchedCombination?.preview_image_url 
-						? [matchedCombination.preview_image_url] 
+					images: matchedCombination?.preview_image_url
+						? [matchedCombination.preview_image_url]
 						: selectedVariant.images,
 					product,
 				},
@@ -214,14 +217,14 @@ export function AddToCartButton({
 
 		startMutation(async () => {
 			const result = await addToCart(
-				variantId, 
-				addedQuantity, 
+				variantId,
+				addedQuantity,
 				itemMetadata,
-				finalUnitPrice ? Number(finalUnitPrice) : undefined
+				finalUnitPrice ? Number(finalUnitPrice) : undefined,
 			);
 			if (result.success && result.cart) {
 				syncCart(result.cart);
-				const line = result.cart.lineItems.find((item) => item.productVariant.id === variantId);
+				const line = result.cart.lineItems.find((item: any) => item.productVariant?.id === variantId);
 				if (line && line.quantity < previousQuantity + addedQuantity) {
 					toast.warning(`Only ${line.quantity} in stock — quantity adjusted`);
 				}
@@ -237,9 +240,13 @@ export function AddToCartButton({
 			{/* Price & sale */}
 			<div className="flex flex-col gap-2 pb-5 border-b border-border-vellum">
 				<div className="flex items-baseline gap-4 mt-2">
-					<span className="font-headline-md text-headline-md text-primary font-normal tracking-tight">{priceInfo.display}</span>
+					<span className="font-headline-md text-headline-md text-primary font-normal tracking-tight">
+						{priceInfo.display}
+					</span>
 					{priceInfo.compareAt && (
-						<span className="font-body-sm text-body-sm text-secondary line-through">{priceInfo.compareAt}</span>
+						<span className="font-body-sm text-body-sm text-secondary line-through">
+							{priceInfo.compareAt}
+						</span>
 					)}
 					{priceInfo.discountPercent ? (
 						<span className="font-label-sm text-label-sm uppercase tracking-wider px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed">
@@ -247,12 +254,12 @@ export function AddToCartButton({
 						</span>
 					) : null}
 				</div>
-				<p className="font-body-sm text-body-sm text-secondary/80 mt-1">
-					Taxes included.
-				</p>
+				<p className="font-body-sm text-body-sm text-secondary/80 mt-1">Taxes included.</p>
 
 				{omnibusPrice && (
-					<p className="font-body-sm text-body-sm text-muted-foreground mt-2">Lowest price in the last 30 days: {omnibusPrice}</p>
+					<p className="font-body-sm text-body-sm text-muted-foreground mt-2">
+						Lowest price in the last 30 days: {omnibusPrice}
+					</p>
 				)}
 
 				{/* SKU & stock availability */}
@@ -286,9 +293,9 @@ export function AddToCartButton({
 			{matchedCombination && (
 				<div className="p-3.5 bg-paper-tint/70 border border-border/80 rounded-sm flex items-center gap-3.5 mt-2">
 					{matchedCombination.preview_image_url && (
-						<img 
-							src={matchedCombination.preview_image_url} 
-							alt="Selected combination preview" 
+						<img
+							src={matchedCombination.preview_image_url}
+							alt="Selected combination preview"
 							className="w-14 h-14 object-cover rounded border border-border shrink-0 shadow-xs"
 						/>
 					)}
@@ -302,7 +309,8 @@ export function AddToCartButton({
 						{matchedCombination.price_adjustment ? (
 							<div className="text-xs text-secondary mt-0.5">
 								{matchedCombination.price_adjustment > 0 ? "+" : ""}
-								{formatMoney({ amount: BigInt(matchedCombination.price_adjustment), currency, locale })} adjustment included
+								{formatMoney({ amount: BigInt(matchedCombination.price_adjustment), currency, locale })}{" "}
+								adjustment included
 							</div>
 						) : null}
 					</div>
@@ -314,13 +322,14 @@ export function AddToCartButton({
 			{/* Bespoke Personalization / Custom Inscription Edge Case Input */}
 			<div className="space-y-2 pt-4 pb-2 border-t border-border/70">
 				<div className="flex items-center justify-between">
-					<label htmlFor="bespoke-inscription" className="font-label-sm text-label-sm uppercase tracking-wider text-primary font-medium flex items-center gap-1.5">
-						<span className="material-symbols-outlined text-[16px] text-tertiary">edit_note</span>
+					<label
+						htmlFor="bespoke-inscription"
+						className="font-label-sm text-label-sm uppercase tracking-wider text-primary font-medium flex items-center gap-1.5"
+					>
+						<PenTool className="w-3.5 h-3.5 text-tertiary" />
 						Personalized Inscription & Calligraphy Text
 					</label>
-					<span className="text-[11px] text-secondary font-mono">
-						{customInscription.length}/150
-					</span>
+					<span className="text-[11px] text-secondary font-mono">{customInscription.length}/150</span>
 				</div>
 				<textarea
 					id="bespoke-inscription"
@@ -355,14 +364,17 @@ export function AddToCartButton({
 								className="flex-1 h-[49px] bg-tertiary-fixed hover:bg-surface-container-lowest text-on-tertiary-fixed hover:text-primary transition-all duration-300 font-label-lg text-label-lg uppercase tracking-widest flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
 							>
 								<span className="">{buttonText}</span>
-								<span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+								<ArrowRight className="w-4 h-4" />
 							</button>
 						</div>
 					</form>
 				)}
 				{/* Inquire Secondary Button */}
-				<button className="w-full h-[45px] bg-transparent hover:bg-paper-tint text-primary font-label-md text-label-md uppercase tracking-widest flex items-center justify-center gap-2 transition-colors" type="button">
-					<span className="material-symbols-outlined text-[18px]">chat</span>
+				<button
+					className="w-full h-[45px] bg-transparent hover:bg-paper-tint text-primary font-label-md text-label-md uppercase tracking-widest flex items-center justify-center gap-2 transition-colors"
+					type="button"
+				>
+					<MessageCircle className="w-4 h-4" />
 					<span className="">Inquire With Atelier Calligrapher</span>
 				</button>
 			</div>

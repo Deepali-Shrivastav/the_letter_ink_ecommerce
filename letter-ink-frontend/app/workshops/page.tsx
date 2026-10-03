@@ -17,11 +17,17 @@ async function getWorkshopsData() {
 	const rawWorkshops = await commerce.workshopBrowse().catch(() => []);
 
 	return rawWorkshops.map((w: any) => {
-		const formatVal = (w.format || w.metadata?.format as string)?.toLowerCase();
+		const formatVal = (w.format || (w.metadata?.format as string))?.toLowerCase();
 		const format: "studio" | "virtual" = formatVal === "studio" ? "studio" : "virtual";
 		const rawPrice = w.price ?? 4500;
-		const numericPrice = typeof rawPrice === "number" ? rawPrice : Number(String(rawPrice).replace(/[^0-9.]/g, "")) || 4500;
-		const formattedPrice = typeof rawPrice === "number" ? `₹${rawPrice.toLocaleString("en-IN")}` : String(rawPrice).startsWith("₹") ? rawPrice : `₹${rawPrice}`;
+		const numericPrice =
+			typeof rawPrice === "number" ? rawPrice : Number(String(rawPrice).replace(/[^0-9.]/g, "")) || 4500;
+		const formattedPrice =
+			typeof rawPrice === "number"
+				? `₹${rawPrice.toLocaleString("en-IN")}`
+				: String(rawPrice).startsWith("₹")
+					? rawPrice
+					: `₹${rawPrice}`;
 
 		return {
 			id: w.id,
@@ -37,7 +43,8 @@ async function getWorkshopsData() {
 			time: w.time || (w.metadata?.time as string) || "10:00 AM - 1:00 PM",
 			venue: w.venue || (w.metadata?.venue as string) || "The Letter Ink Studio, Indiranagar",
 			level: w.level || (w.metadata?.level as string) || "Beginner to Intermediate",
-			kitInfo: w.kit_info || w.kitInfo || (w.metadata?.kit_included as string) || "Full calligraphy kit included",
+			kitInfo:
+				w.kit_info || w.kitInfo || (w.metadata?.kit_included as string) || "Full calligraphy kit included",
 			price: formattedPrice,
 			rawPrice: numericPrice,
 			variantId: w.variantId || w.id,
@@ -73,4 +80,3 @@ export default function WorkshopsPage() {
 		</Suspense>
 	);
 }
-

@@ -10,8 +10,13 @@ export function ShopHeader() {
 				<section className="relative max-w-7xl mx-auto px-margin-mobile lg:px-margin pt-space-lg pb-space-md">
 					{/* Breadcrumb & Tagline Bar */}
 					<div className="flex flex-wrap items-center justify-between gap-space-xs pb-space-sm">
-						<nav aria-label="Breadcrumbs" className="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">
-							<Link href="/" className="hover:text-primary transition-colors">Home</Link>
+						<nav
+							aria-label="Breadcrumbs"
+							className="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest"
+						>
+							<Link href="/" className="hover:text-primary transition-colors">
+								Home
+							</Link>
 							<span className="text-outline">/</span>
 							<span className="text-primary font-semibold">Shop</span>
 						</nav>
@@ -31,7 +36,8 @@ export function ShopHeader() {
 						</div>
 						<div className="lg:col-span-4 lg:pl-space-sm">
 							<p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-								Each piece is hand-lettered on handmade deckle-edge papers, etched on crystal glass, or framed in brass shadowboxes using archival inks and fine dip-pens.
+								Each piece is hand-lettered on handmade deckle-edge papers, etched on crystal glass, or framed
+								in brass shadowboxes using archival inks and fine dip-pens.
 							</p>
 						</div>
 					</div>
@@ -39,19 +45,29 @@ export function ShopHeader() {
 					<div className="grid grid-cols-2 sm:grid-cols-4 gap-gutter pt-space-md mt-space-sm bg-surface-container-low px-space-md py-space-sm">
 						<div className="flex flex-col">
 							<span className="font-display-hero text-[28px] leading-8 text-primary font-serif">100%</span>
-							<span className="font-label-sm text-label-sm uppercase text-secondary tracking-wider mt-1">Dip Pen Scripted</span>
+							<span className="font-label-sm text-label-sm uppercase text-secondary tracking-wider mt-1">
+								Dip Pen Scripted
+							</span>
 						</div>
 						<div className="flex flex-col">
 							<span className="font-display-hero text-[28px] leading-8 text-primary font-serif">300 GSM</span>
-							<span className="font-label-sm text-label-sm uppercase text-secondary tracking-wider mt-1">Cotton Rag Stock</span>
+							<span className="font-label-sm text-label-sm uppercase text-secondary tracking-wider mt-1">
+								Cotton Rag Stock
+							</span>
 						</div>
 						<div className="flex flex-col">
 							<span className="font-display-hero text-[28px] leading-8 text-primary font-serif">24 KT</span>
-							<span className="font-label-sm text-label-sm uppercase text-secondary tracking-wider mt-1">Pure Gold Leaf Flakes</span>
+							<span className="font-label-sm text-label-sm uppercase text-secondary tracking-wider mt-1">
+								Pure Gold Leaf Flakes
+							</span>
 						</div>
 						<div className="flex flex-col">
-							<span className="font-display-hero text-[28px] leading-8 text-primary font-serif">7–10 Days</span>
-							<span className="font-label-sm text-label-sm uppercase text-secondary tracking-wider mt-1">Atelier Curing & Frame</span>
+							<span className="font-display-hero text-[28px] leading-8 text-primary font-serif">
+								7–10 Days
+							</span>
+							<span className="font-label-sm text-label-sm uppercase text-secondary tracking-wider mt-1">
+								Atelier Curing & Frame
+							</span>
 						</div>
 					</div>
 				</section>

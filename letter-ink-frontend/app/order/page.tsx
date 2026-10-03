@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function OrderPage() {
-  redirect("/order/track");
+	redirect("/order/track");
 }

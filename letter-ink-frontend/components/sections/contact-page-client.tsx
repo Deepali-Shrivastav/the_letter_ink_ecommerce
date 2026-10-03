@@ -1,22 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import {
-	MapPin,
-	Clock,
-	MessageSquare,
-	Mail,
-	Phone,
-	Hourglass,
 	Camera,
-	Globe,
-	Palette,
-	Send,
 	CheckCircle,
+	Clock,
+	Globe,
+	Hourglass,
+	Mail,
+	MessageSquare,
+	Palette,
 	PenTool,
+	Phone,
+	Send,
 	Sparkles,
 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 export function ContactPageClient() {
 	const [selectedDiscipline, setSelectedDiscipline] = useState<string>("wedding");
@@ -44,7 +43,10 @@ export function ContactPageClient() {
 				<div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-16">
 					{/* Breadcrumb & Concierge Badge */}
 					<div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-						<nav aria-label="Breadcrumbs" className="flex items-center gap-2 text-xs uppercase tracking-widest text-secondary font-label-sm">
+						<nav
+							aria-label="Breadcrumbs"
+							className="flex items-center gap-2 text-xs uppercase tracking-widest text-secondary font-label-sm"
+						>
 							<Link href="/" className="hover:text-primary transition-colors">
 								Home
 							</Link>
@@ -69,7 +71,8 @@ export function ContactPageClient() {
 						</div>
 						<div className="lg:col-span-4">
 							<p className="font-body-md text-base text-on-surface-variant leading-relaxed font-light">
-								Whether you seek a bespoke wedding vow suite, archival name frame, on-site glass engraving, or private workshop enrollment, our studio is honored to assist you.
+								Whether you seek a bespoke wedding vow suite, archival name frame, on-site glass engraving, or
+								private workshop enrollment, our studio is honored to assist you.
 							</p>
 						</div>
 					</div>
@@ -185,7 +188,9 @@ export function ContactPageClient() {
 
 							{/* Social Channels */}
 							<div className="mt-8 pt-6 border-t border-border-vellum flex items-center justify-between">
-								<span className="text-xs uppercase tracking-widest text-secondary font-semibold">Channels</span>
+								<span className="text-xs uppercase tracking-widest text-secondary font-semibold">
+									Channels
+								</span>
 								<div className="flex items-center gap-3">
 									<a
 										href="https://www.instagram.com/the_letter_ink/?igshid=YmMyMTA2M2Y%3D"
@@ -236,7 +241,9 @@ export function ContactPageClient() {
 								</div>
 								<h3 className="font-serif text-3xl text-primary font-medium">Inquiry Received</h3>
 								<p className="text-sm text-on-surface-variant font-light max-w-md mx-auto leading-relaxed">
-									Thank you, <span className="font-semibold text-primary">{fullName || "Patron"}</span>. Our master calligrapher and atelier director will review your dossier and reach out within 12 operating hours.
+									Thank you, <span className="font-semibold text-primary">{fullName || "Patron"}</span>. Our
+									master calligrapher and atelier director will review your dossier and reach out within 12
+									operating hours.
 								</p>
 								<button
 									onClick={() => setSubmitted(false)}
@@ -393,9 +400,13 @@ export function ContactPageClient() {
 										className="w-full bg-paper-tint border border-border-vellum px-4 py-3 text-sm font-light text-on-surface focus:outline-none focus:border-primary rounded-sm"
 									>
 										<option value="deckle">Deckle-Edge Cotton Rag Paper (Imported 300gsm)</option>
-										<option value="glass_frame">Double Glass Floating Heirloom Frame (Brass or Teakwood)</option>
+										<option value="glass_frame">
+											Double Glass Floating Heirloom Frame (Brass or Teakwood)
+										</option>
 										<option value="engraving">Hand-Engraved Perfume / Luxury Spirits Bottle</option>
-										<option value="invitations">Full Wedding Suite (Envelopes, Details & Monogram Wax Seals)</option>
+										<option value="invitations">
+											Full Wedding Suite (Envelopes, Details & Monogram Wax Seals)
+										</option>
 										<option value="custom">Other Bespoke Artefact (Leather, Agate, Wooden Plank)</option>
 									</select>
 								</div>

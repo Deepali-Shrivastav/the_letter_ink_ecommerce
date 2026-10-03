@@ -1,9 +1,9 @@
+import { getCanonicalUrl, meGetCached } from "@/lib/commerce";
 import type {
 	APICollectionGetByIdResult,
 	APIProductGetByIdResult,
 	APIProductReviewsBrowseResult,
 } from "@/lib/commerce-types";
-import { getCanonicalUrl, meGetCached } from "@/lib/commerce";
 import { priceRange } from "@/lib/pricing";
 import { getStoreConfig } from "@/lib/store-config";
 
@@ -186,8 +186,7 @@ export async function StoreJsonLd() {
 	const storeDescription = settings?.storeDescription || undefined;
 	const baseUrl = getBaseUrl();
 	const ogImage = settings?.ogimage || undefined;
-	const logo =
-		typeof settings?.logo === "string" ? settings.logo : settings?.logo?.imageUrl;
+	const logo = typeof settings?.logo === "string" ? settings.logo : settings?.logo?.imageUrl;
 
 	const organization = {
 		"@context": "https://schema.org",

@@ -2,8 +2,8 @@
 
 import { try_ } from "safe-try";
 import { commerce } from "@/lib/commerce";
-import { isValidEmail, sanitizeText } from "@/lib/validation";
 import { logger } from "@/lib/logger";
+import { isValidEmail, sanitizeText } from "@/lib/validation";
 
 type ContactState = {
 	success: boolean;

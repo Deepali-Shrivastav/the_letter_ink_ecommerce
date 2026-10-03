@@ -16,6 +16,11 @@ export async function POST(
       return
     }
 
+    if (!contact || !contact.trim()) {
+      res.status(400).json({ success: false, message: "Contact information (email or phone) is required" })
+      return
+    }
+
     // 1. Sanitize the reference: strip '#', 'TLI-', and spaces
     const cleanRef = reference.trim().replace(/^#/, "").trim()
     const stripped = cleanRef.replace(/^tli-?/i, "").trim()
@@ -55,7 +60,7 @@ export async function POST(
       const { data: ordersByDisplayId } = await query.graph({
         entity: "order",
         fields: queryFields,
-        filters: { display_id: numericDisplayId },
+        filters: { display_id: numericDisplayId.toString() },
       })
       if (ordersByDisplayId && ordersByDisplayId.length > 0) {
         matchedOrder = ordersByDisplayId[0]
@@ -75,30 +80,6 @@ export async function POST(
       }
     }
 
-    // Strategy C: Scan all orders to match ID suffix or display_id
-    if (!matchedOrder) {
-      const { data: allOrders } = await query.graph({
-        entity: "order",
-        fields: queryFields,
-      })
-
-      for (const ord of allOrders) {
-        const ordDisplayStr = String(ord.display_id || "")
-        const ordId = ord.id || ""
-        const idSuffix = ordId.slice(-6).toUpperCase()
-
-        if (
-          ordDisplayStr === stripped ||
-          ordDisplayStr === cleanRef ||
-          idSuffix === stripped.toUpperCase() ||
-          idSuffix === cleanRef.toUpperCase() ||
-          ordId.toLowerCase() === cleanRef.toLowerCase()
-        ) {
-          matchedOrder = ord
-          break
-        }
-      }
-    }
 
     if (!matchedOrder) {
       res.status(404).json({
@@ -108,34 +89,27 @@ export async function POST(
       return
     }
 
-    // 2. Validate Contact (Email or Phone) if provided AND if order has contact info
-    if (contact && contact.trim()) {
-      const inputCleanPhone = contact.replace(/\D/g, "").slice(-10)
-      const inputCleanEmail = contact.trim().toLowerCase()
+    // 2. Validate Contact (Email or Phone)
+    const inputCleanPhone = contact.replace(/\D/g, "").slice(-10)
+    const inputCleanEmail = contact.trim().toLowerCase()
 
-      const orderEmail = (matchedOrder.email || matchedOrder.customer?.email || "").trim().toLowerCase()
-      const orderPhone = (
-        matchedOrder.shipping_address?.phone ||
-        matchedOrder.billing_address?.phone ||
-        matchedOrder.customer?.phone ||
-        ""
-      ).replace(/\D/g, "").slice(-10)
+    const orderEmail = (matchedOrder.email || matchedOrder.customer?.email || "").trim().toLowerCase()
+    const orderPhone = (
+      matchedOrder.shipping_address?.phone ||
+      matchedOrder.billing_address?.phone ||
+      matchedOrder.customer?.phone ||
+      ""
+    ).replace(/\D/g, "").slice(-10)
 
-      // Only enforce strict match if the order actually has an email or phone stored
-      const hasStoredContact = Boolean(orderEmail || orderPhone)
+    const emailMatches = Boolean(orderEmail && inputCleanEmail && orderEmail === inputCleanEmail)
+    const phoneMatches = Boolean(orderPhone && inputCleanPhone && orderPhone === inputCleanPhone)
 
-      if (hasStoredContact) {
-        const emailMatches = Boolean(orderEmail && inputCleanEmail && orderEmail === inputCleanEmail)
-        const phoneMatches = Boolean(orderPhone && inputCleanPhone && orderPhone === inputCleanPhone)
-
-        if (!emailMatches && !phoneMatches) {
-          res.status(401).json({
-            success: false,
-            message: "The contact details do not match this order. Please check the email or phone number.",
-          })
-          return
-        }
-      }
+    if (!emailMatches && !phoneMatches) {
+      res.status(401).json({
+        success: false,
+        message: "The contact details do not match this order. Please check the email or phone number.",
+      })
+      return
     }
 
     res.json({

@@ -1,12 +1,14 @@
+import { CheckCircle2, Clock, GraduationCap, PenTool, Scroll, Sparkles } from "lucide-react";
+
 export function StudioPillars() {
 	return (
-		<section className="w-full bg-surface-container-lowest py-space-md shadow-sm">
+		<section className="w-full bg-surface-container-lowest border-y border-border-vellum py-8 lg:py-10 shadow-2xs">
 			<div className="max-w-7xl mx-auto px-margin-mobile md:px-margin">
 				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
 					{/* Pillar 1 */}
 					<div className="flex flex-col items-center p-3 rounded-lg hover:bg-paper-tint transition-colors">
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
-							<span className="material-symbols-outlined text-[24px]">history_edu</span>
+							<Scroll className="w-5 h-5 text-primary" />
 						</div>
 						<h2 className="font-label-md text-label-md tracking-wider text-primary">Hand Written Scripts</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
@@ -16,7 +18,7 @@ export function StudioPillars() {
 					{/* Pillar 2 */}
 					<div className="flex flex-col items-center p-3 rounded-lg hover:bg-paper-tint transition-colors">
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
-							<span className="material-symbols-outlined text-[24px]">stylus</span>
+							<PenTool className="w-5 h-5 text-primary" />
 						</div>
 						<h2 className="font-label-md text-label-md tracking-wider text-primary">Various Styles</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
@@ -26,7 +28,7 @@ export function StudioPillars() {
 					{/* Pillar 3 */}
 					<div className="flex flex-col items-center p-3 rounded-lg hover:bg-paper-tint transition-colors">
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
-							<span className="material-symbols-outlined text-[24px]">brush</span>
+							<Sparkles className="w-5 h-5 text-primary" />
 						</div>
 						<h2 className="font-label-md text-label-md tracking-wider text-primary">Bespoke Customisation</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
@@ -36,7 +38,7 @@ export function StudioPillars() {
 					{/* Pillar 4 */}
 					<div className="flex flex-col items-center p-3 rounded-lg hover:bg-paper-tint transition-colors">
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
-							<span className="material-symbols-outlined text-[24px]">verified</span>
+							<CheckCircle2 className="w-5 h-5 text-primary" />
 						</div>
 						<h2 className="font-label-md text-label-md tracking-wider text-primary">Artisanal Wax Seals</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
@@ -46,7 +48,7 @@ export function StudioPillars() {
 					{/* Pillar 5 */}
 					<div className="flex flex-col items-center p-3 rounded-lg hover:bg-paper-tint transition-colors">
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
-							<span className="material-symbols-outlined text-[24px]">schedule</span>
+							<Clock className="w-5 h-5 text-primary" />
 						</div>
 						<h2 className="font-label-md text-label-md tracking-wider text-primary">Fast Turnaround</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">
@@ -56,7 +58,7 @@ export function StudioPillars() {
 					{/* Pillar 6 */}
 					<div className="flex flex-col items-center p-3 rounded-lg hover:bg-paper-tint transition-colors">
 						<div className="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-primary mb-3">
-							<span className="material-symbols-outlined text-[24px]">school</span>
+							<GraduationCap className="w-5 h-5 text-primary" />
 						</div>
 						<h2 className="font-label-md text-label-md tracking-wider text-primary">Studio Workshops</h2>
 						<p className="font-body-sm text-body-sm text-secondary mt-1 line-clamp-2">

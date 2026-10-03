@@ -1,26 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import {
 	Calendar,
-	Clock,
-	MapPin,
-	Users,
-	Globe,
-	Sliders,
-	Wrench,
-	Download,
 	ChevronDown,
-	Star,
-	Sparkles,
+	Clock,
+	Download,
+	Globe,
 	GraduationCap,
-	CheckCircle,
 	Loader2,
+	Sliders,
+	Sparkles,
 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
 import { addToCart } from "@/app/cart/actions";
 import { useCart } from "@/app/cart/cart-context";
-import { toast } from "sonner";
 
 export type WorkshopItem = {
 	id: string;
@@ -90,12 +85,7 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 
 		startMutation(async () => {
 			try {
-				const result = await addToCart(
-					variantId,
-					1,
-					itemMetadata,
-					numericPrice
-				);
+				const result = await addToCart(variantId, 1, itemMetadata, numericPrice);
 
 				if (result.success && result.cart) {
 					syncCart(result.cart);
@@ -104,7 +94,7 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 					await reconcile();
 					toast.error(result.error || "Could not reserve seat. Please try again.");
 				}
-			} catch (err) {
+			} catch (_err) {
 				await reconcile();
 				toast.error("Failed to add workshop to cart.");
 			} finally {
@@ -118,9 +108,7 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 	};
 
 	const filteredWorkshops =
-		activeFilter === "all"
-			? workshops
-			: workshops.filter((w) => w.format === activeFilter);
+		activeFilter === "all" ? workshops : workshops.filter((w) => w.format === activeFilter);
 
 	return (
 		<div className="flex flex-col w-full bg-background min-h-screen text-on-surface">
@@ -150,7 +138,9 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 						</div>
 						<div className="lg:col-span-4">
 							<p className="font-body-lg text-base lg:text-lg text-on-surface-variant font-light leading-relaxed">
-								Step inside our world of slow lettering. From pointed pen fundamentals to advanced flourishing, wax seal crafting, and glass engraving. Hosted in Maharashtra and live virtually worldwide.
+								Step inside our world of slow lettering. From pointed pen fundamentals to advanced
+								flourishing, wax seal crafting, and glass engraving. Hosted in Maharashtra and live virtually
+								worldwide.
 							</p>
 						</div>
 					</div>
@@ -252,7 +242,11 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 									No Upcoming Workshops Scheduled
 								</h3>
 								<p className="text-sm text-on-surface-variant font-light max-w-md mx-auto mb-6 leading-relaxed">
-									Create a product in your Medusa Backend with metadata (<code className="bg-paper-tint px-2 py-0.5 rounded border border-border-vellum text-xs">is_workshop: true</code>) to publish workshops live.
+									Create a product in your Medusa Backend with metadata (
+									<code className="bg-paper-tint px-2 py-0.5 rounded border border-border-vellum text-xs">
+										is_workshop: true
+									</code>
+									) to publish workshops live.
 								</p>
 								<Link
 									href="/contact"
@@ -284,9 +278,7 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 												{ws.badgeText}
 											</span>
 										</div>
-										<h3 className="font-headline-md text-2xl text-primary font-serif mb-3">
-											{ws.title}
-										</h3>
+										<h3 className="font-headline-md text-2xl text-primary font-serif mb-3">{ws.title}</h3>
 										<p className="text-sm text-on-surface-variant font-light mb-6 leading-relaxed">
 											{ws.description}
 										</p>
@@ -316,9 +308,7 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 												<p className="text-xs uppercase tracking-wider text-secondary mb-1 font-semibold">
 													Kit Included
 												</p>
-												<p className="text-xs text-on-surface-variant leading-relaxed">
-													{ws.kitInfo}
-												</p>
+												<p className="text-xs text-on-surface-variant leading-relaxed">{ws.kitInfo}</p>
 											</div>
 										)}
 									</div>
@@ -328,9 +318,7 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 											<span className="text-xs uppercase tracking-widest text-secondary font-semibold">
 												Fee / Seat
 											</span>
-											<span className="text-2xl text-primary font-serif font-medium">
-												{ws.price}
-											</span>
+											<span className="text-2xl text-primary font-serif font-medium">{ws.price}</span>
 										</div>
 										<div className="flex flex-col sm:flex-row gap-2">
 											<button
@@ -375,7 +363,8 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 							What is Inside Your Studio Starter Kit
 						</h2>
 						<p className="font-body-lg text-base lg:text-lg text-on-surface-variant font-light">
-							Every participant receives our bespoke, handcrafted heirloom gift box. Handpicked tools calibrated to foster tactile delight and effortless nib glide.
+							Every participant receives our bespoke, handcrafted heirloom gift box. Handpicked tools
+							calibrated to foster tactile delight and effortless nib glide.
 						</p>
 					</div>
 
@@ -391,14 +380,21 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 										src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKUqTD7-Uz0pUDBonbNr63bhSt9MWJmMdyM7YLJLWTyJPOVqx-TlIrJkVNydAOgRcii_4xzhTMKKFhy8tp87yNGFn9E605a1wObZ0oZSNE9hxKLmmlN4BjUQKzpR8Z3TOox7xCfxOuGLEIcVC5mfTkbpDveNSIiiqH-LDpAAzWEmH0FAsUycGOt65aoiGXwXosAAHvVo5FwLAxUZWQ74cFDRBeShyLwTJTgK16H6olFHoWGcrN4jA"
 									/>
 								</div>
-								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">01 / Penholder</span>
-								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">Handcrafted Oblique Holder</h4>
+								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">
+									01 / Penholder
+								</span>
+								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">
+									Handcrafted Oblique Holder
+								</h4>
 								<p className="text-xs text-on-surface-variant leading-relaxed">
-									Turned hardwood holder with an adjustable brass flange engineered for the optimal 55-degree script angle, alleviating hand fatigue.
+									Turned hardwood holder with an adjustable brass flange engineered for the optimal 55-degree
+									script angle, alleviating hand fatigue.
 								</p>
 							</div>
 							<div className="mt-6 pt-3">
-								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">Heirloom Grade</span>
+								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">
+									Heirloom Grade
+								</span>
 							</div>
 						</div>
 
@@ -412,14 +408,21 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 										src="https://lh3.googleusercontent.com/aida-public/AB6AXuCffPXlC_Xv2zXSZup49acfu4_GfIoa9h_fejGiThlrwHpGBZiR913xDb9FT3_PQyw97Xz3L9QWKmNJzseJITQX788yxyUPgWbsn96HDUJACCv0pw9fpzakNmi9-6nKIcgroGGCyszqDqe5HkYFxkyiuo0Mtxa6P-6kXjdYNGbwtZvgKQQnTFCWqRF1UQMcbUP9i-Qs-6vKBES9P5w_dSPWHNuJo6gyUbWWBQpTTOnF5Fv2vL52mAE"
 									/>
 								</div>
-								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">02 / Nibs</span>
-								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">3 Selected Steel Pointed Nibs</h4>
+								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">
+									02 / Nibs
+								</span>
+								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">
+									3 Selected Steel Pointed Nibs
+								</h4>
 								<p className="text-xs text-on-surface-variant leading-relaxed">
-									Includes beginner-friendly Nikko G for consistent hairlines, alongside high-flex Leonardt Principal and Hunt 101 for expressive swelling.
+									Includes beginner-friendly Nikko G for consistent hairlines, alongside high-flex Leonardt
+									Principal and Hunt 101 for expressive swelling.
 								</p>
 							</div>
 							<div className="mt-6 pt-3">
-								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">Hand-Treated</span>
+								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">
+									Hand-Treated
+								</span>
 							</div>
 						</div>
 
@@ -433,14 +436,21 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 										src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkYumUCHHkCwbWxXzkmy4Peg_5vTwrARgVg9JxyWWaBCtUtI2P2FLeDKCX5fNkhGHh1s2UvG2YJ5VL7j9nu5Rb3bjb-gAHmRM8H_GUOCPpZuaGAzmI0OxNbhu8ygNt97mOfHydcXf5vpV3XDyiG66pmBeGzRKdunmdWIIOYPsfU5RU5h9q3pZvN5kIQK8SB07UGLVL_iEikU7u0tBdwfW9ATlnMU7Yi9tKiLBokOKkjMK-CChcMJ8"
 									/>
 								</div>
-								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">03 / Fluid Pigment</span>
-								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">Walnut & Gold Inkpots</h4>
+								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">
+									03 / Fluid Pigment
+								</span>
+								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">
+									Walnut & Gold Inkpots
+								</h4>
 								<p className="text-xs text-on-surface-variant leading-relaxed">
-									Specially formulated non-bleed studio ink with gentle iron gall consistency, plus a vial of shimmering mica pearl calligraphy gold ink.
+									Specially formulated non-bleed studio ink with gentle iron gall consistency, plus a vial of
+									shimmering mica pearl calligraphy gold ink.
 								</p>
 							</div>
 							<div className="mt-6 pt-3">
-								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">Archival Grade</span>
+								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">
+									Archival Grade
+								</span>
 							</div>
 						</div>
 
@@ -454,14 +464,21 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 										src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUItd8336yJuzEt7CPIrL7u7y79PBhZwS9epWTrKBbfLzS-NZO3qV1nenj-gyhZXJKIlRbnDmbyXeFk5qLViZhLIJpFYNsqf1k7wV8y8AoeWcoSaYsxePiYsww-fUl-MUG0IoyQKKxLYVCs8snjqOZLBOFUzpWlV04TXjL-_YBsJ-ry8su7H5vzTmZW9SEks571P7VdR8lRGOt12DL8OF7guxFA5KE0mugFdHQ6ou5p4ljeZqTfgg"
 									/>
 								</div>
-								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">04 / Paper Stock</span>
-								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">100gsm Rhodia Guideline Pad</h4>
+								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">
+									04 / Paper Stock
+								</span>
+								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">
+									100gsm Rhodia Guideline Pad
+								</h4>
 								<p className="text-xs text-on-surface-variant leading-relaxed">
-									Ultra-smooth French satin paper engineered to prevent ink feathering and nib snagging, pre-ruled with slanted 55° baseline guides.
+									Ultra-smooth French satin paper engineered to prevent ink feathering and nib snagging,
+									pre-ruled with slanted 55° baseline guides.
 								</p>
 							</div>
 							<div className="mt-6 pt-3">
-								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">No-Bleed Surface</span>
+								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">
+									No-Bleed Surface
+								</span>
 							</div>
 						</div>
 
@@ -475,14 +492,21 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 										src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCKiJttLURVgb2TsqApuCWY1BQxNARNFc_beK291Av1LF3Qz8x9GDyxV1unnQM22ZgSgMGQjTjW7QxF7SnhTH1MQtEtSW6KrtDOVxaTWVOpGVw3OG16_JNnEx4BFVb2g2omOASWyHVA9tKocgMNDWEfoKyX4DufIXkseapu4f03aI2aQ9T1rIumB7Gc8TBJ6d_RIJG52hFKowNsDPAb6lUeXVPjanUt3Q-OUfL-XV-gBe57HxGUkM"
 									/>
 								</div>
-								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">05 / Sealing Suite</span>
-								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">Brass Wax Stamp & Sealing Sticks</h4>
+								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">
+									05 / Sealing Suite
+								</span>
+								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">
+									Brass Wax Stamp & Sealing Sticks
+								</h4>
 								<p className="text-xs text-on-surface-variant leading-relaxed">
-									Atelier botanical monogram brass seal, brass melting spoon, tealight stove, and flexible mailable sealing waxes that do not shatter in transit.
+									Atelier botanical monogram brass seal, brass melting spoon, tealight stove, and flexible
+									mailable sealing waxes that do not shatter in transit.
 								</p>
 							</div>
 							<div className="mt-6 pt-3">
-								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">Complete Kit</span>
+								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">
+									Complete Kit
+								</span>
 							</div>
 						</div>
 
@@ -496,14 +520,21 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 										src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjD8_rzfGkTs6nNoxT84YJv1kD3dowpBQR6C6IugqBf-e7ACLxsWwFthtu2liPA0z3NtoQ5jKB5mGe0Net5ErvRXmw2UVwlwEaQGr39prd90wpDr9US5NKkPVYfXHtJX7lXaFbIqmQTCXFZiJMJbDIvplYilw8aQ9UbRqO14sUbNPuKYpq6V6H5PIJw1ynDczU8e9rLUKUar98XLLsfkEobtCYPyTuBpSTeBljImDZHuxPal07Dj4"
 									/>
 								</div>
-								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">06 / Atelier Reference</span>
-								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">Practice Exemplar & Guide</h4>
+								<span className="text-xs uppercase text-secondary tracking-widest block mb-1 font-semibold">
+									06 / Atelier Reference
+								</span>
+								<h4 className="font-headline-sm text-xl text-primary font-serif mb-2">
+									Practice Exemplar & Guide
+								</h4>
 								<p className="text-xs text-on-surface-variant leading-relaxed">
-									A 48-page spiral workbook with stroke-by-stroke diagrams, ductus guides, spacing rules, flourishing anatomy, and troubleshooting tips.
+									A 48-page spiral workbook with stroke-by-stroke diagrams, ductus guides, spacing rules,
+									flourishing anatomy, and troubleshooting tips.
 								</p>
 							</div>
 							<div className="mt-6 pt-3">
-								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">Full Reference</span>
+								<span className="text-[11px] font-semibold uppercase text-[#56423a] bg-[#fadcd0] px-2.5 py-1 rounded">
+									Full Reference
+								</span>
 							</div>
 						</div>
 					</div>
@@ -522,18 +553,26 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 								Private Atelier Sessions & Corporate Brand Activations
 							</h2>
 							<p className="text-base lg:text-lg text-outline-variant font-light mb-8 leading-relaxed">
-								Cultivate mindful focus and artistic bonding. We design custom in-person and digital workshops tailored for corporate team retreats, bridal showers, PR launches, and luxury hospitality events.
+								Cultivate mindful focus and artistic bonding. We design custom in-person and digital workshops
+								tailored for corporate team retreats, bridal showers, PR launches, and luxury hospitality
+								events.
 							</p>
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
 								<div className="bg-white/5 border border-white/10 p-5 rounded-sm">
 									<Sparkles className="w-6 h-6 text-[#fadcd0] mb-2" />
 									<h4 className="text-base text-on-primary font-serif mb-1">Luxury VIP Activations</h4>
-									<p className="text-xs text-outline-variant leading-relaxed">Live on-site fragrance bottle personalization and monogramming masterclasses for high-end clientele.</p>
+									<p className="text-xs text-outline-variant leading-relaxed">
+										Live on-site fragrance bottle personalization and monogramming masterclasses for high-end
+										clientele.
+									</p>
 								</div>
 								<div className="bg-white/5 border border-white/10 p-5 rounded-sm">
 									<GraduationCap className="w-6 h-6 text-[#fadcd0] mb-2" />
 									<h4 className="text-base text-on-primary font-serif mb-1">Bridal & Intimate Circles</h4>
-									<p className="text-xs text-outline-variant leading-relaxed">Unwind over tea and botanical wax sealing for bridal party suites or private milestone birthdays.</p>
+									<p className="text-xs text-outline-variant leading-relaxed">
+										Unwind over tea and botanical wax sealing for bridal party suites or private milestone
+										birthdays.
+									</p>
 								</div>
 							</div>
 							<div className="flex flex-wrap items-center gap-4">
@@ -556,7 +595,9 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 							</div>
 							<div className="absolute -bottom-6 -right-6 bg-[#fadcd0] text-primary p-6 shadow-xl hidden md:block max-w-xs rounded-sm">
 								<p className="text-xs uppercase tracking-wider font-bold mb-1">Bespoke Curation</p>
-								<p className="text-xs text-[#271811] leading-relaxed">Custom branded kits, personalized guest name cards & curated nib boxes included.</p>
+								<p className="text-xs text-[#271811] leading-relaxed">
+									Custom branded kits, personalized guest name cards & curated nib boxes included.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -583,7 +624,9 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 						<div className="bg-surface-container-lowest p-8 shadow-sm border border-border-vellum flex flex-col justify-between rounded-sm">
 							<div>
 								<p className="text-sm text-on-surface italic mb-6 leading-relaxed">
-									“I was terrified because my daily handwriting is a chaotic doctor's scribble. Within three hours, the breakdown of muscle memory and nib angle completely shifted my perspective. Addressing my sister's wedding suites was a dream come true.”
+									“I was terrified because my daily handwriting is a chaotic doctor's scribble. Within three
+									hours, the breakdown of muscle memory and nib angle completely shifted my perspective.
+									Addressing my sister's wedding suites was a dream come true.”
 								</p>
 							</div>
 							<div className="flex items-center gap-3 pt-4 border-t border-border-vellum">
@@ -601,7 +644,9 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 						<div className="bg-surface-container-lowest p-8 shadow-sm border border-border-vellum flex flex-col justify-between rounded-sm">
 							<div>
 								<p className="text-sm text-on-surface italic mb-6 leading-relaxed">
-									“The physical starter kit delivered to London was packed with such immense care and quiet beauty. The dual overhead Zoom feed felt like having a personal tutor leaning right over my shoulder correcting my tines.”
+									“The physical starter kit delivered to London was packed with such immense care and quiet
+									beauty. The dual overhead Zoom feed felt like having a personal tutor leaning right over my
+									shoulder correcting my tines.”
 								</p>
 							</div>
 							<div className="flex items-center gap-3 pt-4 border-t border-border-vellum">
@@ -619,7 +664,9 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 						<div className="bg-surface-container-lowest p-8 shadow-sm border border-border-vellum flex flex-col justify-between rounded-sm">
 							<div>
 								<p className="text-sm text-on-surface italic mb-6 leading-relaxed">
-									“The glass engraving intensive opened a totally new commercial revenue stream for my luxury wedding styling studio. The focus on micro-bur control and safety gave me instant confidence on real perfume flacons.”
+									“The glass engraving intensive opened a totally new commercial revenue stream for my luxury
+									wedding styling studio. The focus on micro-bur control and safety gave me instant confidence
+									on real perfume flacons.”
 								</p>
 							</div>
 							<div className="flex items-center gap-3 pt-4 border-t border-border-vellum">
@@ -667,7 +714,10 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 								a: "Because seats are strictly limited to maintain intimate direct critique and physical kits are prepared upon enrollment, ticket reservations are non-refundable. However, you may transfer your seat to another student or reschedule to an upcoming cohort with at least 14 business days prior written notice.",
 							},
 						].map((item, index) => (
-							<div key={index} className="bg-surface-container-lowest shadow-sm border border-border-vellum rounded-sm overflow-hidden">
+							<div
+								key={index}
+								className="bg-surface-container-lowest shadow-sm border border-border-vellum rounded-sm overflow-hidden"
+							>
 								<button
 									onClick={() => toggleFaq(index)}
 									className="w-full text-left p-6 flex items-center justify-between text-primary font-serif text-lg hover:text-secondary transition-colors"
@@ -698,7 +748,8 @@ export function WorkshopsClient({ initialWorkshops = [] }: { initialWorkshops?: 
 							Unsure Which Cohort Fits Your Creative Path?
 						</h3>
 						<p className="text-sm text-on-surface-variant mb-6 font-light">
-							Reach out directly to our Bhusawal studio team for tailored guidance on skill alignment, left-handed nib adjustments, or bespoke private bookings.
+							Reach out directly to our Bhusawal studio team for tailored guidance on skill alignment,
+							left-handed nib adjustments, or bespoke private bookings.
 						</p>
 						<div className="flex justify-center items-center">
 							<Link

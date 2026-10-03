@@ -1,6 +1,5 @@
 "use client";
 
-import type { APIProductGetByIdResult } from "@/lib/commerce-types";
 import { CheckIcon, MinusIcon, PlusIcon } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
@@ -10,14 +9,45 @@ import { useCart } from "@/app/cart/cart-context";
 import { useStoreConfig } from "@/components/store-config-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import type { APIProductGetByIdResult } from "@/lib/commerce-types";
+import { logger } from "@/lib/logger";
 import { formatMoney } from "@/lib/money";
 import { displayAmount, displayPrice, type TaxBehavior } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logger";
 
-type Bundle = NonNullable<APIProductGetByIdResult["bundle"]>;
-type Group = Bundle["groups"][number];
-type GroupItem = Group["items"][number];
+type GroupItem = {
+	variantId: string;
+	fixedQuantity?: number;
+	forced?: boolean;
+	defaultSelected?: boolean;
+	maxQuantity?: number | null;
+	variant: {
+		id: string;
+		sku?: string | null;
+		stock?: number | null;
+		productName: string;
+		productSlug: string;
+		images: string[];
+		productImages: string[];
+		price: string;
+		priceGross?: string | null;
+		options?: { value: string; colorValue?: string | null }[];
+	};
+};
+
+type Group = {
+	id: string;
+	name?: string | null;
+	minQuantity: number;
+	maxQuantity?: number | null;
+	allowDuplicates?: boolean;
+	items: GroupItem[];
+};
+
+type Bundle = {
+	groups: Group[];
+	discountPercentage?: number | null;
+};
 
 // quantity chosen per variant, scoped per group
 type GroupSelections = Record<string, Record<string, number>>;
@@ -68,7 +98,7 @@ const initialSelections = (groups: Group[]): GroupSelections => {
 	for (const group of groups) {
 		const inner: Record<string, number> = {};
 		for (const item of group.items) {
-			if (item.forced) inner[item.variantId] = item.fixedQuantity;
+			if (item.forced) inner[item.variantId] = item.fixedQuantity ?? 1;
 			else if (item.defaultSelected) inner[item.variantId] = 1;
 		}
 		out[group.id] = inner;
@@ -126,7 +156,7 @@ export function BundleBuilder({
 				if (item) sum += BigInt(displayPrice(item.variant, taxBehavior)) * BigInt(quantity);
 			}
 		}
-		return { total: priceTotal(sum, pricing, discountPercentage, taxBehavior), originalTotal: sum };
+		return { total: priceTotal(sum, pricing, discountPercentage ?? null, taxBehavior), originalTotal: sum };
 	}, [groups, selections, itemByVariant, discountPercentage, pricing, taxBehavior]);
 
 	const hasSavings = total < originalTotal;
@@ -269,7 +299,7 @@ export function BundleBuilder({
 											{outOfStock && <span className="text-destructive text-xs">Out of stock</span>}
 											{item.forced && (
 												<Badge variant="secondary" className="w-fit">
-													{item.fixedQuantity > 1 ? `Included ×${item.fixedQuantity}` : "Included"}
+													{(item.fixedQuantity ?? 1) > 1 ? `Included ×${item.fixedQuantity}` : "Included"}
 												</Badge>
 											)}
 										</button>

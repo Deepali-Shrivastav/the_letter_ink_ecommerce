@@ -1,13 +1,13 @@
-import type {
-	APICollectionGetByIdResult,
-	APIProductGetByIdResult,
-	APIProductsBrowseResult,
-} from "@/lib/commerce-types";
 import { ArrowRight } from "lucide-react";
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { commerce } from "@/lib/commerce";
+import type {
+	APICollectionGetByIdResult,
+	APIProductGetByIdResult,
+	APIProductsBrowseResult,
+} from "@/lib/commerce-types";
 
 export type Product = APIProductsBrowseResult["data"][number];
 

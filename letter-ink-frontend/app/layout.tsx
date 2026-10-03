@@ -1,25 +1,22 @@
 import "@/app/globals.css";
 
-import { UserRound } from "lucide-react";
+import { Search } from "lucide-react";
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
-import { Geist, Geist_Mono, Raleway, EB_Garamond } from "next/font/google";
+import { EB_Garamond, Geist, Geist_Mono, Raleway } from "next/font/google";
 import { getImageProps } from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { Suspense } from "react";
 import { CartBootstrap, CartProvider } from "@/app/cart/cart-context";
 import { CartSidebar } from "@/app/cart/cart-sidebar";
 import { CartButton } from "@/app/cart-button";
 import { Footer } from "@/app/footer";
-import { Navbar, type NavLink } from "@/app/navbar";
-import { NewsletterDialog } from "@/components/newsletter-dialog";
+import { MobileNav, Navbar, type NavLink } from "@/app/navbar";
 import { AnnouncementBar } from "@/components/announcement-bar";
-import { SearchInput } from "@/components/search/search-input";
+import { NewsletterDialog } from "@/components/newsletter-dialog";
 import { StoreChatSection } from "@/components/store-chat/store-chat-section";
 import { StoreConfigProvider } from "@/components/store-config-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/sonner";
 import { commerce, getCanonicalUrl, getStoreFaviconUrl, meGetCached } from "@/lib/commerce";
 import { getCartCookieJson } from "@/lib/cookies";
@@ -53,7 +50,9 @@ async function getStoreMetadata(): Promise<Metadata> {
 	cacheLife("hours");
 	const me = await meGetCached();
 	const storeName = me.store.name || "The Letter Ink";
-	const storeDescription = me.store.settings?.storeDescription || "The Letter Ink — Artisanal calligraphy studio & bespoke stationery";
+	const storeDescription =
+		me.store.settings?.storeDescription ||
+		"The Letter Ink — Artisanal calligraphy studio & bespoke stationery";
 	const faviconUrl = getStoreFaviconUrl(me.store.settings) ?? "/Logo.jpeg";
 	// The platform favicon is whatever was uploaded (here a 500x500 PNG). Route it through
 	// the image optimizer so browsers fetch a few KB from this origin, not the blob host.
@@ -133,13 +132,12 @@ async function getInitialCart() {
 
 function getNavLinks(): NavLink[] {
 	return [
-		{ href: "/", label: "Home" },
 		{ href: "/shop", label: "Shop" },
 		{ href: "/gifting", label: "Gifting" },
 		{ href: "/workshops", label: "Workshops" },
 		{ href: "/blog", label: "Blog" },
-		{ href: "/about", label: "About Us" },
-		{ href: "/contact", label: "Contact Us" },
+		{ href: "/about", label: "About" },
+		{ href: "/contact", label: "Contact" },
 	];
 }
 
@@ -172,37 +170,46 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 					</Suspense>
 					<header className="sticky top-0 z-50 bg-surface-container-lowest shadow-sm">
 						<div className="w-full px-margin-mobile lg:px-8">
-							<div className="relative flex items-center justify-between h-16 sm:h-20">
+							<div className="relative flex items-center justify-between h-14 sm:h-16 lg:h-18">
 								{/* Left: Logo */}
-								<div className="flex items-center shrink-0 xl:w-[260px]">
+								<div className="flex items-center shrink-0">
 									<Link href="/" className="flex items-center py-1" aria-label="The Letter Ink Home">
-										<img alt="The Letter Ink Logo" className="h-14 sm:h-16 lg:h-20 w-auto object-contain transition-all duration-200" src="/Latest-logo.png" />
+										<img
+											alt="The Letter Ink Logo"
+											className="h-9 sm:h-12 lg:h-16 w-auto object-contain transition-all duration-200"
+											src="/Latest-logo.png"
+										/>
 									</Link>
 								</div>
-								
-								{/* Center: Navbar */}
-								<div className="hidden xl:flex flex-1 justify-center">
+
+								{/* Center: Desktop Navbar */}
+								<div className="hidden lg:flex flex-1 justify-center">
 									<Suspense fallback={null}>
 										<Navbar links={links} />
 									</Suspense>
 								</div>
 
 								{/* Right: Actions */}
-								<div className="flex items-center justify-end gap-5 w-[200px] xl:w-[260px]">
-									<button aria-label="Search" className="text-on-surface hover:text-primary transition-colors">
-										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-									</button>
-									<Link href="/#gallery" aria-label="Wishlist" className="text-on-surface hover:text-primary transition-colors">
-										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-									</Link>
-									<CartButton />
-									<a
-										href="/account"
-										className="bg-black text-white p-1.5 rounded-full hover:bg-black/80 transition-colors"
-										aria-label="Account"
-									>
-										<UserRound className="w-4 h-4" strokeWidth={2} />
-									</a>
+								<div className="flex items-center justify-end">
+									{/* Mobile: Cart + Hamburger Menu */}
+									<div className="lg:hidden flex items-center gap-1.5">
+										<CartButton />
+										<Suspense fallback={null}>
+											<MobileNav links={links} />
+										</Suspense>
+									</div>
+
+									{/* Desktop Action Icons */}
+									<div className="hidden lg:flex items-center justify-end gap-3">
+										<Link
+											href="/search"
+											aria-label="Search atelier catalog"
+											className="flex items-center justify-center h-11 w-11 rounded-full text-foreground hover:text-brand-script hover:bg-surface-container-high/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-script"
+										>
+											<Search className="h-5 w-5 stroke-[1.75]" />
+										</Link>
+										<CartButton />
+									</div>
 								</div>
 							</div>
 						</div>
@@ -250,14 +257,21 @@ export default async function RootLayout({
 	return (
 		// suppressHydrationWarning: next-themes sets the theme class on <html> before hydration.
 		<html lang={lang} className="light" style={{ colorScheme: "light" }} suppressHydrationWarning>
-			<head>
-				<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-			</head>
-			<body className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${ebGaramond.variable} antialiased`} suppressHydrationWarning>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${ebGaramond.variable} antialiased`}
+				suppressHydrationWarning
+			>
 				<Suspense fallback={null}>
 					<StoreJsonLd />
 				</Suspense>
-				<ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light" disableTransitionOnChange scriptProps={{ async: true }}>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="light"
+					enableSystem={false}
+					forcedTheme="light"
+					disableTransitionOnChange
+					scriptProps={{ async: true }}
+				>
 					<CartProviderWrapper>{children}</CartProviderWrapper>
 					<Suspense fallback={null}>
 						<NewsletterPopupSection />

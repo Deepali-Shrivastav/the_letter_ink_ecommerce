@@ -2,8 +2,8 @@
 
 import { try_ } from "safe-try";
 import { commerce } from "@/lib/commerce";
-import { isValidEmail } from "@/lib/validation";
 import { logger } from "@/lib/logger";
+import { isValidEmail } from "@/lib/validation";
 
 type NewsletterState = {
 	success: boolean;
@@ -31,7 +31,9 @@ export async function subscribeToNewsletter(
 		};
 	}
 
-	const [error] = await try_(commerce.subscriberCreate({ email: email.trim().toLowerCase(), marketingConsent: true }));
+	const [error] = await try_(
+		commerce.subscriberCreate({ email: email.trim().toLowerCase(), marketingConsent: true }),
+	);
 	if (error) {
 		logger.error("newsletter: subscriberCreate failed", { error });
 		return { success: false, message: "", error: "Something went wrong. Please try again later." };

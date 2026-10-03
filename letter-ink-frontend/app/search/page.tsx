@@ -48,7 +48,7 @@ function SearchResultsSkeleton() {
 		<div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-14 lg:grid-cols-3 lg:gap-x-8">
 			{[0, 1, 2, 3, 4, 5].map((i) => (
 				<div key={i} className="flex flex-col gap-3">
-					<div className="aspect-square w-full animate-pulse bg-secondary motion-reduce:animate-none" />
+					<div className="aspect-[4/5] w-full rounded-xl animate-pulse bg-secondary/20 motion-reduce:animate-none" />
 					<div className="h-3 w-2/3 animate-pulse bg-secondary motion-reduce:animate-none" />
 					<div className="h-3 w-1/3 animate-pulse bg-secondary/60 motion-reduce:animate-none" />
 				</div>

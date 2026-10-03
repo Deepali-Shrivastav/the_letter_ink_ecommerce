@@ -24,8 +24,10 @@ export const getProductThumbnail = (urls: string[]): string | undefined => {
  */
 export function formatBrandOrderLookup(orderId?: string | null, displayId?: number | string | null): string {
 	if (displayId !== undefined && displayId !== null && String(displayId).trim()) {
-		const rawNum = String(displayId).replace(/^TLI-?/i, "").trim();
-		if (!isNaN(Number(rawNum))) {
+		const rawNum = String(displayId)
+			.replace(/^TLI-?/i, "")
+			.trim();
+		if (!Number.isNaN(Number(rawNum))) {
 			return `TLI-${String(rawNum).padStart(4, "0")}`;
 		}
 		return `TLI-${rawNum.toUpperCase()}`;
@@ -45,4 +47,3 @@ export function formatBrandOrderLookup(orderId?: string | null, displayId?: numb
 	const suffix = alphaNumOnly.slice(-6).toUpperCase();
 	return `TLI-${suffix || "1001"}`;
 }
-

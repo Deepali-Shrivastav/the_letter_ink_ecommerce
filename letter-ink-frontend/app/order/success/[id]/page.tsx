@@ -1,17 +1,16 @@
-import type { APIOrderGetByIdResult } from "@/lib/commerce-types";
 import { CheckCircle } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { commerce } from "@/lib/commerce";
+import type { APIOrderGetByIdResult } from "@/lib/commerce-types";
 import { formatMoney } from "@/lib/money";
 import { cartDisplaySubtotal, displayAmount, displayPrice } from "@/lib/pricing";
 import { getStoreConfig } from "@/lib/store-config";
-import { getProductThumbnail } from "@/lib/utils";
 import { LetterInkMedia } from "@/lib/the-letter-ink-media";
+import { getProductThumbnail } from "@/lib/utils";
 
 export const metadata: Metadata = {
 	title: "Order Confirmed",
@@ -53,17 +52,14 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 				<div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 mx-auto flex items-center justify-center">
 					<CheckCircle className="h-8 w-8 text-emerald-600" />
 				</div>
-				<h1 className="text-2xl font-serif font-semibold text-foreground">
-					Order Confirmed & Received
-				</h1>
+				<h1 className="text-2xl font-serif font-semibold text-foreground">Order Confirmed & Received</h1>
 				<p className="text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
-					Your atelier commission ({id}) has been recorded. You can track live crafting progress, courier dispatch, and delivery updates anytime.
+					Your atelier commission ({id}) has been recorded. You can track live crafting progress, courier
+					dispatch, and delivery updates anytime.
 				</p>
 				<div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
 					<Button asChild className="rounded-full px-6">
-						<Link href={`/order/track?id=${encodeURIComponent(id)}`}>
-							Track Order Live
-						</Link>
+						<Link href={`/order/track?id=${encodeURIComponent(id)}`}>Track Order Live</Link>
 					</Button>
 					<Button asChild variant="outline" className="rounded-full px-6">
 						<Link href="/shop">Continue Browsing</Link>
@@ -183,9 +179,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 			{/* Action Buttons */}
 			<div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
 				<Button asChild variant="outline" className="w-full sm:w-auto">
-					<Link href={`/order/track?id=${encodeURIComponent(id)}`}>
-						Track Order Status
-					</Link>
+					<Link href={`/order/track?id=${encodeURIComponent(id)}`}>Track Order Status</Link>
 				</Button>
 				<Button asChild className="w-full sm:w-auto">
 					<Link href="/">Continue Shopping</Link>
@@ -215,7 +209,9 @@ async function OrderItem({ item }: { item: OrderLineItem }) {
 				href={`/product/${product.slug}`}
 				className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-secondary"
 			>
-				{image && <LetterInkMedia src={image} alt={product.name} fill className="object-cover" sizes="80px" />}
+				{image && (
+					<LetterInkMedia src={image} alt={product.name} fill className="object-cover" sizes="80px" />
+				)}
 			</Link>
 
 			{/* Product Details */}

@@ -27,10 +27,7 @@ function BlogPageSkeleton() {
 }
 
 async function BlogContent() {
-	const [postsRes, videosRes] = await Promise.all([
-		commerce.postBrowse(),
-		commerce.studioVideosBrowse(),
-	]);
+	const [postsRes, videosRes] = await Promise.all([commerce.postBrowse(), commerce.studioVideosBrowse()]);
 	const posts = postsRes.data || [];
 	const videos = videosRes.data || [];
 	return <BlogPageClient posts={posts} initialVideos={videos} />;

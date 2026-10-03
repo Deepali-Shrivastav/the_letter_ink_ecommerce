@@ -17,7 +17,7 @@ async function getAllProducts() {
 				slug: p.slug,
 				updatedAt: p.updatedAt ?? new Date().toISOString(),
 				images: p.images ?? [],
-			}))
+			})),
 		);
 		if (result.data.length < PAGE_SIZE) break;
 	}
@@ -42,7 +42,9 @@ async function getBlogState() {
 	if (!(me?.store.settings?.enabledTools as any)?.blog) {
 		return { enabled: false, posts: [] as { slug: string; lastModified: string }[] };
 	}
-	const result = await (commerce as any).postBrowse?.({ active: true, limit: 200 }).catch(() => ({ data: [] })) ?? { data: [] };
+	const result = (await (commerce as any)
+		.postBrowse?.({ active: true, limit: 200 })
+		.catch(() => ({ data: [] }))) ?? { data: [] };
 	return {
 		enabled: true,
 		posts: (result.data || []).map((p: any) => ({

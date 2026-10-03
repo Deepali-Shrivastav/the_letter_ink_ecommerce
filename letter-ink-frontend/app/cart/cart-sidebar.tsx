@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { CheckCircle2, Info, ShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Loader2, ShoppingBag, ShieldCheck, CheckCircle2, Lock, Info } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { useCart } from "@/app/cart/cart-context";
 import { CartItem } from "@/app/cart/cart-item";
 import { CartPromoCode } from "@/app/cart/cart-promo";
@@ -18,8 +19,6 @@ import {
 	SheetTitle,
 } from "@/components/ui/sheet";
 import { formatMoney } from "@/lib/money";
-import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 
 export function CartSidebar() {
 	const router = useRouter();
@@ -32,7 +31,9 @@ export function CartSidebar() {
 
 	const rawSubtotal = Number(cart?.subtotal ?? subtotal ?? 0);
 	const discountTotal = Number(cart?.discountTotal ?? 0);
-	const grandTotal = cart?.subtotalGross ? Number(cart.subtotalGross) : Math.max(0, rawSubtotal - discountTotal);
+	const grandTotal = cart?.subtotalGross
+		? Number(cart.subtotalGross)
+		: Math.max(0, rawSubtotal - discountTotal);
 
 	const loadRazorpayScript = (): Promise<boolean> => {
 		return new Promise((resolve) => {
@@ -54,7 +55,7 @@ export function CartSidebar() {
 		});
 	};
 
-	const handleCheckoutWithRazorpay = async () => {
+	const _handleCheckoutWithRazorpay = async () => {
 		if (isMutating || isCheckingOut || !cart?.id) return;
 		setIsCheckingOut(true);
 
@@ -87,7 +88,7 @@ export function CartSidebar() {
 					image: "/Logo.jpeg",
 					order_id: data.orderId,
 					theme: { color: "#201A1C" },
-					handler: async function (response: any) {
+					handler: async (response: any) => {
 						toast.loading("Verifying Razorpay payment...", { id: "razorpay-verify" });
 						const verifyRes = await fetch("/api/checkout/razorpay/verify", {
 							method: "POST",
@@ -109,14 +110,14 @@ export function CartSidebar() {
 						}
 					},
 					modal: {
-						ondismiss: function () {
+						ondismiss: () => {
 							setIsCheckingOut(false);
 							toast.info("Payment cancelled.");
 						},
 					},
 				};
 				const rzp = new (window as any).Razorpay(options);
-				rzp.on("payment.failed", function (response: any) {
+				rzp.on("payment.failed", (response: any) => {
 					setIsCheckingOut(false);
 					toast.error(response.error?.description || "Payment failed. Please try again.");
 				});
@@ -233,12 +234,14 @@ export function CartSidebar() {
 										{(cart?.discountTotal || 0) > 0 && (
 											<div className="flex items-center justify-between text-primary">
 												<span>Discount</span>
-												<span>-{formatMoney({ amount: cart!.discountTotal!, currency, locale })}</span>
+												<span>-{formatMoney({ amount: cart?.discountTotal!, currency, locale })}</span>
 											</div>
 										)}
 										<div className="flex items-center justify-between font-medium pt-2 border-t border-border">
 											<span>Total</span>
-											<span className="font-semibold">{formatMoney({ amount: Math.round(grandTotal), currency, locale })}</span>
+											<span className="font-semibold">
+												{formatMoney({ amount: Math.round(grandTotal), currency, locale })}
+											</span>
 										</div>
 									</div>
 
@@ -321,7 +324,8 @@ export function CartSidebar() {
 						<div className="text-xs text-muted-foreground flex items-start gap-2 bg-blue-50 dark:bg-blue-950/30 p-3 rounded-lg border border-blue-200 dark:border-blue-900 text-blue-800 dark:text-blue-300">
 							<Info className="h-4 w-4 shrink-0 mt-0.5" />
 							<span>
-								Click below to simulate an immediate successful Razorpay payment! (To enable live bank modals, add your Razorpay keys in <code className="font-mono font-bold">.env.local</code>).
+								Click below to simulate an immediate successful Razorpay payment! (To enable live bank modals,
+								add your Razorpay keys in <code className="font-mono font-bold">.env.local</code>).
 							</span>
 						</div>
 
@@ -346,4 +350,3 @@ export function CartSidebar() {
 		</>
 	);
 }
-

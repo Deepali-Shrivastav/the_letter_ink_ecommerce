@@ -14,7 +14,7 @@ describe("POST /store/carts/:id/line-items/custom", () => {
 
   beforeEach(() => {
     mockRun = jest.fn();
-    (addToCartWorkflow as jest.Mock).mockReturnValue({
+    (addToCartWorkflow as unknown as jest.Mock).mockReturnValue({
       run: mockRun,
     });
 

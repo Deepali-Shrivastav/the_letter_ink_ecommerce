@@ -1,16 +1,16 @@
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { getActiveCampaigns } from "@/lib/campaigns";
 import type {
 	APICollectionGetByIdResult,
 	APIProductGetByIdResult,
 	APIProductsBrowseResult,
 } from "@/lib/commerce-types";
-import Link from "next/link";
 import { formatMoney } from "@/lib/money";
-import { priceRange } from "@/lib/pricing";
+import { displayPrice, priceRange } from "@/lib/pricing";
 import { getStoreConfig } from "@/lib/store-config";
-import { isVideoUrl } from "@/lib/utils";
 import { LetterInkMedia } from "@/lib/the-letter-ink-media";
-import { QuickAddButton } from "./quick-add-button";
-import { getActiveCampaigns } from "@/lib/campaigns";
+import { isVideoUrl } from "@/lib/utils";
 
 type BrowseProduct = APIProductsBrowseResult["data"][number];
 type CollectionProduct = APICollectionGetByIdResult["productCollections"][number]["product"];
@@ -25,7 +25,7 @@ export async function ProductCard({
 }) {
 	const { currency, locale, taxBehavior } = await getStoreConfig();
 	const activeCampaigns = await getActiveCampaigns();
-	const isSaleActive = activeCampaigns.length > 0;
+	const isCampaignActive = activeCampaigns.length > 0;
 
 	const variants = "variants" in product ? product.variants : null;
 	const { min: minPrice, max: maxPrice } =
@@ -38,15 +38,47 @@ export async function ProductCard({
 				? formatMoney({ amount: minPrice, currency, locale })
 				: null;
 
+	const firstVariant = variants?.[0];
+	const originalPriceVal = firstVariant ? displayPrice(firstVariant, taxBehavior, "originalPrice") : null;
+	const isDiscounted = Boolean(
+		originalPriceVal && minPrice && Number(originalPriceVal) > Number(minPrice),
+	);
+	const compareAtDisplay = isDiscounted
+		? formatMoney({ amount: originalPriceVal!, currency, locale })
+		: null;
+
+	const percentOff =
+		isDiscounted && originalPriceVal && minPrice
+			? Math.round(((Number(originalPriceVal) - Number(minPrice)) / Number(originalPriceVal)) * 100)
+			: 0;
+
 	const allImages = [
 		...(product.images ?? []),
-		...(variants?.flatMap((v: any) => v.images ?? []).filter((img: any) => !(product.images ?? []).includes(img)) ??
-			[]),
+		...(variants
+			?.flatMap((v: any) => v.images ?? [])
+			.filter((img: any) => !(product.images ?? []).includes(img)) ?? []),
 	];
-	const primaryImage = allImages[0];
+	const primaryImage = allImages[0] || (product as any).thumbnail;
 	const secondaryImage = allImages[1];
 
-	const singleVariant = variants?.length === 1 && variants[0]?.stock !== 0 ? variants[0] : null;
+	const categoryLabel =
+		(product as any).category?.name ||
+		(product as any).metadata?.category_name ||
+		((product as any).type && (product as any).type !== "standard" ? (product as any).type : null) ||
+		"Atelier Creation";
+
+	const summary =
+		(product as any).summary ||
+		(product as any).description ||
+		(product as any).metadata?.summary ||
+		null;
+
+	const editionBadge = (product as any).badge || (product as any).metadata?.badge || null;
+	const discountBadge = isDiscounted
+		? percentOff > 0
+			? `Save ${percentOff}%`
+			: "Sale"
+		: null;
 
 	// A single-variant card deep-links to that variant; a bare link would show the product's default.
 	const onlyVariant = variants?.length === 1 ? variants[0] : null;
@@ -62,32 +94,37 @@ export async function ProductCard({
 	})();
 
 	return (
-		<Link href={`/product/${product.slug}${variantSearch}`} className="group">
-			<div className="relative aspect-square bg-secondary rounded-2xl overflow-hidden mb-4">
-				{isSaleActive && (
-					<div className="absolute top-4 left-4 z-10 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-						Sale
+		<Link
+			href={`/product/${product.slug}${variantSearch}`}
+			className="group relative flex flex-col bg-surface-container-lowest border border-border-vellum/70 shadow-2xs hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden justify-between"
+		>
+			{/* Image */}
+			<div className="relative w-full aspect-[4/5] overflow-hidden bg-surface-container-low">
+				{(editionBadge || discountBadge) && (
+					<div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 items-start">
+						{editionBadge && (
+							<span
+								className={`font-label-sm text-[10px] uppercase tracking-widest px-2.5 py-1 font-bold rounded-sm shadow-xs ${
+									editionBadge === "Patron's Pick"
+										? "bg-tertiary-fixed text-on-tertiary-fixed"
+										: "bg-primary text-on-primary"
+								}`}
+							>
+								{editionBadge}
+							</span>
+						)}
+						{discountBadge && (
+							<span className="font-label-sm text-[10px] uppercase tracking-widest px-2.5 py-1 font-bold rounded-sm bg-tertiary-fixed text-on-tertiary-fixed shadow-xs">
+								{discountBadge}
+							</span>
+						)}
 					</div>
 				)}
-				{singleVariant && (
-					<QuickAddButton
-						variantId={singleVariant.id}
-						variantSku={"sku" in singleVariant ? singleVariant.sku : null}
-						variantPrice={singleVariant.price}
-						variantPriceGross={"priceGross" in singleVariant ? singleVariant.priceGross : null}
-						variantImages={singleVariant.images}
-						product={{
-							id: product.id,
-							name: product.name,
-							slug: product.slug,
-							images: product.images ?? [],
-						}}
-					/>
-				)}
+
 				{primaryImage &&
 					(isVideoUrl(primaryImage) ? (
 						<video
-							className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${secondaryImage ? "group-hover:opacity-0" : ""}`}
+							className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${secondaryImage ? "group-hover:opacity-0" : ""}`}
 							src={primaryImage}
 							muted
 							loop
@@ -100,14 +137,14 @@ export async function ProductCard({
 							alt={product.name}
 							fill
 							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-							className={`object-cover transition-opacity duration-500 ${secondaryImage ? "group-hover:opacity-0" : ""}`}
+							className={`object-cover transition-all duration-700 group-hover:scale-105 ${secondaryImage ? "group-hover:opacity-0" : ""}`}
 							priority={priority}
 						/>
 					))}
 				{secondaryImage &&
 					(isVideoUrl(secondaryImage) ? (
 						<video
-							className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+							className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
 							src={secondaryImage}
 							muted
 							loop
@@ -120,13 +157,50 @@ export async function ProductCard({
 							alt={`${product.name} - alternate view`}
 							fill
 							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-							className="object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+							className="object-cover opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105"
 						/>
 					))}
 			</div>
-			<div className="space-y-1">
-				<h3 className="text-base font-medium text-foreground">{product.name}</h3>
-				<p className="text-base font-semibold text-foreground">{priceDisplay}</p>
+
+			{/* Card Body */}
+			<div className="p-space-md flex flex-col flex-grow justify-between space-y-space-xs">
+				<div>
+					<div className="flex items-center justify-between gap-2 mb-1">
+						<span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary truncate">
+							{categoryLabel}
+						</span>
+					</div>
+					<h3 className="font-headline-sm text-headline-sm text-primary group-hover:text-secondary transition-colors line-clamp-1 mt-1 font-serif">
+						{product.name}
+					</h3>
+					{summary && (
+						<p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1.5">
+							{summary}
+						</p>
+					)}
+				</div>
+
+				<div className="pt-space-xs flex items-center justify-between mt-4 border-t border-border-vellum/60 pt-4">
+					<div className="flex flex-col">
+						<div className="flex items-baseline gap-2">
+							{priceDisplay && (
+								<span className="font-headline-md text-headline-md text-primary font-serif">
+									{priceDisplay}
+								</span>
+							)}
+							{compareAtDisplay && (
+								<span className="font-body-sm text-body-sm text-secondary line-through">
+									{compareAtDisplay}
+								</span>
+							)}
+						</div>
+					</div>
+
+					<span className="px-3.5 py-1.5 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded group-hover:bg-tertiary-fixed group-hover:text-primary transition-colors flex items-center gap-1.5 shadow-2xs">
+						<span>Customise</span>
+						<ArrowRight className="w-3.5 h-3.5" />
+					</span>
+				</div>
 			</div>
 		</Link>
 	);

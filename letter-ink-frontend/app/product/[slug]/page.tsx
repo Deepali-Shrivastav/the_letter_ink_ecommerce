@@ -1,3 +1,4 @@
+import { ArrowUpRight, CheckCircle2, PenTool, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import Link from "next/link";
@@ -5,24 +6,14 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AddToCartButton } from "@/app/product/[slug]/add-to-cart-button";
 import { BundleBuilder } from "@/app/product/[slug]/bundle-builder";
-import { MediaGallery } from "@/app/product/[slug]/media-gallery";
-import { ProductFeatures } from "@/app/product/[slug]/product-features";
-import { RelatedProducts } from "@/app/product/[slug]/related-products";
 import { ProductCustomizationProvider } from "@/app/product/[slug]/customization-context";
+import { MediaGallery } from "@/app/product/[slug]/media-gallery";
+import { RelatedProducts } from "@/app/product/[slug]/related-products";
 import { TiptapRenderer } from "@/components/tiptap-renderer";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
 import { commerce, meGetCached } from "@/lib/commerce";
 import { buildProductBreadcrumbJsonLd, buildProductJsonLd, JsonLdScript } from "@/lib/json-ld";
 import { TrackProductView } from "@/lib/track";
-import { cn } from "@/lib/utils";
 
 // MediaGallery and the purchase panel read useSearchParams (selected variant),
 // so they need a Suspense boundary to keep the rest of the page prerenderable.
@@ -58,7 +49,6 @@ function ProductPageSkeleton() {
 	);
 }
 
-
 // `productGet` resolves the API error rather than null for a missing slug, so the
 // `!product` branches below are unreachable without this: the throw escapes the
 // streamed Suspense boundary and the route answers 200 with an empty shell.
@@ -82,7 +72,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 	const seoTitle = product.seo?.title || product.name;
 	const seoDescription = product.seo?.description || product.summary || undefined;
-	const canonical = product.seo?.canonical || `/product/${product.slug}`;
+	const canonical = (product.seo as any)?.canonical || `/product/${product.slug}`;
 	const image = product.images[0];
 
 	return {
@@ -136,7 +126,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
 	const allImages = [
 		...product.images,
-		...product.variants.flatMap((v) => v.images).filter((img) => !product.images.includes(img)),
+		...product.variants.flatMap((v: any) => v.images).filter((img: string) => !product.images.includes(img)),
 	];
 
 	const productJsonLd = await buildProductJsonLd(product, reviews);
@@ -146,19 +136,23 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 			<JsonLdScript data={productJsonLd} />
 			<JsonLdScript data={buildProductBreadcrumbJsonLd(product)} />
 			{product.variants[0] && <TrackProductView variant={product.variants[0]} name={product.name} />}
-			
+
 			{/* Breadcrumb & Top Bar */}
 			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter pt-6 pb-4">
 				<nav className="flex items-center gap-2 font-body-sm text-body-sm text-secondary tracking-wider uppercase">
-					<Link href="/" className="hover:text-primary transition-colors">Home</Link>
+					<Link href="/" className="hover:text-primary transition-colors">
+						Home
+					</Link>
 					<span className="text-secondary/40 text-xs">/</span>
-					<Link href="/shop" className="hover:text-primary transition-colors">Shop</Link>
+					<Link href="/shop" className="hover:text-primary transition-colors">
+						Shop
+					</Link>
 					{product.category && (
 						<>
 							<span className="text-secondary/40 text-xs">/</span>
 							<Link
 								href={
-									product.category.slug === "workshops" || Boolean(product.metadata?.is_workshop)
+									product.category.slug === "workshops" || product.metadata?.is_workshop
 										? "/workshops"
 										: `/category/${product.category.slug}`
 								}
@@ -189,24 +183,29 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 							{/* Header Info */}
 							<div className="flex flex-col gap-2 pb-5 bg-gradient-to-b from-transparent to-surface-container-low/40 p-1">
 								<div className="flex items-center justify-between gap-4">
-									<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">The Atelier Heirlooms Series</span>
+									<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">
+										The Atelier Heirlooms Series
+									</span>
 								</div>
 								<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1 break-words [overflow-wrap:anywhere]">
 									{product.name}
 								</h1>
 								<p className="font-body-md text-body-md text-secondary leading-relaxed break-words [overflow-wrap:anywhere]">
-									{product.summary || "Bespoke Classical Calligraphy in Antiqued Brass & Double Glass Float Frame"}
+									{product.summary ||
+										"Bespoke Classical Calligraphy in Antiqued Brass & Double Glass Float Frame"}
 								</p>
 							</div>
 
 							{/* Editorial Description Callout */}
-							{product.content && (typeof product.content !== "string" || !["NA", "N/A"].includes(product.content.trim().toUpperCase())) && (
-								<div className="w-full min-w-0 h-auto p-4 md:p-5 bg-paper-tint text-on-surface border border-border-vellum/40 break-words [overflow-wrap:anywhere]">
-									<div className="font-body-md text-body-md text-on-surface-variant leading-relaxed break-words [overflow-wrap:anywhere]">
-										<TiptapRenderer content={product.content} />
+							{product.content &&
+								(typeof product.content !== "string" ||
+									!["NA", "N/A"].includes(product.content.trim().toUpperCase())) && (
+									<div className="w-full min-w-0 h-auto p-4 md:p-5 bg-paper-tint text-on-surface border border-border-vellum/40 break-words [overflow-wrap:anywhere]">
+										<div className="font-body-md text-body-md text-on-surface-variant leading-relaxed break-words [overflow-wrap:anywhere]">
+											<TiptapRenderer content={product.content} />
+										</div>
 									</div>
-								</div>
-							)}
+								)}
 
 							{product.type === "bundle" && (product as any).bundle?.groups?.length ? (
 								<BundleBuilder
@@ -236,23 +235,35 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 									/>
 								</Suspense>
 							)}
-							
+
 							{/* Trust & Fulfillment Triad */}
 							<div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-3">
 								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
-									<span className="material-symbols-outlined text-primary text-[20px]">brush</span>
-									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">100% Dip-Pen Hand Scripted</span>
-									<span className="font-body-sm text-[12px] text-secondary">Zero digital prints; genuine archival hand calligraphy.</span>
+									<PenTool className="w-5 h-5 text-primary" />
+									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">
+										100% Dip-Pen Hand Scripted
+									</span>
+									<span className="font-body-sm text-[12px] text-secondary">
+										Zero digital prints; genuine archival hand calligraphy.
+									</span>
 								</div>
 								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
-									<span className="material-symbols-outlined text-primary text-[20px]">mark_chat_read</span>
-									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">Pre-Dispatch Proof</span>
-									<span className="font-body-sm text-[12px] text-secondary">High-res approval via WhatsApp before glass sealing.</span>
+									<CheckCircle2 className="w-5 h-5 text-primary" />
+									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">
+										Pre-Dispatch Proof
+									</span>
+									<span className="font-body-sm text-[12px] text-secondary">
+										High-res approval via WhatsApp before glass sealing.
+									</span>
 								</div>
 								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
-									<span className="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
-									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">5-7 Days • Insured</span>
-									<span className="font-body-sm text-[12px] text-secondary">Cushioned wooden crate courier delivery nationwide.</span>
+									<Truck className="w-5 h-5 text-primary" />
+									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">
+										5-7 Days • Insured
+									</span>
+									<span className="font-body-sm text-[12px] text-secondary">
+										Cushioned wooden crate courier delivery nationwide.
+									</span>
 								</div>
 							</div>
 						</div>
@@ -260,17 +271,21 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 				</ProductCustomizationProvider>
 			</section>
 
-
 			{/* Related Products */}
 			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter py-space-lg">
 				<div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
 					<div>
-						<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">Complete the Ensemble</span>
+						<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">
+							Complete the Ensemble
+						</span>
 						<h2 className="font-headline-lg text-headline-lg text-primary mt-1">Related Atelier Heirlooms</h2>
 					</div>
-					<Link className="font-label-md text-label-md uppercase tracking-wider text-primary hover:text-secondary flex items-center gap-1.5 transition-colors" href="/shop">
+					<Link
+						className="font-label-md text-label-md uppercase tracking-wider text-primary hover:text-secondary flex items-center gap-1.5 transition-colors"
+						href="/shop"
+					>
 						<span>Explore All Frames</span>
-						<span className="material-symbols-outlined text-[16px]">north_east</span>
+						<ArrowUpRight className="w-4 h-4" />
 					</Link>
 				</div>
 				<RelatedProducts productId={product.id} categorySlug={product.category?.slug} />
@@ -280,14 +295,22 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter pb-space-lg">
 				<div className="w-full bg-paper-tint p-8 md:p-12 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
 					<div className="flex flex-col gap-2 max-w-xl text-center md:text-left">
-						<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">Architectural & Large Format Commissions</span>
-						<h3 className="font-headline-lg text-headline-lg text-primary">Seeking a Custom Dimension or Poetry Inscription?</h3>
+						<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">
+							Architectural & Large Format Commissions
+						</span>
+						<h3 className="font-headline-lg text-headline-lg text-primary">
+							Seeking a Custom Dimension or Poetry Inscription?
+						</h3>
 						<p className="font-body-md text-body-md text-secondary leading-relaxed">
-							Our senior scribe accepts private custom commissions for poetry, family crests, Sanskrit shlokas, and oversized architectural brass installations up to 36 inches.
+							Our senior scribe accepts private custom commissions for poetry, family crests, Sanskrit
+							shlokas, and oversized architectural brass installations up to 36 inches.
 						</p>
 					</div>
 					<div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
-						<button className="h-[49px] px-8 bg-primary hover:bg-tertiary-fixed text-on-primary hover:text-on-tertiary-fixed font-label-lg text-label-lg uppercase tracking-widest transition-all duration-300 shadow-sm" type="button">
+						<button
+							className="h-[49px] px-8 bg-primary hover:bg-tertiary-fixed text-on-primary hover:text-on-tertiary-fixed font-label-lg text-label-lg uppercase tracking-widest transition-all duration-300 shadow-sm"
+							type="button"
+						>
 							Book Atelier Consultation
 						</button>
 					</div>

@@ -8,7 +8,7 @@ export default async function seedCampaign({ container }: ExecArgs) {
   try {
     // Check if campaign already exists
     const existing = await promotionModuleService.listCampaigns({
-      campaign_identifier: "INKMAGIC"
+      campaign_identifier: ["INKMAGIC"]
     });
 
     if (existing.length === 0) {
@@ -29,6 +29,7 @@ export default async function seedCampaign({ container }: ExecArgs) {
         code: "INKMAGIC",
         type: "standard",
         is_automatic: false,
+        status: "active",
         campaign_id: campaign.id,
         application_method: {
           type: "fixed",

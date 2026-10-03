@@ -41,12 +41,17 @@ export function ClientReviews() {
 					<span className="font-label-sm text-label-sm uppercase tracking-widest text-secondary">
 						The Patron Experience
 					</span>
-					<h2 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">Stories From Our Clients</h2>
+					<h2 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1">
+						Stories From Our Clients
+					</h2>
 					<div className="w-12 h-0.5 bg-primary/20 mx-auto mt-4" />
 				</div>
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 					{reviews.map((review) => (
-						<div key={review.id} className="p-6 bg-paper-tint rounded-xl shadow-sm flex flex-col justify-between">
+						<div
+							key={review.id}
+							className="p-6 bg-paper-tint rounded-xl shadow-sm flex flex-col justify-between"
+						>
 							<div>
 								<p className="font-body-md text-body-md text-secondary italic mb-4">“{review.quote}”</p>
 							</div>
@@ -55,7 +60,9 @@ export function ClientReviews() {
 									{review.initials}
 								</div>
 								<div>
-									<h4 className="font-label-sm text-label-sm uppercase text-primary font-bold">{review.name}</h4>
+									<h4 className="font-label-sm text-label-sm uppercase text-primary font-bold">
+										{review.name}
+									</h4>
 									<span className="font-body-sm text-[12px] text-secondary">{review.location}</span>
 								</div>
 							</div>

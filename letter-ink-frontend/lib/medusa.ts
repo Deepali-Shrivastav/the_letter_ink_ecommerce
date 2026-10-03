@@ -3,9 +3,9 @@ if (typeof window === "undefined") {
 	try {
 		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		const nodeUrl = require("node:url");
-		if (nodeUrl && nodeUrl.parse) {
+		if (nodeUrl?.parse) {
 			const originalParse = nodeUrl.parse;
-			nodeUrl.parse = function (urlString: string, ...args: any[]) {
+			nodeUrl.parse = (urlString: string, ...args: any[]) => {
 				try {
 					const u = new URL(urlString, "http://localhost");
 					return {
@@ -37,43 +37,43 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localh
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 
 if (!PUBLISHABLE_KEY && process.env.NODE_ENV === "development") {
-  console.warn("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY is not set. API calls to Medusa may fail.");
+	console.warn("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY is not set. API calls to Medusa may fail.");
 }
 
 export const medusaClient = new Medusa({
-  baseUrl: BACKEND_URL,
-  maxRetries: process.env.NODE_ENV === "development" ? 1 : 3,
-  publishableApiKey: PUBLISHABLE_KEY,
+	baseUrl: BACKEND_URL,
+	maxRetries: process.env.NODE_ENV === "development" ? 1 : 3,
+	publishableApiKey: PUBLISHABLE_KEY,
 });
 
 // Polyfills for getStoreSeo etc since Medusa doesn't have a direct equivalent
 export async function getStoreSeo() {
-  "use cache";
-  cacheLife("hours");
+	"use cache";
+	cacheLife("hours");
 
-  return {
-    storeName: "The Letter Ink",
-    storeDescription: "The Letter Ink",
-  };
+	return {
+		storeName: "The Letter Ink",
+		storeDescription: "The Letter Ink",
+	};
 }
 
-export function getStoreFaviconUrl(settings?: any) {
-  return null;
+export function getStoreFaviconUrl(_settings?: any) {
+	return null;
 }
 
 export function getCanonicalUrl(): string {
-  if (process.env.NEXT_PUBLIC_URL) {
-    return process.env.NEXT_PUBLIC_URL.replace(/\/$/, "");
-  }
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  return "http://localhost:3000";
+	if (process.env.NEXT_PUBLIC_URL) {
+		return process.env.NEXT_PUBLIC_URL.replace(/\/$/, "");
+	}
+	if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+		return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+	}
+	if (process.env.VERCEL_URL) {
+		return `https://${process.env.VERCEL_URL}`;
+	}
+	return "http://localhost:3000";
 }
 
 export const getSubdomainPublicUrl = () => {
-  return Promise.resolve({ subdomain: null, publicUrl: getCanonicalUrl() });
+	return Promise.resolve({ subdomain: null, publicUrl: getCanonicalUrl() });
 };

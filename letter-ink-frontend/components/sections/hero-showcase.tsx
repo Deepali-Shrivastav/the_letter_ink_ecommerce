@@ -1,74 +1,100 @@
+import { ArrowRight, PenTool } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export function HeroShowcase() {
 	return (
 		<section className="relative w-full overflow-hidden bg-paper-tint">
-			{/* Visual Multi-pane collage mimicking the hero in inspiration */}
-			<div className="grid grid-cols-2 md:grid-cols-4 gap-2 px-margin-mobile lg:px-8 py-2">
-				<div className="relative h-64 md:h-[420px] overflow-hidden group">
-					<img
-						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-						alt="Close up of exquisite copperplate calligraphy"
-						src="https://lh3.googleusercontent.com/aida-public/AB6AXuA45MDyXsdfxPrK5HxKbeLTSl86eMkq4hIXXdTudGblIxxbqkpFUNa22flBE3GXE4Rr3kWUCUKXv1YHGFHlvJPGUcEtAVkyPpaMcR7pKVZzFMSVApn__SS7xrDu5FZpXQV3xNTmsDM99C87H6ecw6qx_825ZKyf0IQFWzoTvgf_OGotG5y9Sl-8vVa47PfLsLctgBr8uzMQTa0rJreQbt8MEt4eFmYI35eSHFdSOXqx_HWrMI2toy8"
-					/>
-					<div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors" />
-				</div>
-				<div className="relative h-64 md:h-[420px] overflow-hidden group">
-					<img
-						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-						alt="Custom luxury wedding invitation suite"
-						src="https://lh3.googleusercontent.com/aida-public/AB6AXuArnY5tZa2PTWAedjSTixoATAYL2W6ZSQl1fp_ny7H56ScBL8iX5Y0P3vxWSgcXqEZc1srcjTevzAEmbtZO3wM5_PDoTvAxboiCOjpQcj1pPUbGryzlfQWZgq9Jyk4KRzDjdwWJ4jnn_gRRjwE-RooWn5KaL60ZbFfJuYEsAn_fca_h153DcgGoZ9smc3BFXynnCS7G42O4eKZNaIUheL6cB8JzSXnLBqXMNPdeohCEYXtEDPJJxpc"
-					/>
-					<div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors" />
-				</div>
-				<div className="relative h-64 md:h-[420px] overflow-hidden group">
-					<img
-						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-						alt="Artisanal hand-engraved crystal perfume bottle"
-						src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqkNWHdohjnAfNzOVmKL5P1zYKiTIq5MJDJmKinRjbLGgAqcdM65PxuyboCw6-7_kc5YQpzU_kCeGB1Ffd9BIxKHntpvtgV90X1WSYzYGGNL2u-97lHVx5KbGF-msF1mWBXCXVeE6eP676UdQ4mXqfY3KMdCHA07T-AbcpnghcYqRjj3U9Zdg5DI6cVOvdNEHVr6uxgllbjoanW68oy9EGhZJkPKBBUn701KNkwRgqVdsaDNPrDHE"
-					/>
-					<div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors" />
-				</div>
-				<div className="relative h-64 md:h-[420px] overflow-hidden group">
-					<img
-						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-						alt="Ornate vintage golden brass glass keepsake box"
-						src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXLWCc9YnLis-GOkHN-tM1WSlE4KwsYDv8DnHEpxBKWZtwwv0PqBEmyhmpLrPLFABBLnt6OB0Y1hSskv9esc_ECgdQ6OGv5Q6scwVmu2U04eiZaFfamKeUAKSlOY9YbJoyv66MQU7POqJhUdexVZFIo7BJv16f2ZJD_17Q_dJvYy5OHBL3nLb15nTEDJ_wPZWmR84oSY127HH3ljCY-l8vT8wjWuHMxAiuBVv_czsJYxZ9oZJG294"
-					/>
-					<div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors" />
-				</div>
-			</div>
-			{/* Hero Content Overlay / Lower Banner */}
-			<div className="max-w-5xl mx-auto px-margin-mobile md:px-margin pt-space-md pb-space-lg text-center flex flex-col items-center">
-				<div className="inline-flex items-center gap-2 mb-4 bg-tertiary-fixed px-4 py-1.5 rounded-full">
-					<span className="material-symbols-outlined text-[16px] text-on-tertiary-fixed">draw</span>
-					<span className="font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-fixed">
+			{/* Hero Content (Above the Fold) */}
+			<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 md:pt-16 pb-8 sm:pb-10 text-center flex flex-col items-center">
+				<div className="inline-flex items-center gap-2 mb-4 sm:mb-5 bg-tertiary-fixed text-on-tertiary-fixed px-3.5 py-1.5 rounded-full shadow-2xs">
+					<PenTool className="w-3.5 h-3.5 text-primary shrink-0" />
+					<span className="font-label-sm text-xs uppercase tracking-widest font-medium">
 						Artisanal Calligraphy Atelier
 					</span>
 				</div>
-				<h1 className="font-display-hero text-headline-lg md:text-display-hero tracking-wide text-primary max-w-4xl text-center leading-tight">
-					Thoughtful Script & Handcrafted Calligraphy
+				<h1 className="font-display-hero text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wide text-primary max-w-4xl text-center leading-[1.15]">
+					Thoughtful Script &amp; Handcrafted Calligraphy
 				</h1>
-				<div className="w-16 h-0.5 bg-primary/20 my-8" />
-				<p className="font-display-hero text-headline-sm text-secondary max-w-3xl text-center italic">
-					“The Letter Ink is a calligraphy based design studio which strives to bring back the treasure and
-					love of hand rendered scripts. Give us your words and we frame them into reality.”
+				<div className="w-12 h-0.5 bg-primary/20 my-4 sm:my-6" />
+				<p className="font-display-hero text-lg sm:text-xl md:text-[22px] font-normal text-secondary max-w-2xl text-center italic leading-[1.6]">
+					“Bringing back the romance of hand-rendered script — give us your words, and we frame them into
+					reality.”
 				</p>
-				<div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+				<div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8 w-full sm:w-auto">
 					<Link
-						href="#shop-gallery"
-						className="px-10 py-4 bg-primary text-on-primary font-label-lg text-label-lg tracking-widest shadow-md hover:shadow-lg hover:bg-tertiary-fixed hover:text-primary transition-all flex items-center gap-2"
+						href="/shop"
+						className="group w-full sm:w-auto px-8 py-3.5 bg-primary text-on-primary font-label-lg text-sm tracking-widest shadow-md hover:shadow-xl hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 rounded-xs"
 					>
-						<span>Shop Now</span>
-						<span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+						<span>Explore Collection</span>
+						<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
 					</Link>
 					<Link
-						href="#services-atelier"
-						className="px-10 py-4 border border-primary text-primary font-label-lg text-label-lg tracking-widest hover:bg-tertiary-fixed transition-all duration-300"
+						href="/contact"
+						className="w-full sm:w-auto px-8 py-3.5 border border-primary text-primary font-label-lg text-sm tracking-widest hover:bg-primary hover:text-on-primary hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 text-center rounded-xs"
 					>
-						Explore Commissions
+						Bespoke Commissions
 					</Link>
+				</div>
+			</div>
+
+			{/* Mobile Single Hero Showcase (< md) */}
+			<div className="md:hidden px-4 pb-10">
+				<div className="relative h-64 sm:h-72 w-full overflow-hidden rounded-xl shadow-md group">
+					<Image
+						src="/hero/copperplate-calligraphy.jpg"
+						alt="Close up of exquisite copperplate calligraphy"
+						fill
+						priority
+						sizes="(max-width: 768px) 100vw, 400px"
+						className="object-cover group-hover:scale-105 transition-transform duration-700"
+					/>
+					<div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none" />
+				</div>
+			</div>
+
+			{/* Desktop Multi-pane Visual Showcase (≥ md) */}
+			<div className="hidden md:grid md:grid-cols-4 gap-3 lg:gap-4 px-6 lg:px-8 pb-14 lg:pb-18">
+				<div className="relative h-72 lg:h-[380px] overflow-hidden rounded-lg group">
+					<Image
+						src="/hero/copperplate-calligraphy.jpg"
+						alt="Close up of exquisite copperplate calligraphy"
+						fill
+						priority
+						sizes="(max-width: 1024px) 25vw, 300px"
+						className="object-cover group-hover:scale-105 transition-transform duration-700"
+					/>
+					<div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors pointer-events-none" />
+				</div>
+				<div className="relative h-72 lg:h-[380px] overflow-hidden rounded-lg group">
+					<Image
+						src="/hero/wedding-invitation-suite.jpg"
+						alt="Custom luxury wedding invitation suite"
+						fill
+						sizes="(max-width: 1024px) 25vw, 300px"
+						className="object-cover group-hover:scale-105 transition-transform duration-700"
+					/>
+					<div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors pointer-events-none" />
+				</div>
+				<div className="relative h-72 lg:h-[380px] overflow-hidden rounded-lg group">
+					<Image
+						src="/hero/engraved-perfume-bottle.jpg"
+						alt="Artisanal hand-engraved crystal perfume bottle"
+						fill
+						sizes="(max-width: 1024px) 25vw, 300px"
+						className="object-cover group-hover:scale-105 transition-transform duration-700"
+					/>
+					<div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors pointer-events-none" />
+				</div>
+				<div className="relative h-72 lg:h-[380px] overflow-hidden rounded-lg group">
+					<Image
+						src="/hero/vintage-brass-glass-box.jpg"
+						alt="Ornate vintage golden brass glass keepsake box"
+						fill
+						sizes="(max-width: 1024px) 25vw, 300px"
+						className="object-cover group-hover:scale-105 transition-transform duration-700"
+					/>
+					<div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors pointer-events-none" />
 				</div>
 			</div>
 		</section>

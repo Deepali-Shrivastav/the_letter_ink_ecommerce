@@ -1,4 +1,3 @@
-import type { APICollectionGetByIdResult } from "@/lib/commerce-types";
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import Link from "next/link";
@@ -15,9 +14,10 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { commerce, getStoreSeo } from "@/lib/commerce";
+import type { APICollectionGetByIdResult } from "@/lib/commerce-types";
 import { buildCollectionBreadcrumbJsonLd, buildCollectionJsonLd, JsonLdScript } from "@/lib/json-ld";
-import { encodeVts } from "@/lib/vts";
 import { LetterInkMedia } from "@/lib/the-letter-ink-media";
+import { encodeVts } from "@/lib/vts";
 
 // The page has no pagination, so a smart collection renders one browse page. 100 is the API's max.
 const SMART_COLLECTION_LIMIT = 100;

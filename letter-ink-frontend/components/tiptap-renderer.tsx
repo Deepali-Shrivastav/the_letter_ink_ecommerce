@@ -5,9 +5,9 @@ import { Color, FontFamily, FontSize, LineHeight, TextStyle } from "@tiptap/exte
 import { Youtube } from "@tiptap/extension-youtube";
 import { StarterKit } from "@tiptap/starter-kit";
 import { renderToReactElement } from "@tiptap/static-renderer";
-import type { JSONContent } from "@/lib/commerce-types";
 import type { ReactNode } from "react";
 import { BlogProductEmbed } from "@/components/blog-product-embed";
+import type { JSONContent } from "@/lib/commerce-types";
 
 // The admin editor writes images as `imageResize`. Alias it onto Image rather than pull the
 // editor-only dependency into the storefront.
@@ -200,12 +200,7 @@ export function TiptapRenderer({ content }: { content: JSONContent | string | nu
 		}
 
 		if (/<\/?[a-z][\s\S]*>/i.test(trimmed)) {
-			return (
-				<div
-					className="space-y-3 leading-relaxed"
-					dangerouslySetInnerHTML={{ __html: trimmed }}
-				/>
-			);
+			return <div className="space-y-3 leading-relaxed" dangerouslySetInnerHTML={{ __html: trimmed }} />;
 		}
 
 		const paragraphs = trimmed.split(/\r?\n\s*\r?\n/);

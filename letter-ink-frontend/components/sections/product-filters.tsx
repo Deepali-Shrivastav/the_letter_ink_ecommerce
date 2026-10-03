@@ -1,6 +1,5 @@
 "use client";
 
-import type { APIProductFiltersResult } from "@/lib/commerce-types";
 import { SlidersHorizontalIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type ReactNode, startTransition, useOptimistic, useState } from "react";
@@ -17,6 +16,7 @@ import {
 	SheetTrigger,
 } from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
+import type { APIProductFiltersResult } from "@/lib/commerce-types";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { encodeVts, parseVts } from "@/lib/vts";
@@ -288,20 +288,22 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 									<div className="flex h-12 w-full items-end gap-[1px] px-[8px] mb-2">
 										{facets.priceDistribution.map((count: number, i: number) => {
 											const maxCount = Math.max(...facets.priceDistribution, 1);
-											const bucketMin = priceFloor + (i * (priceCeil - priceFloor)) / facets.priceDistribution.length;
-											const bucketMax = priceFloor + ((i + 1) * (priceCeil - priceFloor)) / facets.priceDistribution.length;
+											const bucketMin =
+												priceFloor + (i * (priceCeil - priceFloor)) / facets.priceDistribution.length;
+											const bucketMax =
+												priceFloor + ((i + 1) * (priceCeil - priceFloor)) / facets.priceDistribution.length;
 											// highlight if bucket is within selected range (even partially)
 											const isActive = bucketMax > priceRange[0] && bucketMin < priceRange[1];
-											
+
 											return (
-												<div 
-													key={i} 
+												<div
+													key={i}
 													className={cn(
-														"w-full rounded-t-sm transition-all duration-300", 
-														isActive ? "bg-primary" : "bg-primary/20"
+														"w-full rounded-t-sm transition-all duration-300",
+														isActive ? "bg-primary" : "bg-primary/20",
 													)}
-													style={{ 
-														height: `${Math.max((count / maxCount) * 100, 4)}%`, 
+													style={{
+														height: `${Math.max((count / maxCount) * 100, 4)}%`,
 													}}
 												/>
 											);
@@ -332,13 +334,17 @@ function FilterControls({ facets, showCategories = true, showCollections = true 
 								/>
 								<div className="mt-4 flex items-center justify-between gap-4">
 									<div className="flex flex-col gap-1 w-full">
-										<span className="text-[10px] uppercase text-muted-foreground font-medium tracking-wider">Minimum</span>
+										<span className="text-[10px] uppercase text-muted-foreground font-medium tracking-wider">
+											Minimum
+										</span>
 										<div className="rounded-md border border-input px-3 py-1.5 text-xs text-foreground text-center">
 											{formatMoney({ amount: priceRange[0], currency, locale })}
 										</div>
 									</div>
 									<div className="flex flex-col gap-1 w-full">
-										<span className="text-[10px] uppercase text-muted-foreground font-medium tracking-wider text-right">Maximum</span>
+										<span className="text-[10px] uppercase text-muted-foreground font-medium tracking-wider text-right">
+											Maximum
+										</span>
 										<div className="rounded-md border border-input px-3 py-1.5 text-xs text-foreground text-center">
 											{formatMoney({ amount: priceRange[1], currency, locale })}
 										</div>

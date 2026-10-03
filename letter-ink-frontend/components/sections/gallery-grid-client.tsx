@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export type GalleryProduct = {
 	id: string | number;
@@ -28,9 +29,7 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 	const [activeCategory, setActiveCategory] = useState("all");
 
 	const filteredProducts =
-		activeCategory === "all"
-			? products
-			: products.filter((p) => p.category === activeCategory);
+		activeCategory === "all" ? products : products.filter((p) => p.category === activeCategory);
 
 	return (
 		<>
@@ -68,28 +67,23 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 							className="group flex flex-col bg-paper-tint rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all"
 						>
 							<div className="relative aspect-[4/5] overflow-hidden bg-surface-container">
-								{product.image ? (
-									<img
-										src={product.image}
-										alt={product.name}
-										className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-									/>
-								) : (
-									<div className="w-full h-full bg-surface-container" />
-								)}
+								<img
+									src={
+										product.image ||
+										"https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=600&q=80"
+									}
+									alt={product.name}
+									onError={(e) => {
+										(e.target as HTMLImageElement).src =
+											"https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=600&q=80";
+									}}
+									className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+								/>
 								{product.badge && (
 									<span className="absolute top-3 left-3 bg-primary text-on-primary text-[10px] font-label-sm uppercase tracking-widest px-2.5 py-1">
 										{product.badge}
 									</span>
 								)}
-
-								{/* Customise & Order hover overlay */}
-								<div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-									<span className="w-full bg-surface-container-lowest text-primary hover:bg-tertiary-fixed font-label-md text-label-md uppercase tracking-wider py-3 shadow-md transition-colors flex items-center justify-center gap-2 rounded-lg">
-										<span className="material-symbols-outlined text-[18px]">brush</span>
-										<span>Customise &amp; Order</span>
-									</span>
-								</div>
 							</div>
 
 							<div className="p-5 flex flex-col flex-grow justify-between">
@@ -97,12 +91,10 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 									<h3 className="font-headline-sm text-[17px] text-primary group-hover:underline">
 										{product.name}
 									</h3>
-									<p className="font-body-sm text-body-sm text-secondary mt-1">
-										{product.description}
-									</p>
+									<p className="font-body-sm text-body-sm text-secondary mt-1">{product.description}</p>
 								</div>
 
-								<div className="mt-4 pt-3 flex items-center justify-between">
+								<div className="mt-4 pt-3 flex items-center justify-between border-t border-border-vellum/50">
 									<div>
 										{product.price && (
 											<span className="font-label-lg text-label-lg font-bold text-primary">
@@ -115,8 +107,9 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 											</span>
 										)}
 									</div>
-									<span className="px-5 py-2.5 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-wider rounded shadow-sm group-hover:bg-tertiary-fixed group-hover:text-primary transition-colors">
-										Shop Now
+									<span className="px-4 py-2 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded shadow-xs group-hover:bg-tertiary-fixed group-hover:text-primary transition-colors flex items-center gap-1.5">
+										<span>Customise</span>
+										<ArrowRight className="w-3.5 h-3.5" />
 									</span>
 								</div>
 							</div>
@@ -132,7 +125,7 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 					className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-on-primary font-label-lg text-label-lg tracking-wider shadow-md hover:shadow-lg hover:bg-tertiary-fixed hover:text-primary transition-all"
 				>
 					<span>View Full Atelier Catalogue</span>
-					<span className="material-symbols-outlined text-[18px]">east</span>
+					<ArrowRight className="w-4 h-4" />
 				</Link>
 			</div>
 		</>

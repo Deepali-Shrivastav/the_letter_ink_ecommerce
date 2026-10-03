@@ -2,8 +2,8 @@
 
 import { try_ } from "safe-try";
 import { commerce } from "@/lib/commerce";
-import { isValidEmail, isValidRating, sanitizeText } from "@/lib/validation";
 import { logger } from "@/lib/logger";
+import { isValidEmail, isValidRating, sanitizeText } from "@/lib/validation";
 
 type ReviewState = {
 	success: boolean;
@@ -45,10 +45,7 @@ export async function submitReview(_prev: ReviewState, formData: FormData): Prom
 	const ratingNum = Number(rawRating);
 
 	const [error] = await try_(
-		commerce.productReviewCreate(
-			{ idOrSlug: slug },
-			{ author, email, content, rating: ratingNum },
-		),
+		commerce.productReviewCreate({ idOrSlug: slug }, { author, email, content, rating: ratingNum }),
 	);
 	if (error) {
 		logger.error("review: productReviewCreate failed", { slug, error });

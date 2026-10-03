@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import { Loader2, Tag, X } from "lucide-react";
-import { useCart } from "@/app/cart/cart-context";
+import { useState, useTransition } from "react";
 import { applyPromotionCode, removePromotionCode } from "@/app/cart/actions";
+import { useCart } from "@/app/cart/cart-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -50,7 +50,7 @@ export function CartPromoCode() {
 				<div className="space-y-2">
 					<p className="text-sm font-medium">Applied Promotions</p>
 					<div className="flex flex-wrap gap-2">
-						{cart.promotions!.map((promo) => (
+						{cart.promotions?.map((promo) => (
 							<div
 								key={promo.id}
 								className="flex items-center gap-1.5 bg-primary/10 text-primary px-2.5 py-1 rounded-md text-xs font-medium"
@@ -65,11 +65,7 @@ export function CartPromoCode() {
 										className="ml-1 text-primary hover:text-primary/70 disabled:opacity-50"
 										aria-label={`Remove promotion ${promo.code}`}
 									>
-										{isPending ? (
-											<Loader2 className="w-3 h-3 animate-spin" />
-										) : (
-											<X className="w-3 h-3" />
-										)}
+										{isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <X className="w-3 h-3" />}
 									</button>
 								)}
 							</div>

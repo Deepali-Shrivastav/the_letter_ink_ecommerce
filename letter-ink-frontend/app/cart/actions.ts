@@ -3,9 +3,9 @@
 import { try_ } from "safe-try";
 import { commerce } from "@/lib/commerce";
 import { getCartCookieJson, setCartCookie } from "@/lib/cookies";
+import { logger } from "@/lib/logger";
 import { getStoreConfig } from "@/lib/store-config";
 import { isValidId, isValidQuantity } from "@/lib/validation";
-import { logger } from "@/lib/logger";
 
 export async function getCart() {
 	const cartCookie = await getCartCookieJson();
@@ -22,7 +22,12 @@ export async function getCart() {
 	return cart;
 }
 
-export async function addToCart(variantId: string, quantity = 1, metadata?: Record<string, any>, unit_price?: number) {
+export async function addToCart(
+	variantId: string,
+	quantity = 1,
+	metadata?: Record<string, any>,
+	unit_price?: number,
+) {
 	if (!isValidId(variantId)) {
 		return { success: false, cart: null, error: "Invalid product variant identifier" };
 	}
@@ -36,11 +41,30 @@ export async function addToCart(variantId: string, quantity = 1, metadata?: Reco
 	// The theletterink_cart cookie can point at a cartId that no longer exists server-side
 	// (expired, store re-seeded, old session). cartUpsert then throws "Cart not found";
 	// retry once with a FRESH cart so the add always lands.
-	let [error, cart] = await try_(commerce.cartUpsert({ cartId: cartCookie?.id, variantId, quantity: validQuantity, metadata: safeMetadata, unit_price: validUnitPrice }));
+	let [error, cart] = await try_(
+		commerce.cartUpsert({
+			cartId: cartCookie?.id,
+			variantId,
+			quantity: validQuantity,
+			metadata: safeMetadata,
+			unit_price: validUnitPrice,
+		}),
+	);
 	if (error) {
-		[error, cart] = await try_(commerce.cartUpsert({ variantId, quantity: validQuantity, metadata: safeMetadata, unit_price: validUnitPrice }));
+		[error, cart] = await try_(
+			commerce.cartUpsert({
+				variantId,
+				quantity: validQuantity,
+				metadata: safeMetadata,
+				unit_price: validUnitPrice,
+			}),
+		);
 		if (error) {
-			logger.error("cart: addToCart failed after fresh-cart retry", { variantId, quantity: validQuantity, error });
+			logger.error("cart: addToCart failed after fresh-cart retry", {
+				variantId,
+				quantity: validQuantity,
+				error,
+			});
 			return { success: false, cart: null, error: "Could not add item to cart. Please try again." };
 		}
 	}
@@ -123,9 +147,8 @@ export async function setCartQuantity(variantId: string, quantity: number) {
 		return { success: false, cart: null };
 	}
 
-	const validQuantity = typeof quantity === "number" && Number.isInteger(quantity)
-		? Math.max(0, Math.min(quantity, 99))
-		: 0;
+	const validQuantity =
+		typeof quantity === "number" && Number.isInteger(quantity) ? Math.max(0, Math.min(quantity, 99)) : 0;
 
 	const cartCookie = await getCartCookieJson();
 
@@ -143,7 +166,12 @@ export async function setCartQuantity(variantId: string, quantity: number) {
 		}),
 	);
 	if (error) {
-		logger.error("cart: setCartQuantity failed", { cartId: cartCookie.id, variantId, quantity: validQuantity, error });
+		logger.error("cart: setCartQuantity failed", {
+			cartId: cartCookie.id,
+			variantId,
+			quantity: validQuantity,
+			error,
+		});
 		return { success: false, cart: null };
 	}
 	return { success: true, cart };
@@ -162,11 +190,15 @@ export async function applyPromotionCode(promoCode: string) {
 	const normalizedCode = promoCode.trim().toUpperCase();
 
 	const [error, cart] = await try_(
-		commerce.cartApplyPromotion({ cartId: cartCookie.id, promoCode: normalizedCode })
+		commerce.cartApplyPromotion({ cartId: cartCookie.id, promoCode: normalizedCode }),
 	);
 
 	if (error) {
-		logger.error("cart: applyPromotionCode failed", { cartId: cartCookie.id, promoCode: normalizedCode, error });
+		logger.error("cart: applyPromotionCode failed", {
+			cartId: cartCookie.id,
+			promoCode: normalizedCode,
+			error,
+		});
 		const message = (error as any)?.message || "Could not apply code. It may be invalid or expired.";
 		return { success: false, cart: null, error: message };
 	}
@@ -187,11 +219,15 @@ export async function removePromotionCode(promoCode: string) {
 	const normalizedCode = promoCode.trim().toUpperCase();
 
 	const [error, cart] = await try_(
-		commerce.cartRemovePromotion({ cartId: cartCookie.id, promoCode: normalizedCode })
+		commerce.cartRemovePromotion({ cartId: cartCookie.id, promoCode: normalizedCode }),
 	);
 
 	if (error) {
-		logger.error("cart: removePromotionCode failed", { cartId: cartCookie.id, promoCode: normalizedCode, error });
+		logger.error("cart: removePromotionCode failed", {
+			cartId: cartCookie.id,
+			promoCode: normalizedCode,
+			error,
+		});
 		return { success: false, cart: null };
 	}
 
