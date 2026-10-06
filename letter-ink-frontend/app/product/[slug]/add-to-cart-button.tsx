@@ -1,7 +1,7 @@
 "use client";
 
-import { ArrowRight, MessageCircle, PenTool } from "lucide-react";
-import { useMemo, useState } from "react";
+import { ArrowRight, MessageCircle, PenTool, Sparkles } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { addToCart } from "@/app/cart/actions";
 import { useCart } from "@/app/cart/cart-context";
@@ -82,13 +82,35 @@ export function AddToCartButton({
 	const { items, openCart, dispatch, syncCart, reconcile, startMutation } = useCart();
 	const { matchedCombination, selectedValuesByName } = useCustomization();
 	const [customInscription, setCustomInscription] = useState("");
+	const formRef = useRef<HTMLFormElement>(null);
+	const [showStickyBar, setShowStickyBar] = useState(false);
+
+	useEffect(() => {
+		const target = formRef.current;
+		if (!target || typeof IntersectionObserver === "undefined") return;
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				setShowStickyBar(!entry.isIntersecting);
+			},
+			{ threshold: 0.1 },
+		);
+
+		observer.observe(target);
+		return () => observer.disconnect();
+	}, []);
 
 	const selectedVariant = useSelectedVariant(variants);
 
-	// Temporarily bypass out-of-stock checks
-	const isOutOfStock = false;
-	const maxQuantity = selectedVariant?.stock ?? 99;
-	const effectiveQuantity = Math.min(quantity, maxQuantity);
+	// Dynamic out-of-stock handling: null stock indicates unlimited/made-to-order craft
+	const isOutOfStock = Boolean(
+		selectedVariant && selectedVariant.stock !== null && selectedVariant.stock <= 0,
+	);
+	const maxQuantity =
+		selectedVariant?.stock !== null && selectedVariant?.stock !== undefined
+			? Math.max(0, selectedVariant.stock)
+			: 99;
+	const effectiveQuantity = isOutOfStock ? 1 : Math.min(quantity, Math.max(1, maxQuantity));
 
 	const { resolvedTiers, volumePrice } = useVolumePricing(
 		volumePricingTiers,
@@ -114,7 +136,7 @@ export function AddToCartButton({
 			return `Add to Cart — ${formatMoney({ amount: totalPrice, currency, locale })}`;
 		}
 		return "Add to Cart";
-	}, [selectedVariant, totalPrice, locale, currency]);
+	}, [selectedVariant, isOutOfStock, totalPrice, locale, currency]);
 
 	// Headline price. For the selected variant we show its own price (and the struck-through
 	// list price when it's on sale). Before a variant is picked we fall back to a range.
@@ -157,11 +179,13 @@ export function AddToCartButton({
 		return formatMoney({ amount: BigInt(lowest), currency, locale });
 	}, [selectedVariant, priceInfo.compareAt, locale, currency, taxBehavior]);
 
-	// Stock availability. (Out-of-stock badge hidden for now)
+	// Stock availability status
 	const stockStatus = useMemo(() => {
 		if (!selectedVariant) return null;
 		const { stock } = selectedVariant;
-		if (stock === 0) return null;
+		if (stock !== null && stock <= 0) {
+			return { label: "Out of stock", tone: "out" as "low" | "out" | "in" };
+		}
 		if (stock !== null && stock <= LOW_STOCK_THRESHOLD) {
 			return { label: `Only ${stock} left in stock`, tone: "low" as "low" | "out" | "in" };
 		}
@@ -239,17 +263,19 @@ export function AddToCartButton({
 		<div className="flex flex-col gap-6">
 			{/* Price & sale */}
 			<div className="flex flex-col gap-2 pb-5 border-b border-border-vellum">
-				<div className="flex items-baseline gap-4 mt-2">
+				<div className="flex flex-wrap items-baseline gap-3 sm:gap-4 mt-2">
 					<span className="font-headline-md text-headline-md text-primary font-normal tracking-tight">
+						<span className="sr-only">Current price: </span>
 						{priceInfo.display}
 					</span>
 					{priceInfo.compareAt && (
-						<span className="font-body-sm text-body-sm text-secondary line-through">
+						<del className="text-lg text-secondary/70 line-through decoration-secondary/50 font-normal">
+							<span className="sr-only">Original price: </span>
 							{priceInfo.compareAt}
-						</span>
+						</del>
 					)}
 					{priceInfo.discountPercent ? (
-						<span className="font-label-sm text-label-sm uppercase tracking-wider px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed">
+						<span className="inline-flex items-center font-label-sm text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-sm bg-brand-script/10 text-brand-script border border-brand-script/20">
 							Save {priceInfo.discountPercent}%
 						</span>
 					) : null}
@@ -285,6 +311,12 @@ export function AddToCartButton({
 						)}
 					</div>
 				)}
+
+				{summary && (
+					<p className="font-body-md text-body-md text-secondary leading-relaxed break-words [overflow-wrap:anywhere] pt-2">
+						{summary}
+					</p>
+				)}
 			</div>
 
 			{variants.length > 1 && <VariantSelector variants={variants} />}
@@ -319,38 +351,92 @@ export function AddToCartButton({
 
 			<VolumePricingDisplay tiers={resolvedTiers} quantity={effectiveQuantity} volumePrice={volumePrice} />
 
-			{/* Bespoke Personalization / Custom Inscription Edge Case Input */}
-			<div className="space-y-2 pt-4 pb-2 border-t border-border/70">
-				<div className="flex items-center justify-between">
-					<label
-						htmlFor="bespoke-inscription"
-						className="font-label-sm text-label-sm uppercase tracking-wider text-primary font-medium flex items-center gap-1.5"
-					>
-						<PenTool className="w-3.5 h-3.5 text-tertiary" />
-						Personalized Inscription & Calligraphy Text
-					</label>
-					<span className="text-[11px] text-secondary font-mono">{customInscription.length}/150</span>
+			{/* Bespoke Personalization & Hand-Lettered Inscription */}
+			<div className="space-y-3 pt-5 pb-3 border-t border-border-vellum">
+				<div className="flex items-center justify-between gap-2">
+					<div className="flex items-center gap-2">
+						<label
+							htmlFor="bespoke-inscription"
+							className="text-sm font-medium text-primary flex items-center gap-1.5"
+						>
+							<PenTool className="w-4 h-4 text-brand-script shrink-0" />
+							Personalized Inscription & Calligraphy
+						</label>
+						<span className="hidden sm:inline-flex px-2 py-0.5 text-[10px] uppercase tracking-wider bg-tertiary-fixed text-primary font-label-sm font-semibold rounded-xs">
+							Complimentary
+						</span>
+					</div>
+					<span className="text-xs text-secondary font-mono shrink-0">{customInscription.length}/150</span>
 				</div>
+
 				<textarea
 					id="bespoke-inscription"
-					rows={2}
+					rows={3}
 					maxLength={150}
 					value={customInscription}
 					onChange={(e) => setCustomInscription(e.target.value)}
 					placeholder="e.g. Aarav & Meera — 24th October 2026 • Forever in Love"
-					className="w-full text-xs p-3 rounded-sm border border-border/80 bg-paper-tint/50 focus:bg-background focus:outline-none focus:ring-1 focus:ring-primary text-primary placeholder:text-secondary/60 transition-colors resize-none leading-relaxed"
+					className="w-full text-base p-3.5 rounded-sm border border-border-vellum bg-paper-tint/70 focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-primary placeholder:text-secondary/60 transition-all resize-none leading-relaxed"
 				/>
-				<div className="flex items-center justify-between text-[10px] text-secondary">
-					<span>Hand-lettered with archival sumi ink & gilded 24K gold accents</span>
-					<span className="italic">Optional</span>
+
+				<div className="flex items-center justify-between text-xs text-secondary">
+					<span className="flex items-center gap-1.5">
+						<Sparkles className="w-3.5 h-3.5 text-brand-script shrink-0" />
+						Hand-lettered with archival sumi ink & gilded 24K gold accents
+					</span>
+					<span className="text-xs text-secondary/70">Optional</span>
 				</div>
+
+				{/* Quick Inspiration Examples */}
+				<div className="flex flex-wrap items-center gap-1.5 pt-1">
+					<span className="text-[11px] uppercase tracking-wider text-secondary/70 font-label-sm">
+						Inspiration:
+					</span>
+					{[
+						"Aarav & Meera • 24.10.2026",
+						"“Where thou art, that is home.”",
+						"Dr. Sharma • In Honor & Gratitude",
+					].map((sample) => (
+						<button
+							key={sample}
+							type="button"
+							onClick={() => setCustomInscription(sample)}
+							className="text-xs text-secondary hover:text-primary bg-surface-container-low hover:bg-surface-container px-2 py-1 rounded transition-colors border border-border/50 text-left cursor-pointer"
+						>
+							{sample}
+						</button>
+					))}
+				</div>
+
+				{/* Live Calligraphy Script Preview Card */}
+				{customInscription.trim() && (
+					<div className="mt-3 p-4 sm:p-5 bg-paper-tint rounded-sm border border-border-vellum shadow-xs flex flex-col items-center justify-center text-center gap-2 relative overflow-hidden transition-all animate-in fade-in duration-300">
+						<div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-secondary font-label-sm">
+							<span className="w-6 h-px bg-border-vellum" />
+							<span className="flex items-center gap-1 text-primary font-medium">
+								<PenTool className="w-3 h-3 text-brand-script" />
+								Live Atelier Script Preview
+							</span>
+							<span className="w-6 h-px bg-border-vellum" />
+						</div>
+
+						<p className="font-serif italic text-lg sm:text-xl text-primary leading-relaxed break-words max-w-md px-2 py-1">
+							“{customInscription.trim()}”
+						</p>
+
+						<p className="text-[11px] text-secondary/80 tracking-wide font-sans">
+							Individual pointed dip-pen lettering on deckled cotton paper. High-res proof shared via WhatsApp
+							before sealing.
+						</p>
+					</div>
+				)}
 			</div>
 
 			<div className="flex flex-col gap-3 pt-2">
 				{isOutOfStock && restockNotificationsEnabled && selectedVariant ? (
 					<RestockNotify productVariantId={selectedVariant.id} productName={product.name} />
 				) : (
-					<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+					<form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
 						<div className="flex items-stretch gap-3">
 							<QuantitySelector
 								quantity={effectiveQuantity}
@@ -361,7 +447,7 @@ export function AddToCartButton({
 							<button
 								type="submit"
 								disabled={!selectedVariant || isOutOfStock}
-								className="flex-1 h-[49px] bg-tertiary-fixed hover:bg-surface-container-lowest text-on-tertiary-fixed hover:text-primary transition-all duration-300 font-label-lg text-label-lg uppercase tracking-widest flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+								className="flex-1 h-[49px] bg-primary hover:bg-brand-script-dark text-on-primary transition-all duration-300 font-label-lg text-label-lg uppercase tracking-widest flex items-center justify-center gap-2 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-script focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
 							>
 								<span className="">{buttonText}</span>
 								<ArrowRight className="w-4 h-4" />
@@ -370,14 +456,57 @@ export function AddToCartButton({
 					</form>
 				)}
 				{/* Inquire Secondary Button */}
-				<button
-					className="w-full h-[45px] bg-transparent hover:bg-paper-tint text-primary font-label-md text-label-md uppercase tracking-widest flex items-center justify-center gap-2 transition-colors"
-					type="button"
+				<a
+					href={`https://wa.me/919823011942?text=${encodeURIComponent(
+						`Hello The Letter Ink, I would like to inquire with the atelier calligrapher regarding "${product.name}".`,
+					)}`}
+					target="_blank"
+					rel="noopener noreferrer"
+					className="w-full h-[45px] bg-transparent hover:bg-paper-tint text-primary font-label-md text-label-md uppercase tracking-widest flex items-center justify-center gap-2 transition-colors border border-border-vellum/60 rounded-sm"
 				>
-					<MessageCircle className="w-4 h-4" />
+					<MessageCircle className="w-4 h-4 text-brand-script" />
 					<span className="">Inquire With Atelier Calligrapher</span>
-				</button>
+				</a>
 			</div>
+
+			{/* Sticky Mobile Purchase Bar (Active when buy box CTA scrolls off screen) */}
+			{showStickyBar && (
+				<div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-t border-border-vellum px-4 py-3 shadow-[0_-4px_16px_rgba(0,0,0,0.12)] flex items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+					<div className="flex flex-col min-w-0 flex-1">
+						<span className="font-label-sm text-xs font-semibold text-primary truncate">{product.name}</span>
+						<div className="flex items-baseline gap-2 mt-0.5">
+							<span className="font-headline-sm text-base text-primary font-bold">
+								<span className="sr-only">Current price: </span>
+								{priceInfo.display}
+							</span>
+							{priceInfo.compareAt && (
+								<del className="text-xs text-secondary/70 line-through">
+									<span className="sr-only">Original price: </span>
+									{priceInfo.compareAt}
+								</del>
+							)}
+							{priceInfo.discountPercent ? (
+								<span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 bg-brand-script/10 text-brand-script border border-brand-script/20 rounded-sm">
+									-{priceInfo.discountPercent}%
+								</span>
+							) : null}
+						</div>
+					</div>
+					<button
+						type="button"
+						onClick={() => {
+							if (formRef.current) {
+								formRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+							}
+						}}
+						disabled={!selectedVariant || isOutOfStock}
+						className="h-10 px-5 bg-primary hover:bg-brand-script-dark text-on-primary font-label-md text-xs uppercase tracking-wider flex items-center gap-1.5 rounded-sm shrink-0 shadow-sm cursor-pointer disabled:opacity-50"
+					>
+						<span>{buttonText}</span>
+						<ArrowRight className="w-3.5 h-3.5" />
+					</button>
+				</div>
+			)}
 		</div>
 	);
 }

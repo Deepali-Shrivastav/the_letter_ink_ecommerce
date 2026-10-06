@@ -46,14 +46,22 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 				return;
 			}
 			const existing = document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
-			if (existing && (window as any).Razorpay) {
-				resolve(true);
+			if (existing) {
+				if ((window as any).Razorpay) {
+					resolve(true);
+					return;
+				}
+				existing.addEventListener("load", () => resolve(Boolean((window as any).Razorpay)));
+				existing.addEventListener("error", () => resolve(false));
+				setTimeout(() => {
+					resolve(Boolean((window as any).Razorpay));
+				}, 1500);
 				return;
 			}
 			const script = document.createElement("script");
 			script.src = "https://checkout.razorpay.com/v1/checkout.js";
 			script.async = true;
-			script.onload = () => resolve(true);
+			script.onload = () => resolve(Boolean((window as any).Razorpay));
 			script.onerror = () => resolve(false);
 			document.body.appendChild(script);
 		});
@@ -156,7 +164,16 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 				};
 
 				const rzp = new (window as any).Razorpay(options);
-				rzp.open();
+				rzp.on("payment.failed", (response: any) => {
+					setIsProcessing(false);
+					toast.error(response?.error?.description || "Payment failed or was cancelled.");
+				});
+				try {
+					rzp.open();
+				} catch (openErr: any) {
+					setIsProcessing(false);
+					toast.error("Failed to open Razorpay modal: " + (openErr.message || "Unknown error"));
+				}
 				return;
 			}
 
@@ -214,7 +231,7 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 			</header>
 
 			{/* Main 2-Column Checkout Layout */}
-			<main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+			<div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 					{/* Left Column: Shipping Address & Recipient Details Form */}
 					<div className="lg:col-span-7 space-y-6">
@@ -381,7 +398,7 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 						</div>
 					</div>
 				</div>
-			</main>
+			</div>
 		</div>
 	);
 }

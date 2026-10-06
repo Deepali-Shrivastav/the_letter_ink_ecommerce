@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, ChevronDown, SlidersHorizontal, Sparkles, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Clock, SlidersHorizontal, Sparkles, X } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -20,6 +20,8 @@ export type ShopProduct = {
 	slug: string;
 	type: string;
 	addon: string | null;
+	isPriceRange?: boolean;
+	leadTime?: string;
 };
 
 const CATEGORIES = [
@@ -297,7 +299,9 @@ export function ShopCatalogClient({ products }: { products: ShopProduct[] }) {
 				<div className="flex flex-col gap-2 pb-space-xs mb-space-sm">
 					<div className="flex items-center justify-between">
 						<span className="font-label-sm text-label-sm uppercase text-secondary tracking-widest">
-							Displaying {sortedProducts.length} of {products.length} Bespoke Artifacts
+							{sortedProducts.length === products.length
+								? `${products.length} products`
+								: `Showing ${sortedProducts.length} of ${products.length} products`}
 						</span>
 						<span className="font-label-sm text-label-sm uppercase text-secondary hidden sm:inline">
 							Crafted in Bhusawal Atelier
@@ -363,17 +367,29 @@ export function ShopCatalogClient({ products }: { products: ShopProduct[] }) {
 				</div>
 
 				{sortedProducts.length === 0 ? (
-					<div className="py-24 text-center bg-surface-container-lowest rounded-xl border border-border-vellum p-8">
-						<p className="font-body-md text-body-md text-secondary">
-							No pieces match the selected filters.
+					<div className="py-20 px-6 text-center bg-surface-container-lowest rounded-xl border border-border-vellum max-w-xl mx-auto shadow-2xs">
+						<h3 className="font-headline-sm text-lg text-primary mb-2 font-serif">
+							No Pieces Match Selected Filters
+						</h3>
+						<p className="font-body-sm text-on-surface-variant max-w-md mx-auto mb-6">
+							Try resetting your active filters or request a bespoke calligraphy commission tailored to your
+							requirements.
 						</p>
-						<button
-							type="button"
-							onClick={handleReset}
-							className="mt-4 px-5 py-2.5 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded-lg hover:bg-primary/90 transition-colors cursor-pointer"
-						>
-							Reset All Filters
-						</button>
+						<div className="flex flex-wrap items-center justify-center gap-3">
+							<button
+								type="button"
+								onClick={handleReset}
+								className="px-5 py-2.5 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded-lg hover:bg-primary/90 transition-colors cursor-pointer"
+							>
+								Reset All Filters
+							</button>
+							<Link
+								href="/contact"
+								className="px-5 py-2.5 bg-tertiary-fixed text-primary hover:bg-surface-container-low font-label-sm text-xs uppercase tracking-wider rounded-lg border border-border-vellum transition-colors"
+							>
+								Commission Custom Piece →
+							</Link>
+						</div>
 					</div>
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
@@ -433,9 +449,18 @@ export function ShopCatalogClient({ products }: { products: ShopProduct[] }) {
 										</p>
 									</div>
 
-									<div className="pt-space-xs flex items-center justify-between mt-4 border-t border-border-vellum pt-4">
-										<div className="flex flex-col">
-											<div className="flex items-baseline gap-2">
+									<div className="pt-space-xs flex items-end justify-between mt-4 border-t border-border-vellum pt-3">
+										<div className="flex flex-col min-w-0">
+											<span className="font-label-sm text-[11px] uppercase tracking-wider text-secondary/90 flex items-center gap-1.5 mb-1.5">
+												<Clock className="w-3.5 h-3.5 text-secondary/80 shrink-0" />
+												<span className="truncate">{product.leadTime || "Ships in 5–7 days"}</span>
+											</span>
+											<div className="flex items-baseline gap-1.5 flex-wrap">
+												{product.isPriceRange && (
+													<span className="font-label-sm text-[11px] uppercase tracking-widest text-secondary font-medium">
+														From
+													</span>
+												)}
 												{product.price && (
 													<span className="font-headline-md text-headline-md text-primary font-serif">
 														{product.price}
@@ -453,7 +478,7 @@ export function ShopCatalogClient({ products }: { products: ShopProduct[] }) {
 												</span>
 											)}
 										</div>
-										<span className="px-3.5 py-1.5 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded group-hover:bg-tertiary-fixed group-hover:text-primary transition-colors flex items-center gap-1.5 shadow-2xs">
+										<span className="px-3.5 py-1.5 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded group-hover:bg-tertiary-fixed group-hover:text-primary transition-colors flex items-center gap-1.5 shadow-2xs shrink-0 ml-2">
 											<span>Customise</span>
 											<ArrowRight className="w-3.5 h-3.5" />
 										</span>

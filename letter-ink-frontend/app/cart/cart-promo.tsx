@@ -45,15 +45,15 @@ export function CartPromoCode() {
 	};
 
 	return (
-		<div className="py-4 space-y-3 border-t border-border mt-4">
+		<div className="py-4 space-y-3 border-t border-border-vellum mt-4">
 			{hasPromotions && (
 				<div className="space-y-2">
-					<p className="text-sm font-medium">Applied Promotions</p>
+					<p className="text-xs font-label-md uppercase tracking-wider text-secondary">Applied Promotions</p>
 					<div className="flex flex-wrap gap-2">
 						{cart.promotions?.map((promo) => (
 							<div
 								key={promo.id}
-								className="flex items-center gap-1.5 bg-primary/10 text-primary px-2.5 py-1 rounded-md text-xs font-medium"
+								className="flex items-center gap-1.5 bg-brand-script/10 text-brand-script border border-brand-script/20 px-2.5 py-1 rounded-sm text-xs font-medium"
 							>
 								<Tag className="w-3 h-3" />
 								{promo.code || promo.id}
@@ -62,7 +62,7 @@ export function CartPromoCode() {
 										type="button"
 										onClick={() => handleRemove(promo.code!)}
 										disabled={isPending}
-										className="ml-1 text-primary hover:text-primary/70 disabled:opacity-50"
+										className="ml-1 text-brand-script hover:text-brand-script-dark disabled:opacity-50 cursor-pointer"
 										aria-label={`Remove promotion ${promo.code}`}
 									>
 										{isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <X className="w-3 h-3" />}
@@ -79,14 +79,19 @@ export function CartPromoCode() {
 					value={code}
 					onChange={(e) => setCode(e.target.value)}
 					placeholder="e.g. ATELIER10 or WELCOMEINK"
-					className="h-10"
+					className="h-10 text-xs rounded-sm border-border-vellum bg-paper-tint/40 focus:bg-background placeholder:text-secondary/60"
 					disabled={isPending}
 				/>
-				<Button type="submit" variant="secondary" disabled={isPending || !code.trim()}>
+				<Button
+					type="submit"
+					variant="outline"
+					disabled={isPending || !code.trim()}
+					className="h-10 px-4 rounded-sm border-border-vellum hover:bg-paper-tint text-primary font-label-md uppercase tracking-wider text-xs cursor-pointer"
+				>
 					{isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Apply"}
 				</Button>
 			</form>
-			{error && <p className="text-sm text-destructive">{error}</p>}
+			{error && <p className="text-xs text-destructive">{error}</p>}
 		</div>
 	);
 }

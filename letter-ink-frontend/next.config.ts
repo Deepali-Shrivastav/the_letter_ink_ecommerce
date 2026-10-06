@@ -72,7 +72,7 @@ const nextConfig: NextConfig = {
 			{ key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
 			{
 				key: "Content-Security-Policy",
-				value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https: http://localhost:9000; frame-src 'self' https://checkout.razorpay.com;",
+				value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://checkout.razorpay.com https://*.razorpay.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob: https://*.razorpay.com; connect-src 'self' https: http://localhost:9000 http://127.0.0.1:9000 https://*.razorpay.com; frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://*.razorpay.com;",
 			},
 		];
 

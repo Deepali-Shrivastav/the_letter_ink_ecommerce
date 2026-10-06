@@ -1,6 +1,6 @@
 "use client";
 
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, PenTool, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRef, useTransition } from "react";
 import { setCartQuantity } from "@/app/cart/actions";
@@ -104,7 +104,7 @@ export function CartItem({ item }: CartItemProps) {
 			<Link
 				href={`/product/${product.slug}`}
 				onClick={closeCart}
-				className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-secondary"
+				className="relative h-24 w-24 shrink-0 overflow-hidden rounded-sm border border-border-vellum/60 bg-paper-tint"
 			>
 				{image && (
 					<LetterInkMedia src={image} alt={product.name} fill className="object-cover" sizes="96px" />
@@ -117,7 +117,7 @@ export function CartItem({ item }: CartItemProps) {
 					<Link
 						href={`/product/${product.slug}`}
 						onClick={closeCart}
-						className="text-sm font-medium leading-tight text-foreground hover:underline line-clamp-2"
+						className="text-sm font-medium leading-tight text-primary hover:underline line-clamp-2"
 					>
 						{product.name}
 					</Link>
@@ -125,7 +125,7 @@ export function CartItem({ item }: CartItemProps) {
 						type="button"
 						onClick={handleRemove}
 						disabled={isPending}
-						className="shrink-0 p-1 text-muted-foreground hover:text-destructive transition-colors disabled:pointer-events-none disabled:opacity-50"
+						className="shrink-0 p-1 text-secondary hover:text-destructive transition-colors disabled:pointer-events-none disabled:opacity-50 cursor-pointer"
 						aria-label="Remove item"
 					>
 						<Trash2 className="h-4 w-4" />
@@ -133,13 +133,27 @@ export function CartItem({ item }: CartItemProps) {
 				</div>
 
 				{item.metadata?.customization_selections && (
-					<div className="flex flex-col gap-0.5 text-xs text-muted-foreground mt-1 mb-2">
-						{Object.entries(item.metadata.customization_selections).map(([key, value]) => (
-							<div key={key} className="flex gap-1.5">
-								<span className="font-medium text-foreground">{key}:</span>
-								<span>{String(value)}</span>
-							</div>
-						))}
+					<div className="flex flex-col gap-0.5 text-xs text-secondary mt-1 mb-1.5">
+						{Object.entries(item.metadata.customization_selections)
+							.filter(([key]) => key.toLowerCase() !== "inscription")
+							.map(([key, value]) => (
+								<div key={key} className="flex gap-1.5">
+									<span className="font-medium text-primary">{key}:</span>
+									<span>{String(value)}</span>
+								</div>
+							))}
+					</div>
+				)}
+
+				{(item.metadata?.custom_inscription || item.metadata?.customization_selections?.Inscription) && (
+					<div className="mt-1 mb-2 p-2 rounded-sm bg-paper-tint/90 border border-border-vellum">
+						<div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-secondary font-label-sm">
+							<PenTool className="w-3 h-3 text-brand-script shrink-0" />
+							<span className="font-medium text-primary">Hand-Scripted Inscription:</span>
+						</div>
+						<p className="font-serif italic text-xs text-primary leading-relaxed mt-0.5 line-clamp-3">
+							“{item.metadata?.custom_inscription || item.metadata?.customization_selections?.Inscription}”
+						</p>
 					</div>
 				)}
 
@@ -147,23 +161,25 @@ export function CartItem({ item }: CartItemProps) {
 					{/* Quantity Controls */}
 					<div
 						className={cn(
-							"inline-flex items-center rounded-full border border-border transition-opacity",
+							"inline-flex items-center rounded-sm border border-border-vellum bg-background transition-opacity",
 							isPending && "opacity-70",
 						)}
 					>
 						<button
 							type="button"
 							onClick={handleDecrement}
-							className="shrink-0 flex h-7 w-7 items-center justify-center rounded-l-full hover:bg-secondary transition-colors"
+							className="shrink-0 flex h-7 w-7 items-center justify-center hover:bg-paper-tint text-primary transition-colors cursor-pointer"
 							aria-label="Decrease quantity"
 						>
 							<Minus className="h-3 w-3" />
 						</button>
-						<span className="flex h-7 w-8 items-center justify-center text-sm tabular-nums">{quantity}</span>
+						<span className="flex h-7 w-8 items-center justify-center text-xs font-mono tabular-nums text-primary border-x border-border-vellum/60">
+							{quantity}
+						</span>
 						<button
 							type="button"
 							onClick={handleIncrement}
-							className="shrink-0 flex h-7 w-7 items-center justify-center rounded-r-full hover:bg-secondary transition-colors"
+							className="shrink-0 flex h-7 w-7 items-center justify-center hover:bg-paper-tint text-primary transition-colors cursor-pointer"
 							aria-label="Increase quantity"
 						>
 							<Plus className="h-3 w-3" />
@@ -173,11 +189,11 @@ export function CartItem({ item }: CartItemProps) {
 					{/* Price */}
 					<div className="flex flex-col items-end">
 						{(item.discountTotal || 0) > 0 && (
-							<span className="text-xs text-muted-foreground line-through">
+							<span className="text-xs text-secondary line-through">
 								{formatMoney({ amount: lineTotal, currency, locale })}
 							</span>
 						)}
-						<span className="text-sm font-semibold">
+						<span className="text-sm font-semibold text-primary">
 							{formatMoney({ amount: lineTotal - BigInt(item.discountTotal || 0), currency, locale })}
 						</span>
 					</div>

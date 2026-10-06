@@ -154,7 +154,7 @@ export function BlogPageClient({ posts = [], initialVideos = [] }: { posts?: any
 	const [activeVideo, setActiveVideo] = useState<any | null>(null);
 
 	return (
-		<main className="w-full pt-36 bg-background">
+		<div className="w-full pt-36 bg-background">
 			<div className="flex flex-col w-full">
 				{/* Top Breadcrumb & Archival Label */}
 				<section className="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin pt-space-xs pb-space-sm">
@@ -699,6 +699,6 @@ export function BlogPageClient({ posts = [], initialVideos = [] }: { posts?: any
 					</div>
 				</div>
 			)}
-		</main>
+		</div>
 	);
 }

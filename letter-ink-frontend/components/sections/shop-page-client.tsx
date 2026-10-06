@@ -4,6 +4,7 @@ import {
 	ArrowRight,
 	CheckCircle2,
 	ChevronDown,
+	Clock,
 	Minus,
 	PackageOpen,
 	Plus,
@@ -59,8 +60,7 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
 					c.name.toLowerCase().includes("vow")) ||
 				((paramLower.includes("glass") || paramLower.includes("engrav")) &&
 					c.name.toLowerCase().includes("glass")) ||
-				((paramLower.includes("wax") || paramLower.includes("seal")) &&
-					c.name.toLowerCase().includes("wax")),
+				((paramLower.includes("wax") || paramLower.includes("seal")) && c.name.toLowerCase().includes("wax")),
 		);
 
 		if (match) {
@@ -238,8 +238,16 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
 						<div className="flex items-center gap-3">
 							<Sparkles className="w-5 h-5 text-primary" />
 							<p className="font-label-md text-label-md text-primary tracking-wide">
-								Showing <span className="font-bold">{sortedProducts.length}</span> of{" "}
-								<span className="font-bold">{initialProducts.length}</span> Heirloom Artifacts
+								{sortedProducts.length === initialProducts.length ? (
+									<>
+										<span className="font-bold">{initialProducts.length}</span> products
+									</>
+								) : (
+									<>
+										Showing <span className="font-bold">{sortedProducts.length}</span> of{" "}
+										<span className="font-bold">{initialProducts.length}</span> products
+									</>
+								)}
 							</p>
 						</div>
 						<div className="flex items-center gap-3">
@@ -335,207 +343,209 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
 									)}
 								>
 									<div className="overflow-hidden">
-
-								{/* Price Histogram & Range */}
-								<div className="p-6 border-b border-border-vellum">
-									<div className="flex items-center justify-between mb-4">
-										<span className="font-label-md text-label-md text-primary font-medium tracking-wide">
-											Price
-										</span>
-										<button
-											type="button"
-											onClick={() => setPriceRange([100, 10000])}
-											className="text-secondary hover:text-primary text-[12px] uppercase font-label-sm"
-											title="Reset price range"
-										>
-											Reset
-										</button>
-									</div>
-									<div className="flex items-end gap-1 h-12 mb-3 px-1">
-										<div className="flex-1 bg-surface-container rounded-t-sm h-[40%]" />
-										<div className="flex-1 bg-surface-container-high rounded-t-sm h-[65%]" />
-										<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[85%]" />
-										<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[100%]" />
-										<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[90%]" />
-										<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[75%]" />
-										<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[60%]" />
-										<div className="flex-1 bg-surface-container-high rounded-t-sm h-[50%]" />
-										<div className="flex-1 bg-surface-container rounded-t-sm h-[35%]" />
-										<div className="flex-1 bg-surface-container rounded-t-sm h-[45%]" />
-									</div>
-									<div className="flex items-center justify-between text-secondary font-label-sm text-[11px] mb-2">
-										<span>₹ 100</span>
-										<span>₹ 10,000+</span>
-									</div>
-									<div className="relative py-2 mb-4 px-2">
-										<Slider
-											defaultValue={[100, 10000]}
-											min={100}
-											max={10000}
-											step={100}
-											value={priceRange}
-											onValueChange={(val: number[]) => {
-												setPriceRange([val[0] ?? 100, val[1] ?? 10000]);
-												setCurrentPage(1);
-											}}
-										/>
-									</div>
-									<div className="grid grid-cols-2 gap-3 pt-2">
-										<div className="flex flex-col">
-											<span className="font-label-sm text-[10px] text-secondary uppercase tracking-wider mb-1 text-center">
-												Minimum
-											</span>
-											<div className="border border-border-vellum bg-surface-container-lowest px-3 py-2 text-center text-primary font-medium shadow-inner">
-												₹ {minVal.toLocaleString("en-IN")}
+										{/* Price Histogram & Range */}
+										<div className="p-6 border-b border-border-vellum">
+											<div className="flex items-center justify-between mb-4">
+												<span className="font-label-md text-label-md text-primary font-medium tracking-wide">
+													Price
+												</span>
+												<button
+													type="button"
+													onClick={() => setPriceRange([100, 10000])}
+													className="text-secondary hover:text-primary text-[12px] uppercase font-label-sm"
+													title="Reset price range"
+												>
+													Reset
+												</button>
+											</div>
+											<div className="flex items-end gap-1 h-12 mb-3 px-1">
+												<div className="flex-1 bg-surface-container rounded-t-sm h-[40%]" />
+												<div className="flex-1 bg-surface-container-high rounded-t-sm h-[65%]" />
+												<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[85%]" />
+												<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[100%]" />
+												<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[90%]" />
+												<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[75%]" />
+												<div className="flex-1 bg-tertiary-fixed rounded-t-sm h-[60%]" />
+												<div className="flex-1 bg-surface-container-high rounded-t-sm h-[50%]" />
+												<div className="flex-1 bg-surface-container rounded-t-sm h-[35%]" />
+												<div className="flex-1 bg-surface-container rounded-t-sm h-[45%]" />
+											</div>
+											<div className="flex items-center justify-between text-secondary font-label-sm text-[11px] mb-2">
+												<span>₹ 100</span>
+												<span>₹ 10,000+</span>
+											</div>
+											<div className="relative py-2 mb-4 px-2">
+												<Slider
+													defaultValue={[100, 10000]}
+													min={100}
+													max={10000}
+													step={100}
+													value={priceRange}
+													onValueChange={(val: number[]) => {
+														setPriceRange([val[0] ?? 100, val[1] ?? 10000]);
+														setCurrentPage(1);
+													}}
+												/>
+											</div>
+											<div className="grid grid-cols-2 gap-3 pt-2">
+												<div className="flex flex-col">
+													<span className="font-label-sm text-[10px] text-secondary uppercase tracking-wider mb-1 text-center">
+														Minimum
+													</span>
+													<div className="border border-border-vellum bg-surface-container-lowest px-3 py-2 text-center text-primary font-medium shadow-inner">
+														₹ {minVal.toLocaleString("en-IN")}
+													</div>
+												</div>
+												<div className="flex flex-col">
+													<span className="font-label-sm text-[10px] text-secondary uppercase tracking-wider mb-1 text-center">
+														Maximum
+													</span>
+													<div className="border border-border-vellum bg-surface-container-lowest px-3 py-2 text-center text-primary font-medium shadow-inner">
+														₹ {maxVal.toLocaleString("en-IN")}
+														{maxVal >= 10000 ? "+" : ""}
+													</div>
+												</div>
 											</div>
 										</div>
-										<div className="flex flex-col">
-											<span className="font-label-sm text-[10px] text-secondary uppercase tracking-wider mb-1 text-center">
-												Maximum
-											</span>
-											<div className="border border-border-vellum bg-surface-container-lowest px-3 py-2 text-center text-primary font-medium shadow-inner">
-												₹ {maxVal.toLocaleString("en-IN")}
-												{maxVal >= 10000 ? "+" : ""}
-											</div>
-										</div>
-									</div>
-								</div>
 
-								{/* Facets Accordions */}
-								<div className="divide-y divide-border-vellum">
-									<details className="group" open>
-										<summary className="flex items-center justify-between px-6 py-4 cursor-pointer list-none hover:bg-surface-container-low transition-colors">
-											<span className="font-label-md text-label-md text-primary font-medium tracking-wide">
-												Categories
-											</span>
-											<Plus className="w-4 h-4 text-secondary group-open:hidden" />
-											<Minus className="w-4 h-4 text-secondary hidden group-open:inline-block" />
-										</summary>
-										<div className="px-6 pb-4 pt-1 space-y-2.5">
-											{availableCategories.map((cat) => {
-												const isChecked = selectedCategories.includes(cat.name);
-												return (
-													<label key={cat.name} className="flex items-center justify-between cursor-pointer">
-														<span className="flex items-center gap-2.5">
-															<input
-																type="checkbox"
-																checked={isChecked}
-																onChange={() => toggleCategory(cat.name)}
-																className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-															/>
-															<span className="text-body-sm text-on-surface hover:text-primary">
-																{cat.name}
-															</span>
-														</span>
-														<span className="font-label-sm text-[10px] bg-surface-container px-1.5 py-0.5 rounded text-secondary">
-															{cat.count}
+										{/* Facets Accordions */}
+										<div className="divide-y divide-border-vellum">
+											<details className="group" open>
+												<summary className="flex items-center justify-between px-6 py-4 cursor-pointer list-none hover:bg-surface-container-low transition-colors">
+													<span className="font-label-md text-label-md text-primary font-medium tracking-wide">
+														Categories
+													</span>
+													<Plus className="w-4 h-4 text-secondary group-open:hidden" />
+													<Minus className="w-4 h-4 text-secondary hidden group-open:inline-block" />
+												</summary>
+												<div className="px-6 pb-4 pt-1 space-y-2.5">
+													{availableCategories.map((cat) => {
+														const isChecked = selectedCategories.includes(cat.name);
+														return (
+															<label
+																key={cat.name}
+																className="flex items-center justify-between cursor-pointer"
+															>
+																<span className="flex items-center gap-2.5">
+																	<input
+																		type="checkbox"
+																		checked={isChecked}
+																		onChange={() => toggleCategory(cat.name)}
+																		className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+																	/>
+																	<span className="text-body-sm text-on-surface hover:text-primary">
+																		{cat.name}
+																	</span>
+																</span>
+																<span className="font-label-sm text-[10px] bg-surface-container px-1.5 py-0.5 rounded text-secondary">
+																	{cat.count}
+																</span>
+															</label>
+														);
+													})}
+												</div>
+											</details>
+
+											<details className="group" open>
+												<summary className="flex items-center justify-between px-6 py-4 cursor-pointer list-none hover:bg-surface-container-low transition-colors">
+													<span className="font-label-md text-label-md text-primary font-medium tracking-wide">
+														Script &amp; Technique
+													</span>
+													<Plus className="w-4 h-4 text-secondary group-open:hidden" />
+													<Minus className="w-4 h-4 text-secondary hidden group-open:inline-block" />
+												</summary>
+												<div className="px-6 pb-4 pt-1 space-y-2.5">
+													<label className="flex items-center gap-2.5 cursor-pointer">
+														<input
+															type="checkbox"
+															defaultChecked
+															className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+														/>
+														<span className="text-body-sm text-on-surface hover:text-primary">
+															Copperplate Calligraphy
 														</span>
 													</label>
-												);
-											})}
-										</div>
-									</details>
+													<label className="flex items-center gap-2.5 cursor-pointer">
+														<input
+															type="checkbox"
+															defaultChecked
+															className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+														/>
+														<span className="text-body-sm text-on-surface hover:text-primary">
+															Spencerian Script
+														</span>
+													</label>
+													<label className="flex items-center gap-2.5 cursor-pointer">
+														<input
+															type="checkbox"
+															defaultChecked
+															className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+														/>
+														<span className="text-body-sm text-on-surface hover:text-primary">
+															Modern Flourished Roman
+														</span>
+													</label>
+													<label className="flex items-center gap-2.5 cursor-pointer">
+														<input
+															type="checkbox"
+															defaultChecked
+															className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+														/>
+														<span className="text-body-sm text-on-surface hover:text-primary">
+															Hand-Engraved Crystal
+														</span>
+													</label>
+												</div>
+											</details>
 
-									<details className="group" open>
-										<summary className="flex items-center justify-between px-6 py-4 cursor-pointer list-none hover:bg-surface-container-low transition-colors">
-											<span className="font-label-md text-label-md text-primary font-medium tracking-wide">
-												Script &amp; Technique
-											</span>
-											<Plus className="w-4 h-4 text-secondary group-open:hidden" />
-											<Minus className="w-4 h-4 text-secondary hidden group-open:inline-block" />
-										</summary>
-										<div className="px-6 pb-4 pt-1 space-y-2.5">
-											<label className="flex items-center gap-2.5 cursor-pointer">
-												<input
-													type="checkbox"
-													defaultChecked
-													className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-												/>
-												<span className="text-body-sm text-on-surface hover:text-primary">
-													Copperplate Calligraphy
-												</span>
-											</label>
-											<label className="flex items-center gap-2.5 cursor-pointer">
-												<input
-													type="checkbox"
-													defaultChecked
-													className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-												/>
-												<span className="text-body-sm text-on-surface hover:text-primary">
-													Spencerian Script
-												</span>
-											</label>
-											<label className="flex items-center gap-2.5 cursor-pointer">
-												<input
-													type="checkbox"
-													defaultChecked
-													className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-												/>
-												<span className="text-body-sm text-on-surface hover:text-primary">
-													Modern Flourished Roman
-												</span>
-											</label>
-											<label className="flex items-center gap-2.5 cursor-pointer">
-												<input
-													type="checkbox"
-													defaultChecked
-													className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-												/>
-												<span className="text-body-sm text-on-surface hover:text-primary">
-													Hand-Engraved Crystal
-												</span>
-											</label>
+											<details className="group">
+												<summary className="flex items-center justify-between px-6 py-4 cursor-pointer list-none hover:bg-surface-container-low transition-colors">
+													<span className="font-label-md text-label-md text-primary font-medium tracking-wide">
+														Material &amp; Finish
+													</span>
+													<Plus className="w-4 h-4 text-secondary group-open:hidden" />
+													<Minus className="w-4 h-4 text-secondary hidden group-open:inline-block" />
+												</summary>
+												<div className="px-6 pb-4 pt-1 space-y-2.5">
+													<label className="flex items-center gap-2.5 cursor-pointer">
+														<input
+															type="checkbox"
+															className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+														/>
+														<span className="text-body-sm text-on-surface hover:text-primary">
+															24k Pure Gold Leaf
+														</span>
+													</label>
+													<label className="flex items-center gap-2.5 cursor-pointer">
+														<input
+															type="checkbox"
+															className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+														/>
+														<span className="text-body-sm text-on-surface hover:text-primary">
+															300 GSM Deckle Rag
+														</span>
+													</label>
+													<label className="flex items-center gap-2.5 cursor-pointer">
+														<input
+															type="checkbox"
+															className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+														/>
+														<span className="text-body-sm text-on-surface hover:text-primary">
+															Victorian Brass &amp; Glass
+														</span>
+													</label>
+													<label className="flex items-center gap-2.5 cursor-pointer">
+														<input
+															type="checkbox"
+															className="w-4 h-4 rounded-none accent-primary cursor-pointer"
+														/>
+														<span className="text-body-sm text-on-surface hover:text-primary">
+															Hand-Poured Flexible Wax
+														</span>
+													</label>
+												</div>
+											</details>
 										</div>
-									</details>
-
-									<details className="group">
-										<summary className="flex items-center justify-between px-6 py-4 cursor-pointer list-none hover:bg-surface-container-low transition-colors">
-											<span className="font-label-md text-label-md text-primary font-medium tracking-wide">
-												Material &amp; Finish
-											</span>
-											<Plus className="w-4 h-4 text-secondary group-open:hidden" />
-											<Minus className="w-4 h-4 text-secondary hidden group-open:inline-block" />
-										</summary>
-										<div className="px-6 pb-4 pt-1 space-y-2.5">
-											<label className="flex items-center gap-2.5 cursor-pointer">
-												<input
-													type="checkbox"
-													className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-												/>
-												<span className="text-body-sm text-on-surface hover:text-primary">
-													24k Pure Gold Leaf
-												</span>
-											</label>
-											<label className="flex items-center gap-2.5 cursor-pointer">
-												<input
-													type="checkbox"
-													className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-												/>
-												<span className="text-body-sm text-on-surface hover:text-primary">
-													300 GSM Deckle Rag
-												</span>
-											</label>
-											<label className="flex items-center gap-2.5 cursor-pointer">
-												<input
-													type="checkbox"
-													className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-												/>
-												<span className="text-body-sm text-on-surface hover:text-primary">
-													Victorian Brass &amp; Glass
-												</span>
-											</label>
-											<label className="flex items-center gap-2.5 cursor-pointer">
-												<input
-													type="checkbox"
-													className="w-4 h-4 rounded-none accent-primary cursor-pointer"
-												/>
-												<span className="text-body-sm text-on-surface hover:text-primary">
-													Hand-Poured Flexible Wax
-												</span>
-											</label>
-										</div>
-									</details>
-								</div>
 									</div>
 								</div>
 							</div>
@@ -546,24 +556,41 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
 							{displayedProducts.length === 0 ? (
 								<div className="col-span-full py-16 px-6 text-center bg-surface-container-lowest border border-border-vellum rounded-lg">
 									<PackageOpen className="w-10 h-10 text-secondary mb-3 mx-auto" />
-									<h3 className="font-headline-sm text-lg text-primary mb-2">No Heirloom Artifacts Found</h3>
+									<h3 className="font-headline-sm text-lg text-primary mb-2 font-serif">No Pieces Found</h3>
 									<p className="font-body-sm text-on-surface-variant max-w-md mx-auto mb-6">
 										We couldn't find any artisanal pieces matching your current filters. Try widening your
-										price range or resetting selected categories.
+										price range, resetting filters, or commissioning a custom creation.
 									</p>
-									<button
-										type="button"
-										onClick={resetFilters}
-										className="inline-flex items-center gap-2 bg-tertiary-fixed hover:bg-primary hover:text-on-primary text-primary font-label-md text-sm uppercase px-6 py-2.5 rounded-full transition-colors shadow-sm"
-									>
-										<RotateCcw className="w-4 h-4" />
-										Reset All Filters
-									</button>
+									<div className="flex flex-wrap items-center justify-center gap-3">
+										<button
+											type="button"
+											onClick={resetFilters}
+											className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-on-primary font-label-md text-xs uppercase px-5 py-2.5 rounded transition-colors shadow-sm cursor-pointer"
+										>
+											<RotateCcw className="w-4 h-4" />
+											Reset All Filters
+										</button>
+										<Link
+											href="/contact"
+											className="inline-flex items-center gap-2 bg-tertiary-fixed text-primary hover:bg-surface-container-low font-label-md text-xs uppercase px-5 py-2.5 rounded border border-border-vellum transition-colors shadow-2xs"
+										>
+											Commission Custom Piece →
+										</Link>
+									</div>
 								</div>
 							) : (
 								<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
 									{displayedProducts.map((product) => {
-										const price = Number(product.variants?.[0]?.price) || 0;
+										const variants = product.variants || [];
+										const prices = variants
+											.map((v: any) => Number(v.price))
+											.filter((p: number) => !isNaN(p) && p > 0);
+										const minPrice =
+											prices.length > 0 ? Math.min(...prices) : Number(product.variants?.[0]?.price) || 0;
+										const maxPrice = prices.length > 0 ? Math.max(...prices) : minPrice;
+										const isPriceRange = prices.length > 1 && minPrice !== maxPrice;
+										const price = minPrice;
+
 										const originalPrice =
 											Number(product.variants?.[0]?.originalPrice || product.metadata?.original_price) || 0;
 										const isDiscounted = originalPrice > price;
@@ -587,6 +614,15 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
 											product.images?.[0] ||
 											product.thumbnail ||
 											"https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=600&q=80";
+
+										const isWorkshop =
+											categoryLabel?.toLowerCase().includes("workshop") || product.type === "workshop";
+										const leadTime =
+											product.leadTime ||
+											product.metadata?.lead_time ||
+											product.metadata?.leadTime ||
+											product.metadata?.turnaround ||
+											(isWorkshop ? "Interactive Masterclass" : "Ships in 5–7 days");
 
 										return (
 											<article
@@ -648,16 +684,27 @@ export function ShopPageClient({ initialProducts = [] }: ShopPageClientProps) {
 												</div>
 
 												<div className="p-space-md pt-0">
-													<div className="pt-space-xs flex items-center justify-between border-t border-border-vellum/60 pt-4">
-														<div className="flex items-baseline gap-2">
-															<span className="font-headline-md text-headline-md text-primary font-serif">
-																₹{price.toLocaleString("en-IN")}
+													<div className="pt-space-xs flex items-end justify-between border-t border-border-vellum/60 pt-3">
+														<div className="flex flex-col min-w-0">
+															<span className="font-label-sm text-[11px] uppercase tracking-wider text-secondary/90 flex items-center gap-1.5 mb-1.5">
+																<Clock className="w-3.5 h-3.5 text-secondary/80 shrink-0" />
+																<span className="truncate">{leadTime}</span>
 															</span>
-															{isDiscounted && (
-																<span className="font-body-sm text-body-sm text-secondary line-through">
-																	₹{originalPrice.toLocaleString("en-IN")}
+															<div className="flex items-baseline gap-1.5 flex-wrap">
+																{isPriceRange && (
+																	<span className="font-label-sm text-[11px] uppercase tracking-widest text-secondary font-medium">
+																		From
+																	</span>
+																)}
+																<span className="font-headline-md text-headline-md text-primary font-serif">
+																	₹{price.toLocaleString("en-IN")}
 																</span>
-															)}
+																{isDiscounted && (
+																	<span className="font-body-sm text-body-sm text-secondary line-through">
+																		₹{originalPrice.toLocaleString("en-IN")}
+																	</span>
+																)}
+															</div>
 														</div>
 														<Link
 															href={`/product/${product.slug}`}

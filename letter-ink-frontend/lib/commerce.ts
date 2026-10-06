@@ -240,13 +240,17 @@ export const commerce = {
 	productGet: async ({ idOrSlug }: { idOrSlug: string }) => {
 		const fields = "*variants.prices,*variants.options,*images,*categories,*collection,+metadata";
 		// Try handle first
-		const response = await medusaClient.products.list({
-			handle: idOrSlug,
-			fields,
-		} as any);
+		try {
+			const response = await medusaClient.products.list({
+				handle: idOrSlug,
+				fields,
+			} as any);
 
-		if (response.products && response.products.length > 0) {
-			return mapMedusaProductToStorefront(response.products[0]);
+			if (response.products && response.products.length > 0) {
+				return mapMedusaProductToStorefront(response.products[0]);
+			}
+		} catch (error: any) {
+			logger.warn("Medusa API Error (productGet by handle):", error?.message || String(error));
 		}
 
 		// Try by ID
@@ -612,9 +616,9 @@ export const commerce = {
 
 			const { cart: updatedCart } = await medusaClient.carts.retrieve(activeCartId!);
 			return mapMedusaCartToStorefront(updatedCart);
-		} catch (error) {
+		} catch (error: any) {
 			logger.error("cartUpsert error:", error);
-			throw error;
+			throw new Error(error?.message || "Cart operation failed");
 		}
 	},
 	collectionBrowse: async (args?: { active?: boolean; limit?: number }) => {
@@ -835,9 +839,9 @@ export const commerce = {
 				body: { promo_codes: [code] },
 			});
 			return mapMedusaCartToStorefront(res.cart);
-		} catch (error) {
+		} catch (error: any) {
 			logger.error("cartApplyPromotion error:", error);
-			throw error;
+			throw new Error(error?.message || "Failed to apply promotion");
 		}
 	},
 	cartRemovePromotion: async ({ cartId, promoCode }: { cartId: string; promoCode: string }) => {
@@ -848,9 +852,9 @@ export const commerce = {
 				body: { promo_codes: [code] },
 			});
 			return mapMedusaCartToStorefront(res.cart);
-		} catch (error) {
+		} catch (error: any) {
 			logger.error("cartRemovePromotion error:", error);
-			throw error;
+			throw new Error(error?.message || "Failed to remove promotion");
 		}
 	},
 };

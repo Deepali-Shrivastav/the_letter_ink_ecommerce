@@ -173,62 +173,137 @@ Severity: 🔴 Critical (blocks a task or revenue) · 🟠 High · 🟡 Medium �
   - Eliminated off-brand `bg-red-600` styling in favor of cohesive atelier brand tokens (`bg-tertiary-fixed text-on-tertiary-fixed` and `bg-primary text-on-primary`).
   - Added struck-through compare-at pricing hierarchy (`originalPrice`) beside the current selling price across all product cards, giving shoppers immediate, authentic value context.
 
-**🟡 S5. Cards lack decision information.** No compare-at price on the card, price ranges read `₹X - ₹Y` without a "From", and there is no lead time. For made-to-order goods, "Ships in 5–7 days" on the card reduces PDP bounces.
+**✅ S5. Cards lack decision information. [RESOLVED]**
+- **Where:** `components/product-card.tsx`, `components/sections/shop-page-client.tsx`, `components/sections/shop/shop-catalog-client.tsx`, and `components/sections/shop/shop-catalog-inner.tsx`.
+- **Resolution:**
+  - Added "From" prefix styling whenever products have multiple variant price points, establishing clear baseline starting price commitment.
+  - Prominently integrated "Ships in 5–7 days" (or dynamic product metadata / workshop lead time) with an atelier `Clock` icon directly above card prices across all catalog views (`ProductCard`, `ShopPageClient`, and `ShopCatalogClient`).
+  - Unified compare-at strike-through pricing alongside current selling prices across all card templates, providing shoppers with immediate turnaround expectations and decision clarity.
 
-**🟡 S6. Empty and count copy.** Category counts come from the loaded array, so they are right only if nothing is paginated. The empty state ("No pieces found in this category yet") has no next action; add "View all" and a contact link. "Displaying 12 of 24 Bespoke Artifacts" is more decorative than useful; "24 products" scans faster.
+**✅ S6. Empty and count copy. [RESOLVED]**
+- **Where:** `components/sections/gallery-grid-client.tsx`, `components/sections/shop-page-client.tsx`, and `components/sections/shop/shop-catalog-client.tsx`.
+- **Resolution:**
+  - Streamlined toolbar count copy from verbose phrases ("Displaying 12 of 24 Bespoke Artifacts", "Heirloom Artifacts") to crisp, instantly scannable phrasing (`24 products` or `Showing 12 of 24 products`).
+  - Transformed dead-end empty states across all catalog and gallery views into actionable recovery modules equipped with "Reset All Filters" / "View All Pieces" and direct links to commission custom atelier calligraphy suites (`/contact`).
 
 ### 3.4 Product detail page (PDP)
 
-**🔴 P1. The primary "Add to Cart" button has almost no contrast.**
-- **Where:** `add-to-cart-button.tsx` L363. Fill is `bg-tertiary-fixed` (`#FCECEF`) on a page background of about `#FDFAFA`. Hover is `bg-surface-container-lowest` (white), which is even closer to the page.
-- **Why:** roughly 1.1:1 button-to-page contrast (WCAG asks 3:1 for UI components). The key button looks disabled, and the secondary "Book Atelier Consultation" ink button further down is visually stronger.
-- **Fix:**
-```diff
-- bg-tertiary-fixed hover:bg-surface-container-lowest text-on-tertiary-fixed hover:text-primary
-+ bg-primary text-on-primary hover:bg-brand-script-dark focus-visible:ring-2 focus-visible:ring-brand-script focus-visible:ring-offset-2
-```
+**✅ P1. The primary "Add to Cart" button has almost no contrast. [RESOLVED]**
+- **Where:** `app/product/[slug]/add-to-cart-button.tsx` L364.
+- **Resolution:** Replaced the low-contrast blush button (`bg-tertiary-fixed #FCECEF`) with solid atelier ink `bg-primary text-on-primary` (`#201A1C` on `#FFFFFF`, yielding > 12:1 contrast ratio). Added tactile brand hover state (`hover:bg-brand-script-dark`) and full keyboard accessibility focus ring (`focus-visible:ring-2 focus-visible:ring-brand-script focus-visible:ring-offset-2`). The main purchase CTA is now immediately recognizable and distinct from disabled states across all viewports.
 
-**🔴 P2. Two dead buttons.** "Book Atelier Consultation" (`page.tsx` L309) and "Inquire With Atelier Calligrapher" (`add-to-cart-button.tsx` L372) are `type="button"` with no `onClick`.
-- **Fix:** open `wa.me/919823011942?text=…` prefilled with the product name and URL, as the contact page already does.
+**✅ P2. Two dead buttons. [RESOLVED]**
+- **Where:** `app/product/[slug]/page.tsx` L310 and `app/product/[slug]/add-to-cart-button.tsx` L373.
+- **Resolution:**
+  - Connected "Inquire With Atelier Calligrapher" directly to the atelier WhatsApp (`wa.me/919823011942`) pre-filled with the exact product name, giving shoppers an instant direct line to the studio.
+  - Connected "Book Atelier Consultation" to the studio WhatsApp consultation line with bespoke commission context, alongside a secondary direct route to the online inquiry form (`/contact`). Both buttons are now active, high-converting channels.
 
-**🟠 P3. Hard-coded copy appears on every product,** including workshops and hampers:
-- Eyebrow "The Atelier Heirlooms Series" (L186).
-- Fallback summary "Bespoke Classical Calligraphy in Antiqued Brass & Double Glass Float Frame" (L194).
-- "Complete the Ensemble / Related Atelier Heirlooms / Explore All Frames" (L277–286).
-- Trust triad: "wooden crate courier", "approval via WhatsApp before glass sealing".
-- **Why:** a workshop or a perfume-engraving page that claims a brass float frame and a wooden crate is **factually wrong** to the customer.
-- **Fix:** eyebrow from `product.category.name`, remove the fallback summary, make the trust row generic or data-driven ("Hand-lettered · Proof before dispatch · Insured shipping").
+**✅ P3. Hard-coded copy appears on every product. [RESOLVED]**
+- **Where:** `app/product/[slug]/page.tsx` L186–290.
+- **Resolution:**
+  - Dynamic Eyebrow: Replaced hard-coded "The Atelier Heirlooms Series" with dynamic `categoryName` derived from `product.category?.name` or `product.metadata?.category_name` (falling back to `"Atelier Creation"`).
+  - Authentic Summary: Removed fabricated "Antiqued Brass & Double Glass Float Frame" fallback, safely rendering `product.summary` or `product.description` only when present.
+  - Adaptive Trust & Fulfillment Triad: Made the triad dynamically contextual: for masterclasses/workshops, it presents personalized coaching, studio kits, and live masterclass access; for physical made-to-order crafts, it emphasizes authentic handcraft, WhatsApp pre-dispatch proofs, and insured protective delivery (eliminating factually incorrect "wooden crate" and "glass sealing" claims).
+  - Universal Catalog Link: Replaced restrictive "Explore All Frames" with "Explore All Creations".
 
-**🟠 P4. Nested `<main>`.** `layout.tsx` wraps pages in `<main>`, and the PDP (L134) and checkout form (L217) each render another `<main>`. Screen readers announce duplicate main landmarks. Change the inner ones to `<div>`.
+**✅ P4. Nested `<main>`. [RESOLVED]**
+- **Where:** `layout.tsx` wraps pages in `<main>`, and previously `app/product/[slug]/page.tsx`, `app/checkout/checkout-form.tsx`, `components/sections/blog-page-client.tsx`, and `components/sections/gifting-page-client.tsx` rendered nested `<main>` tags.
+- **Resolution:**
+  - Replaced inner `<main>` landmarks with semantic `<div>` tags across all four subpages and client components.
+  - Kept `app/layout.tsx` (`<main className="flex-1">{children}</main>`) as the single top-level `main` landmark for the entire site, fully resolving duplicate landmark announcements in screen readers and complying with WCAG 1.3.1 & 2.4.1.
 
-**🟠 P5. Buy-box order buries price and CTA.** Current order: title, summary, **long description box**, price, SKU, variants, customization, combination preview, volume pricing, inscription, quantity + CTA, inquire, trust triad. With a rich-text description, price and CTA can fall well below the fold.
-- **Fix:** title → price → one-line summary → variants/customization → inscription → quantity + **Add to cart** → trust row. Move the long description into accordions (Details / Care / Shipping) **below** the buy box. Add a sticky bottom CTA on mobile.
+**✅ P5. Buy-box order buries price and CTA. [RESOLVED]**
+- **Where:** `app/product/[slug]/page.tsx` and `app/product/[slug]/add-to-cart-button.tsx`.
+- **Resolution:**
+  - Re-architected visual hierarchy above the fold: Title & Category → Instant Price display, compare-at & tax indicator → One-line artisan summary → Variant & customization options → Personalized inscription → Quantity + Add to Cart CTA.
+  - Relocated lengthy rich-text editorial description (`product.content` via `TiptapRenderer`), artisan materials/care notes, and shipping/proof workflow into clean, collapsible accordions (*Artisanal Craft & Details*, *Materials & Archival Care*, *Atelier Dispatch & Shipping*) placed directly below the buy box and trust triad.
+  - Added a mobile sticky bottom purchase bar (`md:hidden`) that tracks form visibility via `IntersectionObserver` and smoothly appears with live price and a direct action button when the primary buy box scrolls out of view.
 
-**🟠 P6. The inscription field is the core personalization step but is styled like a footnote.** The textarea is `text-xs`, helper copy is `text-[10px]`, the counter is `text-[11px]`, the placeholder is `text-secondary/60`, and "Optional" is italic 10px. A 12px textarea also triggers iOS zoom on focus.
-- **Fix:** 14px/500 label, 16px input text, a clear example, and (best conversion lever for a calligraphy brand) a **live preview** of the text in the chosen script.
+**✅ P6. The inscription field is the core personalization step but is styled like a footnote. [RESOLVED]**
+- **Where:** `app/product/[slug]/add-to-cart-button.tsx`.
+- **Resolution:**
+  - Upgraded input typography to `text-base` (16px) across mobile & desktop, permanently resolving the iOS Safari auto-viewport zoom bug on focus.
+  - Promoted label to `14px / font-medium` (`text-sm font-medium text-primary`) with an atelier emblem and a `"Complimentary Hand-Scripting"` tag.
+  - Increased helper text and counter legibility to `text-xs text-secondary`, highlighting genuine archival sumi ink and gold luster.
+  - Added 1-click inspiration example chips (*"Aarav & Meera • 24.10.2026"*, *“Where thou art, that is home.”*, *“Dr. Sharma • In Honor & Gratitude”*).
+  - Added a **Live Calligraphy Script Preview Card**: whenever text is typed, an artisan vellum card appears rendering the customer's exact words in literary classical script (`font-serif italic text-lg sm:text-xl text-primary leading-relaxed text-center`), providing instant emotional connection and confidence.
 
-**🟠 P7. Out-of-stock handling is switched off** (`isOutOfStock = false`, L88, "Temporarily bypass"). Customers can buy sold-out items. Re-enable before launch.
+**✅ P7. Out-of-stock handling is switched off. [RESOLVED]**
+- **Where:** `app/product/[slug]/add-to-cart-button.tsx`.
+- **Resolution:**
+  - Restored real, dynamic out-of-stock inventory logic: `isOutOfStock = Boolean(selectedVariant && selectedVariant.stock !== null && selectedVariant.stock <= 0)`, preserving infinite/untracked inventory for custom made-to-order crafts (`stock === null`) while strictly blocking depleted SKUs (`stock <= 0`).
+  - Restored out-of-stock badge display in `stockStatus`: now returns `{ label: "Out of stock", tone: "out" }` with an accessible red warning indicator when a variant is depleted.
+  - Re-activated the built-in `<RestockNotify />` dialog (`"Remind me when back in stock"`) so shoppers can sign up for back-in-stock email notifications, and disabled checkout submission with `"Out of stock"` button text when restock notifications are turned off.
+  - Preserved the WhatsApp atelier inquiry button so patrons can still commission custom pieces directly.
 
-**🟡 P8. Variant buttons.** `px-3 py-2.5` at 13px caps is about 40px tall, selected state is color-only, and there is no `aria-pressed`. Swatches are 48px (good) but also rely on a ring only.
+**✅ P8. Variant buttons. [RESOLVED]**
+- **Where:** `app/product/[slug]/variant-selector.tsx` and `app/product/[slug]/customization-selector.tsx`.
+- **Resolution:**
+  - Expanded all variant text buttons and customization option chips to `min-h-[44px] px-4 py-2.5`, fully satisfying WCAG 2.5.5 / 2.5.8 touch target standards.
+  - Added programmatic `aria-pressed={isSelected}` attributes and descriptive `aria-label` tags to all color swatches and text option buttons, allowing screen reader users to instantly identify selected options (satisfying WCAG 4.1.2).
+  - Eliminated color-only active state violations (WCAG 1.4.1): added centered high-contrast checkmark icons (`Check`) inside active color swatches (with dynamic contrast adaptation for light and dark swatches) and active checkmarks inside selected text option chips.
 
-**🟡 P9. Quantity selector.** Buttons are `w-8` (32px wide). The count is a `readOnly type="text"` input with no label. Widen to 44px and announce changes with `aria-live`.
+**✅ P9. Quantity selector. [RESOLVED]**
+- **Where:** `app/product/[slug]/quantity-selector.tsx`.
+- **Resolution:**
+  - Widened Minus and Plus buttons from 32px to 44px (`w-11`), and matched height to `h-[49px]`, aligning perfectly with the primary Add to Cart button and satisfying WCAG 2.5.5 / 2.5.8 touch target requirements.
+  - Implemented semantic accessible spinbutton pattern: `role="spinbutton"`, `aria-label="Quantity"`, `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` with keyboard ArrowUp/ArrowDown support.
+  - Added polite live announcements (`aria-live="polite"` via a hidden screen-reader label) to ensure quantity adjustments are immediately vocalized by assistive technologies (WCAG 4.1.3).
+  - Encased the selector in a refined studio border (`border border-border-vellum rounded-sm`) with responsive hover and disabled states.
 
-**🟡 P10. Stray gradient.** The header block (L183) has `bg-gradient-to-b from-transparent to-surface-container-low/40 p-1`, a barely visible tint and a 4px inset that misaligns the title. Remove.
+**✅ P10. Stray gradient. [RESOLVED]**
+- **Where:** `app/product/[slug]/page.tsx`.
+- **Resolution:**
+  - Removed `bg-gradient-to-b from-transparent to-surface-container-low/40 p-1` from the header container.
+  - Eliminated the 4px horizontal padding inset (`p-1`), restoring precise left alignment between the product title, category eyebrow, and all subsequent buy-box elements.
+  - Removed the murky background haze, ensuring clean, sharp typographic contrast against parchment backdrops.
 
-**🟡 P11. Breadcrumb a11y.** The `<nav>` has no `aria-label`, and the current item has no `aria-current`.
-
-**🟢 P12. Sale price hierarchy.** The struck-through compare-at price and "Save x%" tag are `text-body-sm` (13px) and are easy to miss.
+**✅ P11. Breadcrumb a11y. [RESOLVED]**
+- **Where:** `app/product/[slug]/page.tsx`.
+- **Resolution:**
+  - Migrated from an unlabelled `<nav>` to the semantic accessible `<Breadcrumb>` architecture (`BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, and `BreadcrumbSeparator`).
+  - Added programmatic `aria-label="breadcrumb"` identifying the navigation landmark for screen readers (WCAG 1.3.1).
+  - Encased the trail in an ordered list (`<ol>` with `<li>` items) enabling assistive technologies to announce total item count and position hierarchy.
+  - Added `aria-current="page"` to the terminal active product name, and marked visual separators with `aria-hidden="true"`, preventing auditory clutter.
+**✅ P12. Sale price hierarchy. [RESOLVED]**
+- **Where:** `app/product/[slug]/add-to-cart-button.tsx`.
+- **Resolution:**
+  - Scaled original reference price (`compareAt`) up from tiny `13px` (`text-body-sm`) to an authoritative `18px` (`text-lg`) with semi-transparent strikethrough (`text-secondary/70 line-through decoration-secondary/50 font-normal`), keeping it proportional and legible next to the headline price.
+  - Replaced low-contrast blush tag with a high-contrast atelier discount pill (`Save X%` with `bg-brand-script/10 text-brand-script border border-brand-script/20 font-semibold px-2.5 py-0.5 rounded-sm`), clearly highlighting savings.
+  - Added semantic `<del>` markup and assistive screen-reader text (`<span className="sr-only">Current price: </span>` and `<span className="sr-only">Original price: </span>`) ensuring full WCAG 1.3.1 / 4.1.2 compliance.
+  - Enhanced the sticky mobile purchase bar with accessible price labeling, `<del>` original price, and a compact `-X%` savings indicator.
 
 ### 3.5 Cart drawer
 
-**🟠 C1. Cart uses a third visual style.** Generic shadcn `Button` with `bg-stone-900 rounded-full`, while the PDP uses square ink buttons. Radii vary site-wide (`rounded-sm/lg/xl/2xl/full`).
-- **Fix:** one rule. Suggestion: buttons and inputs `rounded-sm`, cards `rounded-lg`, pills only for chips.
+**✅ C1. Cart uses a third visual style. [RESOLVED]**
+- **Where:** `app/cart/cart-sidebar.tsx`, `app/cart/cart-item.tsx`, `app/cart/cart-promo.tsx`.
+- **Resolution:**
+  - Unified buttons to the signature atelier ink button aesthetic (`bg-primary text-on-primary hover:bg-brand-script-dark font-label-lg uppercase tracking-widest rounded-sm`), replacing the disconnected `bg-stone-900 rounded-full` pill.
+  - Aligned the item quantity stepper to the atelier architectural style (`rounded-sm border border-border-vellum bg-background text-primary` with `font-mono tabular-nums`), replacing the bubbly `rounded-full` capsule.
+  - Enforced the site-wide corner radius rule: buttons and inputs `rounded-sm`, item thumbnail `rounded-sm border-border-vellum/60`, and promo badges `rounded-sm`.
+  - Replaced generic gray tokens (`bg-secondary`, `text-muted-foreground`, `border-border`) with atelier tokens (`bg-paper-tint`, `text-secondary`, `border-border-vellum`, and `text-brand-script`).
 
-**🟠 C2. About 180 lines of dead "simulated Razorpay" code** (`_handleCheckoutWithRazorpay`, `handleSimulateSuccess`, and a "Simulate Success" modal, L38–185 and L280–349). The functions are unreachable (never called), but they ship in the bundle and include **hard-coded fake customer data** (`patron@theletterink.com`, "Valued Patron"). Delete.
+**✅ C2. Dead "simulated Razorpay" code removed. [RESOLVED]**
+- **Where:** `app/cart/cart-sidebar.tsx`.
+- **Resolution:**
+  - Removed ~230 lines of unreachable prototype code: `_handleCheckoutWithRazorpay`, `loadRazorpayScript`, and `handleSimulateSuccess`.
+  - Removed hardcoded fake customer data (`patron@theletterink.com`, "Valued Patron", dummy telephone/address payloads).
+  - Deleted dead component state (`isCheckingOut`, `showSimulatedModal`, `simulatedOrderInfo`) and unused icon imports (`CheckCircle2`, `Info`).
+  - Purged the unreachable simulated Razorpay development modal DOM and unused fragment wrappers, significantly slimming the client cart bundle across the storefront.
 
-**🟡 C3. Summary copy.** Show "Shipping: Free" explicitly (checkout already says "Complimentary"). A visible free-shipping line is a free conversion lever. The CTA "Proceed to Delivery & Checkout →" is long; "Checkout" is enough.
+**✅ C3. Summary copy & friction points. [RESOLVED]**
+- **Where:** `app/cart/cart-sidebar.tsx`.
+- **Resolution:**
+  - Added an explicit complimentary delivery row in the price breakdown: `Shipping: Free (Complimentary)`, converting a hidden fee fear into a positive conversion driver.
+  - Replaced ambiguous *"Shipping calculated at checkout"* copy with reassuring tax and delivery guarantees: *"Taxes included. Complimentary insured atelier shipping across India."*
+  - Streamlined the verbose 32-character CTA button (`Proceed to Delivery & Checkout →`) into a punchy, confident single-line action: `Checkout →`.
 
-**🟡 C4. Inscription visibility.** The checkout summary shows each item's inscription; confirm the cart does too, and consider letting buyers edit it there. Typos on personalized goods are the top support risk.
+**✅ C4. Inscription visibility in cart drawer. [RESOLVED]**
+- **Where:** `app/cart/cart-item.tsx`.
+- **Resolution:**
+  - Added dedicated bespoke inscription preview in the cart item line: displays `custom_inscription` with an atelier calligraphy indicator (`PenTool` icon, "Hand-Scripted Inscription:" label, and serif italic quotation styling).
+  - Filtered out duplicate Inscription entries from general `customization_selections` to keep options cleanly organized.
+  - Gives patrons instant verification of their custom lettering and dates right as the cart drawer opens, eliminating typo anxiety before checkout.
 
 ### 3.6 Checkout
 

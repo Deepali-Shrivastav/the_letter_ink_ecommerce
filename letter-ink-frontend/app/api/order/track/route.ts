@@ -324,7 +324,7 @@ export async function POST(request: Request) {
 					id: item.id,
 					name: item.productVariant?.product?.name || item.name || "Handcrafted Stationery Item",
 					quantity: item.quantity || 1,
-					price: item.productVariant?.price || item.price || 0,
+					price: Number(item.productVariant?.price || item.price || 0),
 					image: item.productVariant?.images?.[0] || item.thumbnail || "/Logo.jpeg",
 					customNote:
 						item.metadata?.custom_inscription ||
@@ -336,12 +336,27 @@ export async function POST(request: Request) {
 									.join(" • ")
 							: null),
 				})),
-				summary: {
-					subtotal: orderData.subtotal || 0,
-					shipping: orderData.shipping?.price || 0,
-					total: orderData.total || 0,
-					currency: "INR",
-				},
+				summary: (() => {
+					const itemsSub = (orderData.lineItems || []).reduce(
+						(acc: number, it: any) => acc + (Number(it.productVariant?.price || it.price || 0) * (Number(it.quantity) || 1)),
+						0,
+					);
+					const ship = Number(orderData.shipping?.price || rawOrder.shipping_methods?.[0]?.amount || 0);
+					const tax = Number(orderData.totalTax || rawOrder.tax_total || 0);
+					const disc = Number(orderData.discountTotal || rawOrder.discount_total || 0);
+					const tot = Number(orderData.total || rawOrder.total || itemsSub + ship + tax - disc);
+					const finalSub = itemsSub > 0 ? itemsSub : Math.max(0, tot - ship);
+
+					return {
+						itemsSubtotal: finalSub,
+						subtotal: finalSub,
+						shipping: ship,
+						tax,
+						discount: disc,
+						total: tot,
+						currency: "INR",
+					};
+				})(),
 				payment: {
 					gateway: orderData.payment?.gateway || "Razorpay",
 					status: orderData.payment?.status || "Paid",

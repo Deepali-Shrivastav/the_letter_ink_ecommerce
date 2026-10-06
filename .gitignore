@@ -1,8 +1,22 @@
 # Knowledge graph
 graphify-out/
 
-# Agents
+# Agents & AI Tooling (GSD / Antigravity)
 .agents/
+.agent/
+.gemini/
+.gsd/
+.planning/
+.claude/
+GSD-STYLE.md
+PROJECT_RULES.md
+VERSION
+adapters/
+model_capabilities.yaml
+/scripts/
+
+# Logs
+*.log
 
 # Screens and stitch assets
 screens/

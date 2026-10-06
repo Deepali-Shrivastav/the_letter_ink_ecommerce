@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useCustomization } from "./customization-context";
@@ -69,13 +70,15 @@ export function CustomizationSelector({ onCombinationResolved }: CustomizationSe
 										key={option.id}
 										type="button"
 										onClick={() => setOptionValue(group.id, option.id, group.title, option.value)}
+										aria-pressed={isSelected}
 										className={cn(
-											"px-3.5 py-2 text-xs uppercase tracking-wider transition-all duration-200 border rounded-sm",
+											"min-h-[44px] px-4 py-2.5 text-xs uppercase tracking-wider transition-all duration-200 border rounded-sm flex items-center gap-2 cursor-pointer",
 											isSelected
-												? "bg-primary text-on-primary border-primary font-semibold shadow-sm scale-[1.02]"
+												? "bg-primary text-on-primary border-primary font-semibold shadow-xs"
 												: "bg-surface-container-low text-primary border-border/80 hover:border-primary/50 hover:bg-paper-tint",
 										)}
 									>
+										{isSelected && <Check className="w-3.5 h-3.5 shrink-0 stroke-[2.5]" aria-hidden="true" />}
 										<span>{option.value}</span>
 									</button>
 								);

@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import Link from "next/link";
 import { getActiveCampaigns } from "@/lib/campaigns";
 import type {
@@ -31,21 +31,16 @@ export async function ProductCard({
 	const { min: minPrice, max: maxPrice } =
 		variants && variants.length > 0 ? priceRange(variants, taxBehavior) : { min: null, max: null };
 
-	const priceDisplay =
-		variants && variants.length > 1 && minPrice && maxPrice && minPrice !== maxPrice
-			? `${formatMoney({ amount: minPrice, currency, locale })} - ${formatMoney({ amount: maxPrice, currency, locale })}`
-			: minPrice
-				? formatMoney({ amount: minPrice, currency, locale })
-				: null;
+	const isPriceRange = Boolean(
+		variants && variants.length > 1 && minPrice && maxPrice && minPrice !== maxPrice,
+	);
+
+	const priceDisplay = minPrice ? formatMoney({ amount: minPrice, currency, locale }) : null;
 
 	const firstVariant = variants?.[0];
 	const originalPriceVal = firstVariant ? displayPrice(firstVariant, taxBehavior, "originalPrice") : null;
-	const isDiscounted = Boolean(
-		originalPriceVal && minPrice && Number(originalPriceVal) > Number(minPrice),
-	);
-	const compareAtDisplay = isDiscounted
-		? formatMoney({ amount: originalPriceVal!, currency, locale })
-		: null;
+	const isDiscounted = Boolean(originalPriceVal && minPrice && Number(originalPriceVal) > Number(minPrice));
+	const compareAtDisplay = isDiscounted ? formatMoney({ amount: originalPriceVal!, currency, locale }) : null;
 
 	const percentOff =
 		isDiscounted && originalPriceVal && minPrice
@@ -67,18 +62,21 @@ export async function ProductCard({
 		((product as any).type && (product as any).type !== "standard" ? (product as any).type : null) ||
 		"Atelier Creation";
 
+	const isWorkshop =
+		categoryLabel?.toLowerCase().includes("workshop") || (product as any).type === "workshop";
+
+	const leadTime =
+		(product as any).leadTime ||
+		(product as any).metadata?.lead_time ||
+		(product as any).metadata?.leadTime ||
+		(product as any).metadata?.turnaround ||
+		(isWorkshop ? "Interactive Masterclass" : "Ships in 5–7 days");
+
 	const summary =
-		(product as any).summary ||
-		(product as any).description ||
-		(product as any).metadata?.summary ||
-		null;
+		(product as any).summary || (product as any).description || (product as any).metadata?.summary || null;
 
 	const editionBadge = (product as any).badge || (product as any).metadata?.badge || null;
-	const discountBadge = isDiscounted
-		? percentOff > 0
-			? `Save ${percentOff}%`
-			: "Sale"
-		: null;
+	const discountBadge = isDiscounted ? (percentOff > 0 ? `Save ${percentOff}%` : "Sale") : null;
 
 	// A single-variant card deep-links to that variant; a bare link would show the product's default.
 	const onlyVariant = variants?.length === 1 ? variants[0] : null;
@@ -174,15 +172,22 @@ export async function ProductCard({
 						{product.name}
 					</h3>
 					{summary && (
-						<p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1.5">
-							{summary}
-						</p>
+						<p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1.5">{summary}</p>
 					)}
 				</div>
 
-				<div className="pt-space-xs flex items-center justify-between mt-4 border-t border-border-vellum/60 pt-4">
-					<div className="flex flex-col">
-						<div className="flex items-baseline gap-2">
+				<div className="pt-space-xs flex items-end justify-between mt-4 border-t border-border-vellum/60 pt-3">
+					<div className="flex flex-col min-w-0">
+						<span className="font-label-sm text-[11px] uppercase tracking-wider text-secondary/90 flex items-center gap-1.5 mb-1.5">
+							<Clock className="w-3.5 h-3.5 text-secondary/80 shrink-0" />
+							<span className="truncate">{leadTime}</span>
+						</span>
+						<div className="flex items-baseline gap-1.5 flex-wrap">
+							{isPriceRange && (
+								<span className="font-label-sm text-[11px] uppercase tracking-widest text-secondary font-medium">
+									From
+								</span>
+							)}
 							{priceDisplay && (
 								<span className="font-headline-md text-headline-md text-primary font-serif">
 									{priceDisplay}
@@ -196,7 +201,7 @@ export async function ProductCard({
 						</div>
 					</div>
 
-					<span className="px-3.5 py-1.5 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded group-hover:bg-tertiary-fixed group-hover:text-primary transition-colors flex items-center gap-1.5 shadow-2xs">
+					<span className="px-3.5 py-1.5 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded group-hover:bg-tertiary-fixed group-hover:text-primary transition-colors flex items-center gap-1.5 shadow-2xs shrink-0 ml-2">
 						<span>Customise</span>
 						<ArrowRight className="w-3.5 h-3.5" />
 					</span>

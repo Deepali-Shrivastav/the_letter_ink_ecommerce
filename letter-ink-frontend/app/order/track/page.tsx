@@ -66,8 +66,11 @@ interface TrackedOrder {
 		customNote?: string | null;
 	}>;
 	summary: {
+		itemsSubtotal?: number;
 		subtotal: number;
 		shipping: number;
+		tax?: number;
+		discount?: number;
 		total: number;
 		currency: string;
 	};
@@ -448,25 +451,112 @@ function OrderTrackingContent() {
 									))}
 								</div>
 
-								{/* Subtotals */}
-								<div className="mt-4 pt-4 border-t border-stone-100 space-y-1.5 text-xs text-stone-600">
-									<div className="flex justify-between">
-										<span>Subtotal</span>
-										<span>₹{Number(order.summary.subtotal).toLocaleString("en-IN")}</span>
-									</div>
-									<div className="flex justify-between">
-										<span>Standard Express Shipping</span>
-										<span>
-											{order.summary.shipping === 0
-												? "FREE"
-												: `₹${Number(order.summary.shipping).toLocaleString("en-IN")}`}
-										</span>
-									</div>
-									<div className="flex justify-between text-sm font-semibold text-stone-900 pt-2 border-t border-stone-100 font-serif">
-										<span>Total Paid</span>
-										<span>₹{Number(order.summary.total).toLocaleString("en-IN")}</span>
-									</div>
-								</div>
+								{/* Detailed Bill Subtotals */}
+								{(() => {
+									const calculatedItemsSubtotal =
+										order.summary.itemsSubtotal ??
+										order.lineItems.reduce(
+											(sum, it) => sum + (Number(it.price) || 0) * (it.quantity || 1),
+											0,
+										);
+									const totalItemsCount = order.lineItems.reduce(
+										(sum, it) => sum + (it.quantity || 1),
+										0,
+									);
+									const shippingPrice = Number(order.summary.shipping || 0);
+									const taxAmount = Number(order.summary.tax || 0);
+									const discountAmount = Number(order.summary.discount || 0);
+									const finalTotal =
+										Number(order.summary.total) ||
+										calculatedItemsSubtotal + shippingPrice + taxAmount - discountAmount;
+
+									return (
+										<div className="mt-5 pt-4 border-t border-stone-200/90 space-y-2.5 text-xs text-stone-600 bg-stone-50/60 -mx-6 -mb-6 p-6 rounded-b-2xl">
+											<div className="flex items-center justify-between pb-2 border-b border-stone-200/80">
+												<span className="font-serif uppercase tracking-wider text-[11px] font-semibold text-stone-900">
+													Detailed Bill Breakdown
+												</span>
+												<span className="text-[10px] text-stone-400 font-mono">
+													Currency: {order.summary.currency || "INR"} (₹)
+												</span>
+											</div>
+
+											{/* Products / Items Subtotal */}
+											<div className="flex justify-between items-center text-stone-700">
+												<span className="flex items-center gap-1.5">
+													<span>Product Price Subtotal</span>
+													<span className="text-[10px] text-stone-400">
+														({totalItemsCount} {totalItemsCount === 1 ? "item" : "items"})
+													</span>
+												</span>
+												<span className="font-medium text-stone-900 font-mono text-sm">
+													₹{calculatedItemsSubtotal.toLocaleString("en-IN")}
+												</span>
+											</div>
+
+											{/* Delivery / Shipping Charges */}
+											<div className="flex justify-between items-center text-stone-700">
+												<div className="flex items-center gap-1.5">
+													<span>Standard Express Delivery</span>
+													<span className="text-[10px] bg-stone-200/70 text-stone-600 px-1.5 py-0.5 rounded font-mono">
+														All India
+													</span>
+												</div>
+												<span className="font-medium text-stone-900 font-mono">
+													{shippingPrice === 0
+														? "FREE (Complimentary)"
+														: `₹${shippingPrice.toLocaleString("en-IN")}`}
+												</span>
+											</div>
+
+											{/* Bespoke Packaging */}
+											<div className="flex justify-between items-center text-stone-700">
+												<div className="flex items-center gap-1.5">
+													<span>Atelier Keepsake Packaging & Wax Seal</span>
+													<span className="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-medium">
+														Signature
+													</span>
+												</div>
+												<span className="font-medium text-emerald-700">Complimentary</span>
+											</div>
+
+											{/* Taxes & GST */}
+											<div className="flex justify-between items-center text-stone-700">
+												<span>Estimated Taxes & GST</span>
+												<span className="font-medium text-stone-600 font-mono">
+													{taxAmount > 0
+														? `₹${taxAmount.toLocaleString("en-IN")}`
+														: "₹0 (Included in price)"}
+												</span>
+											</div>
+
+											{/* Discount if present */}
+											{discountAmount > 0 && (
+												<div className="flex justify-between items-center text-emerald-700">
+													<span>Promotional Privilege Discount</span>
+													<span className="font-medium font-mono">
+														-₹{discountAmount.toLocaleString("en-IN")}
+													</span>
+												</div>
+											)}
+
+											{/* Total Paid */}
+											<div className="flex justify-between items-baseline pt-3 border-t border-stone-200/90 text-stone-900 font-serif">
+												<div className="flex flex-col">
+													<span className="text-sm sm:text-base font-bold text-stone-900">
+														Total Amount Paid
+													</span>
+													<span className="text-[11px] font-sans font-normal text-stone-500 mt-0.5">
+														Secured & verified via {order.payment?.gateway || "Razorpay"}
+													</span>
+												</div>
+												<span className="text-lg sm:text-xl font-bold text-stone-900 font-mono">
+													₹{finalTotal.toLocaleString("en-IN")}
+												</span>
+											</div>
+										</div>
+									);
+								})()}
 							</div>
 
 							{/* Delivery Destination & Support */}

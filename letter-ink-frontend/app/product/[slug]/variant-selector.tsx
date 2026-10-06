@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -174,18 +175,28 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 												key={option.id}
 												type="button"
 												onClick={() => handleOptionSelect(group.label, option.id)}
+												aria-pressed={isSelected}
 												className={cn(
-													"relative h-12 w-12 rounded-full transition-all duration-200",
+													"relative h-12 w-12 rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer",
 													isSelected
-														? "ring-2 ring-foreground ring-offset-2 ring-offset-background"
-														: "hover:ring-2 hover:ring-muted-foreground hover:ring-offset-2 hover:ring-offset-background",
+														? "ring-2 ring-primary ring-offset-2 ring-offset-background shadow-xs"
+														: "hover:ring-2 hover:ring-muted-foreground/60 hover:ring-offset-2 hover:ring-offset-background",
 												)}
 												style={{ backgroundColor: option.colorValue ?? "#fff" }}
-												aria-label={option.value}
+												aria-label={`${option.value}${isSelected ? ", selected" : ""}`}
 												title={option.value}
 											>
 												{isLightColor && (
-													<span className="absolute inset-0 rounded-full border border-border" />
+													<span className="absolute inset-0 rounded-full border border-border/80" />
+												)}
+												{isSelected && (
+													<Check
+														className={cn(
+															"w-5 h-5 relative z-10 stroke-[2.5]",
+															isLightColor ? "text-primary" : "text-white drop-shadow-xs",
+														)}
+														aria-hidden="true"
+													/>
 												)}
 											</button>
 										);
@@ -208,13 +219,17 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 												key={option.id}
 												type="button"
 												onClick={() => handleOptionSelect(group.label, option.id)}
+												aria-pressed={isSelected}
 												className={cn(
-													"px-3 py-2.5 font-label-md text-label-md tracking-wider uppercase text-left flex flex-col gap-0.5 transition-all text-primary",
+													"min-h-[44px] px-4 py-2.5 font-label-md text-label-md tracking-wider uppercase text-left flex items-center gap-2 transition-all text-primary border rounded-sm cursor-pointer",
 													isSelected
-														? "bg-primary text-on-primary"
-														: "bg-surface-container-low hover:bg-tertiary-fixed/60",
+														? "bg-primary text-on-primary border-primary font-semibold shadow-xs"
+														: "bg-surface-container-low border-border-vellum/80 hover:bg-tertiary-fixed/60 hover:border-primary/40",
 												)}
 											>
+												{isSelected && (
+													<Check className="w-3.5 h-3.5 shrink-0 stroke-[2.5]" aria-hidden="true" />
+												)}
 												<span className="font-medium">{option.value}</span>
 											</button>
 										);

@@ -14,22 +14,44 @@ export async function ShopCatalogInner() {
 	const { data: products } = await commerce.productBrowse({ limit: 100 });
 
 	const shopProducts: ShopProduct[] = products.map((p) => {
-		const firstVariant = p.variants?.[0];
-		const rawAmount = firstVariant?.price ? Number(firstVariant.price) : null;
+		const variants = p.variants ?? [];
+		const variantPrices = variants
+			.map((v) => (v.price ? Number(v.price) : null))
+			.filter((pr): pr is number => pr !== null && !isNaN(pr));
+		const rawAmount =
+			variantPrices.length > 0
+				? Math.min(...variantPrices)
+				: p.variants?.[0]?.price
+					? Number(p.variants[0].price)
+					: null;
+		const maxVariantPrice = variantPrices.length > 0 ? Math.max(...variantPrices) : rawAmount;
+		const isPriceRange = Boolean(
+			variantPrices.length > 1 &&
+				rawAmount !== null &&
+				maxVariantPrice !== null &&
+				rawAmount !== maxVariantPrice,
+		);
 
 		const price =
 			rawAmount !== null ? formatMoney({ amount: rawAmount, currency: "INR", locale: "en-IN" }) : null;
 
+		const firstVariant = variants[0];
 		const rawOriginal = firstVariant?.originalPrice ? Number(firstVariant.originalPrice) : null;
-		const isDiscounted =
-			rawOriginal !== null && rawAmount !== null && rawOriginal > rawAmount;
-		const originalPrice =
-			isDiscounted
-				? formatMoney({ amount: rawOriginal, currency: "INR", locale: "en-IN" })
-				: null;
-		const discountPercent = isDiscounted
-			? Math.round(((rawOriginal - rawAmount) / rawOriginal) * 100)
-			: 0;
+		const isDiscounted = rawOriginal !== null && rawAmount !== null && rawOriginal > rawAmount;
+		const originalPrice = isDiscounted
+			? formatMoney({ amount: rawOriginal, currency: "INR", locale: "en-IN" })
+			: null;
+		const discountPercent = isDiscounted ? Math.round(((rawOriginal - rawAmount) / rawOriginal) * 100) : 0;
+
+		const isWorkshop =
+			(p as any).galleryCategory === "workshops" ||
+			(p as any).productType?.toLowerCase().includes("workshop");
+		const leadTime =
+			(p as any).leadTime ??
+			p.metadata?.lead_time ??
+			p.metadata?.leadTime ??
+			p.metadata?.turnaround ??
+			(isWorkshop ? "Interactive Masterclass" : "Ships in 5–7 days");
 
 		return {
 			id: p.id,
@@ -51,6 +73,8 @@ export async function ShopCatalogInner() {
 			type: (p as any).productType ?? "Artisan Piece",
 			// Set metadata.addon on products in the Medusa admin e.g. "Free Wax Sealed Box"
 			addon: (p as any).addon ?? null,
+			isPriceRange,
+			leadTime,
 		};
 	});
 

@@ -53,10 +53,29 @@ export function GalleryGridClient({ products }: { products: GalleryProduct[] }) 
 
 			{/* Products Grid */}
 			{filteredProducts.length === 0 ? (
-				<div className="col-span-full py-16 text-center">
-					<p className="font-body-sm text-body-sm text-secondary">
-						No pieces found in this category yet — check back soon.
+				<div className="col-span-full py-16 px-6 text-center bg-surface-container-lowest border border-border-vellum rounded-xl max-w-xl mx-auto shadow-2xs my-4">
+					<p className="font-headline-sm text-lg text-primary mb-2 font-serif">
+						No Pieces in This Category Yet
 					</p>
+					<p className="font-body-sm text-on-surface-variant max-w-md mx-auto mb-6">
+						We are hand-crafting new additions for this collection. You can explore all available creations or
+						inquire for a custom calligraphy commission.
+					</p>
+					<div className="flex flex-wrap items-center justify-center gap-3">
+						<button
+							type="button"
+							onClick={() => setActiveCategory("all")}
+							className="px-5 py-2.5 bg-primary text-on-primary font-label-sm text-xs uppercase tracking-wider rounded-lg hover:bg-primary/90 transition-colors cursor-pointer"
+						>
+							View All Pieces
+						</button>
+						<Link
+							href="/contact"
+							className="px-5 py-2.5 bg-tertiary-fixed text-primary hover:bg-surface-container-low font-label-sm text-xs uppercase tracking-wider rounded-lg border border-border-vellum transition-colors"
+						>
+							Commission Custom Work →
+						</Link>
+					</div>
 				</div>
 			) : (
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

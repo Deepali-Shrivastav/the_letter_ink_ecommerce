@@ -9,6 +9,15 @@ import { BundleBuilder } from "@/app/product/[slug]/bundle-builder";
 import { ProductCustomizationProvider } from "@/app/product/[slug]/customization-context";
 import { MediaGallery } from "@/app/product/[slug]/media-gallery";
 import { RelatedProducts } from "@/app/product/[slug]/related-products";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { TiptapRenderer } from "@/components/tiptap-renderer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { commerce, meGetCached } from "@/lib/commerce";
@@ -131,40 +140,75 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 
 	const productJsonLd = await buildProductJsonLd(product, reviews);
 
+	const categoryName =
+		product.category?.name ||
+		(product as any).metadata?.category_name ||
+		((product as any).type && (product as any).type !== "standard" ? (product as any).type : null) ||
+		"Atelier Creation";
+
+	const isWorkshop =
+		categoryName.toLowerCase().includes("workshop") ||
+		product.type === "workshop" ||
+		Boolean(product.metadata?.is_workshop);
+
 	return (
-		<main className="w-full bg-background min-h-screen">
+		<div className="w-full bg-background min-h-screen">
 			<JsonLdScript data={productJsonLd} />
 			<JsonLdScript data={buildProductBreadcrumbJsonLd(product)} />
 			{product.variants[0] && <TrackProductView variant={product.variants[0]} name={product.name} />}
 
 			{/* Breadcrumb & Top Bar */}
 			<section className="w-full max-w-7xl mx-auto px-margin-mobile md:px-gutter pt-6 pb-4">
-				<nav className="flex items-center gap-2 font-body-sm text-body-sm text-secondary tracking-wider uppercase">
-					<Link href="/" className="hover:text-primary transition-colors">
-						Home
-					</Link>
-					<span className="text-secondary/40 text-xs">/</span>
-					<Link href="/shop" className="hover:text-primary transition-colors">
-						Shop
-					</Link>
-					{product.category && (
-						<>
-							<span className="text-secondary/40 text-xs">/</span>
-							<Link
-								href={
-									product.category.slug === "workshops" || product.metadata?.is_workshop
-										? "/workshops"
-										: `/category/${product.category.slug}`
-								}
-								className="hover:text-primary transition-colors"
-							>
-								{product.category.name}
-							</Link>
-						</>
-					)}
-					<span className="text-secondary/40 text-xs">/</span>
-					<span className="text-primary font-medium">{product.name}</span>
-				</nav>
+				<Breadcrumb>
+					<BreadcrumbList className="font-body-sm text-body-sm text-secondary tracking-wider uppercase gap-1.5 sm:gap-2">
+						<BreadcrumbItem>
+							<BreadcrumbLink asChild>
+								<Link href="/" className="hover:text-primary transition-colors">
+									Home
+								</Link>
+							</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator className="text-secondary/40 text-xs" aria-hidden="true">
+							/
+						</BreadcrumbSeparator>
+						<BreadcrumbItem>
+							<BreadcrumbLink asChild>
+								<Link href="/shop" className="hover:text-primary transition-colors">
+									Shop
+								</Link>
+							</BreadcrumbLink>
+						</BreadcrumbItem>
+						{product.category && (
+							<>
+								<BreadcrumbSeparator className="text-secondary/40 text-xs" aria-hidden="true">
+									/
+								</BreadcrumbSeparator>
+								<BreadcrumbItem>
+									<BreadcrumbLink asChild>
+										<Link
+											href={
+												product.category.slug === "workshops" || product.metadata?.is_workshop
+													? "/workshops"
+													: `/category/${product.category.slug}`
+											}
+											className="hover:text-primary transition-colors"
+										>
+											{product.category.name}
+										</Link>
+									</BreadcrumbLink>
+								</BreadcrumbItem>
+							</>
+						)}
+						<BreadcrumbSeparator className="text-secondary/40 text-xs" aria-hidden="true">
+							/
+						</BreadcrumbSeparator>
+						<BreadcrumbItem>
+							<BreadcrumbPage className="text-primary font-medium truncate max-w-[200px] sm:max-w-none">
+								{product.name}
+							</BreadcrumbPage>
+						</BreadcrumbItem>
+					</BreadcrumbList>
+				</Breadcrumb>
 			</section>
 
 			{/* Product Showcase (2-Column Editorial Masterpiece) */}
@@ -181,31 +225,14 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 						{/* Right Column: Atelier Customizer & Purchase Actions */}
 						<div className="lg:col-span-5 flex flex-col gap-6 min-w-0 w-full">
 							{/* Header Info */}
-							<div className="flex flex-col gap-2 pb-5 bg-gradient-to-b from-transparent to-surface-container-low/40 p-1">
-								<div className="flex items-center justify-between gap-4">
-									<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">
-										The Atelier Heirlooms Series
-									</span>
-								</div>
-								<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide mt-1 break-words [overflow-wrap:anywhere]">
+							<div className="flex flex-col gap-2 pb-2">
+								<span className="font-label-sm text-label-sm uppercase tracking-[0.25em] text-secondary">
+									{categoryName}
+								</span>
+								<h1 className="font-headline-lg text-headline-lg text-primary tracking-wide break-words [overflow-wrap:anywhere]">
 									{product.name}
 								</h1>
-								<p className="font-body-md text-body-md text-secondary leading-relaxed break-words [overflow-wrap:anywhere]">
-									{product.summary ||
-										"Bespoke Classical Calligraphy in Antiqued Brass & Double Glass Float Frame"}
-								</p>
 							</div>
-
-							{/* Editorial Description Callout */}
-							{product.content &&
-								(typeof product.content !== "string" ||
-									!["NA", "N/A"].includes(product.content.trim().toUpperCase())) && (
-									<div className="w-full min-w-0 h-auto p-4 md:p-5 bg-paper-tint text-on-surface border border-border-vellum/40 break-words [overflow-wrap:anywhere]">
-										<div className="font-body-md text-body-md text-on-surface-variant leading-relaxed break-words [overflow-wrap:anywhere]">
-											<TiptapRenderer content={product.content} />
-										</div>
-									</div>
-								)}
 
 							{product.type === "bundle" && (product as any).bundle?.groups?.length ? (
 								<BundleBuilder
@@ -229,7 +256,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 											slug: product.slug,
 											images: product.images,
 										}}
-										summary={product.summary}
+										summary={product.summary || (product as any).description}
 										volumePricingTiers={(product as any).volumePricingTiers}
 										restockNotificationsEnabled={restockNotificationsEnabled}
 									/>
@@ -237,35 +264,120 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 							)}
 
 							{/* Trust & Fulfillment Triad */}
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-3">
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
 								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
 									<PenTool className="w-5 h-5 text-primary" />
 									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">
-										100% Dip-Pen Hand Scripted
+										{isWorkshop ? "Personalized Coaching" : "100% Handcrafted"}
 									</span>
 									<span className="font-body-sm text-[12px] text-secondary">
-										Zero digital prints; genuine archival hand calligraphy.
+										{isWorkshop
+											? "Guided by master calligraphers; individual critique."
+											: "Authentic studio craftsmanship; zero digital prints."}
 									</span>
 								</div>
 								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
 									<CheckCircle2 className="w-5 h-5 text-primary" />
 									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">
-										Pre-Dispatch Proof
+										{isWorkshop ? "Studio Kit Included" : "Pre-Dispatch Proof"}
 									</span>
 									<span className="font-body-sm text-[12px] text-secondary">
-										High-res approval via WhatsApp before glass sealing.
+										{isWorkshop
+											? "Complete archival calligraphy materials delivered ahead."
+											: "High-resolution preview via WhatsApp before final dispatch."}
 									</span>
 								</div>
 								<div className="flex flex-col gap-1 p-3 bg-paper-tint">
 									<Truck className="w-5 h-5 text-primary" />
 									<span className="font-label-sm text-label-sm uppercase tracking-wider text-primary">
-										5-7 Days • Insured
+										{isWorkshop ? "Interactive Masterclass" : "Insured Delivery"}
 									</span>
 									<span className="font-body-sm text-[12px] text-secondary">
-										Cushioned wooden crate courier delivery nationwide.
+										{isWorkshop
+											? "Live virtual masterclass access & recorded replay."
+											: "Protective archival packaging with tracked delivery nationwide."}
 									</span>
 								</div>
 							</div>
+
+							{/* Product Details, Care & Shipping Accordions */}
+							<Accordion
+								type="single"
+								collapsible
+								defaultValue="details"
+								className="w-full border-t border-border-vellum mt-2"
+							>
+								<AccordionItem value="details" className="border-b border-border-vellum/60">
+									<AccordionTrigger className="font-serif text-base text-primary hover:no-underline py-4">
+										{isWorkshop ? "Workshop Details & Curriculum" : "Artisanal Craft & Details"}
+									</AccordionTrigger>
+									<AccordionContent className="text-secondary leading-relaxed space-y-3 pb-5">
+										{product.content &&
+										(typeof product.content !== "string" ||
+											!["NA", "N/A"].includes(product.content.trim().toUpperCase())) ? (
+											<div className="font-body-md text-body-md text-on-surface-variant leading-relaxed break-words [overflow-wrap:anywhere]">
+												<TiptapRenderer content={product.content} />
+											</div>
+										) : (
+											<p className="font-body-md text-body-md">
+												{product.summary ||
+													(product as any).description ||
+													"Individually hand-scripted in our studio using archival pigment inks and classical dip-pen calligraphy techniques."}
+											</p>
+										)}
+									</AccordionContent>
+								</AccordionItem>
+
+								<AccordionItem value="care" className="border-b border-border-vellum/60">
+									<AccordionTrigger className="font-serif text-base text-primary hover:no-underline py-4">
+										{isWorkshop ? "Materials & Studio Kit" : "Materials & Archival Care"}
+									</AccordionTrigger>
+									<AccordionContent className="text-secondary leading-relaxed space-y-2 pb-5">
+										{isWorkshop ? (
+											<p className="font-body-md text-body-md">
+												Each masterclass seat includes a curated calligraphy kit shipped prior to the session,
+												including pointed nibs, oblique pen holder, imported sumi ink, practice guide sheets,
+												and deckled cotton paper.
+											</p>
+										) : (
+											<ul className="list-disc list-inside space-y-1.5 font-body-sm text-body-sm text-secondary">
+												<li>
+													Hand-lettered with lightfast, pH-neutral archival inks that resist fading over time.
+												</li>
+												<li>
+													Created on premium 100% cotton deckle-edged handmade paper with natural textural
+													grain.
+												</li>
+												<li>
+													Keep out of direct intense sunlight and high humidity to preserve archival
+													longevity.
+												</li>
+												<li>
+													Clean float-glass frames with a dry microfiber cloth; avoid spraying liquid cleaners
+													directly onto frame edges.
+												</li>
+											</ul>
+										)}
+									</AccordionContent>
+								</AccordionItem>
+
+								<AccordionItem value="shipping" className="border-b border-border-vellum/60">
+									<AccordionTrigger className="font-serif text-base text-primary hover:no-underline py-4">
+										Atelier Dispatch & Shipping
+									</AccordionTrigger>
+									<AccordionContent className="text-secondary leading-relaxed space-y-2 pb-5">
+										<p className="font-body-md text-body-md">
+											Every piece is made to order with patient dedication. Please allow 3–5 business days for
+											hand-lettering and framing. A high-resolution photo proof is shared via WhatsApp prior
+											to final sealing and dispatch.
+										</p>
+										<p className="font-body-sm text-body-sm text-secondary/90">
+											Shipped in protective multi-layer cushioned archival packaging with insured courier
+											tracking across India.
+										</p>
+									</AccordionContent>
+								</AccordionItem>
+							</Accordion>
 						</div>
 					</div>
 				</ProductCustomizationProvider>
@@ -284,7 +396,7 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 						className="font-label-md text-label-md uppercase tracking-wider text-primary hover:text-secondary flex items-center gap-1.5 transition-colors"
 						href="/shop"
 					>
-						<span>Explore All Frames</span>
+						<span>Explore All Creations</span>
 						<ArrowUpRight className="w-4 h-4" />
 					</Link>
 				</div>
@@ -307,15 +419,25 @@ const ProductDetails = async ({ params }: { params: Promise<{ slug: string }> })
 						</p>
 					</div>
 					<div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
-						<button
-							className="h-[49px] px-8 bg-primary hover:bg-tertiary-fixed text-on-primary hover:text-on-tertiary-fixed font-label-lg text-label-lg uppercase tracking-widest transition-all duration-300 shadow-sm"
-							type="button"
+						<a
+							href={`https://wa.me/919823011942?text=${encodeURIComponent(
+								`Hello The Letter Ink, I would like to book an atelier consultation for a bespoke commission regarding "${product.name}".`,
+							)}`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="h-[49px] px-8 bg-primary hover:bg-brand-script-dark text-on-primary font-label-lg text-label-lg uppercase tracking-widest transition-all duration-300 shadow-sm flex items-center justify-center gap-2 rounded-sm"
 						>
 							Book Atelier Consultation
-						</button>
+						</a>
+						<Link
+							href="/contact"
+							className="h-[49px] px-6 bg-transparent hover:bg-surface-container-low text-primary border border-border-vellum font-label-md text-label-md uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 rounded-sm"
+						>
+							Online Inquiry Form
+						</Link>
 					</div>
 				</div>
 			</section>
-		</main>
+		</div>
 	);
 };

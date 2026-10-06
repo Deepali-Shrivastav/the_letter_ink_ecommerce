@@ -1,22 +1,22 @@
 "use client";
 
+import {
+	ArrowRight,
+	Award,
+	CheckCircle2,
+	ChevronDown,
+	ChevronRight,
+	Download,
+	MailCheck,
+	MessageSquare,
+	Minus,
+	PenTool,
+	Plane,
+	Plus,
+	Sparkles,
+} from "lucide-react";
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
-import {
-	Sparkles,
-	ChevronDown,
-	Minus,
-	Plus,
-	ChevronRight,
-	CheckCircle2,
-	ArrowRight,
-	MailCheck,
-	PenTool,
-	Award,
-	Plane,
-	Download,
-	MessageSquare,
-} from "lucide-react";
 
 export function GiftingPageClient() {
 	const [priceRange, setPriceRange] = useState([100, 5500]);
@@ -530,7 +530,7 @@ export function GiftingPageClient() {
 							</div>
 						</aside>
 						{/*  RIGHT PRODUCT SHOWCASE: 3-Column Grid Matching Reference Layout  */}
-						<main className="lg:col-span-9">
+						<div className="lg:col-span-9">
 							<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
 								{/*  Item 1  */}
 								<article className="bg-surface-container-lowest p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow group">
@@ -904,7 +904,7 @@ export function GiftingPageClient() {
 									</button>
 								</div>
 							</div>
-						</main>
+						</div>
 					</div>
 				</div>
 			</section>

@@ -321,10 +321,20 @@ export default async function initial_data_seed({
           title: "Frame Size",
           values: ["Small (8x10)", "Large (12x16)"],
         },
+        {
+          title: "Kit Option",
+          values: ["Default Kit"],
+        },
+        {
+          title: "Hamper Option",
+          values: ["Full Hamper Box"],
+        },
       ],
     },
   });
   const frameSizeOption = productOptionsResult.find((o) => o.title === "Frame Size")!;
+  const kitOption = productOptionsResult.find((o) => o.title === "Kit Option")!;
+  const hamperOption = productOptionsResult.find((o) => o.title === "Hamper Option")!;
 
   logger.info("Seeding Letter Ink products in INR...");
   await createProductsWorkflow(container).run({
@@ -419,10 +429,14 @@ export default async function initial_data_seed({
               url: "https://lh3.googleusercontent.com/aida-public/AB6AXuBCKiJttLURVgb2TsqApuCWY1BQxNARNFc_beK291Av1LF3Qz8x9GDyxV1unnQM22ZgSgMGQjTjW7QxF7SnhTH1MQtEtSW6KrtDOVxaTWVOpGVw3OG16_JNnEx4BFVb2g2omOASWyHVA9tKocgMNDWEfoKyX4DufIXkseapu4f03aI2aQ9T1rIumB7Gc8TBJ6d_RIJG52hFKowNsDPAb6lUeXVPjanUt3Q-OUfL-XV-gBe57HxGUkM",
             },
           ],
+          options: [{ id: kitOption.id }],
           variants: [
             {
               title: "Default Kit",
               sku: "SEAL-KIT-01",
+              options: {
+                "Kit Option": "Default Kit",
+              },
               prices: [
                 {
                   amount: 1850,
@@ -453,10 +467,14 @@ export default async function initial_data_seed({
               url: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1200",
             },
           ],
+          options: [{ id: hamperOption.id }],
           variants: [
             {
               title: "Full Hamper Box",
               sku: "HAMPER-CHEST-01",
+              options: {
+                "Hamper Option": "Full Hamper Box",
+              },
               prices: [
                 {
                   amount: 4999,
