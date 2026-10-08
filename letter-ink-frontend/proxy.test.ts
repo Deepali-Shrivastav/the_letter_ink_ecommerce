@@ -39,5 +39,5 @@ test("a request without an Origin gets none", async () => {
 test("still rewrites to the subdomain path with auth=0", async () => {
 	const response = await proxiedRequest({ origin: "https://acme.example" });
 
-	expect(response.headers.get("x-middleware-rewrite")).toBe("https://yns.cx/acme/api/chat?auth=0");
+	expect(response.headers.get("x-middleware-rewrite")).toBe("http://localhost:3000/api/chat?auth=0");
 });

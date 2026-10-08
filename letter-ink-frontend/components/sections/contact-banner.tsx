@@ -1,4 +1,5 @@
 import { MessageCircle, Store } from "lucide-react";
+import { STUDIO_ADDRESS, STUDIO_EMAIL, STUDIO_WHATSAPP } from "@/lib/constants";
 
 export function ContactBanner() {
 	return (
@@ -15,13 +16,13 @@ export function ContactBanner() {
 							</span>
 							<h3 className="font-headline-sm text-headline-sm text-primary mt-1">The Letter Ink Studio</h3>
 							<p className="font-body-sm text-body-sm text-secondary mt-1 max-w-lg">
-								Ratan niwas, ground floor, plot no 33/A behind biyani chembers, bhusawal Maharashtra 425201
+								{STUDIO_ADDRESS}
 							</p>
 						</div>
 					</div>
 					<div className="flex flex-wrap items-center gap-4">
 						<a
-							href="https://wa.me/message/SO4FNIENMNMHA1"
+							href={`https://wa.me/${STUDIO_WHATSAPP}?text=Hello%20The%20Letter%20Ink,%20I%20would%20like%20to%20inquire%20about%20a%20bespoke%20commission.`}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="px-6 py-3 bg-tertiary-fixed text-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-colors flex items-center gap-2"
@@ -30,7 +31,7 @@ export function ContactBanner() {
 							<span>WhatsApp Atelier</span>
 						</a>
 						<a
-							href="mailto:concierge@theletterink.com"
+							href={`mailto:${STUDIO_EMAIL}`}
 							className="px-6 py-3 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest hover:bg-tertiary-fixed hover:text-primary transition-colors"
 						>
 							Email Us

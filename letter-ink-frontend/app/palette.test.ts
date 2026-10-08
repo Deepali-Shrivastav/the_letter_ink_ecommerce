@@ -27,7 +27,8 @@ const PAIRS = [
 	["primary-foreground", "primary"],
 ] as const;
 
-const css = readFileSync(join(import.meta.dir, "globals.css"), "utf8");
+const dir = (import.meta as any).dir || join(process.cwd(), "app");
+const css = readFileSync(join(dir, "globals.css"), "utf8");
 
 const blocks = [":root", ".dark"] as const;
 

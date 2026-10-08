@@ -91,7 +91,9 @@ export function AddToCartButton({
 
 		const observer = new IntersectionObserver(
 			([entry]) => {
-				setShowStickyBar(!entry.isIntersecting);
+				if (entry) {
+					setShowStickyBar(!entry.isIntersecting);
+				}
 			},
 			{ threshold: 0.1 },
 		);
@@ -332,7 +334,7 @@ export function AddToCartButton({
 						/>
 					)}
 					<div className="flex-1 min-w-0">
-						<div className="text-[11px] uppercase tracking-widest text-secondary font-label-sm font-semibold">
+						<div className="text-xs uppercase tracking-widest text-secondary font-label-sm font-semibold">
 							Active Bespoke Combination
 						</div>
 						<div className="text-sm font-medium text-primary truncate mt-0.5">
@@ -362,7 +364,7 @@ export function AddToCartButton({
 							<PenTool className="w-4 h-4 text-brand-script shrink-0" />
 							Personalized Inscription & Calligraphy
 						</label>
-						<span className="hidden sm:inline-flex px-2 py-0.5 text-[10px] uppercase tracking-wider bg-tertiary-fixed text-primary font-label-sm font-semibold rounded-xs">
+						<span className="hidden sm:inline-flex px-2 py-0.5 text-xs uppercase tracking-wider bg-tertiary-fixed text-primary font-label-sm font-semibold rounded-xs">
 							Complimentary
 						</span>
 					</div>
@@ -389,7 +391,7 @@ export function AddToCartButton({
 
 				{/* Quick Inspiration Examples */}
 				<div className="flex flex-wrap items-center gap-1.5 pt-1">
-					<span className="text-[11px] uppercase tracking-wider text-secondary/70 font-label-sm">
+					<span className="text-xs uppercase tracking-wider text-secondary/70 font-label-sm">
 						Inspiration:
 					</span>
 					{[
@@ -411,7 +413,7 @@ export function AddToCartButton({
 				{/* Live Calligraphy Script Preview Card */}
 				{customInscription.trim() && (
 					<div className="mt-3 p-4 sm:p-5 bg-paper-tint rounded-sm border border-border-vellum shadow-xs flex flex-col items-center justify-center text-center gap-2 relative overflow-hidden transition-all animate-in fade-in duration-300">
-						<div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-secondary font-label-sm">
+						<div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-secondary font-label-sm">
 							<span className="w-6 h-px bg-border-vellum" />
 							<span className="flex items-center gap-1 text-primary font-medium">
 								<PenTool className="w-3 h-3 text-brand-script" />
@@ -424,7 +426,7 @@ export function AddToCartButton({
 							“{customInscription.trim()}”
 						</p>
 
-						<p className="text-[11px] text-secondary/80 tracking-wide font-sans">
+						<p className="text-xs text-secondary/80 tracking-wide font-sans">
 							Individual pointed dip-pen lettering on deckled cotton paper. High-res proof shared via WhatsApp
 							before sealing.
 						</p>
@@ -486,7 +488,7 @@ export function AddToCartButton({
 								</del>
 							)}
 							{priceInfo.discountPercent ? (
-								<span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 bg-brand-script/10 text-brand-script border border-brand-script/20 rounded-sm">
+								<span className="text-xs font-semibold uppercase tracking-wider px-1.5 py-0.5 bg-brand-script/10 text-brand-script border border-brand-script/20 rounded-sm">
 									-{priceInfo.discountPercent}%
 								</span>
 							) : null}

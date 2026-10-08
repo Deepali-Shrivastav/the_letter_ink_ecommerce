@@ -60,12 +60,12 @@ export function GiftingLandingClient({
 							<nav aria-label="Breadcrumb" className="mb-space-sm">
 								<ol className="flex items-center space-x-2">
 									<li className="">
-										<a
+										<Link
 											className="font-label-sm text-label-sm uppercase text-secondary hover:text-primary transition-colors"
-											href="#"
+											href="/"
 										>
 											Home
-										</a>
+										</Link>
 									</li>
 									<li className="text-secondary font-label-sm">/</li>
 									<li
@@ -312,13 +312,13 @@ export function GiftingLandingClient({
 													{occasionName}
 												</h3>
 											</div>
-											<a
+											<Link
 												className="font-label-sm text-label-sm text-primary hover:text-secondary inline-flex items-center gap-1 tracking-wider transition-colors"
-												href="#"
+												href={`/shop?category=${encodeURIComponent(occasionName)}`}
 											>
 												View All {occasionName} Curations
 												<ArrowRight className="w-4 h-4" />
-											</a>
+											</Link>
 										</div>
 
 										<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
@@ -414,20 +414,22 @@ export function GiftingLandingClient({
 								2,500+ customized pieces with seamless project coordination.
 							</p>
 							<div className="flex flex-wrap gap-4 mt-6">
-								<a
-									className="bg-primary hover:bg-tertiary-fixed hover:text-primary text-on-primary px-8 py-4 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2 shadow-sm"
-									href="#"
+								<Link
+									className="bg-primary hover:bg-tertiary-fixed hover:text-primary text-on-primary px-8 py-4 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2 shadow-sm rounded-sm"
+									href="/contact"
 								>
 									<Download className="w-4 h-4" />
-									Download 2025 Gifting Lookbook
-								</a>
-								<button
-									className="border border-primary bg-transparent hover:bg-tertiary-fixed text-primary px-8 py-4 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2"
-									type="button"
+									Inquire Corporate Gifting Dossier
+								</Link>
+								<a
+									className="border border-primary bg-transparent hover:bg-tertiary-fixed text-primary px-8 py-4 font-label-lg text-label-lg uppercase tracking-wider transition-colors inline-flex items-center gap-2 rounded-sm"
+									href="https://wa.me/919823011942?text=Hello%20The%20Letter%20Ink,%20I%20would%20like%20to%20book%20a%20corporate%20gifting%20concierge%20consultation."
+									target="_blank"
+									rel="noopener noreferrer"
 								>
 									<Calendar className="w-4 h-4" />
 									Book Gifting Concierge
-								</button>
+								</a>
 							</div>
 						</div>
 						<div className="w-full lg:w-5/12 bg-paper-tint p-6">

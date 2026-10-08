@@ -3,6 +3,7 @@ import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { FooterBottomBarModalButtons, FooterLegalModalButtons } from "@/components/footer-modal-links";
 import { StackedCircularFooter } from "@/components/ui/stacked-circular-footer";
+import { STUDIO_ADDRESS, STUDIO_EMAIL } from "@/lib/constants";
 
 async function getCopyrightYear() {
 	"use cache";
@@ -32,7 +33,7 @@ export async function Footer() {
 								/>
 							</Link>
 							<p className="mt-4 text-sm text-secondary leading-relaxed max-w-sm">
-								An artisanal calligraphy studio & bespoke stationery atelier. Hand-scripting timeless wedding
+								An artisanal calligraphy studio &amp; bespoke stationery atelier. Hand-scripting timeless wedding
 								suites, personalized name frames, and heirloom keepsakes.
 							</p>
 						</div>
@@ -40,15 +41,15 @@ export async function Footer() {
 						<div className="space-y-3 pt-2">
 							<div className="flex items-start gap-2.5 text-xs text-secondary">
 								<MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-								<span>Ratan Niwas, Plot 33/A, Bhusawal, Maharashtra 425201</span>
+								<span>{STUDIO_ADDRESS}</span>
 							</div>
 							<div className="flex items-center gap-2.5 text-xs text-secondary">
 								<Mail className="w-4 h-4 text-primary shrink-0" />
 								<a
-									href="mailto:concierge@theletterink.com"
+									href={`mailto:${STUDIO_EMAIL}`}
 									className="hover:text-primary transition-colors underline-offset-4 hover:underline"
 								>
-									concierge@theletterink.com
+									{STUDIO_EMAIL}
 								</a>
 							</div>
 						</div>

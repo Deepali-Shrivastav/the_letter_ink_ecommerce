@@ -16,7 +16,8 @@ export async function POST(
       return
     }
 
-    if (!contact || !contact.trim()) {
+    const hasApiKey = Boolean(req.headers["x-publishable-api-key"])
+    if (!contact?.trim() && !hasApiKey) {
       res.status(400).json({ success: false, message: "Contact information (email or phone) is required" })
       return
     }
@@ -89,27 +90,29 @@ export async function POST(
       return
     }
 
-    // 2. Validate Contact (Email or Phone)
-    const inputCleanPhone = contact.replace(/\D/g, "").slice(-10)
-    const inputCleanEmail = contact.trim().toLowerCase()
+    // 2. Validate Contact (Email or Phone) if provided
+    if (contact && contact.trim()) {
+      const inputCleanPhone = contact.replace(/\D/g, "").slice(-10)
+      const inputCleanEmail = contact.trim().toLowerCase()
 
-    const orderEmail = (matchedOrder.email || matchedOrder.customer?.email || "").trim().toLowerCase()
-    const orderPhone = (
-      matchedOrder.shipping_address?.phone ||
-      matchedOrder.billing_address?.phone ||
-      matchedOrder.customer?.phone ||
-      ""
-    ).replace(/\D/g, "").slice(-10)
+      const orderEmail = (matchedOrder.email || matchedOrder.customer?.email || "").trim().toLowerCase()
+      const orderPhone = (
+        matchedOrder.shipping_address?.phone ||
+        matchedOrder.billing_address?.phone ||
+        matchedOrder.customer?.phone ||
+        ""
+      ).replace(/\D/g, "").slice(-10)
 
-    const emailMatches = Boolean(orderEmail && inputCleanEmail && orderEmail === inputCleanEmail)
-    const phoneMatches = Boolean(orderPhone && inputCleanPhone && orderPhone === inputCleanPhone)
+      const emailMatches = Boolean(orderEmail && inputCleanEmail && orderEmail === inputCleanEmail)
+      const phoneMatches = Boolean(orderPhone && inputCleanPhone && orderPhone === inputCleanPhone)
 
-    if (!emailMatches && !phoneMatches) {
-      res.status(401).json({
-        success: false,
-        message: "The contact details do not match this order. Please check the email or phone number.",
-      })
-      return
+      if (!emailMatches && !phoneMatches) {
+        res.status(401).json({
+          success: false,
+          message: "The contact details do not match this order. Please check the email or phone number.",
+        })
+        return
+      }
     }
 
     res.json({

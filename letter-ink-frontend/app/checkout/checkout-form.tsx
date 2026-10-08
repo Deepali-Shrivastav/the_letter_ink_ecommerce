@@ -3,13 +3,18 @@
 import { AlertCircle, ArrowLeft, Loader2, Lock, Package, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useCart } from "@/app/cart/cart-context";
 import { CartPromoCode } from "@/app/cart/cart-promo";
-import { type ShippingAddressData, ShippingAddressForm } from "@/components/checkout/shipping-address-form";
+import {
+	type ShippingAddressData,
+	ShippingAddressForm,
+	type ShippingAddressFormHandle,
+} from "@/components/checkout/shipping-address-form";
 import { Button } from "@/components/ui/button";
 import { formatMoney } from "@/lib/money";
+import { formatBrandOrderLookup } from "@/lib/utils";
 
 interface CheckoutFormProps {
 	initialCart: any;
@@ -25,6 +30,7 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 	const cart = contextCart || initialCart;
 
 	const [isProcessing, setIsProcessing] = useState(false);
+	const shippingFormRef = useRef<ShippingAddressFormHandle>(null);
 
 	const [shippingAddress, setShippingAddress] = useState<ShippingAddressData | null>(null);
 	const [isAddressValid, setIsAddressValid] = useState(false);
@@ -72,8 +78,9 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 		if (!items.length || isProcessing) return;
 
 		if (!isAddressValid || !shippingAddress) {
+			shippingFormRef.current?.validateAndFocus();
 			toast.error("Please fill in your delivery address before proceeding to payment.", {
-				icon: <AlertCircle className="h-4 w-4 text-rose-500" />,
+				icon: <AlertCircle className="h-4 w-4 text-red-500" />,
 			});
 			return;
 		}
@@ -151,6 +158,19 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 						const verifyData = await verifyRes.json();
 						toast.dismiss("payment-verify");
 						if (verifyRes.ok && verifyData.success) {
+							if (typeof window !== "undefined") {
+								try {
+									const brandId = verifyData.lookup || formatBrandOrderLookup(verifyData.orderId);
+									sessionStorage.setItem("tli_last_order_lookup", brandId);
+									const contactVal = shippingAddress.phone || shippingAddress.email || "";
+									if (contactVal) {
+										sessionStorage.setItem("tli_last_order_contact", contactVal);
+									}
+									if (verifyData.orderId) {
+										sessionStorage.setItem(`tli_map_${verifyData.orderId}`, brandId);
+									}
+								} catch {}
+							}
 							router.push(`/order/success/${verifyData.orderId}`);
 						} else {
 							toast.error("Payment verification failed");
@@ -189,14 +209,16 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 	if (!items.length) {
 		return (
 			<div className="max-w-2xl mx-auto py-20 px-4 text-center">
-				<div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-secondary/50 mb-6">
-					<Package className="h-10 w-10 text-muted-foreground" />
+				<div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-paper-tint border border-border-vellum mb-6">
+					<Package className="h-10 w-10 text-secondary" />
 				</div>
-				<h1 className="text-3xl font-serif font-medium tracking-tight mb-3">Your Cart is Empty</h1>
-				<p className="text-muted-foreground mb-8 max-w-md mx-auto">
-					Add items to your cart before proceeding to checkout.
+				<h1 className="text-3xl font-serif font-medium tracking-tight mb-3 text-foreground">
+					Your Cart is Empty
+				</h1>
+				<p className="text-secondary mb-8 max-w-md mx-auto">
+					Add bespoke calligraphy creations or artisan stationery before proceeding to checkout.
 				</p>
-				<Button asChild size="lg" className="rounded-full px-8">
+				<Button asChild size="lg" className="rounded-sm px-8 bg-primary text-on-primary hover:bg-brand-script-dark">
 					<Link href="/shop">Browse Collections</Link>
 				</Button>
 			</div>
@@ -204,26 +226,30 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 	}
 
 	return (
-		<div className="min-h-screen bg-paper-tint/40">
+		<div className="min-h-screen bg-paper-tint/30">
 			{/* Header */}
-			<header className="border-b border-border/60 bg-background/95 backdrop-blur-sm sticky top-0 z-30">
+			<header className="border-b border-border-vellum/80 bg-background/95 backdrop-blur-sm sticky top-0 z-30">
 				<div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 					<Link
 						href="/"
-						className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+						className="flex items-center gap-2 text-sm font-medium text-secondary hover:text-foreground transition-colors group"
 					>
-						<ArrowLeft className="h-4 w-4" />
+						<ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
 						<span>Return to Studio</span>
 					</Link>
 
-					<Link
-						href="/"
-						className="font-serif text-xl tracking-wider uppercase font-semibold text-foreground"
-					>
-						The Letter Ink
+					<Link href="/" className="flex items-center gap-2.5">
+						<img
+							src="/Logo.jpeg"
+							alt="The Letter Ink"
+							className="h-8 w-8 sm:h-9 sm:w-9 rounded-xs object-cover border border-border-vellum/60"
+						/>
+						<span className="font-serif text-lg sm:text-xl tracking-wider uppercase font-semibold text-foreground">
+							The Letter Ink
+						</span>
 					</Link>
 
-					<div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-secondary/40 px-3 py-1.5 rounded-full border border-border/40">
+					<div className="flex items-center gap-1.5 text-xs text-secondary bg-paper-tint/80 px-3 py-1.5 rounded-sm border border-border-vellum">
 						<Lock className="h-3.5 w-3.5 text-primary" />
 						<span className="font-medium">Razorpay Secured</span>
 					</div>
@@ -232,18 +258,28 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 
 			{/* Main 2-Column Checkout Layout */}
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+				{/* Accessible Page Landmark Title */}
+				<div className="mb-6 sm:mb-8">
+					<h1 className="font-serif text-2xl sm:text-3xl font-medium text-foreground tracking-tight">
+						Checkout & Atelier Delivery
+					</h1>
+					<p className="text-sm text-secondary mt-1">
+						Review your curated items and provide your delivery details below.
+					</p>
+				</div>
+
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 					{/* Left Column: Shipping Address & Recipient Details Form */}
 					<div className="lg:col-span-7 space-y-6">
-						<ShippingAddressForm onChange={handleAddressChange} />
+						<ShippingAddressForm ref={shippingFormRef} onChange={handleAddressChange} />
 					</div>
 
 					{/* Right Column: Order Summary, Items Preview, Promos & Payment Action */}
 					<div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-						<div className="bg-card border border-border/80 rounded-2xl p-6 sm:p-7 shadow-sm space-y-6">
-							<div className="flex items-center justify-between border-b border-border/60 pb-3">
-								<h3 className="font-serif text-lg font-semibold text-foreground">Order Summary</h3>
-								<span className="text-xs text-muted-foreground font-medium">
+						<div className="bg-card border border-border-vellum/90 rounded-xl p-6 sm:p-7 shadow-xs space-y-6">
+							<div className="flex items-center justify-between border-b border-border-vellum/60 pb-3">
+								<h2 className="font-serif text-lg font-semibold text-foreground">Order Summary</h2>
+								<span className="text-xs text-secondary font-medium">
 									{items.length} {items.length === 1 ? "Item" : "Items"}
 								</span>
 							</div>
@@ -260,9 +296,9 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 									return (
 										<div
 											key={item.id}
-											className="flex gap-3 items-center py-2 border-b border-border/40 last:border-b-0"
+											className="flex gap-3 items-center py-2 border-b border-border-vellum/40 last:border-b-0"
 										>
-											<div className="relative h-14 w-14 rounded-lg overflow-hidden bg-muted border border-border/50 shrink-0">
+											<div className="relative h-14 w-14 rounded-sm overflow-hidden bg-muted border border-border-vellum shrink-0">
 												{imageSrc && (
 													<img
 														src={imageSrc}
@@ -270,7 +306,7 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 														className="h-full w-full object-cover"
 													/>
 												)}
-												<span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-4.5 w-4.5 flex items-center justify-center shadow">
+												<span className="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] font-bold rounded-full h-4.5 w-4.5 flex items-center justify-center shadow-xs">
 													{item.quantity}
 												</span>
 											</div>
@@ -279,22 +315,22 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 													{item.productVariant?.product?.name || "Artisanal Creation"}
 												</p>
 												{item.metadata?.custom_inscription && (
-													<p className="text-[11px] text-amber-700 dark:text-amber-400 italic truncate mt-0.5">
+													<p className="text-xs text-brand-script italic truncate mt-0.5">
 														"{item.metadata.custom_inscription}"
 													</p>
 												)}
 												{item.metadata?.customization_selections && (
-													<p className="text-[10px] text-muted-foreground truncate mt-0.5">
+													<p className="text-xs text-secondary truncate mt-0.5">
 														{Object.entries(item.metadata.customization_selections)
 															.filter(([k]) => k !== "Inscription")
 															.map(([k, v]) => `${k}: ${v}`)
 															.join(" • ")}
 													</p>
 												)}
-												<p className="text-[10px] text-muted-foreground/80 mt-0.5">Qty: {item.quantity}</p>
+												<p className="text-xs text-secondary/80 mt-0.5">Qty: {item.quantity}</p>
 											</div>
 											<div className="text-right shrink-0">
-												<p className="text-xs font-semibold text-foreground font-mono">
+												<p className="text-xs font-semibold text-foreground tabular-nums">
 													{formatMoney({
 														amount: BigInt(unitPrice * item.quantity),
 														currency: storeConfig.currency,
@@ -308,10 +344,10 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 							</div>
 
 							{/* Price Breakdown */}
-							<div className="space-y-2 text-xs border-t border-border/60 pt-4">
-								<div className="flex justify-between text-muted-foreground">
+							<div className="space-y-2 text-xs border-t border-border-vellum/60 pt-4">
+								<div className="flex justify-between text-secondary">
 									<span>Subtotal</span>
-									<span className="font-mono text-foreground font-medium">
+									<span className="tabular-nums text-foreground font-medium">
 										{formatMoney({
 											amount: BigInt(rawSubtotal),
 											currency: storeConfig.currency,
@@ -320,15 +356,15 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 									</span>
 								</div>
 
-								<div className="flex justify-between text-muted-foreground">
+								<div className="flex justify-between text-secondary">
 									<span>Standard Atelier Delivery (India)</span>
-									<span className="text-emerald-600 font-medium">Complimentary</span>
+									<span className="text-emerald-700 dark:text-emerald-400 font-medium">Complimentary</span>
 								</div>
 
 								{discountTotal > 0 && (
-									<div className="flex justify-between text-emerald-600 font-medium">
+									<div className="flex justify-between text-emerald-700 dark:text-emerald-400 font-medium">
 										<span>Promotional Discount</span>
-										<span className="font-mono">
+										<span className="tabular-nums">
 											-
 											{formatMoney({
 												amount: BigInt(discountTotal),
@@ -339,9 +375,9 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 									</div>
 								)}
 
-								<div className="pt-3 border-t border-border/60 flex items-baseline justify-between">
+								<div className="pt-3 border-t border-border-vellum/60 flex items-baseline justify-between">
 									<span className="font-serif font-semibold text-sm text-foreground">Total Amount</span>
-									<span className="text-xl font-serif font-bold text-primary font-mono">
+									<span className="text-xl font-serif font-bold text-primary tabular-nums">
 										{formatMoney({
 											amount: BigInt(grandTotal),
 											currency: storeConfig.currency,
@@ -362,7 +398,7 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 									onClick={handleLaunchRazorpay}
 									disabled={isProcessing}
 									size="lg"
-									className="w-full h-14 rounded-full text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+									className="w-full h-14 rounded-sm text-sm font-semibold bg-primary text-on-primary hover:bg-brand-script-dark transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
 								>
 									{isProcessing ? (
 										<>
@@ -378,21 +414,21 @@ export function CheckoutForm({ initialCart, storeConfig }: CheckoutFormProps) {
 								</Button>
 
 								{!isAddressValid && (
-									<p className="text-[11px] text-amber-600 dark:text-amber-400 text-center flex items-center justify-center gap-1">
-										<AlertCircle className="h-3 w-3 shrink-0" />
-										Please fill out the delivery address to proceed.
+									<p className="text-xs text-secondary text-center flex items-center justify-center gap-1.5">
+										<AlertCircle className="h-3.5 w-3.5 shrink-0 text-brand-script" />
+										Fill out the delivery address above to proceed to payment.
 									</p>
 								)}
 							</div>
 
 							{/* Security & Payment Badges */}
-							<div className="pt-2 border-t border-border/40 text-center space-y-1.5">
-								<div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
-									<ShieldCheck className="h-3.5 w-3.5 text-blue-600" />
-									<span>Accepts UPI, Credit/Debit Cards, NetBanking & Wallets</span>
+							<div className="pt-2 border-t border-border-vellum/40 text-center space-y-1.5">
+								<div className="flex items-center justify-center gap-2 text-xs text-secondary font-medium">
+									<ShieldCheck className="h-4 w-4 text-primary" />
+									<span>Accepts UPI (GPay/PhonePe/Paytm), Cards & NetBanking</span>
 								</div>
-								<p className="text-[10px] text-muted-foreground/80">
-									Protected by 256-bit bank grade encryption & RBI PCI-DSS compliance.
+								<p className="text-xs text-secondary/80">
+									Encrypted payment via Razorpay · Complimentary insured delivery
 								</p>
 							</div>
 						</div>

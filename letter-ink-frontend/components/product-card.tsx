@@ -102,7 +102,7 @@ export async function ProductCard({
 					<div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 items-start">
 						{editionBadge && (
 							<span
-								className={`font-label-sm text-[10px] uppercase tracking-widest px-2.5 py-1 font-bold rounded-sm shadow-xs ${
+								className={`font-label-sm text-xs uppercase tracking-widest px-2.5 py-1 font-bold rounded-sm shadow-xs ${
 									editionBadge === "Patron's Pick"
 										? "bg-tertiary-fixed text-on-tertiary-fixed"
 										: "bg-primary text-on-primary"
@@ -112,7 +112,7 @@ export async function ProductCard({
 							</span>
 						)}
 						{discountBadge && (
-							<span className="font-label-sm text-[10px] uppercase tracking-widest px-2.5 py-1 font-bold rounded-sm bg-tertiary-fixed text-on-tertiary-fixed shadow-xs">
+							<span className="font-label-sm text-xs uppercase tracking-widest px-2.5 py-1 font-bold rounded-sm bg-tertiary-fixed text-on-tertiary-fixed shadow-xs">
 								{discountBadge}
 							</span>
 						)}
@@ -178,13 +178,13 @@ export async function ProductCard({
 
 				<div className="pt-space-xs flex items-end justify-between mt-4 border-t border-border-vellum/60 pt-3">
 					<div className="flex flex-col min-w-0">
-						<span className="font-label-sm text-[11px] uppercase tracking-wider text-secondary/90 flex items-center gap-1.5 mb-1.5">
+						<span className="font-label-sm text-xs uppercase tracking-wider text-secondary/90 flex items-center gap-1.5 mb-1.5">
 							<Clock className="w-3.5 h-3.5 text-secondary/80 shrink-0" />
 							<span className="truncate">{leadTime}</span>
 						</span>
 						<div className="flex items-baseline gap-1.5 flex-wrap">
 							{isPriceRange && (
-								<span className="font-label-sm text-[11px] uppercase tracking-widest text-secondary font-medium">
+								<span className="font-label-sm text-xs uppercase tracking-widest text-secondary font-medium">
 									From
 								</span>
 							)}

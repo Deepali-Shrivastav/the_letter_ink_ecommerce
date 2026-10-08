@@ -1,8 +1,10 @@
 "use client";
 
-import { ArrowRight, Camera, Film, Play, Sparkles, Video, Volume2, X } from "lucide-react";
+import { ArrowRight, Film, Play, Sparkles, Video, Volume2, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { InstagramIcon } from "@/components/icons/social-icons";
+import { STUDIO_INSTAGRAM } from "@/lib/constants";
 
 const DEFAULT_POST_IMAGE =
 	"https://lh3.googleusercontent.com/aida-public/AB6AXuBDILBvJvTP7pFN8Q8AB9yn6fJknIwSIg0T5igpUeSzCrbuXGc5UgP6Txh_dtwI4pQ53tdKmnG4clSwrW88oSvqK8d5Nmov3F4EYnkgxEU7-nRdxUsfESM7DITV60d3cHYW8sMZqqUERkB0M6DPhRTe6RMHDrXw4onFBpBuo3_g__Kun13vb_y2wPKgqnM435pz0r-cT1ggqjKVx6529MlChAAAWgt3nRY4ygtlF5Dr8OVceHZ1hxg";
@@ -159,13 +161,12 @@ export function BlogPageClient({ posts = [], initialVideos = [] }: { posts?: any
 				{/* Top Breadcrumb & Archival Label */}
 				<section className="max-w-[1440px] mx-auto w-full px-margin-mobile lg:px-margin pt-space-xs pb-space-sm">
 					<div className="flex items-center space-x-space-xs text-secondary">
-						<a
+						<Link
 							className="font-label-sm text-label-sm uppercase tracking-[0.16em] hover:text-primary transition-colors"
-							data-path="home"
-							href="#"
+							href="/"
 						>
 							Home
-						</a>
+						</Link>
 						<span className="text-outline-variant font-label-sm text-label-sm">/</span>
 						<span className="font-label-sm text-label-sm uppercase tracking-[0.16em] text-primary font-medium">
 							Blog &amp; Chronicles
@@ -545,9 +546,11 @@ export function BlogPageClient({ posts = [], initialVideos = [] }: { posts?: any
 						</div>
 						<a
 							className="inline-flex items-center gap-3 px-8 py-3.5 bg-tertiary-fixed text-on-tertiary-fixed font-label-lg text-label-lg uppercase tracking-[0.16em] hover:bg-primary hover:text-on-primary transition-all duration-200 shadow-sm"
-							href="#"
+							href={STUDIO_INSTAGRAM}
+							target="_blank"
+							rel="noopener noreferrer"
 						>
-							<Camera className="w-5 h-5" />
+							<InstagramIcon className="w-5 h-5 fill-current" />
 							Watch More on Instagram Reels @the_letter_ink
 						</a>
 						<p className="font-body-sm text-body-sm text-secondary">

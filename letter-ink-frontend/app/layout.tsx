@@ -164,6 +164,12 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 	return (
 		<StoreConfigProvider value={storeConfig}>
 			<CartProvider>
+				<a
+					href="#main-content"
+					className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-primary focus:text-on-primary focus:rounded-sm focus:shadow-md focus:text-xs focus:font-semibold focus:uppercase focus:tracking-wider"
+				>
+					Skip to main content
+				</a>
 				<div className="flex min-h-screen flex-col">
 					<Suspense fallback={null}>
 						<AnnouncementBar />
@@ -214,7 +220,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 							</div>
 						</div>
 					</header>
-					<main className="flex-1">{children}</main>
+					<main id="main-content" className="flex-1">{children}</main>
 					<Footer />
 				</div>
 				<CartSidebar />
@@ -276,7 +282,7 @@ export default async function RootLayout({
 					<Suspense fallback={null}>
 						<NewsletterPopupSection />
 					</Suspense>
-					<Toaster richColors position="top-center" />
+					<Toaster richColors position="top-right" offset="68px" />
 				</ThemeProvider>
 			</body>
 		</html>

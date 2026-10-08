@@ -20,6 +20,9 @@ export async function sendContactMessage(_prev: ContactState, formData: FormData
 	}
 
 	const message = sanitizeText(rawMessage, 3000);
+	if (!message || message.length === 0) {
+		return { success: false, message: "", error: "Please enter a message." };
+	}
 	if (message.length < 5) {
 		return { success: false, message: "", error: "Please enter a message (at least 5 characters)." };
 	}

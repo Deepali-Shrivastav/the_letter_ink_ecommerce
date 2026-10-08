@@ -44,7 +44,7 @@ export function isLinkActive(pathname: string, href: string): boolean {
 export function MobileNav({ links }: { links: NavLink[] }) {
 	const [open, setOpen] = useState(false);
 	const pathname = usePathname();
-	const { openCart, count } = useCart();
+	const { openCart, itemCount } = useCart();
 
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
@@ -134,9 +134,9 @@ export function MobileNav({ links }: { links: NavLink[] }) {
 								<ShoppingBag className="h-4 w-4 text-brand-script shrink-0" />
 								<span>Shopping Bag</span>
 							</div>
-							{count > 0 ? (
-								<span className="px-2 py-0.5 rounded-full bg-brand-script text-white text-[10px] font-bold">
-									{count}
+							{itemCount > 0 ? (
+								<span className="px-2 py-0.5 rounded-full bg-brand-script text-white text-xs font-bold tabular-nums">
+									{itemCount}
 								</span>
 							) : (
 								<ChevronRight className="h-4 w-4 text-muted-foreground/40" />

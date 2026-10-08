@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { formatMoney } from "@/lib/money";
 
 interface TimelineEvent {
 	step: number;
@@ -98,7 +99,7 @@ function OrderTrackingContent() {
 			const targetContact = (queryContact ?? contact).trim();
 
 			if (!targetId) {
-				setError("Please enter your Order ID or Reference number.");
+				setError("Please enter your Order Reference or ID (e.g. TLI-0003).");
 				return;
 			}
 
@@ -119,24 +120,75 @@ function OrderTrackingContent() {
 
 					if (!res.ok || !data.success) {
 						setOrder(null);
-						setError(data.error || "Unable to find order details. Please check your credentials.");
+						setError(
+							data.error ||
+								"We couldn't find an order matching these details. Please check your Reference ID and contact number/email.",
+						);
 					} else {
 						setOrder(data.order);
 						setError(null);
+						if (data.order?.lookup) {
+							setOrderId(data.order.lookup);
+							if (typeof window !== "undefined") {
+								try {
+									sessionStorage.setItem("tli_last_order_lookup", data.order.lookup);
+									if (targetContact) {
+										sessionStorage.setItem("tli_last_order_contact", targetContact);
+									}
+									if (data.order.id) {
+										sessionStorage.setItem(`tli_map_${data.order.id}`, data.order.lookup);
+									}
+									const url = new URL(window.location.href);
+									url.searchParams.set("id", data.order.lookup);
+									if (targetContact) {
+										url.searchParams.set("contact", targetContact);
+									}
+									window.history.replaceState({}, "", url.toString());
+								} catch {}
+							}
+						}
 					}
 				} catch (_err: any) {
 					setOrder(null);
-					setError("Network error. Could not connect to order tracking service.");
+					setError("Network error. Unable to connect to order tracking service. Please try again.");
 				}
 			});
 		},
 		[orderId, contact],
 	);
 
-	// Auto-fetch if order ID is present in URL
+	// Auto-fetch if order ID is present in URL or recent session
 	useEffect(() => {
-		if (initialId) {
-			handleTrack(initialId, initialContact);
+		let effId = initialId;
+		let effContact = initialContact;
+
+		if (typeof window !== "undefined") {
+			// If initial ID is raw Medusa format (order_...), check if we have mapped TLI lookup
+			if (effId && effId.startsWith("order_")) {
+				const mapped = sessionStorage.getItem(`tli_map_${effId}`);
+				if (mapped) {
+					effId = mapped;
+					setOrderId(mapped);
+				}
+			} else if (!effId) {
+				const savedId = sessionStorage.getItem("tli_last_order_lookup");
+				if (savedId) {
+					effId = savedId;
+					setOrderId(savedId);
+				}
+			}
+
+			if (!effContact) {
+				const savedContact = sessionStorage.getItem("tli_last_order_contact");
+				if (savedContact) {
+					effContact = savedContact;
+					setContact(savedContact);
+				}
+			}
+		}
+
+		if (effId) {
+			handleTrack(effId, effContact);
 		}
 	}, [initialId, initialContact, handleTrack]);
 
@@ -148,38 +200,38 @@ function OrderTrackingContent() {
 	};
 
 	return (
-		<div className="min-h-screen bg-stone-50/50 py-12 px-4 sm:px-6 lg:px-8">
+		<div className="min-h-screen bg-paper-tint/30 py-10 sm:py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-4xl mx-auto">
 				{/* Navigation Breadcrumb */}
 				<div className="mb-6 flex items-center justify-between">
 					<Link
 						href="/"
-						className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors group"
+						className="inline-flex items-center text-sm text-secondary hover:text-foreground transition-colors group"
 					>
 						<ArrowLeft className="h-4 w-4 mr-1.5 transition-transform group-hover:-translate-x-1" />
 						Back to Atelier Store
 					</Link>
-					<span className="text-xs uppercase tracking-widest text-muted-foreground font-serif">
+					<span className="text-xs uppercase tracking-widest text-secondary font-serif">
 						The Letter Ink Concierge
 					</span>
 				</div>
 
 				{/* Hero Header */}
 				<div className="text-center mb-10">
-					<div className="inline-flex items-center justify-center p-3 rounded-full bg-amber-50 border border-amber-200/60 mb-4 shadow-sm">
-						<Feather className="h-6 w-6 text-amber-800" />
+					<div className="inline-flex items-center justify-center p-3 rounded-full bg-paper-tint border border-border-vellum mb-4 shadow-xs">
+						<Feather className="h-6 w-6 text-primary" />
 					</div>
-					<h1 className="text-3xl sm:text-4xl font-serif font-medium tracking-tight text-stone-900">
+					<h1 className="text-3xl sm:text-4xl font-serif font-medium tracking-tight text-foreground">
 						Track Your Atelier Order
 					</h1>
-					<p className="mt-3 text-sm sm:text-base text-stone-600 max-w-xl mx-auto leading-relaxed">
+					<p className="mt-3 text-sm sm:text-base text-secondary max-w-xl mx-auto leading-relaxed">
 						Follow the journey of your bespoke calligraphy, artisanal stationery, and wax suites from our
 						studio to your doorstep.
 					</p>
 				</div>
 
 				{/* Tracking Input Card */}
-				<div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-8 shadow-sm mb-8 backdrop-blur-sm">
+				<div className="bg-card border border-border-vellum/90 rounded-xl p-6 sm:p-8 shadow-xs mb-8">
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
@@ -187,39 +239,40 @@ function OrderTrackingContent() {
 						}}
 						className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-4 items-end"
 					>
-						<div className="sm:col-span-5">
+						<div className="sm:col-span-5 space-y-1.5">
 							<Label
 								htmlFor="orderId"
-								className="text-xs font-medium text-stone-700 uppercase tracking-wider mb-1.5 block"
+								className="text-xs font-medium text-foreground uppercase tracking-wider block"
 							>
 								Order Reference or ID *
 							</Label>
 							<div className="relative">
 								<Input
 									id="orderId"
-									placeholder="e.g. TLI-1001 or order_01JC..."
+									placeholder="e.g. TLI-0003 or TLI-1001"
 									value={orderId}
 									onChange={(e) => setOrderId(e.target.value)}
-									className="pl-9 h-11 border-stone-200 focus-visible:ring-stone-800 text-sm"
+									className="pl-9 h-11 border-border-vellum focus-visible:ring-primary text-sm"
 									required
 								/>
-								<Search className="h-4 w-4 text-stone-400 absolute left-3 top-3.5" />
+								<Search className="h-4 w-4 text-secondary/70 absolute left-3 top-3.5" />
 							</div>
 						</div>
 
-						<div className="sm:col-span-4">
+						<div className="sm:col-span-4 space-y-1.5">
 							<Label
 								htmlFor="contact"
-								className="text-xs font-medium text-stone-700 uppercase tracking-wider mb-1.5 block"
+								className="text-xs font-medium text-foreground uppercase tracking-wider block"
 							>
-								Email or 10-Digit Mobile
+								Email or 10-Digit Mobile *
 							</Label>
 							<Input
 								id="contact"
-								placeholder="e.g. aarav@gmail.com or 9876543210"
+								placeholder="e.g. 9876543210 or email"
 								value={contact}
 								onChange={(e) => setContact(e.target.value)}
-								className="h-11 border-stone-200 focus-visible:ring-stone-800 text-sm"
+								className="h-11 border-border-vellum focus-visible:ring-primary text-sm"
+								required
 							/>
 						</div>
 
@@ -227,7 +280,7 @@ function OrderTrackingContent() {
 							<Button
 								type="submit"
 								disabled={isLoading}
-								className="w-full h-11 bg-stone-900 hover:bg-stone-800 text-white font-medium text-sm transition-all shadow-sm"
+								className="w-full h-11 bg-primary hover:bg-brand-script-dark text-on-primary font-medium text-sm transition-all shadow-xs cursor-pointer"
 							>
 								{isLoading ? (
 									<>
@@ -245,17 +298,20 @@ function OrderTrackingContent() {
 					</form>
 
 					{/* Quick instructions / tip */}
-					<div className="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
-						<span>Tip: Check your order confirmation SMS or email for your reference ID.</span>
-						<span className="hidden sm:inline text-stone-400">All India Express Shipping</span>
+					<div className="mt-4 pt-4 border-t border-border-vellum/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-secondary">
+						<span>Email or phone number is required to verify and protect your private order details.</span>
+						<span className="text-secondary/80">All India Express Shipping</span>
 					</div>
 
 					{error && (
-						<div className="mt-4 p-4 rounded-xl bg-rose-50/80 border border-rose-200 text-rose-800 text-sm flex items-start gap-3">
-							<AlertCircle className="h-5 w-5 text-rose-600 shrink-0 mt-0.5" />
+						<div
+							role="alert"
+							className="mt-4 p-4 rounded-lg bg-red-50/80 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-900 dark:text-red-300 text-sm flex items-start gap-3"
+						>
+							<AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
 							<div>
-								<p className="font-medium">Order Search Note</p>
-								<p className="mt-0.5 text-xs text-rose-700 leading-relaxed">{error}</p>
+								<p className="font-serif font-medium text-sm">We couldn't find that order</p>
+								<p className="mt-1 text-xs text-red-800 dark:text-red-400 leading-relaxed">{error}</p>
 							</div>
 						</div>
 					)}
@@ -265,34 +321,34 @@ function OrderTrackingContent() {
 				{order && (
 					<div className="space-y-6 animate-in fade-in-50 duration-300">
 						{/* Status Summary Banner */}
-						<div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-8 shadow-sm">
-							<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-stone-100">
+						<div className="bg-card border border-border-vellum/90 rounded-xl p-6 sm:p-8 shadow-xs">
+							<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border-vellum/60">
 								<div>
 									<div className="flex items-center gap-2.5">
-										<h2 className="text-xl sm:text-2xl font-serif font-medium text-stone-900">
+										<h2 className="text-xl sm:text-2xl font-serif font-medium text-foreground">
 											Order #{order.lookup}
 										</h2>
 										<Badge
 											variant="outline"
 											className={`font-sans text-xs px-2.5 py-0.5 rounded-full ${
 												order.isDelivered
-													? "bg-emerald-50 text-emerald-800 border-emerald-300"
+													? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800"
 													: order.isCanceled
-														? "bg-rose-50 text-rose-800 border-rose-300"
-														: "bg-amber-50 text-amber-900 border-amber-300"
+														? "bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-400 border-red-300 dark:border-red-800"
+														: "bg-paper-tint text-primary border-border-vellum"
 											}`}
 										>
 											{order.status}
 										</Badge>
 									</div>
-									<p className="text-sm text-stone-600 mt-1.5 leading-relaxed">{order.statusDescription}</p>
+									<p className="text-sm text-secondary mt-1.5 leading-relaxed">{order.statusDescription}</p>
 								</div>
 
-								<div className="text-left sm:text-right shrink-0 bg-stone-50 sm:bg-transparent p-3 sm:p-0 rounded-xl">
-									<span className="text-xs uppercase tracking-wider text-stone-500 block font-sans">
+								<div className="text-left sm:text-right shrink-0 bg-paper-tint/60 sm:bg-transparent p-3 sm:p-0 rounded-lg">
+									<span className="text-xs uppercase tracking-wider text-secondary block font-sans">
 										Estimated Delivery
 									</span>
-									<span className="text-sm sm:text-base font-medium text-stone-900 font-serif">
+									<span className="text-sm sm:text-base font-medium text-foreground font-serif">
 										{order.estimatedDelivery}
 									</span>
 								</div>
@@ -300,21 +356,25 @@ function OrderTrackingContent() {
 
 							{/* Progress Milestones Timeline */}
 							<div className="mt-8">
-								<h3 className="text-xs uppercase tracking-wider text-stone-500 font-semibold mb-6">
+								<h3 className="text-xs uppercase tracking-wider text-secondary font-semibold mb-6">
 									Artisanal Fulfillment Progress
 								</h3>
 
 								<div className="relative">
-									<div className="space-y-8">
+									<ol className="space-y-8" aria-label="Order fulfillment milestones">
 										{order.timeline.map((event, idx) => {
 											const isLast = idx === order.timeline.length - 1;
 											return (
-												<div key={event.step} className="relative flex items-start group">
+												<li
+													key={event.step}
+													className="relative flex items-start group"
+													aria-current={event.current ? "step" : undefined}
+												>
 													{/* Vertical line connecting steps */}
 													{!isLast && (
 														<div
 															className={`absolute left-4 top-8 bottom-0 w-0.5 -ml-[1px] ${
-																event.completed ? "bg-stone-900" : "bg-stone-200"
+																event.completed ? "bg-primary" : "bg-border-vellum"
 															}`}
 														/>
 													)}
@@ -323,18 +383,18 @@ function OrderTrackingContent() {
 													<div
 														className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full shrink-0 transition-all ${
 															event.completed
-																? "bg-stone-900 text-white shadow-sm ring-4 ring-white"
+																? "bg-primary text-on-primary shadow-xs ring-4 ring-card"
 																: event.current
-																	? "bg-amber-100 text-amber-900 border-2 border-amber-500 ring-4 ring-amber-50"
-																	: "bg-stone-100 text-stone-400 border border-stone-200 ring-4 ring-white"
+																	? "bg-paper-tint text-primary border-2 border-primary ring-4 ring-paper-tint"
+																	: "bg-muted text-muted-foreground border border-border-vellum ring-4 ring-card"
 														}`}
 													>
 														{event.completed ? (
 															<CheckCircle2 className="h-4 w-4" />
 														) : event.current ? (
-															<Clock className="h-4 w-4 animate-pulse" />
+															<Clock className="h-4 w-4 motion-safe:animate-pulse" />
 														) : (
-															<span className="text-xs font-semibold">{event.step}</span>
+															<span className="text-xs font-semibold tabular-nums">{event.step}</span>
 														)}
 													</div>
 
@@ -344,48 +404,48 @@ function OrderTrackingContent() {
 															<h4
 																className={`text-sm font-medium ${
 																	event.completed || event.current
-																		? "text-stone-900 font-serif text-base"
-																		: "text-stone-500"
+																		? "text-foreground font-serif text-base"
+																		: "text-secondary"
 																}`}
 															>
 																{event.title}
 															</h4>
-															<span className="text-xs text-stone-400 sm:text-right mt-0.5 sm:mt-0 font-sans">
+															<span className="text-xs text-secondary/80 sm:text-right mt-0.5 sm:mt-0 font-sans tabular-nums">
 																{event.date} {event.time && `• ${event.time}`}
 															</span>
 														</div>
-														<p className="text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed">
+														<p className="text-xs sm:text-sm text-secondary mt-1 leading-relaxed">
 															{event.description}
 														</p>
 													</div>
-												</div>
+												</li>
 											);
 										})}
-									</div>
+									</ol>
 								</div>
 							</div>
 
 							{/* Courier & AWB Box */}
-							<div className="mt-8 p-5 rounded-xl bg-stone-50 border border-stone-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+							<div className="mt-8 p-5 rounded-lg bg-paper-tint/60 border border-border-vellum/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 								<div className="flex items-center gap-3.5">
-									<div className="h-10 w-10 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-800 shadow-2xs">
+									<div className="h-10 w-10 rounded-sm bg-card border border-border-vellum flex items-center justify-center text-primary shadow-xs">
 										<Truck className="h-5 w-5" />
 									</div>
 									<div>
-										<span className="text-xs text-stone-500 uppercase tracking-wider block font-sans">
+										<span className="text-xs text-secondary uppercase tracking-wider block font-sans">
 											Shipping Partner & Waybill
 										</span>
 										<div className="flex items-center gap-2 mt-0.5">
-											<span className="text-sm font-semibold text-stone-900">{order.courier.name}</span>
-											<span className="text-xs text-stone-400">•</span>
-											<span className="text-xs font-mono font-medium text-stone-700 bg-white px-2 py-0.5 rounded border border-stone-200">
+											<span className="text-sm font-semibold text-foreground">{order.courier.name}</span>
+											<span className="text-xs text-secondary/60">•</span>
+											<span className="text-xs tabular-nums font-medium text-foreground bg-card px-2 py-0.5 rounded border border-border-vellum">
 												{order.courier.trackingNumber}
 											</span>
 											{order.courier.trackingNumber !== "AWB Generating..." && (
 												<button
 													type="button"
 													onClick={() => handleCopyAWB(order.courier.trackingNumber)}
-													className="text-stone-500 hover:text-stone-800 transition-colors p-1"
+													className="text-secondary hover:text-primary transition-colors p-1"
 													title="Copy AWB number"
 												>
 													<Copy className="h-3.5 w-3.5" />
@@ -399,7 +459,7 @@ function OrderTrackingContent() {
 									<Button
 										asChild
 										variant="outline"
-										className="border-stone-300 text-stone-800 hover:bg-white text-xs h-9"
+										className="border-border-vellum text-foreground hover:bg-card text-xs h-9 rounded-sm"
 									>
 										<a
 											href={order.courier.trackingUrl}
@@ -412,8 +472,8 @@ function OrderTrackingContent() {
 										</a>
 									</Button>
 								) : (
-									<span className="text-xs text-stone-500 italic">
-										Live GPS tracker activates on courier dispatch
+									<span className="text-xs text-secondary italic">
+										Courier tracking link activates once parcel is dispatched from our atelier
 									</span>
 								)}
 							</div>
@@ -422,29 +482,33 @@ function OrderTrackingContent() {
 						{/* Atelier Order Items & Shipping Address Grid */}
 						<div className="grid grid-cols-1 md:grid-cols-12 gap-6">
 							{/* Line Items */}
-							<div className="md:col-span-7 bg-white border border-stone-200/80 rounded-2xl p-6 shadow-sm">
-								<h3 className="text-sm font-semibold text-stone-900 uppercase tracking-wider mb-4 font-serif">
+							<div className="md:col-span-7 bg-card border border-border-vellum/90 rounded-xl p-6 shadow-xs">
+								<h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4 font-serif">
 									Bespoke Order Items ({order.lineItems.length})
 								</h3>
 
-								<div className="divide-y divide-stone-100">
+								<div className="divide-y divide-border-vellum/60">
 									{order.lineItems.map((item) => (
 										<div key={item.id} className="py-3.5 flex items-center gap-3.5">
-											<div className="relative h-14 w-14 rounded-lg bg-stone-100 border border-stone-200 overflow-hidden shrink-0">
+											<div className="relative h-14 w-14 rounded-sm bg-muted border border-border-vellum overflow-hidden shrink-0">
 												<img src={item.image} alt={item.name} className="h-full w-full object-cover" />
 											</div>
 											<div className="flex-1 min-w-0">
-												<h4 className="text-sm font-medium text-stone-900 truncate">{item.name}</h4>
-												<p className="text-xs text-stone-500 mt-0.5">Quantity: {item.quantity}</p>
+												<h4 className="text-sm font-medium text-foreground truncate">{item.name}</h4>
+												<p className="text-xs text-secondary mt-0.5">Quantity: {item.quantity}</p>
 												{item.customNote && (
-													<p className="text-xs text-amber-900/80 italic mt-0.5 truncate">
+													<p className="text-xs text-brand-script italic mt-0.5 truncate">
 														Custom Lettering: "{item.customNote}"
 													</p>
 												)}
 											</div>
 											<div className="text-right">
-												<span className="text-sm font-medium text-stone-900">
-													₹{Number(item.price).toLocaleString("en-IN")}
+												<span className="text-sm font-medium text-foreground tabular-nums">
+													{formatMoney({
+														amount: BigInt(Math.round(Number(item.price))),
+														currency: "INR",
+														locale: "en-IN",
+													})}
 												</span>
 											</div>
 										</div>
@@ -471,87 +535,108 @@ function OrderTrackingContent() {
 										calculatedItemsSubtotal + shippingPrice + taxAmount - discountAmount;
 
 									return (
-										<div className="mt-5 pt-4 border-t border-stone-200/90 space-y-2.5 text-xs text-stone-600 bg-stone-50/60 -mx-6 -mb-6 p-6 rounded-b-2xl">
-											<div className="flex items-center justify-between pb-2 border-b border-stone-200/80">
-												<span className="font-serif uppercase tracking-wider text-[11px] font-semibold text-stone-900">
+										<div className="mt-5 pt-4 border-t border-border-vellum space-y-2.5 text-xs text-secondary bg-paper-tint/40 -mx-6 -mb-6 p-6 rounded-b-xl">
+											<div className="flex items-center justify-between pb-2 border-b border-border-vellum/60">
+												<span className="font-serif uppercase tracking-wider text-xs font-semibold text-foreground">
 													Detailed Bill Breakdown
 												</span>
-												<span className="text-[10px] text-stone-400 font-mono">
+												<span className="text-xs text-secondary/70">
 													Currency: {order.summary.currency || "INR"} (₹)
 												</span>
 											</div>
 
 											{/* Products / Items Subtotal */}
-											<div className="flex justify-between items-center text-stone-700">
+											<div className="flex justify-between items-center text-secondary">
 												<span className="flex items-center gap-1.5">
 													<span>Product Price Subtotal</span>
-													<span className="text-[10px] text-stone-400">
+													<span className="text-xs text-secondary/70">
 														({totalItemsCount} {totalItemsCount === 1 ? "item" : "items"})
 													</span>
 												</span>
-												<span className="font-medium text-stone-900 font-mono text-sm">
-													₹{calculatedItemsSubtotal.toLocaleString("en-IN")}
+												<span className="font-medium text-foreground tabular-nums text-sm">
+													{formatMoney({
+														amount: BigInt(Math.round(calculatedItemsSubtotal)),
+														currency: "INR",
+														locale: "en-IN",
+													})}
 												</span>
 											</div>
 
 											{/* Delivery / Shipping Charges */}
-											<div className="flex justify-between items-center text-stone-700">
+											<div className="flex justify-between items-center text-secondary">
 												<div className="flex items-center gap-1.5">
 													<span>Standard Express Delivery</span>
-													<span className="text-[10px] bg-stone-200/70 text-stone-600 px-1.5 py-0.5 rounded font-mono">
+													<span className="text-[11px] bg-paper-tint text-primary px-1.5 py-0.5 rounded border border-border-vellum">
 														All India
 													</span>
 												</div>
-												<span className="font-medium text-stone-900 font-mono">
+												<span className="font-medium text-foreground tabular-nums">
 													{shippingPrice === 0
 														? "FREE (Complimentary)"
-														: `₹${shippingPrice.toLocaleString("en-IN")}`}
+														: formatMoney({
+																amount: BigInt(Math.round(shippingPrice)),
+																currency: "INR",
+																locale: "en-IN",
+															})}
 												</span>
 											</div>
 
 											{/* Bespoke Packaging */}
-											<div className="flex justify-between items-center text-stone-700">
+											<div className="flex justify-between items-center text-secondary">
 												<div className="flex items-center gap-1.5">
 													<span>Atelier Keepsake Packaging & Wax Seal</span>
-													<span className="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-medium">
+													<span className="text-[11px] bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-400 px-1.5 py-0.5 rounded font-medium border border-emerald-300 dark:border-emerald-800">
 														Signature
 													</span>
 												</div>
-												<span className="font-medium text-emerald-700">Complimentary</span>
+												<span className="font-medium text-emerald-700 dark:text-emerald-400">Complimentary</span>
 											</div>
 
 											{/* Taxes & GST */}
-											<div className="flex justify-between items-center text-stone-700">
+											<div className="flex justify-between items-center text-secondary">
 												<span>Estimated Taxes & GST</span>
-												<span className="font-medium text-stone-600 font-mono">
+												<span className="font-medium text-secondary tabular-nums">
 													{taxAmount > 0
-														? `₹${taxAmount.toLocaleString("en-IN")}`
+														? formatMoney({
+																amount: BigInt(Math.round(taxAmount)),
+																currency: "INR",
+																locale: "en-IN",
+															})
 														: "₹0 (Included in price)"}
 												</span>
 											</div>
 
 											{/* Discount if present */}
 											{discountAmount > 0 && (
-												<div className="flex justify-between items-center text-emerald-700">
+												<div className="flex justify-between items-center text-emerald-700 dark:text-emerald-400">
 													<span>Promotional Privilege Discount</span>
-													<span className="font-medium font-mono">
-														-₹{discountAmount.toLocaleString("en-IN")}
+													<span className="font-medium tabular-nums">
+														-
+														{formatMoney({
+															amount: BigInt(Math.round(discountAmount)),
+															currency: "INR",
+															locale: "en-IN",
+														})}
 													</span>
 												</div>
 											)}
 
 											{/* Total Paid */}
-											<div className="flex justify-between items-baseline pt-3 border-t border-stone-200/90 text-stone-900 font-serif">
+											<div className="flex justify-between items-baseline pt-3 border-t border-border-vellum text-foreground font-serif">
 												<div className="flex flex-col">
-													<span className="text-sm sm:text-base font-bold text-stone-900">
+													<span className="text-sm sm:text-base font-bold text-foreground">
 														Total Amount Paid
 													</span>
-													<span className="text-[11px] font-sans font-normal text-stone-500 mt-0.5">
+													<span className="text-xs font-sans font-normal text-secondary mt-0.5">
 														Secured & verified via {order.payment?.gateway || "Razorpay"}
 													</span>
 												</div>
-												<span className="text-lg sm:text-xl font-bold text-stone-900 font-mono">
-													₹{finalTotal.toLocaleString("en-IN")}
+												<span className="text-lg sm:text-xl font-bold text-primary tabular-nums">
+													{formatMoney({
+														amount: BigInt(Math.round(finalTotal)),
+														currency: "INR",
+														locale: "en-IN",
+													})}
 												</span>
 											</div>
 										</div>
@@ -563,17 +648,17 @@ function OrderTrackingContent() {
 							<div className="md:col-span-5 space-y-6">
 								{/* Shipping destination */}
 								{order.shippingAddress && (
-									<div className="bg-white border border-stone-200/80 rounded-2xl p-6 shadow-sm">
-										<div className="flex items-center gap-2 text-stone-900 mb-3">
-											<MapPin className="h-4 w-4 text-stone-600" />
+									<div className="bg-card border border-border-vellum/90 rounded-xl p-6 shadow-xs">
+										<div className="flex items-center gap-2 text-foreground mb-3">
+											<MapPin className="h-4 w-4 text-primary" />
 											<h3 className="text-sm font-semibold uppercase tracking-wider font-serif">
 												Delivery Destination
 											</h3>
 										</div>
-										<div className="text-xs sm:text-sm text-stone-600 space-y-1">
-											<p className="font-medium text-stone-900">{order.shippingAddress.name}</p>
+										<div className="text-xs sm:text-sm text-secondary space-y-1">
+											<p className="font-medium text-foreground">{order.shippingAddress.name}</p>
 											<p>{order.shippingAddress.maskedLine}</p>
-											<p className="text-xs text-stone-400 uppercase tracking-widest mt-1">
+											<p className="text-xs text-secondary/80 uppercase tracking-widest mt-1">
 												India (Verified Delivery Zone)
 											</p>
 										</div>
@@ -581,24 +666,24 @@ function OrderTrackingContent() {
 								)}
 
 								{/* Need Assistance Card */}
-								<div className="bg-stone-900 text-stone-100 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+								<div className="bg-primary text-on-primary rounded-xl p-6 shadow-xs relative overflow-hidden">
 									<div className="relative z-10">
-										<h3 className="text-base font-serif font-medium text-stone-50">
+										<h3 className="text-base font-serif font-medium text-on-primary">
 											Need Dispatch Assistance?
 										</h3>
-										<p className="text-xs text-stone-300 mt-1.5 leading-relaxed">
+										<p className="text-xs text-on-primary/80 mt-1.5 leading-relaxed font-light">
 											Have delivery instructions or need urgent dispatch for a wedding date? Contact our
 											atelier concierge.
 										</p>
-										<div className="mt-4 pt-4 border-t border-stone-800 flex items-center justify-between">
+										<div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
 											<Link
 												href="/contact"
-												className="inline-flex items-center text-xs text-amber-300 hover:text-amber-200 font-medium transition-colors"
+												className="inline-flex items-center text-xs text-tertiary-fixed-dim hover:text-white font-medium transition-colors"
 											>
 												Contact Studio Team
 												<ChevronRight className="h-3.5 w-3.5 ml-1" />
 											</Link>
-											<span className="text-xs text-stone-400">Response within 2 hrs</span>
+											<span className="text-xs text-on-primary/70">Response within 2 hrs</span>
 										</div>
 									</div>
 								</div>
@@ -613,10 +698,10 @@ function OrderTrackingContent() {
 
 function OrderTrackingSkeleton() {
 	return (
-		<div className="min-h-screen bg-stone-50 py-16 px-4 flex items-center justify-center">
+		<div className="min-h-screen bg-paper-tint/30 py-16 px-4 flex items-center justify-center">
 			<div className="flex flex-col items-center gap-3">
-				<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-				<p className="text-xs text-stone-500 font-serif">Loading Atelier Tracking...</p>
+				<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+				<p className="text-xs text-secondary font-serif">Loading Atelier Tracking...</p>
 			</div>
 		</div>
 	);
